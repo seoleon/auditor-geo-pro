@@ -418,7 +418,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 .back-top.show{display:grid;place-items:center}
 @media(max-width:980px){.gen-grid,.check-grid{grid-template-columns:repeat(2,1fr)}.mini-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.radar-wrap,.read-hero,.gen-grid,.check-grid,.social-preview{grid-template-columns:1fr}.mini-grid{grid-template-columns:1fr}}
-@media print{.gen-grid,.back-top,.kbd-help,.hero-tools{display:none!important}}
+@media print{.gen-grid,.back-top,.kbd-help,.hero-tools,.toast{display:none!important}}
 
 /* ===== TEMA OSCURO ===== */
 :root[data-theme="dark"]{
@@ -2346,7 +2346,7 @@ $("#csvBtn").addEventListener("click",()=>{
 });
 $("#printBtn").addEventListener("click",()=>window.print());
 $("#backlogBtn").addEventListener("click",()=>{if(!latest)return;const blob=new Blob(["\uFEFF"+backlogCsv(latest)],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="backlog-geo-priorizado.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)});
-document.addEventListener("click",async e=>{const b=e.target.closest("[data-copy-code]");if(!b)return;const el=document.getElementById(b.dataset.copyCode);if(!el)return;const txt=el.textContent;try{await navigator.clipboard.writeText(txt);toast("Schema copiado")}catch(err){const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();toast("Schema copiado")}});
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-copy-code]");if(!b)return;const el=document.getElementById(b.dataset.copyCode);if(!el)return;const txt=el.textContent;try{await navigator.clipboard.writeText(txt);toast(b.dataset.copyCode.startsWith("gen")?"Copiado":"Schema copiado")}catch(err){const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();toast(b.dataset.copyCode.startsWith("gen")?"Copiado":"Schema copiado")}});
 
 
 $("#copyBriefBtn").addEventListener("click",async()=>{
