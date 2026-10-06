@@ -401,7 +401,7 @@ button.tiny{padding:10px 13px;font-size:11px}
 .check-card{padding:14px}.check-card h3{font-size:12.5px;margin:7px 0 4px}.check-card p{font-size:10.8px;line-height:1.43;color:var(--muted);margin:0;overflow-wrap:anywhere}
 .check-card .cv{font:800 11px var(--mono);color:var(--ink);margin-top:6px;overflow-wrap:anywhere}
 .social-preview{padding:0;overflow:hidden;margin-bottom:10px;display:grid;grid-template-columns:240px 1fr}
-.social-img{background:var(--gray-soft);min-height:126px;display:grid;place-items:center;font:800 10px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;text-align:center;padding:10px;overflow-wrap:anywhere}
+.social-img{background:var(--gray-soft);min-height:126px;display:grid;place-items:center;font:800 10px var(--mono);color:var(--ink);text-transform:uppercase;letter-spacing:.06em;text-align:center;padding:10px;overflow-wrap:anywhere}
 .social-body{padding:16px}.social-body .sd{font:9px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.social-body h3{font-size:15px;margin:6px 0 5px}.social-body p{font-size:12px;color:var(--muted);margin:0;line-height:1.45}
 .gen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .gen-card{padding:16px;display:flex;flex-direction:column;gap:9px;min-width:0}
@@ -434,7 +434,8 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 :root[data-theme="dark"] .chip,:root[data-theme="dark"] textarea,:root[data-theme="dark"] input[type=text],:root[data-theme="dark"] input[type=number],:root[data-theme="dark"] select,:root[data-theme="dark"] .term,:root[data-theme="dark"] .secondary{background:#1f1f1a;border-color:var(--line);color:var(--ink)}
 :root[data-theme="dark"] .tick,:root[data-theme="dark"] .flag,:root[data-theme="dark"] .sim-item,:root[data-theme="dark"] .delta,:root[data-theme="dark"] .rel-item,:root[data-theme="dark"] .brief-block,:root[data-theme="dark"] .dropzone{background:rgba(255,255,255,.03)}
 :root[data-theme="dark"] .detail-table th{background:#22221d}
-:root[data-theme="dark"] .primary,:root[data-theme="dark"] .action-rank,:root[data-theme="dark"] .filter-btn.active{color:var(--bg)}
+:root[data-theme="dark"] .primary,:root[data-theme="dark"] .action-rank{color:var(--bg)}
+:root[data-theme="dark"] .filter-btn.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 :root[data-theme="dark"] .score-card.primary-score{background:#26261f;color:var(--ink);border-color:var(--line)}
 :root[data-theme="dark"] .serp-title{color:#8fb4f0}:root[data-theme="dark"] .serp-desc{color:var(--muted)}
 :root[data-theme="dark"] .google-note{color:#cfe3ef}
@@ -456,12 +457,12 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 <section class="panel input-panel" aria-labelledby="inputTitle">
   <div class="input-head"><strong id="inputTitle">HTML, texto o Markdown de la página</strong><span class="chip" id="formatChip">AUTO-DETECT</span></div>
   <textarea id="source" aria-labelledby="inputTitle" spellcheck="false" placeholder="Pega aquí el HTML completo, el contenido de la página o Markdown…"></textarea>
-  <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Cargar archivos locales">
+  <div class="dropzone" id="dropzone" tabindex="0" role="button">
     <input id="fileInput" type="file" accept=".html,.htm,.txt,.md,text/html,text/plain,text/markdown" multiple hidden>
     <div class="drop-copy">
-      <div class="drop-icon">↑</div>
-      <div><div class="drop-title">Arrastra archivos o haz clic para cargarlos</div>
-      <div class="drop-sub">HTML, HTM, Markdown o TXT. Un archivo abre la auditoría; varios crean una comparativa local.</div></div>
+      <div class="drop-icon" aria-hidden="true">↑</div>
+      <div><div class="drop-title" id="dropTitle">Arrastra archivos o haz clic para cargarlos</div>
+      <div class="drop-sub" id="dropSub">HTML, HTM, Markdown o TXT. Un archivo abre la auditoría; varios crean una comparativa local.</div></div>
     </div>
     <div class="file-state" id="fileState">NINGÚN ARCHIVO · TODO SE PROCESA EN TU NAVEGADOR</div>
   </div>
@@ -629,7 +630,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
     <section class="panel radar-card" aria-label="Radar de preparación"><div id="radarBox"></div></section>
     <section class="panel heat-card">
       <div class="label">Mapa de calor del contenido · orden de lectura</div>
-      <div class="heat-strip" id="heatStrip" role="list"></div>
+      <div class="heat-strip" id="heatStrip" role="group" aria-label="Secciones en orden de lectura"></div>
       <div class="heat-legend"><span><i style="background:var(--green)"></i>Muy extraíble</span><span><i style="background:#7fae6a"></i>Correcta</span><span><i style="background:var(--amber)"></i>Mejorable</span><span><i style="background:var(--red)"></i>Débil</span></div>
       <div class="heat-detail" id="heatDetail" aria-live="polite">Selecciona una celda para ver la sección.</div>
     </section>
@@ -926,14 +927,22 @@ const directOpening=t=>{
   return !/^(in today'?s|nowadays|in the modern|in the digital age|have you ever|did you know|when it comes to|it is important to|there are many|in this article|welcome to|as we all know|en la actualidad|hoy en día|en el mundo digital|alguna vez te has preguntado|en este artículo|es importante señalar|cuando se trata de)\b/i.test(s)
 };
 const STOP=new Set("the and for with that this from your you are can into what how why when where which also have has had was were will would could should about after before more most very much many each other some such than then there their them they these those its our ours una uno unas unos para con que como cómo por del las los qué esto esta este estas estos desde entre sobre más pero sus nuestro nuestra nuestros nuestras hay son ser fue han una unos unas al el la de en y o u se su sus es un no sí si lo le les ya muy cada todo todos toda todas puede pueden debe deben hacer hacia sin".split(" "));
-function tokenSet(t){return new Set(tokens(t).filter(x=>x.length>3&&!STOP.has(x)))}
+// Caché de conjuntos de tokens: las comparaciones por pares (poda, canibalización, queries)
+// reutilizan el mismo texto muchas veces. Los Set devueltos son de solo lectura.
+const TOKEN_CACHE=new Map(),TOKEN_CACHE_MAX=6000;
+function tokenSet(t){
+  t=String(t||"");let set=TOKEN_CACHE.get(t);if(set)return set;
+  set=new Set(tokens(t).filter(x=>x.length>3&&!STOP.has(x)));
+  if(TOKEN_CACHE.size>=TOKEN_CACHE_MAX)TOKEN_CACHE.clear();TOKEN_CACHE.set(t,set);return set
+}
+function overlap(A,B){if(A.size>B.size)[A,B]=[B,A];let i=0;A.forEach(x=>{if(B.has(x))i++});return i}
 function jaccard(a,b){
-  const A=tokenSet(a),B=tokenSet(b);if(!A.size||!B.size)return 0;let i=0;A.forEach(x=>{if(B.has(x))i++});
+  const A=tokenSet(a),B=tokenSet(b);if(!A.size||!B.size)return 0;const i=overlap(A,B);
   return i/(A.size+B.size-i)
 }
 function containment(a,b){
-  const A=tokenSet(a),B=tokenSet(b);if(!A.size||!B.size)return 0;let i=0;A.forEach(x=>{if(B.has(x))i++});
-  return i/Math.min(A.size,B.size)
+  const A=tokenSet(a),B=tokenSet(b);if(!A.size||!B.size)return 0;
+  return overlap(A,B)/Math.min(A.size,B.size)
 }
 function splitBlocks(text,marker){return String(text||"").split(new RegExp(`\\n\\s*${marker.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}\\s*\\n`,"i")).map(x=>x.trim()).filter(Boolean)}
 function detectType(raw){
@@ -2470,7 +2479,7 @@ function renderHeatmap(sections){
   if(!sections.length){detail.textContent="No hay secciones para representar.";return}
   const color=s=>s>=78?"var(--green)":s>=55?"#7fae6a":s>=35?"var(--amber)":"var(--red)";
   const show=x=>{detail.innerHTML=`<strong>${esc(x.heading)}</strong> · ${x.score}/100 · ${esc(x.diag)} · ${x.wc} palabras · ${x.direct?"respuesta inmediata":"sin respuesta inmediata"} · frase media ${x.avg.toFixed(1)}`};
-  sections.forEach(x=>{const b=document.createElement("button");b.className="heat-cell";b.type="button";b.setAttribute("role","listitem");b.style.background=color(x.score);b.style.flexGrow=String(Math.max(1,Math.min(6,x.wc/60)));b.title=`${x.heading} — ${x.score}/100`;b.setAttribute("aria-label",`${x.heading}: ${x.score} de 100, ${x.diag}`);b.addEventListener("mouseenter",()=>show(x));b.addEventListener("focus",()=>show(x));b.addEventListener("click",()=>show(x));box.appendChild(b)});
+  sections.forEach(x=>{const b=document.createElement("button");b.className="heat-cell";b.type="button";b.style.background=color(x.score);b.style.flexGrow=String(Math.max(1,Math.min(6,x.wc/60)));b.title=`${x.heading} — ${x.score}/100`;b.setAttribute("aria-label",`${x.heading}: ${x.score} de 100, ${x.diag}`);b.addEventListener("mouseenter",()=>show(x));b.addEventListener("focus",()=>show(x));b.addEventListener("click",()=>show(x));box.appendChild(b)});
   const worst=[...sections].sort((a,b)=>a.score-b.score)[0];detail.textContent=`${sections.length} secciones · la más débil: «${worst.heading}» (${worst.score}/100).`
 }
 function genLlmsTxt(r){

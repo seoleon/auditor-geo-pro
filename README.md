@@ -75,6 +75,17 @@ El repositorio incluye el workflow `.github/workflows/pages.yml`. Para activarlo
 4. Empieza por la **Puerta de publicación** y el **Plan de acción priorizado**.
 5. Corrige, pega la nueva versión en el **comparador antes/después** y mide la diferencia.
 
+## ✅ Pruebas automáticas
+El repositorio incluye pruebas end-to-end con Playwright y axe-core: demo completa, exportaciones sin valores rotos, entradas extremas y maliciosas (XSS), Markdown/inglés, lotes de archivos, tema oscuro y atajos, accesibilidad sin violaciones, móvil sin scroll horizontal, rendimiento con páginas largas y modo offline.
+
+```bash
+npm install
+npx playwright install chromium
+npm test
+```
+
+GitHub Actions las ejecuta en cada push y pull request, y la publicación en GitHub Pages solo se realiza si todas pasan.
+
 ## 🔒 Privacidad
 Todo el análisis ocurre en tu navegador. El contenido auditado no se envía a ningún servidor ni se guarda. El service worker solo almacena en caché los archivos de la propia aplicación para que funcione sin conexión.
 
@@ -85,7 +96,8 @@ index.html             # La aplicación completa (HTML + CSS + JS, sin dependenc
 manifest.webmanifest   # Manifest de la PWA
 sw.js                  # Service worker para uso offline
 icons/icon.svg         # Icono de la app
-.github/workflows/     # Despliegue automático a GitHub Pages
+tests/e2e.test.mjs     # Pruebas end-to-end (Playwright + axe-core)
+.github/workflows/     # Pruebas en CI y despliegue automático a GitHub Pages
 ```
 
 ## 📜 Licencia

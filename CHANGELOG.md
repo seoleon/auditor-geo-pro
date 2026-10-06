@@ -11,6 +11,11 @@
 - PWA instalable con funcionamiento offline (manifest + service worker).
 - Las nuevas capas se incluyen en las exportaciones Markdown, JSON e informe HTML.
 - README, licencia MIT y workflow de despliegue en GitHub Pages.
+- Pruebas end-to-end automáticas (Playwright + axe-core) en GitHub Actions; el despliegue solo ocurre si pasan.
+
+### Corregido
+- Rendimiento: la detección de secciones redundantes recalculaba los tokens en cada comparación (coste cuadrático). Con caché, una página de 2.000 secciones pasa de ~17 s a ~3 s con resultados idénticos.
+- Accesibilidad: contraste del filtro activo en tema oscuro, contraste de la vista previa social, nombre accesible de la zona de carga y roles ARIA del mapa de calor.
 
 ## [7.1.0]
 - Versión inicial publicada: auditoría GEO, calidad, MC 2026, E-E-A-T, evidencia, schemas, crawlers, lotes y exportaciones.
