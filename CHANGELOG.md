@@ -1,5 +1,19 @@
 # Registro de cambios
 
+## [8.1.0] · Quality de Google
+### Añadido
+- Metodología google-quality-audit (Nacho Mascort): rúbrica 0–4 visible por pilar con nivel siguiente, informe de quality con su plantilla (copiar/descargar), ángulos non-commodity y ejemplos de Google.
+- Test top 10 «parcialmente comprobado» con solo títulos/snippets y test de plantilla por vocabulario compartido entre páginas hermanas.
+- Red flags 4.6.3 (dominio caducado) y 5.2.1 (listas de «mejores» sin aportación propia).
+- Contexto de site: caída en core update, sección de menor calidad, sección fuera de foco, page type e inventario de page types con acción por plantilla (mejorar, consolidar, sacar del dominio, eliminar/noindex).
+- Señales del leak ampliadas (OriginalContentScore, information gain, chardEncoded/rhubarb, scaledSelectionTierRank, pandaDemotion, spamtokensContentScore, unauthoritativeScore/scamness, Q*) y glosario completo con etiquetas de evidencia.
+- Guía «Quality en Google y core updates» con tiempos de recuperación e indexación y fuentes.
+- Veredicto de quality en la comparativa por lotes.
+- Pruebas e2e de la capa de quality.
+
+### Cambiado
+- La tarjeta de llms.txt aclara que Google lo ignora para AI Overviews y AI Mode.
+
 ## [8.0.0] · Modo monstruo
 ### Añadido
 - Legibilidad: INFLESZ (Szigriszt-Pazos) y Fernández-Huerta para español, Flesch para inglés, métricas de frases y lista de frases más difíciles.

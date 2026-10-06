@@ -24,6 +24,17 @@ Sin backend, sin APIs, sin cookies, sin `localStorage`. Pega el HTML (o Markdown
 - Pasajes candidatos a cita, auditoría sección por sección, chunks para retrieval, cobertura de preguntas y de un set de queries.
 - Claims y cadena claim → evidencia, entidades, arquitectura de headings, poda/fusión y brief de actualización.
 
+### Quality de Google · metodología google-quality-audit 🆕
+Integra la skill **google-quality-audit** y el análisis «Quality en Google» de [Nacho Mascort](https://nachomascort.com):
+- **Rúbrica 0–4 por pilar** (esfuerzo, originalidad, talento/habilidad, precisión) con el nivel alcanzado, su descripción y qué hace falta para subir al siguiente.
+- **Test de commodity completo**: intercambio de marca, top 10 (marca «parcialmente comprobado» si solo pegas títulos o snippets), activos solo-tuyos y test de plantilla (vocabulario que se repite en todas las páginas hermanas), con **ángulos non-commodity** construidos con tus activos y los ejemplos que mostró Google.
+- **Red flags** de las QRG y políticas de spam (4.6.3 dominio caducado, 4.6.4 reputación, 4.6.5 escalado, 4.6.6, 5.2.1 listas de «mejores», 5.2.2 relleno, autoría engañosa, IA sin revisar, clutter).
+- **Vista de plantilla y site**: mejorar, consolidar, **sacar del dominio** (caso Softonic) o eliminar/noindex, y expectativa de recuperación tras un core update.
+- **Page types y core updates**: pega tu inventario (URLs, indexadas, clics, crecimiento, foco, traducción) y obtén alarmas y acción por plantilla.
+- **Señales del leak, DOJ (Q*) y patentes** mapeadas a cada hallazgo con etiquetas [Documentado], [Inferencia], [Hipótesis] o [Criterio propio], y glosario completo.
+- **Informe de quality** con la plantilla de la metodología (veredicto, pilares, commodity, red flags, site, señales y acciones), para copiar o descargar.
+- **Guía** integrada: definición, Page Quality vs Needs Met, IA, commodity, por qué hay core updates, Q*/retrieval/twiddlers, AI Overviews y AI Mode, página vs site, tiempos de recuperación e indexación, cómo se pasa de la raya una web grande y checklist.
+
 ### Técnico
 - **SEO on-page** 🆕: colocación de la query en título, H1, primeras 100 palabras, meta, URL y H2; longitudes de título/meta, número de H1, URL, enlazado interno y ALT.
 - **Social, Open Graph e internacional** 🆕: og:title/description/image/url, twitter:card, lang, hreflang + x-default, viewport y favicon, con vista previa de la tarjeta.

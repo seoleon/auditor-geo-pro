@@ -90,7 +90,7 @@ test("las exportaciones se descargan y no contienen valores rotos", async () => 
   const md = await download(page, "#downloadBtn");
   assert.match(md, /## Legibilidad/);
   const json = JSON.parse(await download(page, "#jsonBtn"));
-  assert.equal(json.version, "8.0.0");
+  assert.match(json.version, /^8\.\d+\.\d+$/);
   assert.ok(json.readability && json.onPage && json.social && json.aiKit);
   const html = await download(page, "#htmlReportBtn");
   assert.match(html, /Legibilidad y on-page/);
@@ -201,5 +201,87 @@ test("funciona sin conexión gracias al service worker", async () => {
   await context.setOffline(true);
   await page.reload();
   assert.match(await page.title(), /Auditor GEO PRO/);
+  await context.close();
+});
+
+test("capa de quality: rúbrica, commodity, page types, red flags, señales e informe", async () => {
+  const { page, context, errors } = await openPage();
+  await page.click("#sampleBtn");
+  await page.evaluate(() => { document.querySelector("details.advanced").open = true; });
+  await page.check("#coreDrop");
+  await page.fill("#coreDropPct", "22");
+  await page.check("#lowQualitySection");
+  await page.fill("#templatePages", "250");
+  await page.fill("#competitors", "Qué es GEO\n---RESULT---\nGuía de GEO para empresas");
+  await page.fill("#siblings", "GEO para abogados. Guía práctica de GEO para estructurar contenidos.\n---PAGE---\nGEO para dentistas. Guía práctica de GEO para estructurar contenidos.");
+  await page.fill("#pageTypes", "tipo; urls; indexadas; clics; crecimiento; foco; traducción\nPosts; 1.200; 1.100; 90000; 5; sí; no\nFichas de ciudad; 8000; 2100; 4000; 300; sí; no\nRecetas; 600; 200; 900; 40; no; no\nIdiomas; 3000; 2500; 20000; 10; sí; sí\nlínea rota");
+  await page.click("#scoreBtn");
+
+  // Rúbrica 0–4 con nivel y siguiente nivel en cada pilar
+  assert.equal(await page.locator("#pillarGrid .rubric").count(), 4);
+  // Ángulos non-commodity
+  assert.ok(await page.locator("#angleList li").count() >= 1);
+  // Test top 10 parcialmente comprobado con títulos cortos y test de plantilla con vocabulario repetido
+  const tests = await page.locator("#commodityTests").innerText();
+  assert.match(tests, /Parcialmente comprobado/);
+  assert.match(tests, /vocabulario se repite/);
+  // Vista de site: sacar del dominio + recuperación
+  const site = await page.locator("#siteView").innerText();
+  assert.match(site, /sacar del dominio/i);
+  assert.match(site, /3–6 meses/);
+  // Red flag Lowest por dominio caducado => veredicto Riesgo alto y prioridad sobre «sacar del dominio»
+  await page.check("#expiredDomain");
+  await page.click("#scoreBtn");
+  assert.match(await page.locator("#flags").innerText(), /Abuso de dominio caducado/);
+  assert.equal(await page.textContent("#qualityGrade"), "Riesgo alto");
+  assert.match(await page.locator("#siteView").innerText(), /revisión crítica/i);
+  // Page types: 4 filas válidas, la mal formada se ignora, acciones esperadas
+  const rows = await page.locator("#ptBody tr").allInnerTexts();
+  assert.equal(rows.length, 4);
+  assert.match(rows.find(r => r.startsWith("Recetas")), /sacar del dominio/i);
+  assert.match(rows.find(r => r.startsWith("Idiomas")), /sacar del dominio/i);
+  assert.match(rows.find(r => r.startsWith("Fichas de ciudad")), /consolidar/i);
+  assert.match(rows.find(r => r.startsWith("Posts")), /mantener/i);
+  assert.match(await page.textContent("#ptNote"), /Se ignoraron 1 línea/);
+  // Señales del leak con etiquetas
+  const sig = await page.locator("#signalsBody").innerText();
+  for (const k of ["contentEffort", "chardEncoded", "Q*"]) assert.ok(sig.includes(k), k);
+  assert.match(sig, /\[Documentado\]/);
+  assert.match(sig, /\[Inferencia\]/);
+  // Informe con la plantilla completa
+  const rep = await page.textContent("#qualityReport");
+  for (const h of ["# Auditoría de quality:", "**Veredicto:** Riesgo alto", "## Propósito de la página", "## Cuatro pilares", "| Pilar | Nota | Evidencia | Corrección |", "## Test de commodity", "Test top 10: parcialmente comprobado", "## Red flags", "## Vista de plantilla y site", "### Page types", "## Señales Google relacionadas", "## Acciones prioritarias", "3 a 6 meses"]) assert.ok(rep.includes(h), h);
+  assert.doesNotMatch(rep, /NaN|undefined|\[object Object\]/);
+  // Descarga del informe, JSON y Markdown completos
+  const md = await download(page, "#qreportDl");
+  assert.equal(md, rep);
+  const json = JSON.parse(await download(page, "#jsonBtn"));
+  assert.ok(json.qualityReport && json.pageTypes.rows.length === 4 && json.nonCommodityAngles.list.length);
+  assert.match(await download(page, "#downloadBtn"), /## Auditoría de quality:/);
+  // Guía y glosario presentes
+  assert.equal(await page.locator("#sec-guia ~ .guide details").count(), 11);
+  assert.ok((await page.locator(".glossary tbody tr").count()) >= 23);
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test("sin inventario ni contexto, la capa de quality no inventa datos", async () => {
+  const { page, context, errors } = await openPage();
+  await audit(page, "# Qué es una cocina\n\nUna cocina es la habitación donde se preparan los alimentos.");
+  assert.match(await page.textContent("#ptNote"), /Pega tu inventario/);
+  const rep = await page.textContent("#qualityReport");
+  assert.match(rep, /Test top 10: no comprobado/);
+  assert.match(rep, /Activos solo-tuyos usados: ninguno/);
+  assert.doesNotMatch(rep, /### Page types|3 a 6 meses/);
+  assert.match(await page.locator("#angleList").innerText(), /Convierte el título genérico/);
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test("el informe avisa cuando la página es antigua", async () => {
+  const { page, context, errors } = await openPage();
+  await audit(page, '<html lang="es"><head><title>Guía 2019</title><meta property="article:modified_time" content="2019-05-01"></head><body><main><h1>Guía</h1><p>Contenido publicado hace años sobre el tema.</p></main></body></html>');
+  assert.match(await page.textContent("#qualityReport"), /Fecha más reciente detectada: 2019/);
+  assert.deepEqual(errors, []);
   await context.close();
 });

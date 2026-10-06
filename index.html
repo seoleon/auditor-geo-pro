@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Auditor GEO PRO V8 — Auditoría GEO, calidad, legibilidad, evidencia y publicación</title>
+<title>Auditor GEO PRO V8.1 — Auditoría GEO, quality de Google, legibilidad, evidencia y publicación</title>
 <meta name="description" content="Auditor GEO gratuito para analizar citabilidad IA, calidad del contenido principal, E-E-A-T, revisión humana, evidencia, schemas, crawlers y preparación para ChatGPT Search, Perplexity y Google AI Overviews.">
 <meta name="theme-color" content="#171713">
 <meta name="color-scheme" content="light dark">
@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171713'/%3E%3Cpath d='M17 18h30v8H27v8h16v8H27v12H17z' fill='%23fffaf3'/%3E%3C/svg%3E">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8","softwareVersion":"8.0.0","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, calidad MC 2026, E-E-A-T, citabilidad IA, evidencia, schemas y preparación técnica que funciona íntegramente en el navegador."}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8","softwareVersion":"8.1.0","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, calidad MC 2026, E-E-A-T, citabilidad IA, evidencia, schemas y preparación técnica que funciona íntegramente en el navegador."}
 </script>
 <style>
 :root{
@@ -443,6 +443,29 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 :root[data-theme="dark"] .codebox{background:#0b0b09;border-color:var(--line)}
 @media print{:root[data-theme="dark"]{--bg:#fff;--paper:#fff;--ink:#171713;--muted:#746e63;--line:#d9d0c2;--line2:#e7dfd3}}
 
+/* ===== V8.1 QUALITY (google-quality-audit) ===== */
+.angle-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:10px;margin-top:10px}
+.angle-card{padding:16px;min-width:0}.angle-card ol{margin:10px 0 0;padding-left:20px}.angle-card li{font-size:12px;line-height:1.5;margin:7px 0}
+.angle-card .note,.glossary .note{font-size:10.5px;color:var(--muted);line-height:1.45;margin-top:10px}
+.table-panel.flat{box-shadow:none;margin-top:10px}
+.table-panel.flat .detail-table{min-width:0;width:100%}.table-panel.flat .detail-table td{white-space:normal}
+.rubric{font-size:11px;line-height:1.45;margin-top:8px;padding:8px 10px;border-radius:10px;background:var(--paper2);border:1px solid var(--line2)}
+.rubric b{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.05em}
+.rubric .next{color:var(--muted);margin-top:4px}
+.glossary{padding:18px;margin-top:12px}.glossary summary{font-weight:800;cursor:pointer}
+.glossary p,.glossary li{font-size:11.5px;color:var(--muted);line-height:1.5}.glossary ul{margin:10px 0 0 18px;padding:0}
+.codebox.tall{max-height:560px}
+.guide{display:grid;gap:9px}
+.guide details{padding:16px 18px}
+.guide summary{font-weight:800;font-size:14px}
+.guide p,.guide li{font-size:12.5px;line-height:1.58;color:var(--muted)}
+.guide b,.guide em{color:var(--ink)}
+.guide ul,.guide ol{margin:10px 0 0 18px;padding:0}
+.guide .refs li{font-size:11.5px}
+.pt-alarm{display:block;font-size:10.5px;line-height:1.4;color:var(--red)}
+@media(max-width:780px){.angle-wrap{grid-template-columns:1fr}}
+@media print{.guide details{display:block}.guide details>*{display:block}}
+
 </style>
 </head>
 <body>
@@ -450,7 +473,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 <main class="wrap">
 <header class="hero">
   <div><div class="kicker">GEO · CITABILIDAD IA · CALIDAD · LEGIBILIDAD · EVIDENCIA · V8</div><h1>Auditor GEO PRO</h1>
-  <div class="hero-tools"><span class="monster-badge">V8 · Modo monstruo</span><button class="secondary tiny" id="themeBtn" type="button">Tema: auto</button><button class="secondary tiny" id="helpBtn" type="button" aria-haspopup="dialog">Atajos <kbd>?</kbd></button></div></div>
+  <div class="hero-tools"><span class="monster-badge">V8.1 · Modo monstruo</span><button class="secondary tiny" id="themeBtn" type="button">Tema: auto</button><button class="secondary tiny" id="helpBtn" type="button" aria-haspopup="dialog">Atajos <kbd>?</kbd></button></div></div>
   <p>Audita contenido, citabilidad, calidad, legibilidad, SEO on-page, evidencia, claims, entidades, arquitectura, schemas, Open Graph, preguntas, crawlers y preparación por motor. Genera llms.txt, robots.txt para IA y prompts de prueba. Todo ocurre en tu navegador: sin backend, APIs, cookies ni almacenamiento. Funciona offline.</p>
 </header>
 
@@ -551,7 +574,24 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
           <label class="tick"><input type="checkbox" id="scaledLowValue"> Contenido a escala con poco valor/curación</label>
           <label class="tick"><input type="checkbox" id="reputationAbuse"> Contenido de terceros sin supervisión suficiente</label>
           <label class="tick"><input type="checkbox" id="knownErrors"> Hay errores factuales / datos obsoletos conocidos</label>
+          <label class="tick"><input type="checkbox" id="expiredDomain"> Dominio caducado reutilizado para posicionar contenido ajeno</label>
         </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Core updates, sección y page types · visión de site</div>
+        <div class="checkboxes">
+          <label class="tick"><input type="checkbox" id="coreDrop"> El site perdió tráfico en un core update</label>
+          <label class="tick"><input type="checkbox" id="lowQualitySection"> Esta sección es una traducción o versión de menor calidad que el resto del site</label>
+          <label class="tick"><input type="checkbox" id="offTopicSection"> Esta sección está fuera del tema central del site</label>
+        </div>
+      </div>
+      <div class="field"><label for="coreDropPct">Caída en el core update (%)</label><input id="coreDropPct" type="number" min="0" max="100" step="1" placeholder="p. ej. 20"></div>
+      <div class="field"><label for="pageTypeName">Page type de esta URL</label><input id="pageTypeName" type="text" placeholder="p. ej. ficha de ciudad, post, categoría"></div>
+      <div class="field full">
+        <label for="pageTypes">Inventario de page types · una línea por tipo</label>
+        <textarea id="pageTypes" class="medium-area" placeholder="tipo; urls; indexadas; clics/mes; crecimiento %; en foco (sí/no); traducción (sí/no)&#10;Posts; 1200; 1100; 90000; 5; sí; no&#10;Fichas de ciudad; 8000; 2100; 4000; 300; sí; no&#10;Recetas; 600; 200; 900; 40; no; no"></textarea>
+        <div class="help">Separa con punto y coma, coma o tabulador. Agrupa tus URLs por page type (Search Console + crawl). Solo son obligatorias URLs e indexadas.</div>
       </div>
 
       <div class="field"><label for="robots">robots.txt opcional</label><textarea id="robots" class="small-area" placeholder="Pega robots.txt…"></textarea></div>
@@ -571,7 +611,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   <nav class="sticky-jump" aria-label="Navegación del informe">
     <a href="#sec-resumen">Resumen</a><a href="#sec-release">Publicación</a><a href="#sec-matriz">Matriz</a><a href="#sec-radar">Radar</a><a href="#sec-motores">Motores</a><a href="#sec-formula">Fórmula</a><a href="#sec-mc2026">MC 2026</a><a href="#sec-plan">Plan</a>
     <a href="#sec-citas">Citas</a><a href="#sec-retrieval">Retrieval</a><a href="#sec-preguntas">Preguntas</a><a href="#sec-queries">Queries</a><a href="#sec-claims">Claims</a><a href="#sec-evidencia">Evidencia</a><a href="#sec-arquitectura">Arquitectura</a><a href="#sec-poda">Poda</a><a href="#sec-brief">Brief</a><a href="#sec-schema">Schema</a><a href="#sec-kit">Kit IA</a><a href="#sec-legibilidad">Legibilidad</a><a href="#sec-onpage">On-page</a><a href="#sec-social">Social</a>
-    <a href="#sec-geo">GEO</a><a href="#sec-calidad">Calidad</a><a href="#sec-tecnico">Técnico</a>
+    <a href="#sec-geo">GEO</a><a href="#sec-calidad">Calidad</a><a href="#sec-pagetypes">Page types</a><a href="#sec-qreport">Informe quality</a><a href="#sec-guia">Guía</a><a href="#sec-tecnico">Técnico</a>
   </nav>
   <div class="score-grid">
     <section class="panel score-card primary-score">
@@ -601,7 +641,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <section class="panel batch-panel" id="batchPanel">
     <div class="batch-head"><div><div class="label">Comparativa local</div><h3>Auditoría por lotes</h3></div><p id="batchSummary">—</p></div>
-    <div class="table-panel"><table class="detail-table"><thead><tr><th>Archivo</th><th>Tipo</th><th>Palabras</th><th>Global</th><th>GEO</th><th>Calidad</th><th>Commodity</th><th>Principal oportunidad</th></tr></thead><tbody id="batchBody"></tbody></table></div>
+    <div class="table-panel"><table class="detail-table"><thead><tr><th>Archivo</th><th>Tipo</th><th>Palabras</th><th>Global</th><th>GEO</th><th>Calidad</th><th>Commodity</th><th>Veredicto quality</th><th>Principal oportunidad</th></tr></thead><tbody id="batchBody"></tbody></table></div>
   </section>
   <section class="panel batch-panel cannibal-panel" id="cannibalPanel">
     <div class="batch-head"><div><div class="label">Comparativa local</div><h3>Canibalización y duplicidad entre archivos</h3></div><p id="cannibalSummary">—</p></div>
@@ -757,7 +797,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-kit"><h2>Kit de despliegue para IA</h2><p>Borradores listos para copiar generados a partir de la página y del contexto: llms.txt, robots.txt para crawlers de IA y prompts para comprobar manualmente si los motores te citan.</p></div>
   <div class="gen-grid">
-    <section class="panel gen-card"><div class="label">Agentes · opcional</div><h3>llms.txt</h3><p>Resumen en Markdown de la página para agentes. No suma ranking: es una ayuda de navegación.</p><div class="codebox"><button class="copy-code" data-copy-code="genLlms">Copiar</button><pre id="genLlms"></pre></div></section>
+    <section class="panel gen-card"><div class="label">Agentes · opcional</div><h3>llms.txt</h3><p>Resumen en Markdown para agentes. Google lo ignora y no hace falta para AI Overviews ni AI Mode; puede servir a otros agentes.</p><div class="codebox"><button class="copy-code" data-copy-code="genLlms">Copiar</button><pre id="genLlms"></pre></div></section>
     <section class="panel gen-card"><div class="label">Rastreo · decide tu política</div><h3>robots.txt para IA</h3>
       <select id="robotsPolicy" aria-label="Política de crawlers de IA"><option value="search">Permitir búsqueda IA, bloquear entrenamiento</option><option value="all">Permitir búsqueda y entrenamiento</option><option value="none">Bloquear todos los bots de IA</option></select>
       <div class="codebox"><button class="copy-code" data-copy-code="genRobots">Copiar</button><pre id="genRobots"></pre></div></section>
@@ -802,6 +842,17 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
     <div class="callout-body" id="commodityBody">—</div>
   </section>
   <div class="test-grid" id="commodityTests"></div>
+  <div class="angle-wrap">
+    <section class="panel angle-card"><div class="label">Ángulos non-commodity · con lo que solo tú tienes</div><ol id="angleList"></ol><div class="note" id="angleNote"></div></section>
+    <section class="panel angle-card"><div class="label">Ejemplos mostrados por Google · Deep Dive Europe 2026</div>
+      <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla desplazable"><table class="detail-table"><thead><tr><th>Sector</th><th>Commodity</th><th>Non-commodity</th></tr></thead><tbody>
+        <tr><td>Tienda de running</td><td>Top 10 cosas a tener en cuenta al comprar zapatillas</td><td>Por qué las zapatillas de este cliente se hundieron a las 400 millas: análisis del desgaste</td></tr>
+        <tr><td>Agente inmobiliario</td><td>7 consejos para comprar tu primera casa</td><td>Por qué renunciamos a la inspección (y ahorramos 15.000 $): un vistazo a la tubería</td></tr>
+        <tr><td>Tienda de cocina</td><td>¿Qué es una cocina y para qué sirve?</td><td>La sartén de la abuela: cómo cuidar el hierro fundido fabricado antes de 1940</td></tr>
+      </tbody></table></div>
+      <div class="note">Tests: intercambio de marca · top 10 · solo-tú · plantilla (quita los campos variables: si lo que queda es igual en todas las páginas, la plantilla es commodity a escala).</div>
+    </section>
+  </div>
 
   <div class="section-head"><h2>Confianza, entidad y utilidad</h2><p>Comprobaciones adicionales útiles para GEO y calidad, pero no presentados como una fórmula oficial de Google.</p></div>
   <div class="audit-list" id="trustList"></div>
@@ -811,6 +862,11 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head"><h2>Plantilla y visión de sitio</h2><p>Solo usa el contexto que aportes. La acción sugerida es criterio de auditoría, no una instrucción automática de borrado.</p></div>
   <div class="tech-grid" id="siteView"></div>
+
+  <div class="section-head" id="sec-pagetypes"><h2>Page types y core updates</h2><p>Los core updates miran el site. Agrupa tus URLs por page type y detecta qué plantillas pueden estar arrastrando la nota global: mejorar, consolidar, sacar del dominio o eliminar.</p></div>
+  <div class="ledger-summary" id="ptSummary"></div>
+  <div class="table-panel"><table class="detail-table"><thead><tr><th>Page type</th><th>URLs</th><th>% del site</th><th>% indexado</th><th>Clics / URL</th><th>Crecimiento</th><th>Alarmas</th><th>Acción</th></tr></thead><tbody id="ptBody"></tbody></table></div>
+  <div class="google-note" id="ptNote">—</div>
 
   <div class="section-head" id="sec-tecnico"><h2>Rastreo IA y preparación para agentes</h2><p>Diagnóstico técnico independiente del contenido. GPTBot y Google‑Extended no se usan como penalización de citabilidad.</p></div>
   <div class="tech-grid" id="techGrid"></div>
@@ -822,6 +878,48 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
       <tbody id="signalsBody"></tbody>
     </table>
   </div>
+
+  <details class="panel glossary">
+    <summary>Glosario completo de señales de quality · leak, DOJ y patentes</summary>
+    <p>El leak de la Content Warehouse API (mayo de 2024) expuso 2.596 módulos y 14.014 atributos. Enseña qué conceptos guarda Google; no enseña pesos ni si cada atributo se usa hoy en producción. Descripciones citadas de la documentación publicada (HexDocs). Etiquetas: <b>[Documentado]</b>, <b>[Inferencia]</b>, <b>[Hipótesis]</b>, <b>[Criterio propio]</b>.</p>
+    <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla desplazable"><table class="detail-table"><thead><tr><th>Atributo</th><th>Módulo / nivel</th><th>Descripción filtrada</th><th>Relación</th><th>Etiqueta</th></tr></thead><tbody>
+      <tr><td><code>contentEffort</code></td><td>QualityNsrPQData · página</td><td>“LLM-based effort estimation for article pages”</td><td>Pilar Esfuerzo</td><td>Descripción [Documentado]; que implemente el pilar Effort [Inferencia]</td></tr>
+      <tr><td><code>chard</code></td><td>QualityNsrPQData · página</td><td>“URL-level chard prediction”</td><td>Predicción de calidad basada en contenido</td><td>Nombre [Documentado]; significado [Inferencia]</td></tr>
+      <tr><td><code>tofu</code></td><td>QualityNsrPQData · página</td><td>“URL-level tofu prediction”</td><td>Predicción de calidad basada en contenido</td><td>Solo nombre [Documentado]</td></tr>
+      <tr><td><code>vlq</code></td><td>QualityNsrPQData · página</td><td>“URL-level score of the VLQ model”</td><td>Detección de muy baja calidad</td><td>Nombre [Documentado]; “very low quality” [Inferencia]</td></tr>
+      <tr><td><code>rhubarb</code></td><td>QualityNsrPQData · página</td><td>“Site-URL delta signals based quality score”</td><td>Diferencia entre la página y su site</td><td>[Documentado]</td></tr>
+      <tr><td><code>keto</code></td><td>QualityNsrPQData · página</td><td>“Keto score”</td><td>Desconocido</td><td>Solo nombre [Documentado]</td></tr>
+      <tr><td><code>chardEncoded</code></td><td>QualityNsrNsrData · site</td><td>“Site-level chard score: site quality predictor based on content”</td><td>Calidad global del contenido del site</td><td>[Documentado]</td></tr>
+      <tr><td><code>tofu</code> (site)</td><td>QualityNsrNsrData · site</td><td>“Site-level tofu score: site quality predictor based on content”</td><td>Calidad global del contenido</td><td>[Documentado]</td></tr>
+      <tr><td><code>clutterScore</code></td><td>QualityNsrNsrData · site</td><td>“Delta site-level signal in Q* penalizing sites with a large number of distracting/annoying resources”</td><td>Anuncios, popups, saturación</td><td>[Documentado]</td></tr>
+      <tr><td><code>smallPersonalSite</code></td><td>QualityNsrNsrData · site</td><td>“Score of small personal site promotion”</td><td>Promoción de blogs personales</td><td>[Documentado]</td></tr>
+      <tr><td><code>nsr</code></td><td>QualityNsrNsrData · site</td><td>Sin descripción</td><td>Rank a nivel de site</td><td>Nombre [Documentado]; “Normalized Site Rank” o “Neural Semantic Retrieval” [Inferencia]</td></tr>
+      <tr><td><code>siteFocusScore</code></td><td>QualityAuthorityTopicEmbeddings · site</td><td>“Number denoting how much a site is focused on one topic”</td><td>Secciones fuera de tema diluyen el foco</td><td>[Documentado]</td></tr>
+      <tr><td><code>siteRadius</code></td><td>QualityAuthorityTopicEmbeddings · site</td><td>“The measure of how far page_embeddings deviate from the site_embedding”</td><td>Páginas lejos del tema central</td><td>[Documentado]</td></tr>
+      <tr><td><code>siteAuthority</code></td><td>CompressedQualitySignals</td><td>“converted from quality_nsr.SiteAuthority, applied in Qstar”</td><td>Autoridad del site en Q*</td><td>[Documentado]</td></tr>
+      <tr><td><code>lowQuality</code></td><td>CompressedQualitySignals</td><td>“S2V low quality score… applied in Qstar”</td><td>Baja calidad en Q*</td><td>[Documentado]</td></tr>
+      <tr><td><code>pandaDemotion</code></td><td>CompressedQualitySignals</td><td>Campos de Panda de SiteQualityFeatures</td><td>Demotion a nivel de site</td><td>[Documentado]</td></tr>
+      <tr><td><code>babyPandaDemotion</code></td><td>CompressedQualitySignals</td><td>“converted from QualityBoost.rendered.boost”</td><td>Demotion Baby Panda</td><td>[Documentado]</td></tr>
+      <tr><td><code>babyPandaV2Demotion</code></td><td>CompressedQualitySignals</td><td>“New BabyPanda demotion, applied on top of Panda”</td><td>Demotion sobre Panda</td><td>[Documentado]</td></tr>
+      <tr><td><code>unauthoritativeScore</code>, <code>scamness</code></td><td>CompressedQualitySignals</td><td>“web page quality qstar signals”</td><td>Falta de autoridad / estafa</td><td>[Documentado]</td></tr>
+      <tr><td><code>OriginalContentScore</code></td><td>PerDocData</td><td>Puntuación 0–127; “Only pages with little content have this field.”</td><td>Originalidad en páginas con poco contenido</td><td>[Documentado]</td></tr>
+      <tr><td><code>spamtokensContentScore</code></td><td>PerDocData</td><td>“Used in SiteBoostTwiddler to determine whether a page is UGC Spam”</td><td>Spam en contenido de usuarios</td><td>[Documentado]</td></tr>
+      <tr><td><code>hostAge</code></td><td>PerDocData</td><td>Se usa “to sandbox fresh spam in serving time”</td><td>Sandbox de spam nuevo</td><td>[Documentado]</td></tr>
+      <tr><td><code>scaledSelectionTierRank</code></td><td>PerDocData</td><td>Puntuación “over the serving tier (Base, Zeppelins, Landfills)”</td><td>Filtro previo al ranking</td><td>[Documentado]; Base = mejor, Landfills = peor [Inferencia]</td></tr>
+    </tbody></table></div>
+    <ul>
+      <li><b>Q* (DOJ v. Google):</b> en las notas de la entrevista a HJ Kim (PXR0356, feb. 2025) la calidad de página Q* es “incredibly important”, “generally static across multiple queries and not connected to a specific query”, y PageRank es uno de sus inputs. [Documentado]. La opinión del juez Mehta (sept. 2025) recoge que las señales de calidad y popularidad ayudan a decidir cada cuánto se rastrea una página. [Documentado]. Que “Q* no usa datos de clics” no lo dice ninguna fuente: no lo afirmes.</li>
+      <li><b>Twiddlers:</b> según la Twiddler Quick Start Guide (documento interno de 2018 filtrado en 2019), reordenan una lista ya rankeada: pueden subir, bajar, filtrar y limitar resultados por host. [Documentado]. Que QualityBoost, NavBoost o Baby Panda actúen como twiddlers lo “presume” Mike King [Inferencia]. Que los core updates actúen a través de twiddlers es [Hipótesis].</li>
+      <li><b>Patentes de calidad de site</b> [Documentado como patente; uso en producción no confirmado]: US8682892B1 “Ranking search results” (factor a nivel de site por enlaces independientes frente a queries de referencia); US9031929B1 “Site quality score” (búsquedas que mencionan el site frente a las queries en las que aparece); US9767157B2 “Predicting site quality” (predice la calidad de un site nuevo por patrones de lenguaje de sites ya puntuados); US11354342B2 “information gain” (cuánta información nueva aporta un documento).</li>
+    </ul>
+  </details>
+
+  <div class="section-head" id="sec-qreport"><h2>Informe de quality · formato auditoría</h2><p>Veredicto, cuatro pilares con evidencia y corrección, test de commodity, red flags, vista de plantilla y site, señales relacionadas y acciones prioritarias, listo para enviar al cliente o al equipo.</p></div>
+  <section class="panel brief">
+    <div class="brief-head"><div><div class="label">Plantilla de informe de la metodología google-quality-audit</div><h3 id="qreportTitle">—</h3></div><div class="toolbar-group"><button class="secondary tiny" data-copy-code="qualityReport" type="button">Copiar informe</button><button class="secondary tiny" id="qreportDl" type="button">Descargar .md</button></div></div>
+    <div class="codebox tall" tabindex="0" role="region" aria-label="Informe de quality en Markdown"><pre id="qualityReport"></pre></div>
+  </section>
+
 
   <div class="toolbar main-actions">
     <div class="toolbar-group">
@@ -836,11 +934,121 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
     </div>
   </div>
 
+
+  <div class="section-head" id="sec-guia"><h2>Guía: quality en Google y core updates</h2><p>Qué es quality para Google, cómo la mide y cuánto tarda en notarse un cambio. Resume lo contado en el Search Central Live Deep Dive Europe 2026 (Barcelona), la documentación de Google y el análisis de Nacho Mascort.</p></div>
+  <div class="guide">
+    <details class="panel" open><summary>1 · Qué es quality: definición, Page Quality y Needs Met</summary>
+      <p>Definición del slide de Duy Nguyen (Search Quality Analyst): <em>“The extent to which a human being put effort, originality, talent, skill, and accuracy into creating content.”</em> Es una versión resumida de la sección 3.2 de las Search Quality Rater Guidelines (“Quality of the Main Content”).</p>
+      <ul>
+        <li><b>Page Quality:</b> lo buena que es la página en sí. No depende de la query, por eso afecta a todo lo que rankeas a la vez.</li>
+        <li><b>Needs Met:</b> lo bien que una página responde a una búsqueda concreta. Una página excelente puede no servir para una query: “Useless is useless” (sección 14.0).</li>
+        <li>Los quality raters no rankean páginas: sus valoraciones sirven para medir si un cambio mejora los resultados.</li>
+      </ul>
+    </details>
+    <details class="panel"><summary>2 · Los cuatro pilares y la IA</summary>
+      <ul>
+        <li><b>Effort:</b> cuánto trabajó activamente una persona para crear contenido satisfactorio. Puede ser directo (traducir un poema) o indirecto (construir una herramienta que da servicio). Pasar miles de páginas por un traductor sin supervisión ni curación no es esfuerzo. Relacionado: <code>contentEffort</code> en el leak [Inferencia].</li>
+        <li><b>Originality:</b> contenido único que no está en otras webs; si existe en otras, importa quién es la fuente original. Relacionado: patente de <em>information gain</em> y <code>OriginalContentScore</code>.</li>
+        <li><b>Talent or skill:</b> hecho con la habilidad suficiente para dar una experiencia satisfactoria. No todo necesita un experto: una experiencia personal no requiere credenciales; un tema técnico sí requiere a alguien que sepa.</li>
+        <li><b>Accuracy:</b> precisión factual en páginas informativas; en YMYL, además, alineación con el consenso experto. La documentación del 1 de octubre de 2026 avisa de las alucinaciones de IA sin revisar.</li>
+        <li><b>IA:</b> la calidad se juzga igual venga de una persona o de un modelo. QRG 4.6.6: “the use of Generative AI tools alone does not determine the level of effort or Page Quality rating”. El problema es que la IA abarata el contenido mediocre a escala. La autoría engañosa (perfiles inventados, fotos generadas con IA, credenciales falsas) es ahora una señal explícita de baja calidad.</li>
+      </ul>
+    </details>
+    <details class="panel"><summary>3 · Contenido commodity</summary>
+      <p>Commodity es el contenido que podría haber escrito cualquiera porque se basa en conocimiento común. Google ya usa el término en su guía de optimización para funciones de IA (con el ejemplo de los consejos para comprar casa) y dice que crear contenido único y útil influirá más en tu presencia en la búsqueda generativa a largo plazo que cualquier otra recomendación.</p>
+      <p>En una web grande el commodity casi nunca es un post suelto: es un page type entero. Miles de páginas de “qué es X” para cubrir long tail, fichas con la descripción del fabricante, landings por ciudad que solo cambian el nombre. Por separado parecen inofensivas; juntas dicen que tu web es intercambiable. Usa los tests de la sección «Prueba de contenido commodity» y los ángulos non-commodity propuestos.</p>
+    </details>
+    <details class="panel"><summary>4 · Por qué existen los core updates: formatos, amplitud y problemas</summary>
+      <ul>
+        <li><b>Content formats:</b> aparecen formatos nuevos y Google lanza features para ellos.</li>
+        <li><b>Content breadth:</b> cuanta más gente publica, más saturados están los temas; para mejorar calidad y relevancia, Google lanza core updates.</li>
+        <li><b>Content issues:</b> los spammers encuentran agujeros y Google lanza algoritmos específicos.</li>
+      </ul>
+      <p>Los slides mostraban el índice creciendo de 1995 a 2023 hasta acercarse a los 5.000 millones y que, por cada resultado para “naranja” en el año 2000, hay unos 20.000 en 2025 (dato visto solo en los slides, sin fuente pública). Si los candidatos se multiplican, el listón para el top 10 sube. Ahrefs estimó que el 74,2 % de las páginas nuevas de abril de 2025 tenían contenido generado con IA. La analogía de Google: una lista de los diez mejores restaurantes cambia al año siguiente aunque ninguno haya empeorado, porque han abierto sitios mejores.</p>
+      <p>Google filtra cada vez más antes de rankear: <code>scaledSelectionTierRank</code> puntúa los tiers de serving Base, Zeppelins y Landfills (Base el mejor y Landfills el peor es [Inferencia]). Gary Illyes dijo en 2024 que la calidad general del site influye en cuántas URLs ves en «Rastreada: actualmente sin indexar» y que Google había dejado de indexar URLs de algunos sites “because our perception of the site has changed”.</p>
+    </details>
+    <details class="panel"><summary>5 · No hay un único sistema de quality: Q*, retrieval y twiddlers</summary>
+      <ul>
+        <li>Hay muchos sistemas (spam detection, freshness, reviews, deduplication, BERT, MUM, crisis information, RankBrain, link analysis…). El Helpful Content System dejó de ser independiente en marzo de 2024 y pasó al core.</li>
+        <li><b>Q*:</b> señal de calidad de página descrita en el juicio del DOJ como “incredibly important”, bastante estática entre queries; PageRank es uno de sus inputs. Varios campos del leak dicen “applied in Qstar”.</li>
+        <li><b>Testing en 2023:</b> 719.326 tests de calidad, 124.942 experimentos side-by-side, 16.871 experimentos con tráfico real y 4.781 lanzamientos.</li>
+        <li><b>Quality viaja pegada a cada URL:</b> en la charla de retrieval, cada URL candidata llegaba con atributos ya calculados (idioma, país y quality high/med/low) y Google reordenaba: bajaban las de idioma que no encaja y subían las de quality alta.</li>
+        <li><b>Twiddlers:</b> objetos que reordenan la lista ya rankeada (boost, demotion, filtro, límite por host). La guía filtrada hablaba de “hundreds of twiddlers” y más de 65 activos en WebMixer. Algunos usan señales de calidad documentadas (<code>spamtokensContentScore</code> en SiteBoostTwiddler, <code>hostAge</code>). Lectura razonable: quality entra por Q* en el ranking principal y hay capas de ajuste encima; que parte de un core update actúe ahí es [Hipótesis].</li>
+      </ul>
+    </details>
+    <details class="panel"><summary>6 · AI Overviews y AI Mode</summary>
+      <ul>
+        <li>No hay truco aparte: según la guía de Google no necesitas archivos legibles por máquina nuevos, archivos de texto para IA, marcado ni Markdown para aparecer. Google ignora <code>llms.txt</code>; el generador de esta app sirve, como mucho, para otros agentes. Tu página tiene que estar indexada y poder mostrarse con snippet.</li>
+        <li>Las respuestas salen del mismo índice: retrieval-augmented generation y <em>query fan-out</em> (el modelo lanza varias búsquedas relacionadas a la vez).</li>
+        <li>Gana lo que no es commodity: si diez páginas dicen lo mismo, el modelo puede citar cualquiera; si el dato solo lo tienes tú, la cita es tuya [Inferencia]. Google no ha documentado cómo elige la fuente citada.</li>
+        <li>Mídelo con el informe de rendimiento en funciones de IA generativa de Search Console.</li>
+      </ul>
+    </details>
+    <details class="panel"><summary>7 · ¿Google evalúa la página o el site?</summary>
+      <p>El site. Gary Illyes lo dejó claro: los core updates miran el site, y la documentación dice que los sistemas tienen que confirmar que “the site as a whole” ha mejorado. El leak está lleno de señales de site (<code>siteAuthority</code>, <code>chardEncoded</code>, <code>siteFocusScore</code>, <code>siteRadius</code>, <code>pandaDemotion</code>, <code>babyPandaV2Demotion</code>) y las patentes de Panda calculan factores a nivel de site. Google rankea páginas, pero cada página hereda la reputación de su site: 5.000 páginas commodity pueden arrastrar a las 200 buenas.</p>
+    </details>
+    <details class="panel"><summary>8 · ¿Cuánto tarda en notarse un cambio?</summary>
+      <p>Tiempos de los slides de Gary Illyes (fotos de Estela Franco):</p>
+      <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla desplazable"><table class="detail-table"><thead><tr><th>Cambio</th><th>Lo típico</th><th>Lo más lento</th></tr></thead><tbody>
+        <tr><td>Recuperación tras un core update</td><td>3–6 meses</td><td>6 meses a 1 año (hasta el siguiente core)</td></tr>
+        <tr><td>Despliegue de un core update</td><td>2–4 semanas</td><td>—</td></tr>
+        <tr><td>Spam update</td><td>1–2 semanas (continuo)</td><td>Meses (refrescos por lotes)</td></tr>
+        <tr><td>Quitar una acción manual</td><td>1–2 semanas</td><td>4–6 semanas, o mucho más en sites inactivos</td></tr>
+        <tr><td>Actualizar title o snippet</td><td>1–2 días</td><td>De semanas a meses</td></tr>
+        <tr><td>Procesar un sitemap</td><td>~24 horas</td><td>Hasta 14 días o nunca (quality)</td></tr>
+        <tr><td>Indexación de principio a fin</td><td>~1,5 horas</td><td>Meses o nunca (quality)</td></tr>
+        <tr><td>Actualizar datos estructurados</td><td>Horas a 1–2 semanas</td><td>Semanas o nunca (quality)</td></tr>
+      </tbody></table></div>
+      <p>Con una web de mala calidad, Google puede tardar meses en indexarte, ignorar tu sitemap y no darte rich results antes de que llegue ningún core update. La documentación oficial confirma que la recuperación puede tardar meses y “could mean waiting until the next core update”.</p>
+    </details>
+    <details class="panel"><summary>9 · Cómo se pasa de la raya una web grande (y el caso Softonic)</summary>
+      <ul>
+        <li><b>Escalar page types:</b> lo que funciona en 100 páginas se lanza en 10.000; las últimas 9.000 tienen menos datos, menos demanda y más relleno.</li>
+        <li><b>Abrir temas lejos de tu foco:</b> justo lo que miden <code>siteFocusScore</code> y <code>siteRadius</code>.</li>
+        <li><b>Producir con IA sin revisar:</b> la vía rápida a “little to no effort, little to no originality, little to no added value” (Lowest).</li>
+        <li><b>Inventar autores:</b> señal explícita en la documentación.</li>
+        <li><b>Cubrir keywords en vez de responder:</b> miles de “qué es X” que repiten el top 10.</li>
+      </ul>
+      <p><b>Caso Softonic</b> (contado por Nacho Mascort): consolidar los idiomas, que estaban en subdominios, en el dominio principal subió el tráfico al principio, pero un core update tumbó el site más de un 20 %. Las traducciones, de menor calidad que el original, bajaban la calidad global. Al mover cada idioma a su ccTLD (enlazados con hreflang) llegó la recuperación, y con el siguiente core el dominio principal superó sus niveles previos. Fue una decisión de calidad: cambiar qué contenido cuenta para la nota del site. La app la propone como acción «Sacar del dominio».</p>
+    </details>
+    <details class="panel"><summary>10 · Checklist antes del próximo core update</summary>
+      <ol>
+        <li>Agrupa las URLs por page type y mira tráfico, porcentaje indexado y crecimiento (sección «Page types y core updates»). Los page types con mucho «Rastreada: actualmente sin indexar» son la primera alarma.</li>
+        <li>Pasa cada page type por los cuatro pilares: ¿esfuerzo humano?, ¿aporta algo que no esté en el top 10?, ¿lo hizo alguien que sabe?, ¿es correcto? (carga una página de cada tipo en lote).</li>
+        <li>Busca el commodity: si cambias tu marca por la de un competidor y la página vale igual, es commodity.</li>
+        <li>Mejora, consolida o elimina lo que no puedas convertir en non-commodity.</li>
+        <li>Mide en meses: lo que hagas hoy se verá, con suerte, en 3 a 6 meses.</li>
+      </ol>
+    </details>
+    <details class="panel"><summary>Fuentes y créditos</summary>
+      <p>Metodología basada en la skill <b>google-quality-audit</b> y el artículo «Quality en Google: qué es, cómo la mide y cuánto tarda en recuperarse una web de un core update» de <a href="https://nachomascort.com" target="_blank" rel="noopener">Nacho Mascort</a> (3 de octubre de 2026).</p>
+      <ul class="refs">
+        <li><a href="https://static.googleusercontent.com/media/guidelines.raterhub.com/en//searchqualityevaluatorguidelines.pdf" target="_blank" rel="noopener">General Guidelines (Search Quality Rater Guidelines)</a> · Google, 11 sept. 2025</li>
+        <li><a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" target="_blank" rel="noopener">Creating helpful, reliable, people-first content</a> · Google Search Central, 1 oct. 2026</li>
+        <li><a href="https://developers.google.com/search/updates/core-updates" target="_blank" rel="noopener">Google Search's core updates</a> · Google Search Central</li>
+        <li><a href="https://developers.google.com/search/docs/appearance/ranking-systems-guide" target="_blank" rel="noopener">A guide to Google Search ranking systems</a> · Google Search Central</li>
+        <li><a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener">Spam policies for Google web search</a> · Google Search Central</li>
+        <li><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" target="_blank" rel="noopener">Guide to optimizing for generative AI features on Google Search</a> · Google Search Central</li>
+        <li>Rigorous testing · Google · <a href="https://www.google.com/search/howsearchworks/how-search-works/rigorous-testing/" target="_blank" rel="noopener">How Search works</a></li>
+        <li><a href="https://google-api-content-warehouse.hexdocs.pm/0.4.0/" target="_blank" rel="noopener">Google Content Warehouse API (QualityNsrPQData, CompressedQualitySignals, PerDocData)</a> · HexDocs</li>
+        <li><a href="https://ipullrank.com/google-algo-leak" target="_blank" rel="noopener">Secrets from the Google Algorithm Leak</a> · Mike King, iPullRank, 28 may. 2024</li>
+        <li>An Anonymous Source Shared Thousands of Leaked Google Search API Documents with Me · Rand Fishkin, SparkToro, 27 may. 2024</li>
+        <li>Twiddler Quick Start Guide – Superroot · Google (documento interno filtrado), 2018</li>
+        <li>United States v. Google LLC, Memorandum Opinion (remedies) · juez Amit P. Mehta, 2 sept. 2025; Googler's Deposition Offers View Of Google's Ranking Systems · Search Engine Journal</li>
+        <li>Google Explains Reasons For Crawled Not Indexed · Search Engine Journal, 2024</li>
+        <li>Patentes: <a href="https://patents.google.com/patent/US8682892B1" target="_blank" rel="noopener">US8682892B1</a> · <a href="https://patents.google.com/patent/US9031929B1" target="_blank" rel="noopener">US9031929B1</a> · <a href="https://patents.google.com/patent/US9767157B2" target="_blank" rel="noopener">US9767157B2</a> · <a href="https://patents.google.com/patent/US11354342B2" target="_blank" rel="noopener">US11354342B2</a></li>
+        <li>74% of New Webpages Include AI Content (Study of 900k Pages) · Ahrefs, 2025</li>
+        <li>Recaps del Deep Dive: We Are ROAST (Day 3 Recap), Estela Franco (tiempos de crawl, index y serving), Marie Haynes (cambios en la guía de contenido útil, 2 oct. 2026)</li>
+      </ul>
+    </details>
+  </div>
+
   <details class="panel method">
     <summary>Metodología, límites y fuentes</summary>
     <p>La herramienta separa cuatro capas: <strong>extractabilidad GEO</strong>, <strong>calidad de página</strong>, <strong>encaje con la query</strong> y <strong>bloqueadores técnicos</strong>. No intenta convertirlas en “el algoritmo de Google”.</p>
     <ul>
       <li>Los pilares de calidad siguen la rúbrica 0–4 de esfuerzo, originalidad, talento/habilidad y precisión. En YMYL, Precisión &lt; 3 limita el veredicto.</li><li>La capa “MC 2026” operacionaliza los criterios públicos aportados: propósito, esfuerzo, originalidad, habilidad y precisión; añade controles condicionales de revisión humana, autoría, escala y ecommerce sin presentarlos como una fórmula de ranking.</li><li>El uso de IA no resta puntos por sí mismo. Los riesgos aparecen cuando faltan revisión/fiabilidad, existe escalado de poco valor, autoría engañosa o incumplimientos específicos.</li>
+      <li>La capa de quality sigue la metodología google-quality-audit (Nacho Mascort): rúbrica 0–4 por pilar con evidencia, test de commodity (intercambio de marca, top 10, solo-tú y plantilla), red flags de las QRG y políticas de spam, vista de plantilla/site y señales del leak etiquetadas como [Documentado], [Inferencia], [Hipótesis] o [Criterio propio]. Los quality raters no rankean páginas: sus valoraciones miden si un cambio mejora los resultados.</li>
       <li>El análisis de contenido commodity usa test de intercambio de marca, comparación con resultados líderes, activos propios y similitud de plantilla.</li>
       <li>OAI‑SearchBot se trata como crawler de Search de OpenAI; GPTBot como crawler de posible entrenamiento. ChatGPT‑User no se usa para decidir elegibilidad en Search.</li>
       <li>Google‑Extended se muestra como control de Gemini/grounding, pero no como señal de Google Search ni de AI Overviews.</li>
@@ -1082,6 +1290,7 @@ function context(){
     ecommerceAiCopy:$("#ecommerceAiCopy").checked,ecommerceAiCopyLabel:$("#ecommerceAiCopyLabel").checked,
     copied:$("#copied").checked,unreviewedAI:$("#unreviewedAI").checked,deceptiveAuthor:$("#deceptiveAuthor").checked,scaledLowValue:$("#scaledLowValue").checked,
     reputationAbuse:$("#reputationAbuse").checked,knownErrors:$("#knownErrors").checked,
+    expiredDomain:$("#expiredDomain").checked,coreDrop:$("#coreDrop").checked,coreDropPct:num("#coreDropPct"),lowQualitySection:$("#lowQualitySection").checked,offTopicSection:$("#offTopicSection").checked,pageTypeName:$("#pageTypeName").value.trim(),pageTypes:$("#pageTypes").value.trim(),
     competitors:$("#competitors").value.trim(),siblings:$("#siblings").value.trim(),robots:$("#robots").value.trim(),llms:$("#llms").value.trim()
   }
 }
@@ -1190,7 +1399,8 @@ function competitorTest(c,d){
   if(max>=.65||avg>=.52){state="Falla";cls="weak";score=0}
   else if(max>=.45||avg>=.34){state="Parcial";cls="partial";score=.5}
   else{state="Pasa";cls="strong";score=1}
-  return {state,cls,score,max,avg,text:`${blocks.length} resultado(s) comparado(s) · solapamiento headings/contenido máx. ${(max*100).toFixed(0)}% · media ${(avg*100).toFixed(0)}%. Es una aproximación léxica, no una comparación semántica exhaustiva.`}
+  const partial=blocks.every(b=>words(b).length<80);
+  return {state,cls,score,max,avg,partial,text:`${partial?"Parcialmente comprobado (solo títulos o snippets). ":""}${blocks.length} resultado(s) comparado(s) · solapamiento headings/contenido máx. ${(max*100).toFixed(0)}% · media ${(avg*100).toFixed(0)}%. Es una aproximación léxica, no una comparación semántica exhaustiva.`}
 }
 function siblingTest(c,d){
   const blocks=splitBlocks(c.siblings,"---PAGE---");
@@ -1202,7 +1412,7 @@ function siblingTest(c,d){
   if(c.uniquePct!=null){if(c.uniquePct<15)risk+=2;else if(c.uniquePct<35)risk+=1}
   if(c.templatePages!=null&&c.templatePages>=100)risk+=1;
   const state=risk>=3?"Falla":risk>=1?"Parcial":"Pasa",cls=state==="Falla"?"weak":state==="Parcial"?"partial":"strong";
-  const bits=[];if(blocks.length)bits.push(`${blocks.length} hermana(s), similitud media ${(avg*100).toFixed(0)}%`);if(c.templatePages!=null)bits.push(`${c.templatePages} páginas/plantilla`);if(c.uniquePct!=null)bits.push(`${c.uniquePct}% datos únicos declarados`);
+  const bits=[];if(blocks.length){bits.push(`${blocks.length} hermana(s), similitud media ${(avg*100).toFixed(0)}%`);const own=tokenSet(d.text);if(own.size){const sets=blocks.map(tokenSet);let shared=0;own.forEach(t=>{if(sets.every(x=>x.has(t)))shared++});bits.push(`${Math.round(shared/own.size*100)}% del vocabulario se repite en todas las hermanas (lo que queda al quitar los campos variables)`)}}if(c.templatePages!=null)bits.push(`${c.templatePages} páginas/plantilla`);if(c.uniquePct!=null)bits.push(`${c.uniquePct}% datos únicos declarados`);
   return {state,cls,score:state==="Pasa"?1:state==="Parcial"?.5:0,text:bits.join(" · ")+"."}
 }
 function qualityAudit(d,c,s,ymyl){
@@ -1265,7 +1475,7 @@ function qualityAudit(d,c,s,ymyl){
   const pillars=[
     {name:"Esfuerzo",score:effort,evidence:effortEv,fix:effort>=3?"Protege y muestra mejor el trabajo difícil de replicar.":"Añade investigación, pruebas, casos, media original, entrevistas o una herramienta; documenta la revisión humana."},
     {name:"Originalidad",score:orig,evidence:origEv,fix:orig>=3?"Haz que el activo original sea el núcleo de la respuesta, no un apéndice.":"Crea una contribución propia y, si puedes, compara con los resultados líderes para demostrar ganancia de información."},
-    {name:"Talento / habilidad",score:talent,evidence:talentEv,fix:talent>=3?"Mantén claridad y ejecución ajustadas al propósito.":"Reduce relleno, mejora jerarquía, responde antes y añade el formato que la tarea necesita."},
+    {name:"Talento / habilidad",score:talent,evidence:talentEv+(ymyl.yes&&!c.authorVerified?" Tema que exige experiencia demostrable y autor no verificado.":""),fix:(talent>=3?"Mantén claridad y ejecución ajustadas al propósito.":"Reduce relleno, mejora jerarquía, responde antes y añade el formato que la tarea necesita.")+" Una experiencia personal no necesita credenciales; un tema técnico o YMYL sí necesita a alguien que sepa."},
     {name:"Precisión",score:accuracy,evidence:accuracyEv,fix:accuracy>=3?"Mantén fuentes cerca del claim y revisa datos sensibles al tiempo.":"Verifica claims, cita fuentes primarias y añade revisión experta; en YMYL, demuestra alineación con consenso."}
   ];
   const total=pillars.reduce((a,p)=>a+p.score,0);
@@ -1290,6 +1500,8 @@ function redFlags(d,c,s,q,commodity,ymyl){
   if(c.scaledLowValue)add("lowest","Abuso de contenido escalado",`Has declarado contenido producido a escala con poco valor o curación${c.templatePages?` (${c.templatePages} páginas de plantilla)`:""}.`,"QRG 4.6.5 · [Documentado]");
   if(c.copied)add("lowest","MC con poco o ningún valor añadido","Has declarado que el contenido principal es copiado, scrapeado o parafraseado.","QRG 4.6.6 · [Documentado]");
   if(c.deceptiveAuthor)add("lowest","Autoría engañosa","Has declarado autor, identidad o credenciales ficticias.","Google helpful content docs 2026 · [Documentado]");
+  if(c.expiredDomain)add("lowest","Abuso de dominio caducado","Has declarado que se reutiliza un dominio caducado para posicionar contenido con poco valor para sus usuarios.","QRG 4.6.3 · políticas de spam · [Documentado]");
+  if(/\b(mejores|best|top\s?\d+|ranking de)\b/i.test((d.title||"")+" "+(d.headings[0]?.text||""))&&s.onlyYou===0&&!c.tests)add("low","Lista de «mejores» sin aportación propia","Las listas de «mejores» basadas en reseñas o listas existentes, sin pruebas ni contenido original, son el ejemplo de Low de las guidelines.","QRG 5.2.1 · [Documentado]; detección por título [Criterio propio]");
   if(c.reputationAbuse)add("lowest","Posible abuso de reputación del sitio","Has declarado contenido de terceros publicado sin supervisión/contribución suficiente del host.","Políticas de spam / QRG · [Documentado]");
   if(c.unreviewedAI&&s.onlyYou===0)add("low","IA sin revisión + poco valor propio","Usar IA no es por sí solo baja calidad, pero declaras publicación sin revisión y no hay activos propios.","QRG 4.6.5–4.6.6 · relación [Inferencia]");
   if(["assist","substantial"].includes(c.aiRole)&&!c.reviewed)add("low","Contenido con IA sin revisión humana declarada","El uso de IA no se penaliza por sí mismo; el riesgo es publicar contenido generado o asistido sin una comprobación manual de exactitud y fiabilidad.","Guía de contenido generado con IA · [Documentado]");
@@ -1405,25 +1617,37 @@ function htmlTechCards(d){
   return out
 }
 function siteViewCards(c,s,q,commodity,flags){
-  const has=c.siteTopic||c.templatePages!=null||c.uniquePct!=null||c.siblings;
+  const has=c.siteTopic||c.templatePages!=null||c.uniquePct!=null||c.siblings||c.coreDrop||c.lowQualitySection||c.offTopicSection;
   if(!has)return [{status:"N/A",cls:"na",title:"Vista de plantilla/sitio",body:"Añade tema del sitio, escala, % de datos únicos o páginas hermanas para ejecutar esta capa."}];
   const out=[];
   if(c.templatePages!=null)out.push({status:c.templatePages>=100?"Escala alta":"Escala",cls:c.templatePages>=100?"partial":"info",title:"Tamaño de plantilla",body:`${c.templatePages} páginas declaradas comparten esta plantilla. La escala por sí sola no es spam; importa el esfuerzo, originalidad y valor añadido.`});
   if(c.uniquePct!=null)out.push({status:c.uniquePct>=35?"Bien":c.uniquePct>=15?"Revisar":"Débil",cls:c.uniquePct>=35?"strong":c.uniquePct>=15?"partial":"weak",title:"Datos únicos por página",body:`${c.uniquePct}% de datos únicos declarado. Cuanto más domina el boilerplate, más importante es que la parte variable cambie realmente lo que aprende el usuario.`});
   if(c.siteTopic)out.push({status:(s.topical||0)>=.43?"Coincide":(s.topical||0)>=.22?"Coincidencia parcial":"Revisión manual",cls:(s.topical||0)>=.43?"strong":(s.topical||0)>=.22?"partial":"info",title:"Fit con el core del sitio",body:`Solapamiento léxico heurístico: ${((s.topical||0)*100).toFixed(0)}%. Puede fallar con sinónimos; relacionarlo con siteFocusScore/siteRadius es una inferencia, no una lectura de la señal real.`});
+  if(c.lowQualitySection)out.push({status:"Arrastra el site",cls:"weak",title:"Sección de menor calidad",body:"Las traducciones o secciones de menor calidad cuentan para la nota global del site. En Softonic, sacar los idiomas a ccTLDs propios (con hreflang) recuperó y superó el tráfico tras el siguiente core update. Relación con chardEncoded / rhubarb: [Inferencia]."});
+  if(c.offTopicSection)out.push({status:"Fuera de foco",cls:"partial",title:"Sección lejos del tema central",body:"Abrir temas lejos del foco diluye el site; siteFocusScore y siteRadius miden justo eso [Documentado]. Valora si la sección merece vivir en otro dominio."});
+  if(c.coreDrop)out.push({status:c.coreDropPct?`−${c.coreDropPct}%`:"Caída",cls:"info",title:"Recuperación tras core update",body:"Lo típico son 3–6 meses; en el peor caso, 6 meses a 1 año (hasta el siguiente core). El despliegue de un core tarda 2–4 semanas. Los sistemas tienen que confirmar que el site en su conjunto ha mejorado [Documentado]."});
   let action="Mejorar",reason="La página tiene margen de mejora, pero no hay evidencia suficiente para recomendar consolidación o retirada.";
   if(flags.some(f=>f.severity==="lowest")){action="Revisión crítica";reason="Hay una señal crítica declarada. Antes de mantenerla indexable, corrige el problema y decide si merece mejorar, consolidar o retirar."}
+  else if(c.lowQualitySection||c.offTopicSection){action="Sacar del dominio";reason="La sección no comparte el nivel o el tema del site: muévela a otro dominio, ccTLD o subdominio para que no cuente en la nota del site principal."}
   else if(commodity.commodity==="Commodity"&&q.sib.score===0&&(c.templatePages||0)>=20){action="Consolidar";reason="Commodity + similitud de plantilla + escala sugiere que varias URLs podrían aportar poco valor diferencial por separado."}
   else if(q.total<=4){action="Revisar remove/noindex";reason="La calidad heurística es muy baja; primero decide si existe una intención y un valor únicos que justifiquen la URL."}
-  out.push({status:action,cls:action==="Mejorar"?"info":action==="Consolidar"?"partial":"weak",title:"Acción sugerida",body:reason+" [Criterio propio]"});
+  out.push({status:action,cls:action==="Mejorar"?"info":action==="Consolidar"||action==="Sacar del dominio"?"partial":"weak",title:"Acción sugerida",body:reason+" [Criterio propio]"});
   return out
 }
-function leakSignals(s,q,flags,c){
-  const rows=[];
-  rows.push({finding:`Esfuerzo ${q.pillars[0].score}/4`,signal:"contentEffort",doc:'Descripción filtrada: “LLM-based effort estimation for article pages”.',link:"Que corresponda exactamente al pilar Effort de las QRG es [Inferencia]."});
-  if(flags.some(f=>/clutter/i.test(f.title)))rows.push({finding:"Posible saturación visual",signal:"clutterScore",doc:'“Delta site-level signal in Q* penalizing sites with a large number of distracting/annoying resources”.',link:"La existencia y descripción son [Documentado]; esta detección por clases DOM es [Criterio propio]."});
-  if(c.siteTopic)rows.push({finding:"Foco tópico",signal:"siteFocusScore / siteRadius",doc:"siteFocusScore mide foco en un tema; siteRadius mide desviación de page embeddings respecto al site embedding.",link:"Los atributos son [Documentado]; equiparar nuestro solapamiento léxico a esas señales es [Inferencia]."});
-  if(q.total<9)rows.push({finding:"Calidad baja en esta heurística",signal:"lowQuality",doc:'“S2V low quality score… applied in Qstar”.',link:"La señal existe [Documentado]; no conocemos su fórmula ni su equivalencia con este puntuación."});
+function leakSignals(s,q,flags,c,d,com){
+  const rows=[],add=(finding,signal,doc,link)=>rows.push({finding,signal,doc,link}),p=n=>q.pillars.find(x=>x.name===n).score;
+  add(`Esfuerzo ${p("Esfuerzo").toFixed(1)}/4`,"contentEffort","“LLM-based effort estimation for article pages”: descripción [Documentado].","Que implemente el pilar Effort de las QRG es [Inferencia].");
+  if(d&&s.wc<300)add(`Página con poco contenido (${s.wc} palabras)`,"OriginalContentScore","Puntuación 0–127; “Only pages with little content have this field.” [Documentado].","Relacionarla con la originalidad de esta página es [Inferencia].");
+  if(p("Originalidad")<=2||q.comp.score===0)add(`Originalidad ${p("Originalidad").toFixed(1)}/4`,"information gain (US11354342B2)","Patente que puntúa cuánta información nueva aporta un documento [Documentado como patente].","Su uso en ranking no está confirmado; aplicarla aquí es [Inferencia].");
+  if(flags.some(f=>/saturación|clutter/i.test(f.title)))add("Posible saturación visual","clutterScore","“Delta site-level signal in Q* penalizing sites with a large number of distracting/annoying resources” [Documentado].","La detección por clases DOM de esta app es [Criterio propio].");
+  if(c.siteTopic||c.offTopicSection)add(c.offTopicSection?"Sección fuera del tema central":"Foco tópico","siteFocusScore / siteRadius","Cuánto se centra el site en un tema y cuánto se alejan las páginas del embedding del site [Documentado].","Equiparar el solapamiento léxico o tu declaración a esas señales es [Inferencia].");
+  if(c.lowQualitySection)add("Sección de menor calidad que el site","chardEncoded / rhubarb","“Site quality predictor based on content” y “Site-URL delta signals based quality score” [Documentado].","Que las secciones flojas bajen así la nota global es [Inferencia] (caso Softonic).");
+  if(c.scaledLowValue||(com&&com.commodity==="Commodity"&&(c.templatePages||0)>=100))add("Contenido commodity o escalado","scaledSelectionTierRank","Puntuación “over the serving tier (Base, Zeppelins, Landfills)” [Documentado].","Base = mejor y Landfills = peor es [Inferencia]; el vínculo con esta plantilla también.");
+  if(com&&com.commodity==="Commodity"&&(c.templatePages||0)>=20)add("Plantilla commodity a escala","pandaDemotion / babyPandaV2Demotion","Demotions de Panda a nivel de site; Baby Panda V2 “applied on top of Panda” [Documentado].","Que se activen por esta plantilla es [Inferencia].");
+  if(d&&d.ugcCount>0)add("Hay contenido generado por usuarios","spamtokensContentScore","“Used in SiteBoostTwiddler to determine whether a page is UGC Spam” [Documentado].","Su relevancia depende de la moderación del UGC [Criterio propio].");
+  if(c.deceptiveAuthor)add("Autoría engañosa declarada","unauthoritativeScore / scamness","“web page quality qstar signals” [Documentado].","Vincularlas a la autoría falsa es [Inferencia].");
+  if(q.total<9)add("Calidad baja en esta heurística","lowQuality","“S2V low quality score… applied in Qstar” [Documentado].","No conocemos su fórmula ni su equivalencia con esta puntuación.");
+  if(q.total<9||flags.some(f=>f.severity==="lowest"))add("Nota de calidad de página","Q* (DOJ v. Google)","Q* es “incredibly important”, estable entre queries y usa PageRank como input (notas de HJ Kim, PXR0356) [Documentado].","Que esta página saque una Q* baja es [Inferencia].");
   return rows
 }
 function unifiedScore(geo,q){
@@ -1449,7 +1673,7 @@ function renderPillars(q){
   const box=$("#pillarGrid");box.innerHTML="";
   q.pillars.forEach(p=>{
     const st=status(p.score/4),el=document.createElement("article");el.className="panel pillar";
-    el.innerHTML=`<div><span class="pill ${st.cls}">${st.label}</span><h3>${esc(p.name)}</h3><div class="why">${esc(p.fix)}</div><div class="ev"><strong>Evidencia:</strong> ${esc(p.evidence)}</div><div class="meter"><div class="fill ${fillClass(p.score/4)}" style="width:${p.score/4*100}%"></div></div></div><div class="pscore">${p.score.toFixed(1)}<small>/4</small></div>`;
+    el.innerHTML=`<div><span class="pill ${st.cls}">${st.label}</span><h3>${esc(p.name)}</h3><div class="why">${esc(p.fix)}</div><div class="ev"><strong>Evidencia:</strong> ${esc(p.evidence)}</div>${(()=>{const rl=rubricLevel(p.name,p.score);return rl?`<div class="rubric"><b>Nivel ${rl.lvl}</b> · ${esc(rl.text)}${rl.next!=null?`<div class="next"><b>Para subir a ${rl.next}</b> · ${esc(rl.nextText)}</div>`:""}</div>`:""})()}<div class="meter"><div class="fill ${fillClass(p.score/4)}" style="width:${p.score/4*100}%"></div></div></div><div class="pscore">${p.score.toFixed(1)}<small>/4</small></div>`;
     box.appendChild(el)
   })
 }
@@ -1660,7 +1884,7 @@ function renderBatch(rows){
   sorted.forEach(r=>{
     const opp=r.geo.checks.find(x=>!x.na&&x.score<.8)?.name||"Sin debilidad GEO clara";
     const tr=document.createElement("tr");
-    tr.innerHTML=`<td><strong>${esc(r.name)}</strong></td><td>${esc(r.type)}</td><td>${r.words}</td><td><strong>${r.unified}</strong></td><td>${r.geoScore}</td><td>${r.quality.toFixed(1)}/16</td><td>${esc(r.commodity)}</td><td>${esc(opp)}</td>`;
+    tr.innerHTML=`<td><strong>${esc(r.name)}</strong></td><td>${esc(r.type)}</td><td>${r.words}</td><td><strong>${r.unified}</strong></td><td>${r.geoScore}</td><td>${r.quality.toFixed(1)}/16</td><td>${esc(r.commodity)}</td><td>${esc(r.verdict)}</td><td>${esc(opp)}</td>`;
     body.appendChild(tr)
   })
 }
@@ -1702,7 +1926,7 @@ async function handleFiles(files){
   source.value=texts[0].text;$("#formatChip").textContent=detectType(texts[0].text).toUpperCase();run();
   const c=context();batchDocs=texts.map(item=>{const type=detectType(item.text),d=type==="HTML"?parseHtml(item.text):parseText(item.text);return {name:item.name,text:item.text,d}});
   if(texts.length>1){
-    const rows=batchDocs.map(item=>{const d=item.d,s=baseSignals(d,c),ymyl=ymylDetect(d,c),geo=geoAudit(d,c,s),q=qualityAudit(d,c,s,ymyl),com=commodityAudit(d,c,s,q);return {name:item.name,type:d.type,words:s.wc,geoScore:geo.score,quality:q.total,commodity:com.commodity,unified:unifiedScore(geo,q),geo}});
+    const rows=batchDocs.map(item=>{const d=item.d,s=baseSignals(d,c),ymyl=ymylDetect(d,c),geo=geoAudit(d,c,s),q=qualityAudit(d,c,s,ymyl),com=commodityAudit(d,c,s,q),qv=qualityVerdict(q,com,redFlags(d,c,s,q,com,ymyl),ymyl);return {name:item.name,type:d.type,words:s.wc,geoScore:geo.score,quality:q.total,commodity:com.commodity,verdict:qv.name,unified:unifiedScore(geo,q),geo}});
     renderBatch(rows);renderCannibal(batchCannibalization(batchDocs))
   } else {renderBatch([]);renderCannibal([])}
   $("#fileInput").value="";
@@ -2189,7 +2413,7 @@ function fullHtmlReport(r){
   const claims=r.claims.slice(0,20).map(x=>`<tr><td>${esc(x.text)}</td><td>${esc(x.type)}</td><td>${esc(x.risk)}</td><td>${esc(x.fix)}</td></tr>`).join("");
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Informe GEO — ${esc(r.ctx.pageUrl||"Página")}</title><style>
   body{font-family:system-ui,-apple-system,sans-serif;max-width:1080px;margin:40px auto;padding:0 20px;color:#171713;background:#faf7f0}h1,h2{font-family:Georgia,serif}h1{font-size:44px}h2{margin-top:34px} .scores{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.card{background:white;border:1px solid #ddd4c7;border-radius:16px;padding:18px}.big{font-size:38px;font-weight:900}table{width:100%;border-collapse:collapse;background:white}th,td{padding:10px;border:1px solid #e4ddd3;text-align:left;vertical-align:top;font-size:12px}th{background:#f2ece2}li{margin:9px 0;line-height:1.45}.muted{color:#6f695f}@media(max-width:700px){.scores{grid-template-columns:1fr}}</style></head><body>
-  <div class="muted">AUDITOR GEO PRO V8 · INFORME EXPORTADO</div><h1>${esc(r.ctx.projectName||"Auditoría GEO de Calidad")}</h1><p>${r.ctx.analystName?`<strong>Analista:</strong> ${esc(r.ctx.analystName)}<br>`:""}${r.ctx.pageUrl?`<strong>URL:</strong> ${esc(r.ctx.pageUrl)}<br>`:""}${esc(r.exec.body)}</p>
+  <div class="muted">AUDITOR GEO PRO V8.1 · INFORME EXPORTADO</div><h1>${esc(r.ctx.projectName||"Auditoría GEO de Calidad")}</h1><p>${r.ctx.analystName?`<strong>Analista:</strong> ${esc(r.ctx.analystName)}<br>`:""}${r.ctx.pageUrl?`<strong>URL:</strong> ${esc(r.ctx.pageUrl)}<br>`:""}${esc(r.exec.body)}</p>
   <div class="scores"><div class="card"><div>Global</div><div class="big">${r.unified}/100</div></div><div class="card"><div>GEO</div><div class="big">${r.geo.score}/100</div></div><div class="card"><div>Calidad</div><div class="big">${r.quality.total.toFixed(1)}/16</div></div></div><h2>Puerta de publicación</h2><p><strong>${esc(r.release.state)}</strong> · ${esc(r.release.body)}<br><span class="muted">${esc(r.release.signature)}</span></p><h2>Calidad MC 2026</h2><p><strong>${r.google2026.score}/100 — ${esc(r.google2026.grade)}</strong>. ${esc(r.google2026.verdict)}</p>
   <h2>Preparación por motor</h2><ul>${r.engines.map(x=>`<li><strong>${esc(x.name)}:</strong> ${x.effective}/100 · ${esc(x.gate)} · fit ${x.fit}/100</li>`).join("")}</ul><h2>Plan de acción</h2><ol>${actions}</ol><h2>Checks GEO</h2><table><thead><tr><th>Check</th><th>Estado</th><th>Puntos</th><th>Hallazgo</th><th>Fix</th></tr></thead><tbody>${geos}</tbody></table>
   <h2>Legibilidad y on-page</h2><p><strong>${esc(r.readability.index)}:</strong> ${r.readability.score}/100 — ${esc(r.readability.grade)}. ${r.onpage.score==null?"":`SEO on-page: <strong>${r.onpage.score}/100</strong>.`}</p><ul>${r.onpage.rows.filter(x=>x.state==="bad"||x.state==="warn").map(x=>`<li><strong>${esc(x.name)} (${esc(x.value)}):</strong> ${esc(x.tip)}</li>`).join("")}</ul>
@@ -2244,6 +2468,7 @@ function reportMarkdown(r){
   lines.push("","## Señales Google relacionadas","");
   r.leaks.forEach(x=>lines.push(`- **${x.signal}** — ${x.doc} ${x.link}`));
   lines.push(monsterMarkdown(r));
+  if(r.qualityReport)lines.push("","---","",r.qualityReport.replace(/^# /,"## "));
   lines.push("","---","Heurística de priorización. No es una puntuación de Google ni garantiza ranking, citas o inclusión. No verifica offline backlinks, autoridad, factualidad completa, status HTTP, WAF/CDN, indexación ni posiciones reales.");
   return lines.join("\n")
 }
@@ -2255,14 +2480,14 @@ function run(){
   const geo=geoAudit(d,c,s),quality=qualityAudit(d,c,s,ymyl),commodity=commodityAudit(d,c,s,quality),flags=redFlags(d,c,s,quality,commodity,ymyl),qVerdict=qualityVerdict(quality,commodity,flags,ymyl),trust=trustAudit(d,c,s,ymyl);
   const google2026=google2026Audit(d,c,s,quality,ymyl,purpose),composition=mcComposition(d),eeat=eeatCompass(d,c,s,quality,google2026),aiPolicy=aiPolicyCards(d,c,google2026,purpose);
   const unified=unifiedScore(geo,quality),overall=overallBand(unified,qVerdict),gb=geoBand(geo.score);
-  const siteView=siteViewCards(c,s,quality,commodity,flags),tech=[...robotsCards(c,d),llmsCard(c),...htmlTechCards(d),schemaRecommendationCard(d,purpose),linkAuditCard(d,c),mediaAuditCard(d)],leaks=leakSignals(s,quality,flags,c);
+  const siteView=siteViewCards(c,s,quality,commodity,flags),tech=[...robotsCards(c,d),llmsCard(c),...htmlTechCards(d),schemaRecommendationCard(d,purpose),linkAuditCard(d,c),mediaAuditCard(d)],leaks=leakSignals(s,quality,flags,c,d,commodity);
   const confidence=confidenceAudit(d,c),snippets=citationCandidates(d),sections=sectionDiagnostics(d),terms=topTerms(d,c),metrics=evidenceMetrics(d,c,s),gaps=competitorGaps(d,c);
   const rawActions=mergeGoogle2026Actions(buildActionPlan(geo,trust,quality,flags,commodity,tech),google2026),actions=applyProfileActions(rawActions,c.auditProfile);
   const claims=extractClaims(d,ymyl),entities=candidateEntities(d,c),engines=engineReadiness(d,c,s,geo,quality),qa=questionCoverage(d),schemaCards=schemaStudio(d,c,purpose,qa),hygiene=hygieneAudit(d),ledger=scoreLedger(geo,quality);
   const queryMap=querySetAudit(d,c),retrieval=retrievalChunks(d),evidence=evidenceChain(d,claims),prune=pruneAudit(d);
   latest={data:d,ctx:c,signals:s,ymyl,purpose,geo,quality,commodity,flags,qVerdict,trust,siteView,tech,leaks,unified,overall,geoBand:gb,confidence,snippets,sections,terms,metrics,actions,claims,entities,gaps,engines,qa,schemaCards,hygiene,ledger,google2026,composition,eeat,aiPolicy,queryMap,retrieval,evidence,prune};
   latest.matrix=readinessMatrix(latest);latest.exec=executiveSummary(latest);latest.release=releaseGate(latest);latest.brief=buildBrief(latest);
-  runMonster(latest);
+  runMonster(latest);runQuality(latest);
 
   $("#unifiedScore").textContent=unified;$("#unifiedGrade").textContent=overall[0];$("#unifiedVerdict").textContent=overall[1];
   $("#geoScore").textContent=geo.score;$("#geoGrade").textContent=gb[0];$("#geoVerdict").textContent=gb[1];
@@ -2318,7 +2543,7 @@ $("#downloadBtn").addEventListener("click",()=>{
 });
 $("#jsonBtn").addEventListener("click",()=>{
   if(!latest)return;
-  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},version:"8.0.0",summary:{type:latest.data.type,words:latest.signals.wc}};
+  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},qualityReport:latest.qualityReport,nonCommodityAngles:latest.angles,pageTypes:latest.pageTypes,version:"8.1.0",summary:{type:latest.data.type,words:latest.signals.wc}};
   const blob=new Blob([JSON.stringify(safe,null,2)],{type:"application/json;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
   a.href=url;a.download="auditoria-geo-calidad.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)
 });
@@ -2355,7 +2580,7 @@ $("#csvBtn").addEventListener("click",()=>{
 });
 $("#printBtn").addEventListener("click",()=>window.print());
 $("#backlogBtn").addEventListener("click",()=>{if(!latest)return;const blob=new Blob(["\uFEFF"+backlogCsv(latest)],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="backlog-geo-priorizado.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)});
-document.addEventListener("click",async e=>{const b=e.target.closest("[data-copy-code]");if(!b)return;const el=document.getElementById(b.dataset.copyCode);if(!el)return;const txt=el.textContent;try{await navigator.clipboard.writeText(txt);toast(b.dataset.copyCode.startsWith("gen")?"Copiado":"Schema copiado")}catch(err){const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();toast(b.dataset.copyCode.startsWith("gen")?"Copiado":"Schema copiado")}});
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-copy-code]");if(!b)return;const el=document.getElementById(b.dataset.copyCode);if(!el)return;const txt=el.textContent;try{await navigator.clipboard.writeText(txt);toast(b.dataset.copyCode.startsWith("schema")?"Schema copiado":"Copiado")}catch(err){const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();toast(b.dataset.copyCode.startsWith("schema")?"Schema copiado":"Copiado")}});
 
 
 $("#copyBriefBtn").addEventListener("click",async()=>{
@@ -2569,6 +2794,130 @@ const backTop=$("#backTop");
 addEventListener("scroll",()=>backTop.classList.toggle("show",scrollY>900),{passive:true});
 backTop.addEventListener("click",()=>scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}));
 if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+
+
+/* ===== V8.1 QUALITY · metodología google-quality-audit (Nacho Mascort) ===== */
+const RUBRIC={
+  "Esfuerzo":["Autogenerado o copiado sin trabajo humano visible. Podría salir de un feed o de un prompt en segundos.","Plantilla o borrador de IA con ediciones ligeras. Estructura genérica, sin aportaciones de primera mano.","Trabajo humano claro (organización, edición, algo de investigación) pero sin datos, media o herramientas de primera mano.","Trabajo sustancial: investigación original, media propia, ejemplos reales o una herramienta que funciona.","Trabajo excepcional y difícil de replicar: pruebas, datasets, seguimiento a largo plazo, entrevistas a expertos, sistemas propios."],
+  "Originalidad":["Copiado, scrapeado o paráfrasis de los primeros resultados.","Mismos datos y enfoque que los primeros resultados, reformulados.","Información mayoritariamente conocida con algunos detalles únicos o una estructura distinta.","Contribución única clara: datos propios, casos propios, fotos propias, un ángulo nuevo.","La fuente original que otros citarían."],
+  "Talento / habilidad":["Difícil de leer o usar, elementos rotos, diseño engañoso.","Legible pero con relleno, mal estructurado o le falta lo que el propósito necesita.","Competente y claro. Cumple el propósito sin destacar.","Bien ejecutado: responde rápido, estructura sólida, buena media y experiencia real donde hace falta.","Ejecución de referencia para su propósito."],
+  "Precisión":["Contiene errores factuales claros o consejos dañinos.","Claims sin verificar, datos obsoletos o probables alucinaciones de IA.","Correcto en general, pocas fuentes, algunos claims vagos.","Correcto, específico y con fuentes donde importa.","Preciso, actual, con fuentes y alineado con el consenso experto (obligatorio en YMYL)."]
+};
+function rubricLevel(name,score){
+  const r=RUBRIC[name];if(!r)return null;
+  const lvl=Math.floor(score),next=score<4?Math.min(4,Math.floor(score)+1):null;
+  return {lvl,text:r[lvl],next,nextText:next!=null?r[next]:""}
+}
+const ASSET_ANGLES=[
+  ["cases",t=>`Caso real: qué le pasó a un cliente concreto con «${t}»: problema, decisión, datos y resultado (con permiso y cifras).`],
+  ["tests",t=>`Prueba propia: medid «${t}» en condiciones reales y publicad método, muestra, números y límites.`],
+  ["research",t=>`Dato propio: una cifra sobre «${t}» que solo tenéis vosotros (muestra, periodo y metodología visibles).`],
+  ["media",t=>`Media original: fotos o vídeo del proceso real de «${t}», con antes/después y pies de foto que expliquen lo que se ve.`],
+  ["tool",t=>`Herramienta: una calculadora o comparador de «${t}» alimentado con vuestros datos.`],
+  ["interviews",t=>`Experto interno: entrevista sobre el error más frecuente que veis en «${t}» y cómo lo resolvéis.`],
+  ["tracking",t=>`Histórico propio: cómo ha evolucionado «${t}» en vuestros datos a lo largo del tiempo (precios, rendimiento, demanda).`]
+];
+const ASSET_SOURCES=["Tickets de soporte y preguntas reales de clientes","Datos internos de uso","Devoluciones y reseñas","Pruebas de laboratorio o de campo","Histórico de precios","Casos antes/después","Experiencia del equipo","Fotos o vídeos originales"];
+function nonCommodityAngles(d,c,commodity){
+  const raw=(c.query||d.headings.find(h=>h.level===1)?.text||d.title||"este tema").replace(/[¿?¡!]/g,"").trim(),topic=raw.length>70?raw.slice(0,67)+"…":raw;
+  const declared=ASSET_ANGLES.filter(([k])=>c[k]).map(([,f])=>f(topic));
+  let note;
+  if(declared.length)note=`Ángulos construidos con los activos que has declarado. ${commodity.commodity==="No commodity"?"La página ya es non-commodity: úsalos para reforzar lo que la hace única.":"Pon ese activo en el centro de la página, no como apéndice."}`;
+  else note="No has declarado activos propios. Marca en el contexto los que tengas (casos, pruebas, datos, media, herramienta, entrevistas, histórico) y la propuesta se volverá concreta. Fuentes típicas: "+ASSET_SOURCES.join(" · ")+".";
+  const list=declared.length?declared.slice(0,4):ASSET_SOURCES.slice(0,4).map(x=>`${x}: ¿qué sabéis sobre «${topic}» que no publique nadie más?`);
+  if(/^(\d+|top \d+)\s+(consejos|tips|cosas|claves|ideas|razones|pasos)|^(qué es|que es|what is)\b/i.test(raw))list.unshift(`Convierte el título genérico («${topic}») en un caso concreto, como en los ejemplos de Google: de «7 consejos para comprar tu primera casa» a «Por qué renunciamos a la inspección (y ahorramos 15.000 $)».`);
+  return {list,note}
+}
+function renderAngles(a){
+  const ol=$("#angleList");ol.innerHTML="";a.list.forEach(x=>{const li=document.createElement("li");li.textContent=x;ol.appendChild(li)});$("#angleNote").textContent=a.note
+}
+const YES=/^(s[ií]|y|yes|1|true|x)$/i,NO=/^(no|n|0|false)$/i;
+function pageTypeAudit(c){
+  const lines=String(c.pageTypes||"").split(/\r?\n/).map(l=>l.trim()).filter(Boolean),rows=[],errors=[];
+  const num=v=>{v=String(v??"").replace(/[%\s]/g,"");if(!v)return null;if(/^-?\d{1,3}(\.\d{3})+$/.test(v))v=v.replace(/\./g,"");v=v.replace(",",".");const n=Number(v);return Number.isFinite(n)?n:null};
+  lines.forEach((l,i)=>{
+    const f=l.split(/\t|;|,(?=\s*[\d\-sSnNyY])/).map(x=>x.trim());
+    const urls=num(f[1]),indexed=num(f[2]);
+    if(urls==null||indexed==null||urls<=0){if(!(i===0&&!/\d/.test(f[1]||"")))errors.push(l.slice(0,60));return}
+    rows.push({name:f[0]||`Tipo ${i+1}`,urls,indexed:Math.min(indexed,urls),clicks:num(f[3]),growth:num(f[4]),focus:f[5]?!NO.test(f[5]):true,translation:f[6]?YES.test(f[6]):false})
+  });
+  if(!rows.length)return {rows:[],errors,total:0};
+  const total=rows.reduce((a,r)=>a+r.urls,0),totalIdx=rows.reduce((a,r)=>a+r.indexed,0);
+  const cpus=rows.filter(r=>r.clicks!=null).map(r=>r.clicks/r.urls).sort((a,b)=>a-b),median=cpus.length?cpus[Math.floor((cpus.length-1)/2)]:null;
+  rows.forEach(r=>{
+    r.share=r.urls/total;r.idx=r.indexed/r.urls;r.cpu=r.clicks!=null?r.clicks/r.urls:null;
+    const lowCpu=r.cpu!=null&&median>0&&r.cpu<median*.2;r.alarms=[];
+    if(r.idx<.5)r.alarms.push("Más de la mitad sin indexar: revisa «Rastreada: actualmente sin indexar»");
+    else if(r.idx<.7)r.alarms.push("Indexación parcial");
+    if(r.growth!=null&&r.growth>=100&&r.idx<.7)r.alarms.push("Escalado rápido con poca indexación");
+    if(!r.focus)r.alarms.push("Fuera del foco del site (siteFocusScore / siteRadius)");
+    if(r.translation)r.alarms.push("Traducción: puede bajar la nota del site (caso Softonic)");
+    if(lowCpu&&r.share>=.15)r.alarms.push("Mucho peso en URLs y poco tráfico por URL");
+    if(r.translation||!r.focus){r.action="Sacar del dominio";r.cls="partial";r.why="Muévelo a otro dominio o ccTLD (con hreflang si son idiomas) para que no cuente en la nota del site principal."}
+    else if(r.idx<.3&&(lowCpu||r.cpu===0)){r.action="Eliminar / noindex";r.cls="weak";r.why="Google apenas lo indexa y no trae tráfico: decide si existe una intención real que justifique estas URLs."}
+    else if(r.idx<.5||(lowCpu&&r.share>=.15)){r.action="Consolidar";r.cls="weak";r.why="Junta las URLs con poco valor diferencial en menos páginas más completas."}
+    else if(r.alarms.length){r.action="Mejorar";r.cls="partial";r.why="Pásalo por los cuatro pilares y el test de commodity con una página de muestra."}
+    else{r.action="Mantener y vigilar";r.cls="strong";r.why="Sin alarmas con estos datos."}
+  });
+  const risky=rows.filter(r=>r.action!=="Mantener y vigilar").sort((a,b)=>b.share-a.share);
+  return {rows,errors,total,totalIdx,idx:totalIdx/total,risky,median}
+}
+function renderPageTypes(p){
+  const sum=$("#ptSummary"),body=$("#ptBody"),note=$("#ptNote");sum.innerHTML="";body.innerHTML="";
+  if(!p.rows.length){
+    note.textContent=p.errors.length?`No se pudo leer el inventario (${p.errors.length} línea(s) sin URLs/indexadas numéricas). Formato: tipo; urls; indexadas; clics; crecimiento %; en foco; traducción.`:"Pega tu inventario de page types en «Contexto opcional» para ver qué plantillas pueden estar arrastrando la nota del site.";
+    body.innerHTML='<tr><td colspan="8">Sin inventario de page types.</td></tr>';return
+  }
+  [["URLs totales",p.total.toLocaleString("es-ES"),`${p.rows.length} page types`],["Indexado global",Math.round(p.idx*100)+"%",`${p.totalIdx.toLocaleString("es-ES")} URLs indexadas`],["Page types con acción",p.risky.length,"mejorar, consolidar, sacar o eliminar"],["Mayor riesgo",p.risky[0]?.name||"Ninguno",p.risky[0]?`${Math.round(p.risky[0].share*100)}% de las URLs`:"sin alarmas"]].forEach(([l,v,s])=>{const e=document.createElement("article");e.className="panel ledger-card";e.innerHTML=`<div class="label">${esc(l)}</div><div class="lv">${esc(v)}</div><div class="ls">${esc(s)}</div>`;sum.appendChild(e)});
+  p.rows.forEach(r=>{const tr=document.createElement("tr");tr.innerHTML=`<td><strong>${esc(r.name)}</strong></td><td>${r.urls.toLocaleString("es-ES")}</td><td>${Math.round(r.share*100)}%</td><td class="${r.idx>=.7?"cell-good":r.idx>=.5?"cell-mid":"cell-bad"}">${Math.round(r.idx*100)}%</td><td>${r.cpu==null?"—":r.cpu.toFixed(r.cpu<10?2:0)}</td><td>${r.growth==null?"—":(r.growth>0?"+":"")+r.growth+"%"}</td><td>${r.alarms.length?r.alarms.map(a=>`<span class="pt-alarm">${esc(a)}</span>`).join(""):"—"}</td><td><span class="pill ${r.cls}">${esc(r.action)}</span><div class="note">${esc(r.why)}</div></td>`;body.appendChild(tr)});
+  note.textContent=`Las acciones son [Criterio propio] a partir de tus datos. Google rankea páginas, pero cada página hereda la reputación de su site, y la recuperación tras un core update suele tardar 3–6 meses (hasta el siguiente core en el peor caso).${p.errors.length?` Se ignoraron ${p.errors.length} línea(s) mal formadas.`:""}`
+}
+function qualityReportMarkdown(r){
+  const q=r.quality,com=r.commodity,v=r.qVerdict,c=r.ctx,d=r.data,name=c.pageTypeName||d.title||d.headings.find(h=>h.level===1)?.text||c.pageUrl||"Página auditada";
+  const lowest=r.flags.filter(f=>f.severity==="lowest"),low=r.flags.filter(f=>f.severity==="low"),acc=q.pillars.find(x=>x.name==="Precisión");
+  const weakest=[...q.pillars].sort((a,b)=>a.score-b.score)[0];
+  let why;
+  if(lowest.length)why=`Hay una red flag de nivel Lowest (${lowest.map(f=>f.title).join(", ")}): manda sobre la suma de pilares.`;
+  else if(r.ymyl.yes&&acc.score<3)why=`Tema YMYL con Precisión ${acc.score.toFixed(1)}/4: por debajo de 3 el veredicto queda limitado a «En riesgo».`;
+  else if(com.commodity==="Commodity")why="La página es commodity: podría haberla escrito cualquiera y no aporta nada que solo tengáis vosotros.";
+  else if(com.commodity==="Parcialmente commodity")why=`Núcleo genérico con algunos elementos propios; el pilar más débil es ${weakest.name} (${weakest.score.toFixed(1)}/4).`;
+  else why=`El pilar más débil es ${weakest.name} (${weakest.score.toFixed(1)}/4)${low.length?` y hay ${low.length} red flag(s) de nivel Low`:""}.`;
+  const top=com.tests.find(t=>/líderes/.test(t.name)),swap=com.tests.find(t=>/intercambio/.test(t.name)),tpl=com.tests.find(t=>/plantilla/.test(t.name));
+  const topTxt=!top||top.score==null?"no comprobado (pega los resultados del top 10 en el contexto)":top.partial?`parcialmente comprobado (solo títulos o snippets) · ${top.state}`:`${top.state} · ${top.text}`;
+  const assets=[["investigación/datos propios",c.research],["casos reales",c.cases],["pruebas propias",c.tests],["media original",c.media],["herramienta/dataset",c.tool],["entrevistas a expertos",c.interviews],["seguimiento histórico",c.tracking]].filter(x=>x[1]).map(x=>x[0]);
+  const cell=t=>String(t||"").replace(/\|/g,"/").replace(/\s+/g," ").trim();
+  const L=[`# Auditoría de quality: ${name}`,"",`**Veredicto:** ${v.name} (${q.total.toFixed(1)}/16, ${com.commodity.toLowerCase()})`,why,"","## Propósito de la página",`${r.purpose}${c.query?` para la intención «${c.query}»`:""}. YMYL: ${r.ymyl.yes?"sí":"no"} (${r.ymyl.why}).`];
+  const years=(d.dates||[]).map(x=>+(String(x).match(/\b(19|20)\d{2}\b/)||[])[0]).filter(Boolean),last=years.length?Math.max(...years):null,now=new Date().getFullYear();
+  if(last&&now-last>=2)L.push(`Fecha más reciente detectada: ${last}. Se juzga la página tal como está hoy: comprueba que la información sigue vigente y actualiza lo que haya caducado.`);
+  if(r.signals.queryFit!=null&&r.signals.queryFit<.25)L.push(`Needs Met: la página encaja poco con la query objetivo (${Math.round(r.signals.queryFit*100)}%). Aunque su Page Quality fuera alta, “useless is useless” (QRG 14.0).`);
+  L.push("","## Cuatro pilares","| Pilar | Nota | Evidencia | Corrección |","|---|---|---|---|");
+  q.pillars.forEach(p=>{const rl=rubricLevel(p.name,p.score);L.push(`| ${p.name} | ${p.score.toFixed(1)}/4 | ${cell(p.evidence)} Nivel ${rl.lvl}: ${cell(rl.text)} | ${cell(p.fix)}${rl.next!=null?` Para subir a ${rl.next}: ${cell(rl.nextText)}`:""} |`)});
+  L.push("","## Test de commodity",`- Test de intercambio de marca: ${swap.state} · ${swap.text}`,`- Test top 10: ${topTxt}`,`- Activos solo-tuyos usados: ${assets.length?assets.join(", "):"ninguno"}`,`- Ángulo non-commodity a producir: ${r.angles.list[0]||"—"}`,`- Test de plantilla: ${tpl.state} · ${tpl.text}`);
+  L.push("","## Red flags");
+  const real=r.flags.filter(f=>f.severity!=="clear");
+  if(real.length)real.forEach(f=>L.push(`- **${f.title}** (${f.severity==="lowest"?"Lowest":"Low"}): ${f.body} — ${f.source}`));else L.push("Ninguna encontrada con la evidencia disponible.");
+  const sv=r.siteView.filter(x=>x.cls!=="na");
+  if(sv.length){L.push("","## Vista de plantilla y site");sv.forEach(x=>L.push(`- **${x.title} — ${x.status}:** ${x.body}`))}
+  if(r.pageTypes?.rows.length){L.push("","### Page types","| Page type | URLs | % indexado | Acción |","|---|---|---|---|");r.pageTypes.rows.forEach(p=>L.push(`| ${cell(p.name)} | ${p.urls} | ${Math.round(p.idx*100)}% | ${p.action} |`))}
+  L.push("","## Señales Google relacionadas");
+  if(r.leaks.length){L.push("| Hallazgo | Señal | Evidencia |","|---|---|---|");r.leaks.forEach(x=>L.push(`| ${cell(x.finding)} | \`${x.signal}\` | ${cell(x.doc)} ${cell(x.link)} |`))}else L.push("Sin señales que aporten algo para esta página.");
+  L.push("","## Acciones prioritarias");
+  const acts=[];
+  if(lowest.length)acts.push(`Resuelve primero: ${lowest.map(f=>f.title).join(", ")}.`);
+  if(com.commodity!=="No commodity"&&r.angles.list[0])acts.push(`Produce el ángulo non-commodity: ${r.angles.list[0]}`);
+  [...q.pillars].filter(p=>p.score<3).sort((a,b)=>a.score-b.score).forEach(p=>acts.push(`${p.name} (${p.score.toFixed(1)}/4): ${p.fix}`));
+  r.actions.slice(0,5).forEach(a=>{if(acts.length<6&&!acts.some(x=>x.startsWith(a.title)||x.endsWith(a.fix)))acts.push(`${a.title}: ${a.fix}`)});
+  (acts.length?acts:["Mantén el nivel actual y vuelve a auditar tras cambios relevantes."]).slice(0,6).forEach((a,i)=>L.push(`${i+1}. ${a}`));
+  if(c.coreDrop)L.push("",`Recuperación: si el site perdió tráfico en un core update${c.coreDropPct?` (−${c.coreDropPct}%)`:""}, espera ver los cambios en 3 a 6 meses, o en el siguiente core update. Los sistemas tienen que confirmar que el site en su conjunto ha mejorado.`);
+  L.push("","---","Heurística para priorizar trabajo; no es la puntuación de Google. Etiquetas: [Documentado], [Inferencia], [Hipótesis], [Criterio propio]. Metodología: google-quality-audit (Nacho Mascort).");
+  return L.join("\n")
+}
+function runQuality(r){
+  r.angles=nonCommodityAngles(r.data,r.ctx,r.commodity);r.pageTypes=pageTypeAudit(r.ctx);r.qualityReport=qualityReportMarkdown(r);
+  renderAngles(r.angles);renderPageTypes(r.pageTypes);
+  $("#qreportTitle").textContent=`${r.qVerdict.name} · ${r.quality.total.toFixed(1)}/16 · ${r.commodity.commodity}`;$("#qualityReport").textContent=r.qualityReport
+}
+$("#qreportDl").addEventListener("click",()=>{if(!latest?.qualityReport)return;const blob=new Blob([latest.qualityReport],{type:"text/markdown;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="informe-quality.md";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)});
 
 })();
 </script>
