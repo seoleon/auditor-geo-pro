@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Auditor GEO PRO V8.2 — Analiza URLs en vivo: GEO, quality de Google, legibilidad y publicación</title>
-<meta name="description" content="Auditor GEO gratuito para analizar citabilidad IA, calidad del contenido principal, E-E-A-T, revisión humana, evidencia, schemas, crawlers y preparación para ChatGPT Search, Perplexity y Google AI Overviews.">
+<meta name="description" content="Auditor GEO gratuito: mete URLs o un sitemap y analiza citabilidad IA, quality de Google, E-E-A-T, legibilidad, evidencia, schemas, crawlers y preparación para ChatGPT Search, Perplexity y Google AI Overviews.">
 <meta name="theme-color" content="#171713">
 <meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.webmanifest">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Auditor GEO PRO V8 · Monstruo">
-<meta property="og:description" content="Auditoría GEO y de calidad 100% local en el navegador, sin backend ni APIs.">
+<meta property="og:title" content="Auditor GEO PRO V8.2 · Modo bestia">
+<meta property="og:description" content="Mete URLs o un sitemap y obtén una auditoría GEO, de quality de Google, legibilidad y rastreo técnico. El análisis ocurre en tu navegador.">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171713'/%3E%3Cpath d='M17 18h30v8H27v8h16v8H27v12H17z' fill='%23fffaf3'/%3E%3C/svg%3E">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8","softwareVersion":"8.2.1","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, calidad MC 2026, E-E-A-T, citabilidad IA, evidencia, schemas y preparación técnica que funciona íntegramente en el navegador."}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8.2","softwareVersion":"8.2.1","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, quality de Google, E-E-A-T, citabilidad IA, legibilidad, evidencia, schemas y rastreo técnico de URLs y sitemaps. El análisis ocurre en el navegador."}
 </script>
 <style>
 :root{
@@ -2826,7 +2826,7 @@ const AI_SEARCH_BOTS=["OAI-SearchBot","ChatGPT-User","PerplexityBot","Perplexity
 const AI_TRAIN_BOTS=["GPTBot","Google-Extended","ClaudeBot","CCBot","Applebot-Extended","Bytespider","meta-externalagent","Amazonbot"];
 function genRobotsTxt(r,policy){
   let origin="https://tusitio.es";try{origin=new URL(r.ctx.pageUrl||r.data.canonical).origin}catch(e){}
-  const out=["# robots.txt generado por Auditor GEO PRO V8 — revísalo antes de publicar","","User-agent: *","Allow: /",""];
+  const out=["# robots.txt generado por Auditor GEO PRO — revísalo antes de publicar","","User-agent: *","Allow: /",""];
   out.push("# Buscadores y asistentes con IA (citan y enlazan fuentes)");
   AI_SEARCH_BOTS.forEach(b=>out.push(`User-agent: ${b}`,policy==="none"?"Disallow: /":"Allow: /",""));
   out.push("# Crawlers de entrenamiento de modelos / controles de uso de IA");

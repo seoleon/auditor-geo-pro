@@ -119,7 +119,7 @@ npm test
 GitHub Actions las ejecuta en cada push y pull request —las de la app en **Chromium, Firefox y WebKit (Safari)**— y la publicación en GitHub Pages solo se realiza si todas pasan. Para probar en otro navegador en local: `BROWSER=firefox node --test tests/e2e.test.mjs` (tras `npx playwright install firefox`).
 
 ## 🔒 Privacidad
-Todo el análisis ocurre en tu navegador. El contenido auditado no se envía a ningún servidor ni se guarda. El service worker solo almacena en caché los archivos de la propia aplicación para que funcione sin conexión.
+Todo el análisis ocurre en tu navegador y no se guarda nada: ni cookies ni `localStorage`. Cuando analizas URLs, las páginas las descarga **tu propio** rastreador (`npm start` en tu equipo o tu Worker de Cloudflare); ningún servicio de terceros ve qué analizas. El service worker solo guarda en caché los archivos de la propia aplicación para que funcione sin conexión, nunca las páginas rastreadas.
 
 ## 📁 Estructura
 
