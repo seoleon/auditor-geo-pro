@@ -389,3 +389,35 @@ test("fuzzing: respuestas malformadas dan resultados o errores claros en españo
     }
   } finally { await new Promise(r => s.close(r)); }
 });
+
+test("marcador «Auditar con GEO PRO»: audita la web visitada sin servidor ni CORS", async () => {
+  const context = await browser.newContext({ permissions: ["clipboard-read", "clipboard-write"] });
+  const app = await context.newPage();
+  await app.goto(base);
+  const href = await app.getAttribute("#bookmarklet", "href");
+  assert.match(href, /^javascript:/);
+  assert.equal(await app.isVisible("#bookmarkletBox"), true);
+  // Pulsarlo dentro del propio auditor no hace nada raro: solo explica cómo usarlo
+  await app.click("#bookmarklet");
+  assert.equal(context.pages().length, 1);
+  // Mensajes de páginas cualquiera se ignoran si el auditor no se abrió desde el marcador
+  await app.evaluate(() => window.postMessage({ type: "auditor-geo-pro:page", url: "https://malo.example/", html: "<h1>inyectado</h1>" }, "*"));
+  await app.waitForTimeout(300);
+  assert.equal(await app.inputValue("#source"), "");
+  // En la web que se quiere auditar (otro origen), se ejecuta el marcador
+  const site = await context.newPage();
+  await site.goto(fx + "/guia/");
+  const [popup] = await Promise.all([context.waitForEvent("page"), site.evaluate(decodeURIComponent(href.slice("javascript:".length)))]);
+  const errors = [];
+  popup.on("console", m => { if (m.type() === "error") errors.push(m.text()); });
+  popup.on("pageerror", e => errors.push(e.message));
+  await popup.waitForFunction(() => document.querySelector("#results").style.display === "block", null, { timeout: 15000 });
+  assert.equal(await popup.inputValue("#pageUrl"), fx + "/guia/");
+  assert.match(await popup.textContent("#serpTitle"), /Optimización GEO/);
+  assert.match(await popup.textContent("#crawlLog"), /recibida desde el marcador/);
+  assert.equal(new URL(popup.url()).hash, "", "se limpia el #desde-marcador");
+  // Respaldo: el HTML queda copiado al portapapeles
+  assert.match(await site.evaluate(() => navigator.clipboard.readText()), /Optimización GEO/);
+  assert.deepEqual(errors, []);
+  await context.close();
+});

@@ -63,8 +63,11 @@ Integra la skill **google-quality-audit** y el análisis «Quality en Google» d
 - **Rastreo en vivo**: estado HTTP, cadena de redirecciones, URL final, HTTPS/HSTS, `X-Robots-Tag`, tiempo de respuesta, peso del HTML, Content-Type y Last-Modified.
 - **Seguro por diseño**: el rastreador solo acepta http(s), bloquea redes privadas y locales en cada conexión (anti-SSRF, también tras redirecciones), limita a 5 redirecciones, 8 MB y 20 s por URL, y no expone ningún archivo del servidor.
 
+#### Marcador «Auditar con GEO PRO» (sin instalar nada) 🆕
+En la sección «Analizar URLs en vivo» hay un botón **★ Auditar con GEO PRO**. Arrástralo una vez a tu barra de marcadores. Después, en cualquier web, púlsalo: se abre el auditor con esa página ya auditada, tal como la ve tu navegador (incluido el contenido que carga JavaScript). Funciona también en la versión publicada en GitHub Pages, sin servidor ni Worker. Si un sitio bloquea la ventana emergente, el marcador deja el HTML copiado para pegarlo con Ctrl+V.
+
 #### ¿Y en GitHub Pages?
-Los navegadores no permiten que una web descargue páginas de otros dominios. En la versión publicada, despliega el **Worker gratuito de Cloudflare** incluido (5 minutos, guía en [`worker/README.md`](worker/README.md)) y pon su URL en `auditor.config.json`. Sin Worker, la versión publicada sigue funcionando pegando el HTML.
+Los navegadores no permiten que una web descargue páginas de otros dominios. En la versión publicada, despliega el **Worker gratuito de Cloudflare** incluido (5 minutos, guía en [`worker/README.md`](worker/README.md)) y pon su URL en `auditor.config.json`. Sin Worker, la versión publicada funciona con el marcador o pegando el HTML; el Worker añade el análisis de listas de URLs y sitemaps.
 
 ### Productividad
 - Carga de archivos por arrastrar y soltar; varios archivos = **auditoría por lotes** + detección de **canibalización**.

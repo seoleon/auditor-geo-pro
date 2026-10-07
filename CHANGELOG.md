@@ -1,5 +1,12 @@
 # Registro de cambios
 
+## [8.3.0] · Marcador «Auditar con GEO PRO»
+### Añadido
+- Marcador arrastrable a la barra de marcadores: en cualquier web abre el auditor con la página ya auditada, tal como la renderiza el navegador. Funciona en la versión publicada sin servidor ni Worker; copia también el HTML al portapapeles como respaldo.
+- El auditor solo acepta páginas cuando se abre desde el marcador (`#desde-marcador`) y confirma la recepción.
+- Mensajes de «sin rastreo» y de CORS que explican el marcador como alternativa inmediata.
+- Prueba e2e del marcador entre orígenes distintos (38 en total) y prueba manual en una web real (GitHub).
+
 ## [8.2.1] · Revisión a fondo: fallos corregidos
 ### Corregido
 - Worker: una respuesta 204 sin contenido lo rompía («Cannot read properties of null»).

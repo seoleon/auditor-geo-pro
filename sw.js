@@ -1,6 +1,6 @@
 // Service worker de Auditor GEO PRO: cachea la app para que funcione sin conexión.
 // No intercepta ni almacena datos auditados: solo los archivos estáticos de la aplicación.
-const CACHE = "auditor-geo-pro-v8.2.1";
+const CACHE = "auditor-geo-pro-v8.3.0";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon.svg"];
 
 self.addEventListener("install", event => {
