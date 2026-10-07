@@ -1,10 +1,10 @@
-name: Monitor GEO semanal
+name: Monitor GEO (APIs de pago)
 
-# Cada lunes a las 05:17 UTC (≈ 7:17 en Madrid) pregunta a ChatGPT, Claude, Gemini y Perplexity,
-# guarda las respuestas en monitor/datos y publica el informe como artefacto.
+# OPCIONAL. El modo gratuito (versiones web de cada motor) se ejecuta en tu ordenador con
+# "node src/cli.js capturar" o "node src/cli.js ejecutar": necesita tu navegador y tus sesiones.
+# Este workflow usa las APIs de pago (modo "api"), por eso solo se lanza a mano.
+# Para programarlo cada lunes, añade:  schedule: [{ cron: '17 5 * * 1' }]
 on:
-  schedule:
-    - cron: '17 5 * * 1'
   workflow_dispatch:
     inputs:
       limite:
@@ -63,7 +63,7 @@ jobs:
           [ -n "$LIMITE" ] && args+=(--limite "$LIMITE")
           [ -n "$MOTORES" ] && args+=(--motores "$MOTORES")
           # Código 2 = algunas preguntas fallaron: se guarda lo obtenido igualmente.
-          node src/cli.js ejecutar "${args[@]}" || [ $? -eq 2 ]
+          node src/cli.js ejecutar --modo api "${args[@]}" || [ $? -eq 2 ]
 
       - name: Guardar resultados en el repositorio
         if: steps.config.outputs.listo == 'true'

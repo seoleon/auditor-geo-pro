@@ -2,11 +2,13 @@
 
 ## [8.2.0] · geo-monitor
 ### Añadido
-- `monitor/`: herramienta Node que pregunta a ChatGPT (Responses + web_search), Claude (web_search), Gemini (Google Search grounding) y Perplexity (Sonar), guarda cada respuesta y registra marcas nombradas, posición, URLs y dominios citados.
+- `monitor/`: herramienta Node que pregunta a las versiones gratuitas de ChatGPT, Claude, Gemini, Perplexity y Google AI Mode y guarda cada respuesta con las marcas nombradas, su posición y las URLs y dominios citados.
+- Modo gratuito por defecto: captura asistida (panel local + marcador del navegador) y navegador automático con Playwright (perfil propio, chat temporal en ChatGPT, pausas, reanudación semanal, detección de captchas y cupos, capturas de diagnóstico).
+- Modo API opcional (de pago): ChatGPT (Responses + web_search), Claude (web_search), Gemini (Google Search grounding) y Perplexity (Sonar).
 - Inspección de las URLs más citadas: marcado de esquema (JSON-LD y microdatos) y `llms.txt`/`llms-full.txt` de cada dominio.
 - Informe HTML semanal (mención, citación, cuota de voz, huecos, ganadas/perdidas, evolución), `citas.csv`, `marcas.csv` e `historico.csv`.
 - Comandos `huecos` y `reescribir` (brief y reescritura con Claude: página, FAQ y JSON-LD), y generadores de `llms.txt` y schema para tu web.
-- Workflow de GitHub Actions cada lunes y pruebas del monitor en CI.
+- Workflow de GitHub Actions para el modo API (bajo demanda) y pruebas del monitor en CI.
 
 ## [8.1.0] · Quality de Google
 ### Añadido

@@ -2,3 +2,5 @@ node_modules/
 datos-demo/
 config.local.json
 .env
+# Perfil del navegador con tus sesiones iniciadas: NUNCA lo subas
+.perfil-navegador/

@@ -19,6 +19,10 @@ export function prepararMotores(config, { soloMotores, simular, env = process.en
   for (const m of MOTORES) {
     const conf = config.motores[m];
     if (!conf?.activo || (soloMotores && !soloMotores.includes(m))) continue;
+    if (!simular && !IMPLEMENTACIONES[m]) {
+      omitidos.push(`${NOMBRES_MOTOR[m]} (solo en modo navegador)`);
+      continue;
+    }
     if (simular) {
       activos.push({ motor: m, modelo: `simulado-${m}`, preguntar: crearSimulado(m, config) });
       continue;
@@ -40,12 +44,36 @@ export function prepararMotores(config, { soloMotores, simular, env = process.en
   return { activos, omitidos };
 }
 
+/** Registro común a los modos API, navegador y asistido. */
+export function construirRegistro({ fecha, pregunta, motor, modelo, fuente }, r, marcas) {
+  const citas = unirCitas(r.citas, r.texto);
+  return {
+    fecha,
+    id: pregunta.id,
+    categoria: pregunta.categoria,
+    pregunta: pregunta.texto,
+    motor,
+    modelo: r.modelo || modelo,
+    fuente,
+    texto: r.texto,
+    citas,
+    consultadas: r.consultadas ? unirCitas(r.consultadas, '') : undefined,
+    marcas: detectarMarcas(r.texto, citas, marcas),
+  };
+}
+
 async function enParalelo(tareas, limite, fn) {
   let i = 0;
   const trabajadores = Array.from({ length: Math.min(limite, tareas.length) }, async () => {
     while (i < tareas.length) await fn(tareas[i++]);
   });
   await Promise.all(trabajadores);
+}
+
+/** Guarda meta.json de la ejecución. */
+export async function escribirMeta(config, fecha, datos) {
+  const ruta = path.join(dirEjecucion(config, fecha), 'meta.json');
+  await guardarJson(ruta, { fecha, terminado: new Date().toISOString(), ...datos });
 }
 
 export async function ejecutar(config, preguntas, { fecha, soloMotores, simular, reintentarErrores = true, log = console.log, env, fetchImpl } = {}) {
@@ -69,17 +97,10 @@ export async function ejecutar(config, preguntas, { fecha, soloMotores, simular,
       completadas += preguntas.length - pendientes.length;
       return enParalelo(pendientes, config.concurrencia, async (p) => {
         const inicio = Date.now();
-        const registro = { fecha, id: p.id, categoria: p.categoria, pregunta: p.texto, motor, modelo };
+        let registro = { fecha, id: p.id, categoria: p.categoria, pregunta: p.texto, motor, modelo, fuente: 'api' };
         try {
           const r = await conReintentos(() => preguntar(p.texto), { reintentos: config.reintentos });
-          const citas = unirCitas(r.citas, r.texto);
-          Object.assign(registro, {
-            modelo: r.modelo || modelo,
-            texto: r.texto,
-            citas,
-            consultadas: r.consultadas ? unirCitas(r.consultadas, '') : undefined,
-            marcas: detectarMarcas(r.texto, citas, marcas),
-          });
+          registro = construirRegistro({ fecha, pregunta: p, motor, modelo, fuente: simular ? 'simulado' : 'api' }, r, marcas);
         } catch (err) {
           errores++;
           registro.error = String(err?.message || err).slice(0, 500);

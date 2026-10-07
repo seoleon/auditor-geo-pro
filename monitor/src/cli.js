@@ -8,18 +8,21 @@ import { cargarConfig, MOTORES, CLAVES_API, NOMBRES_MOTOR } from './config.js';
 import { parsearPreguntas, idPregunta } from './extraer.js';
 import { ejecutar } from './ejecutar.js';
 import { inspeccionar } from './inspeccionar.js';
-import { analizar, comparar } from './analizar.js';
-import { escribirInforme, actualizarHistorico } from './informe.js';
-import { listarEjecuciones, leerRespuestas, leerJson, dirEjecucion, dirDatos, fechaHoy } from './almacen.js';
+import { analizar } from './analizar.js';
+import { generarSalidas } from './salidas.js';
+import { listarEjecuciones, leerRespuestas, leerJson, dirEjecucion, dirDatos, fechaHoy, fechaSemana } from './almacen.js';
 import { generarLlmsTxt, generarEsquema, etiquetaScript } from './generar.js';
-import { htmlATexto, contextoPregunta, construirBrief, pedirReescritura, informeHuecos, limitarTextoPagina } from './reescribir.js';
+import { htmlATexto, contextoPregunta, construirBrief, pedirReescritura, limitarTextoPagina } from './reescribir.js';
 
-const AYUDA = `geo-monitor · visibilidad de tu marca en ChatGPT, Claude, Gemini y Perplexity
+const AYUDA = `geo-monitor · visibilidad de tu marca en las versiones gratuitas de ChatGPT, Claude, Gemini, Perplexity y Google AI Mode
 
 Uso: node src/cli.js <comando> [opciones]
 
-Comandos
+Comandos (gratis: usan las versiones gratuitas de cada motor en tu navegador)
+  capturar     Panel local: abre cada pregunta en tu navegador y guardas la respuesta con un marcador (manual, 100 % seguro)
+  acceder      Abre el navegador automático para iniciar sesión una vez en cada motor
   ejecutar     Hace todas las preguntas, guarda respuestas, inspecciona schema/llms.txt y genera el informe
+               (modo "navegador": automatiza las webs gratuitas; modo "api": APIs de pago)
   informe      Regenera el informe de una ejecución ya guardada
   huecos       Escribe huecos.md: preguntas donde no apareces y quién aparece en tu lugar
   reescribir   Brief (y reescritura con Claude) de tu página para las preguntas con hueco
@@ -30,7 +33,9 @@ Comandos
 Opciones
   --config <ruta>       config.json (por defecto ./config.json)
   --preguntas <ruta>    archivo de preguntas (por defecto ./preguntas.txt)
-  --fecha <AAAA-MM-DD>  ejecución a usar (por defecto hoy o la última)
+  --fecha <AAAA-MM-DD>  ejecución a usar (por defecto el lunes de esta semana o la última)
+  --modo <m>            navegador | api (por defecto el de config.json: navegador)
+  --puerto <n>          (capturar) puerto local, por defecto 4567
   --motores <lista>     p. ej. chatgpt,claude
   --limite <n>          solo las n primeras preguntas (para probar)
   --simular             respuestas falsas, sin APIs ni coste
@@ -48,6 +53,8 @@ const { values: op, positionals } = parseArgs({
     config: { type: 'string', default: 'config.json' },
     preguntas: { type: 'string', default: 'preguntas.txt' },
     fecha: { type: 'string' },
+    modo: { type: 'string' },
+    puerto: { type: 'string' },
     motores: { type: 'string' },
     limite: { type: 'string' },
     simular: { type: 'boolean', default: false },
@@ -77,28 +84,6 @@ async function fechaElegida(config) {
   return fechas.at(-1);
 }
 
-/** Analiza una ejecución, la compara con la anterior y escribe informe, CSV, histórico y huecos. */
-async function generarSalidas(config, fecha) {
-  const respuestas = await leerRespuestas(config, fecha);
-  const analisis = analizar(respuestas, config);
-  const fechas = await listarEjecuciones(config);
-  const fechaAnterior = fechas.filter((f) => f < fecha).at(-1);
-  const anterior = fechaAnterior ? analizar(await leerRespuestas(config, fechaAnterior), config) : null;
-  const dir = dirEjecucion(config, fecha);
-  const historico = await actualizarHistorico(config, fecha, analisis);
-  const ruta = await escribirInforme(config, fecha, {
-    respuestas,
-    analisis,
-    comparacion: comparar(analisis, anterior),
-    fechaAnterior,
-    inspeccion: await leerJson(path.join(dir, 'inspeccion.json')),
-    meta: await leerJson(path.join(dir, 'meta.json')),
-    historico,
-  });
-  await writeFile(path.join(dir, 'huecos.md'), informeHuecos(config, fecha, analisis));
-  return { ruta, analisis };
-}
-
 async function main() {
   if (!comando || op.ayuda) {
     console.log(AYUDA);
@@ -108,13 +93,20 @@ async function main() {
 
   switch (comando) {
     case 'ejecutar': {
-      const fecha = op.fecha || fechaHoy();
+      const fecha = op.fecha || fechaSemana();
       const preguntas = await cargarPreguntas(config);
-      const { errores, total } = await ejecutar(config, preguntas, {
-        fecha,
-        simular: op.simular,
-        soloMotores: op.motores?.split(',').map((s) => s.trim()),
-      });
+      const soloMotores = op.motores?.split(',').map((s) => s.trim());
+      const modo = op.modo || config.modo;
+      let errores = 0;
+      let total = 0;
+      if (modo === 'navegador' && !op.simular) {
+        const { ejecutarNavegador } = await import('./navegador/automatico.js');
+        const r = await ejecutarNavegador(config, preguntas, { fecha, soloMotores });
+        errores = r.errores;
+        total = r.pendientes;
+      } else {
+        ({ errores, total } = await ejecutar(config, preguntas, { fecha, simular: op.simular, soloMotores }));
+      }
       if (config.inspeccion.activo && !op['sin-inspeccion'] && !op.simular) {
         await inspeccionar(config, fecha, await leerRespuestas(config, fecha));
       }
@@ -122,9 +114,27 @@ async function main() {
       console.log(`\n✅ Mención de ${config.marca.nombre}: ${analisis.totales.mencion}% · citación: ${analisis.totales.citacion}% · huecos: ${analisis.huecos.length}`);
       console.log(`📄 Informe: ${ruta}`);
       if (errores) {
-        console.log(`⚠️  ${errores}/${total} preguntas fallaron. Vuelve a lanzar el mismo comando para reintentarlas.`);
+        console.log(`⚠️  ${errores} preguntas fallaron${modo === 'navegador' ? ` y quedan ${total} pendientes` : ''}. Vuelve a lanzar el mismo comando esta semana para completarlas.`);
         process.exitCode = 2;
       }
+      break;
+    }
+    case 'acceder': {
+      const { acceder } = await import('./navegador/automatico.js');
+      await acceder(config);
+      console.log('✅ Sesiones guardadas. Ya puedes lanzar: node src/cli.js ejecutar');
+      break;
+    }
+    case 'capturar': {
+      const { crearServidor } = await import('./navegador/asistido.js');
+      const fecha = op.fecha || fechaSemana();
+      const preguntas = await cargarPreguntas(config);
+      const { servidor, url } = crearServidor(config, preguntas, { fecha, puerto: Number(op.puerto || 4567) });
+      servidor.listen(Number(op.puerto || 4567), '127.0.0.1', () => {
+        console.log(`🧭 Panel de captura de la semana ${fecha}: ${url}`);
+        console.log('   Ábrelo en tu navegador habitual. Ctrl+C para salir.');
+      });
+      await new Promise((r) => servidor.on('close', r));
       break;
     }
     case 'informe': {
@@ -166,10 +176,13 @@ async function main() {
       break;
     }
     case 'motores': {
+      console.log(`Modo: ${config.modo}${config.modo === 'navegador' ? ' (versiones gratuitas, sin claves)' : ''}`);
       for (const m of MOTORES) {
         const c = config.motores[m];
-        const clave = process.env[CLAVES_API[m]] ? 'clave OK' : `falta ${CLAVES_API[m]}`;
-        console.log(`${c.activo ? '✔' : '✖'} ${NOMBRES_MOTOR[m].padEnd(11)} ${c.modelo.padEnd(22)} ${c.activo ? clave : 'desactivado'}`);
+        const detalle = config.modo === 'navegador'
+          ? 'web gratuita'
+          : CLAVES_API[m] ? `${c.modelo} · ${process.env[CLAVES_API[m]] ? 'clave OK' : `falta ${CLAVES_API[m]}`}` : 'solo modo navegador';
+        console.log(`${c.activo ? '✔' : '✖'} ${NOMBRES_MOTOR[m].padEnd(15)} ${c.activo ? detalle : 'desactivado'}`);
       }
       break;
     }

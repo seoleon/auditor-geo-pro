@@ -54,14 +54,15 @@ Integra la skill **google-quality-audit** y el análisis «Quality en Google» d
 - **Tema claro/oscuro** 🆕, **atajos de teclado** 🆕 y **PWA instalable que funciona sin conexión** 🆕.
 
 ## 📡 Monitor semanal de citas en IA (`monitor/`) 🆕
-La app audita una página; **geo-monitor** mide el resultado. Cada lunes hace tus 100 preguntas reales de compradores a **ChatGPT, Claude, Gemini y Perplexity** con búsqueda web, guarda las respuestas, registra qué marcas y URLs se citan, guarda el schema y el `llms.txt` de las páginas citadas, genera el `llms.txt` y el JSON-LD de tu web y prepara la reescritura de las páginas donde no apareces.
+La app audita una página; **geo-monitor** mide el resultado, **gratis**. Cada semana hace tus 100 preguntas reales de compradores a las **versiones gratuitas de ChatGPT, Claude, Gemini, Perplexity y Google AI Mode**, como un usuario en su navegador. Guarda las respuestas, registra qué marcas y URLs se citan, guarda el schema y el `llms.txt` de las páginas citadas, genera el `llms.txt` y el JSON-LD de tu web y prepara la reescritura de las páginas donde no apareces.
 
 ```bash
 cd monitor && npm install
-node src/cli.js ejecutar --simular --config config.example.json --preguntas preguntas.example.txt
+node src/cli.js capturar     # panel local + marcador: tú preguntas y un clic guarda la respuesta
+node src/cli.js ejecutar     # o deja que Chrome escriba las preguntas por ti
 ```
 
-Instrucciones completas en [monitor/README.md](monitor/README.md). Necesita claves de API y se ejecuta con Node o con GitHub Actions; la app del navegador sigue sin backend.
+Instrucciones completas en [monitor/README.md](monitor/README.md).
 
 ## ⌨️ Atajos de teclado
 
@@ -119,8 +120,8 @@ manifest.webmanifest   # Manifest de la PWA
 sw.js                  # Service worker para uso offline
 icons/icon.svg         # Icono de la app
 tests/e2e.test.mjs     # Pruebas end-to-end (Playwright + axe-core)
-monitor/               # geo-monitor: preguntas semanales a ChatGPT, Claude, Gemini y Perplexity
-.github/workflows/     # Pruebas en CI, despliegue a GitHub Pages y monitor GEO de los lunes
+monitor/               # geo-monitor: preguntas semanales a las versiones gratuitas de ChatGPT, Claude, Gemini, Perplexity y Google AI Mode
+.github/workflows/     # Pruebas en CI, despliegue a GitHub Pages y monitor GEO (modo API, opcional)
 ```
 
 ## 📜 Licencia

@@ -15,6 +15,13 @@ export function fechaHoy(d = new Date()) {
   return d.toISOString().slice(0, 10);
 }
 
+/** Lunes de la semana de `d`: todas las sesiones de una misma semana se guardan juntas. */
+export function fechaSemana(d = new Date()) {
+  const lunes = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  lunes.setUTCDate(lunes.getUTCDate() - ((lunes.getUTCDay() + 6) % 7));
+  return lunes.toISOString().slice(0, 10);
+}
+
 export async function listarEjecuciones(config) {
   const base = path.join(dirDatos(config), 'ejecuciones');
   if (!existsSync(base)) return [];
@@ -64,4 +71,11 @@ export function csv(filas) {
     return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
   return filas.map((f) => f.map(celda).join(',')).join('\n') + '\n';
+}
+
+/** Escribe meta.json de la ejecución solo si aún no existe. */
+export async function escribirMetaSiFalta(config, fecha, datos) {
+  const ruta = path.join(dirEjecucion(config, fecha), 'meta.json');
+  if (existsSync(ruta)) return;
+  await guardarJson(ruta, { fecha, ...datos });
 }

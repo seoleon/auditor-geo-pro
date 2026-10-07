@@ -1,18 +1,20 @@
-# geo-monitor · ¿Te citan ChatGPT, Claude, Gemini y Perplexity?
+# geo-monitor · ¿Qué marcas y webs recomiendan las IA gratuitas a tus compradores?
 
-Hace cada lunes las mismas preguntas reales de compradores (por ejemplo, 100) a **ChatGPT, Claude, Gemini y Perplexity** con búsqueda web activada, **guarda todas las respuestas** y registra **qué marcas se nombran y qué URLs se citan**. Además visita las páginas citadas para guardar su **marcado de esquema (JSON-LD)** y el **`llms.txt`** de cada dominio, genera el `llms.txt` y el schema de tu web y, por último, te ayuda a **reescribir** las páginas de las preguntas en las que no apareces.
+Hace cada semana las mismas preguntas reales de compradores (por ejemplo, 100) a las **versiones gratuitas** de **ChatGPT, Claude, Gemini, Perplexity y Google AI Mode**, como lo haría cualquier usuario en su navegador. **Guarda todas las respuestas** y registra **qué marcas se nombran y qué URLs se citan**. Además guarda el **marcado de esquema** y el **`llms.txt`** de las páginas citadas, genera el `llms.txt` y el schema de tu web y te ayuda a **reescribir** las páginas de las preguntas en las que no apareces.
+
+**Coste: 0 €.** No necesita claves de API: usa las webs gratuitas de cada motor en tu ordenador.
 
 ```
-preguntas.txt ──► 4 motores con búsqueda web ──► respuestas.jsonl
-                                                  │
-     informe.html · citas.csv · marcas.csv ◄──────┤ marcas, posición, URLs y dominios
-     inspeccion.json · llms/<dominio>.txt  ◄──────┤ schema y llms.txt de las páginas citadas
-     huecos.md ──► reescribir ──► página reescrita + FAQ + JSON-LD
+preguntas.txt ──► webs gratuitas (tu navegador) ──► respuestas.jsonl
+                                                      │
+     informe.html · citas.csv · marcas.csv ◄──────────┤ marcas, posición, URLs y dominios
+     inspeccion.json · llms/<dominio>.txt  ◄──────────┤ schema y llms.txt de las páginas citadas
+     huecos.md ──► reescribir ──► brief para tu página (pégalo en cualquier chat gratuito)
 ```
 
 ## 1. Instalación
 
-Necesitas Node.js 20 o superior.
+Necesitas Node.js 20 o superior y Google Chrome.
 
 ```bash
 cd monitor
@@ -21,25 +23,41 @@ cp config.example.json config.json       # tu marca, competidores y páginas
 cp preguntas.example.txt preguntas.txt   # tus 100 preguntas de compradores
 ```
 
-Pruébalo sin claves ni coste con datos simulados:
+## 2. Dos formas gratuitas de hacer las preguntas
+
+### A. Captura asistida (recomendada para empezar): tú preguntas y un clic guarda la respuesta
 
 ```bash
-node src/cli.js ejecutar --simular --config config.example.json --preguntas preguntas.example.txt
-# abre datos-demo/ultimo-informe.html
+node src/cli.js capturar
+# abre http://127.0.0.1:4567 en tu navegador de siempre
 ```
 
-## 2. Claves de API
+1. Arrastra el botón **📥 Guardar respuesta GEO** a tu barra de marcadores (solo la primera vez).
+2. En el panel, pulsa **Abrir** en una casilla: la pregunta se abre en ese motor y se copia al portapapeles. En ChatGPT, Perplexity y Google se envía sola; en Claude y Gemini, pégala y pulsa Enter.
+3. Cuando termine de responder, pulsa el marcador. Guarda el texto y **todos los enlaces que muestra la respuesta**, y el panel marca la casilla ✓.
+4. Al acabar, pulsa **Generar informe**.
 
-| Motor | Variable | Dónde se obtiene | Qué API se usa |
-| --- | --- | --- | --- |
-| ChatGPT | `OPENAI_API_KEY` | platform.openai.com | Responses API + herramienta `web_search` |
-| Claude | `ANTHROPIC_API_KEY` | platform.claude.com | Messages API + herramienta `web_search` |
-| Gemini | `GEMINI_API_KEY` | aistudio.google.com | `generateContent` + grounding con Google Search |
-| Perplexity | `PERPLEXITY_API_KEY` | perplexity.ai/settings/api | Sonar (`chat/completions`) |
+Es la forma más fiel a un usuario real: tu navegador, sin automatizar nada. Si el marcador no encuentra la respuesta (las webs cambian), selecciona su texto con el ratón y vuelve a pulsarlo, o pégala a mano en el formulario del panel.
 
-Los motores sin clave se omiten con un aviso. `node src/cli.js motores` muestra cuáles están listos.
+### B. Navegador automático: escribe las preguntas por ti
 
-> Las APIs con búsqueda web se parecen a lo que ve un usuario, pero no son idénticas a la app de ChatGPT, Gemini o Perplexity (personalización, ubicación, versión del modelo). Por eso no se añade instrucción de sistema por defecto y se fija el país (`"pais": "ES"`). Mira tendencias de varias semanas, no un único dato.
+```bash
+node src/cli.js acceder    # primera vez: abre Chrome; inicia sesión en cada motor y ciérralo
+node src/cli.js ejecutar   # escribe cada pregunta, espera a que termine la respuesta y la guarda
+```
+
+- Abre un Chrome real y visible con su **propio perfil** (`.perfil-navegador/`, nunca se sube a git). Va motor por motor en pestañas, con pausas de 15–45 s entre preguntas.
+- ChatGPT se abre en **chat temporal** con búsqueda web, sin memoria ni historial.
+- Si un motor pide captcha, iniciar sesión o **agota el cupo gratuito**, ese motor se detiene y los demás siguen. **Vuelve a lanzar `ejecutar` más tarde esa misma semana** y continúa donde lo dejó: todo lo de una semana se guarda junto, en la carpeta del lunes.
+- Si no encuentra la respuesta, guarda una captura y el HTML en `datos/ejecuciones/<lunes>/diagnostico/` para ajustar los selectores.
+
+> ⚠️ Automatizar las webs de consumo puede ir contra sus condiciones de uso y provocar captchas o bloqueos de la cuenta. Usa cuentas gratuitas dedicadas, ritmo humano (100 preguntas por semana) o, si prefieres no arriesgar, la captura asistida.
+
+### Límites de las versiones gratuitas
+
+- **Claude** gratis tiene un cupo de mensajes cada pocas horas: 100 preguntas suelen necesitar varias sesiones a lo largo de la semana. El monitor reanuda automáticamente.
+- **ChatGPT** gratis cambia a un modelo más pequeño al agotar su cupo del modelo principal. Es lo mismo que le pasa a un usuario real.
+- **Gemini** y **Google AI Mode** pueden pedir verificación si detectan muchas consultas seguidas.
 
 ## 3. Preguntas
 
@@ -52,26 +70,16 @@ alternativas | Alternativas a Holded más baratas
 
 - Sácalas de Search Console, ventas, soporte, foros, Reddit y «La gente también pregunta».
 - Escríbelas como un comprador, **sin nombrar tu marca**.
-- Mantén las mismas cada semana: el ID de cada pregunta sale de su texto y es lo que permite comparar semana a semana. Si cambias una, cuenta como pregunta nueva.
+- Mantén las mismas cada semana: el ID de cada pregunta sale de su texto y es lo que permite comparar semana a semana.
 
-## 4. Ejecución semanal
+## 4. Cada lunes
 
-```bash
-export OPENAI_API_KEY=… ANTHROPIC_API_KEY=… GEMINI_API_KEY=… PERPLEXITY_API_KEY=…
-node src/cli.js ejecutar
-```
+Lanza `capturar` o `ejecutar` el lunes (o cuando puedas esa semana). Para que `ejecutar` arranque solo, programa una tarea en tu ordenador con la sesión abierta:
 
-100 preguntas × 4 motores = 400 consultas, con 3 en paralelo por motor y reintentos ante errores 429/5xx. Si se corta, **vuelve a lanzar el mismo comando**: solo repite lo que falta o falló ese día. Para probar con pocas: `--limite 5 --motores claude,perplexity`.
+- **macOS / Linux** (`crontab -e`): `17 9 * * 1 cd /ruta/a/monitor && /usr/local/bin/node src/cli.js ejecutar >> datos/cron.log 2>&1`
+- **Windows** (Programador de tareas): acción `node`, argumentos `src\cli.js ejecutar`, carpeta de inicio la de `monitor`, desencadenador semanal los lunes.
 
-### Automático cada lunes con GitHub Actions
-
-El workflow `.github/workflows/geo-monitor.yml` se ejecuta **cada lunes a las 05:17 UTC**:
-
-1. Haz commit de `monitor/config.json` y `monitor/preguntas.txt`.
-2. En GitHub: **Settings → Secrets and variables → Actions** y crea `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY` y `PERPLEXITY_API_KEY`.
-3. Listo. Cada lunes el workflow guarda los resultados en `monitor/datos/` con un commit y deja el informe como artefacto. También puedes lanzarlo a mano desde **Actions → Monitor GEO semanal → Run workflow**.
-
-> ⚠️ Si el repositorio es público, `monitor/datos/` (respuestas, competidores y huecos) también lo será.
+Ejecuta `node src/cli.js informe` para regenerar el informe de la última semana cuando quieras.
 
 ## 5. Qué se guarda
 
@@ -79,25 +87,27 @@ El workflow `.github/workflows/geo-monitor.yml` se ejecuta **cada lunes a las 05
 datos/
 ├── historico.csv                 # % de mención y citación por semana y motor
 ├── ultimo-informe.html
-└── ejecuciones/2026-10-05/
-    ├── respuestas.jsonl          # una línea por pregunta × motor: texto completo, citas, marcas
+└── ejecuciones/2026-10-05/       # una carpeta por semana (fecha del lunes)
+    ├── respuestas.jsonl          # una línea por pregunta × motor: texto completo, enlaces, marcas
     ├── citas.csv                 # cada URL citada (para hojas de cálculo / Looker Studio)
     ├── marcas.csv                # cada marca detectada, con posición y si se citó su dominio
     ├── inspeccion.json           # schema (JSON-LD y microdatos), título, H1 y fecha de las URLs más citadas
     ├── llms/<dominio>.txt        # llms.txt (y llms-full.txt) de los dominios citados
     ├── huecos.md                 # preguntas donde no apareces y quién aparece en tu lugar
+    ├── diagnostico/              # capturas cuando una respuesta no se pudo leer
     ├── informe.html
     └── meta.json
 ```
 
 **Métricas**
 
-- **Mención**: el texto nombra tu marca o un alias (sin distinguir mayúsculas ni acentos y con límites de palabra: «Anfixer» no cuenta como «Anfix»).
-- **Citación**: la respuesta enlaza a uno de tus dominios (o subdominios).
+- **Mención**: el texto nombra tu marca o un alias. No distingue mayúsculas ni acentos y respeta los límites de palabra: «Anfixer» no cuenta como «Anfix».
+- **Citación**: la respuesta enlaza a uno de tus dominios.
 - **Posición**: orden en que aparece tu marca frente a las vigiladas.
 - **Cuota de voz**: % de respuestas que nombran cada marca, por motor.
 - **Huecos**: preguntas en las que al menos un motor no te nombra ni te cita.
-- En Claude se guardan aparte las fuentes **consultadas** que no llegó a citar (`consultadas`).
+
+Las respuestas de la IA cambian entre usuarios y días: fíjate en la tendencia de varias semanas, no en un dato suelto.
 
 ## 6. Luego, reescribir
 
@@ -107,12 +117,9 @@ node src/cli.js reescribir --url https://tu-dominio.com/precios --categoria prec
 node src/cli.js reescribir --url https://tu-dominio.com/comparativa --pregunta 4425f0dbf0,cb6033b018
 ```
 
-`reescribir` descarga tu página, junta lo que respondió cada motor a esas preguntas, a quién citó y qué schema usan esas fuentes, y guarda en `datos/reescrituras/`:
+`reescribir` descarga tu página y junta lo que respondió cada motor a esas preguntas, a quién citó y qué schema usan esas fuentes. Con todo eso guarda en `datos/reescrituras/*.brief.md` un encargo completo. **Pégalo en la versión gratuita de Claude o ChatGPT** y obtendrás el diagnóstico, la página reescrita con respuestas directas al inicio de cada sección, las FAQ, el JSON-LD y acciones fuera de la página. (Si algún día tienes `ANTHROPIC_API_KEY`, la reescritura se hace sola.)
 
-- `*.brief.md`: el encargo completo (sirve para cualquier asistente o redactor).
-- `*.md`: con `ANTHROPIC_API_KEY`, la reescritura de Claude: diagnóstico, página reescrita con respuestas directas al inicio de cada sección, FAQ, JSON-LD y acciones fuera de la página. Los datos que falten quedan como `[DATO: …]`: revísalos antes de publicar.
-
-Publica, deja pasar unas semanas y mide en el informe qué preguntas pasan a **ganadas**.
+Publica, deja pasar unas semanas y mira en el informe qué preguntas pasan a **ganadas**.
 
 ## 7. llms.txt y schema de tu web
 
@@ -121,7 +128,7 @@ node src/cli.js llms     # datos/salida/llms.txt  → súbelo a https://tu-domin
 node src/cli.js schema   # datos/salida/schema.html → <script type="application/ld+json"> para el <head>
 ```
 
-- `llms.txt` sigue el formato de llmstxt.org con las `paginas` de `config.json` agrupadas por `seccion` y las preguntas de compradores enlazadas a la página de su categoría.
+- `llms.txt` sigue el formato de llmstxt.org: las `paginas` de `config.json` agrupadas por `seccion` y las preguntas de compradores enlazadas a la página de su categoría.
 - El schema incluye `Organization` y `WebSite`, y `FAQPage` si rellenas `faq` en `config.json`. No inventa respuestas.
 
 ## 8. Configuración (`config.json`)
@@ -130,17 +137,26 @@ node src/cli.js schema   # datos/salida/schema.html → <script type="applicatio
 | --- | --- |
 | `marca` | `nombre`, `alias`, `dominios`, `url`, `descripcion`, `logo`, `sameAs` |
 | `competidores` | lista de `{ nombre, alias, dominios }` a vigilar |
-| `pais`, `idioma` | ubicación aproximada para la búsqueda web e idioma de las salidas |
-| `motores.<motor>` | `activo`, `modelo`; en Claude también `esfuerzo` y `maxBusquedas` |
-| `concurrencia`, `reintentos` | peticiones en paralelo por motor y reintentos |
-| `instruccionSistema` | opcional; por defecto ninguna, para parecerse al uso real |
+| `modo` | `navegador` (gratis, por defecto) o `api` (de pago, ver abajo) |
+| `motores.<motor>.activo` | `chatgpt`, `claude`, `gemini`, `perplexity`, `google` |
+| `motores.<motor>.web` | sobrescribe `url`, `selRespuesta`, `selPregunta`, `selFuentes`, `selEditor` si una web cambia |
+| `navegador` | `canal` (`chrome` o `chromium`), `perfil`, `oculto`, `pausaMinSeg`, `pausaMaxSeg`, `esperaMaxSeg` |
 | `inspeccion` | `activo` y `maxUrls` (URLs más citadas cuyo schema se guarda) |
 | `paginas` | tus URLs con `titulo`, `descripcion`, `seccion` y `categorias` (llms.txt y reescritura) |
 | `faq`, `faqUrl` | preguntas y respuestas para el `FAQPage` |
-| `reescritura` | `modelo` y `esfuerzo` de Claude para reescribir |
 | `datos` | carpeta de resultados (por defecto `datos`) |
 
-Los nombres de modelo cambian a menudo: actualízalos en `config.json` sin tocar el código.
+### Si una web cambia y deja de leerse
+
+Abre la captura de `diagnostico/`, busca en el HTML el elemento que contiene la respuesta y pon su selector CSS en `config.json`:
+
+```json
+"motores": { "gemini": { "activo": true, "web": { "selRespuesta": "model-response .markdown" } } }
+```
+
+## Opcional: modo API (de pago)
+
+Si algún día quieres automatizarlo en la nube, `"modo": "api"` (o `--modo api`) usa las APIs oficiales con búsqueda web: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY` y `PERPLEXITY_API_KEY`. Google AI Mode no tiene API. El workflow `.github/workflows/geo-monitor.yml` lo ejecuta en GitHub Actions bajo demanda. Las respuestas de las APIs no son idénticas a las de las webs gratuitas.
 
 ## Pruebas
 
@@ -148,4 +164,4 @@ Los nombres de modelo cambian a menudo: actualízalos en `config.json` sin tocar
 npm test
 ```
 
-Cubren la lectura de las respuestas de las cuatro APIs (con `fetch` simulado), la detección de marcas y URLs, la reanudación de ejecuciones, las métricas, la comparación semanal, el escapado del informe, la extracción de schema, el `llms.txt` y el JSON-LD generados.
+Cubren el modo navegador automático y la captura asistida con réplicas locales de cada web. Comprueban las respuestas que llegan poco a poco, el editor en el que hay que escribir, los enlaces de redirección de Google, los captchas, la reanudación, el marcador y el token del panel. También cubren la lectura de las cuatro APIs, la detección de marcas y URLs, las métricas, la comparación semanal, el informe, el schema y el `llms.txt`.

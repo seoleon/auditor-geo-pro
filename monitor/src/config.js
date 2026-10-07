@@ -2,13 +2,14 @@ import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
-export const MOTORES = ['chatgpt', 'claude', 'gemini', 'perplexity'];
+export const MOTORES = ['chatgpt', 'claude', 'gemini', 'perplexity', 'google'];
 
 export const NOMBRES_MOTOR = {
   chatgpt: 'ChatGPT',
   claude: 'Claude',
   gemini: 'Gemini',
   perplexity: 'Perplexity',
+  google: 'Google AI Mode',
 };
 
 export const CLAVES_API = {
@@ -19,6 +20,8 @@ export const CLAVES_API = {
 };
 
 const POR_DEFECTO = {
+  // 'navegador': versiones gratuitas en tu navegador (lo que ve un usuario). 'api': APIs de pago.
+  modo: 'navegador',
   idioma: 'es',
   pais: 'ES',
   concurrencia: 3,
@@ -28,6 +31,15 @@ const POR_DEFECTO = {
     claude: { activo: true, modelo: 'claude-opus-5-5', esfuerzo: 'medium', maxBusquedas: 5 },
     gemini: { activo: true, modelo: 'gemini-2.5-flash' },
     perplexity: { activo: true, modelo: 'sonar-pro' },
+    google: { activo: true },
+  },
+  navegador: {
+    canal: 'chrome',
+    perfil: '.perfil-navegador',
+    oculto: false,
+    pausaMinSeg: 15,
+    pausaMaxSeg: 45,
+    esperaMaxSeg: 180,
   },
   inspeccion: { activo: true, maxUrls: 30 },
   reescritura: { modelo: 'claude-opus-5-5', esfuerzo: 'high' },
@@ -51,6 +63,7 @@ export async function cargarConfig(ruta) {
     ...datos,
     motores,
     inspeccion: { ...POR_DEFECTO.inspeccion, ...(datos.inspeccion || {}) },
+    navegador: { ...POR_DEFECTO.navegador, ...(datos.navegador || {}) },
     reescritura: { ...POR_DEFECTO.reescritura, ...(datos.reescritura || {}) },
     _dir: path.dirname(path.resolve(ruta)),
   };
