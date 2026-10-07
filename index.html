@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171713'/%3E%3Cpath d='M17 18h30v8H27v8h16v8H27v12H17z' fill='%23fffaf3'/%3E%3C/svg%3E">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8.2","softwareVersion":"8.2.1","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, quality de Google, E-E-A-T, citabilidad IA, legibilidad, evidencia, schemas y rastreo técnico de URLs y sitemaps. El análisis ocurre en el navegador."}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8.2","softwareVersion":"8.3.0","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, quality de Google, E-E-A-T, citabilidad IA, legibilidad, evidencia, schemas y rastreo técnico de URLs y sitemaps. El análisis ocurre en el navegador."}
 </script>
 <style>
 :root{
@@ -480,6 +480,10 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 .chip.on{background:var(--green-soft);color:var(--green);border-color:transparent}.chip.off{background:var(--amber-soft);color:var(--amber);border-color:transparent}
 .batch-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
+.bookmarklet-box{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px;padding:10px 12px;border:1px dashed var(--line);border-radius:14px;background:var(--paper2)}
+.bookmarklet-box[hidden]{display:none}
+.bookmarklet{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:800;font-size:12px;text-decoration:none;cursor:grab;white-space:nowrap}
+.bookmarklet-box .help{flex:1 1 280px;margin:0}
 </style>
 </head>
 <body>
@@ -503,6 +507,10 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
       <label class="tick inline"><input type="checkbox" id="autoExtras" checked> Traer robots.txt y llms.txt</label>
     </div>
     <div class="help" id="crawlerHelp">Comprobando si hay un servidor de rastreo disponible…</div>
+    <div class="bookmarklet-box" id="bookmarkletBox" hidden>
+      <a class="bookmarklet" id="bookmarklet" href="#" title="Arrástrame a la barra de marcadores">★ Auditar con GEO PRO</a>
+      <span class="help">Sin instalar nada: arrastra este botón a tu barra de marcadores. Después, en cualquier web, púlsalo y se abrirá aquí ya auditada (también copia su HTML al portapapeles por si el sitio bloquea la ventana).</span>
+    </div>
     <ol class="crawl-log" id="crawlLog" aria-live="polite"></ol>
   </div>
   <div class="or-sep"><span>o pega el contenido</span></div>
@@ -2640,7 +2648,7 @@ $("#downloadBtn").addEventListener("click",()=>{
 });
 $("#jsonBtn").addEventListener("click",()=>{
   if(!latest)return;
-  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},qualityReport:latest.qualityReport,nonCommodityAngles:latest.angles,pageTypes:latest.pageTypes,crawl:latest.crawl,version:"8.2.1",summary:{type:latest.data.type,words:latest.signals.wc}};
+  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},qualityReport:latest.qualityReport,nonCommodityAngles:latest.angles,pageTypes:latest.pageTypes,crawl:latest.crawl,version:"8.3.0",summary:{type:latest.data.type,words:latest.signals.wc}};
   const blob=new Blob([JSON.stringify(safe,null,2)],{type:"application/json;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
   a.href=url;a.download="auditoria-geo-calidad.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)
 });
@@ -3041,7 +3049,7 @@ async function detectCrawler(){
     try{const ctrl=new AbortController(),t=setTimeout(()=>ctrl.abort(),6000);const r=await fetch(base+"/api/health",{signal:ctrl.signal,cache:"no-store"});clearTimeout(t);const j=await r.json();if(j&&j.ok){crawlerBase=base;set(true,"RASTREO ACTIVO","Rastreo a través de tu Worker configurado en auditor.config.json. La auditoría sigue ocurriendo en tu navegador.");return}}catch(e){}
     set(false,"WORKER NO RESPONDE",`El Worker configurado (${base}) no responde. Revisa su despliegue o la variable ALLOWED_ORIGIN (guía en worker/README.md).`);return
   }
-  set(false,"SIN RASTREO","Esta versión publicada no tiene servidor de rastreo: solo podrá descargar webs que permitan CORS. Despliega el Worker gratuito (worker/README.md) o ejecuta «npm start» en local.")
+  set(false,"SIN RASTREO","Esta versión publicada no descarga webs por sí sola (el navegador lo impide). Usa el marcador «Auditar con GEO PRO» de abajo: funciona en cualquier web sin instalar nada. Para analizar listas y sitemaps, despliega el Worker gratuito (worker/README.md) o ejecuta «npm start».")
 }
 function normalizeUrl(s){
   s=String(s||"").trim();if(!s)return null;if(!/^[a-z][a-z0-9+.-]*:\/\//i.test(s))s="https://"+s;
@@ -3056,7 +3064,7 @@ async function fetchUrl(url){
     return j
   }
   const t0=performance.now();let res;
-  try{res=await fetch(url,{cache:"no-store",redirect:"follow"})}catch(e){throw new Error("La web no permite descargarla desde el navegador (CORS). Ejecuta «npm start» o configura el Worker.")}
+  try{res=await fetch(url,{cache:"no-store",redirect:"follow"})}catch(e){throw new Error("La web no permite descargarla desde el navegador (CORS). Sin instalar nada: abre la web y pulsa el marcador «Auditar con GEO PRO». También puedes ejecutar «npm start» o configurar el Worker.")}
   const body=await res.text(),headers={};["content-type","x-robots-tag","last-modified","cache-control","content-language"].forEach(k=>{const v=res.headers.get(k);if(v!=null)headers[k]=v});
   return {ok:true,url,finalUrl:res.url||url,status:res.status,statusText:res.statusText||"",redirects:res.redirected?[{url,status:"3xx"}]:[],headers,ms:Math.round(performance.now()-t0),bytes:body.length,body,direct:true}
 }
@@ -3219,6 +3227,36 @@ function openBatchDoc(name){
 $("#batchBody").addEventListener("click",e=>{const b=e.target.closest("[data-open-doc]");if(b)openBatchDoc(b.dataset.openDoc)});
 $("#batchCsvBtn").addEventListener("click",()=>{if(!batchLatest.length)return;const blob=new Blob(["﻿"+batchCsv()],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="auditoria-lote.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)});
 detectCrawler();
+
+/* ===== Marcador «Auditar con GEO PRO»: envía el HTML de la página visitada al auditor ===== */
+// Se ejecuta en la web que se quiere auditar (no puede usar nada de este archivo): abre el auditor y le
+// envía el HTML ya renderizado por postMessage; además lo copia al portapapeles como respaldo.
+function auditorBookmarklet(A,O){var h="<!doctype html>\n"+document.documentElement.outerHTML,d={type:"auditor-geo-pro:page",url:location.href,html:h};try{navigator.clipboard&&navigator.clipboard.writeText(h).catch(function(){})}catch(e){}var w=window.open(A+"#desde-marcador","_blank");if(!w){alert("Auditor GEO PRO: permite las ventanas emergentes en este sitio, o abre el auditor y pega (Ctrl+V) el HTML que se ha copiado.");return}var n=0,t=setInterval(function(){n++;try{w.postMessage(d,O)}catch(e){}if(n>80)clearInterval(t)},250);window.addEventListener("message",function(e){if(e.origin===O&&e.data==="auditor-geo-pro:ok")clearInterval(t)})}
+let bookmarkletDone=false;
+if(/^https?:$/.test(location.protocol)){
+  const appUrl=location.origin+location.pathname.replace(/[^/]*$/,""),bm=$("#bookmarklet");
+  bm.href="javascript:"+encodeURIComponent("("+auditorBookmarklet.toString()+")("+JSON.stringify(appUrl)+","+JSON.stringify(location.origin)+")");
+  bm.addEventListener("click",e=>{e.preventDefault();toast("Arrástralo a tu barra de marcadores y púlsalo en la web que quieras auditar.")});
+  $("#bookmarkletBox").hidden=false;
+}
+// Solo se aceptan páginas cuando el auditor se abrió desde el marcador (#desde-marcador).
+addEventListener("message",e=>{
+  const d=e.data;
+  if(location.hash!=="#desde-marcador"||!d||d.type!=="auditor-geo-pro:page"||typeof d.html!=="string"||typeof d.url!=="string")return;
+  try{e.source&&e.source.postMessage("auditor-geo-pro:ok",e.origin)}catch(err){}
+  if(bookmarkletDone)return;
+  bookmarkletDone=true;
+  if(d.html.length>MAX_INPUT_CHARS){toast("La página supera el límite de 8 millones de caracteres.");return}
+  const u=normalizeUrl(d.url);
+  currentCrawl=null;$("#crawlLog").innerHTML="";
+  if(u){$("#pageUrl").value=u;$("#urlList").value=u}
+  source.value=d.html.replace(/\r\n?/g,"\n");$("#formatChip").textContent=detectType(source.value).toUpperCase();
+  $("#fileState").textContent=u?`DESDE EL MARCADOR · ${new URL(u).host}`:"DESDE EL MARCADOR";
+  crawlLog(`✓ Página recibida desde el marcador: ${u||"sin URL"} (${Math.round(d.html.length/1024)} KB, tal como la ve tu navegador)`,"ok");
+  run();
+  history.replaceState(null,"",location.pathname+location.search);
+});
+if(location.hash==="#desde-marcador")setTimeout(()=>{if(!bookmarkletDone){crawlLog("No ha llegado la página desde el marcador (algunos sitios bloquean la conexión entre ventanas). Su HTML se ha copiado: pégalo con Ctrl+V en el cuadro de abajo y pulsa «Auditar página».","warn");source.focus()}},6000);
 
 })();
 </script>
