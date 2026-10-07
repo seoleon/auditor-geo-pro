@@ -1,0 +1,22 @@
+# Preguntas reales de compradores, una por línea.
+# Formato opcional: categoría | pregunta   (la categoría agrupa el informe y enlaza con "paginas" en config.json)
+# Sácalas de: búsquedas de Search Console, preguntas de ventas y soporte, Reddit/foros, "La gente también pregunta".
+# Escríbelas como las teclearía un comprador, sin nombrar tu marca. Objetivo: 100 preguntas.
+
+recomendacion | ¿Cuál es el mejor programa de facturación para autónomos en España?
+recomendacion | ¿Qué software de facturación me recomiendas si estoy empezando como autónomo?
+recomendacion | Mejor app para hacer facturas desde el móvil
+recomendacion | Programa de facturación sencillo para una pyme de 10 empleados
+precio | ¿Hay algún programa de facturación gratis que sea legal en España?
+precio | ¿Cuánto cuesta un software de facturación para autónomos al mes?
+precio | Programa de facturación barato con contabilidad incluida
+normativa | ¿Qué programas de facturación están adaptados a Verifactu?
+normativa | ¿Qué software de facturación cumple con TicketBAI?
+normativa | ¿Tengo que cambiar de programa de facturación por la Ley Antifraude?
+comparativa | Holded o Quipu, ¿cuál es mejor para un autónomo?
+comparativa | Comparativa de programas de facturación online 2026
+alternativas | Alternativas a Holded más baratas
+alternativas | Alternativas a Anfix para autónomos
+funciones | Programa de facturación que se conecte con mi banco
+funciones | Software para hacer presupuestos y facturas recurrentes
+funciones | ¿Qué programa de facturación permite presentar el modelo 303?

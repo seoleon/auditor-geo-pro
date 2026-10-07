@@ -1,5 +1,13 @@
 # Registro de cambios
 
+## [8.2.0] · geo-monitor
+### Añadido
+- `monitor/`: herramienta Node que pregunta a ChatGPT (Responses + web_search), Claude (web_search), Gemini (Google Search grounding) y Perplexity (Sonar), guarda cada respuesta y registra marcas nombradas, posición, URLs y dominios citados.
+- Inspección de las URLs más citadas: marcado de esquema (JSON-LD y microdatos) y `llms.txt`/`llms-full.txt` de cada dominio.
+- Informe HTML semanal (mención, citación, cuota de voz, huecos, ganadas/perdidas, evolución), `citas.csv`, `marcas.csv` e `historico.csv`.
+- Comandos `huecos` y `reescribir` (brief y reescritura con Claude: página, FAQ y JSON-LD), y generadores de `llms.txt` y schema para tu web.
+- Workflow de GitHub Actions cada lunes y pruebas del monitor en CI.
+
 ## [8.1.0] · Quality de Google
 ### Añadido
 - Metodología google-quality-audit (Nacho Mascort): rúbrica 0–4 visible por pilar con nivel siguiente, informe de quality con su plantilla (copiar/descargar), ángulos non-commodity y ejemplos de Google.

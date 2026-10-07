@@ -1,0 +1,65 @@
+{
+  "marca": {
+    "nombre": "Facturalia",
+    "alias": ["Facturalia.app"],
+    "dominios": ["facturalia.app"],
+    "url": "https://facturalia.app",
+    "descripcion": "Software de facturación online para autónomos y pymes en España, compatible con Verifactu y TicketBAI.",
+    "logo": "https://facturalia.app/logo.png",
+    "sameAs": ["https://www.linkedin.com/company/facturalia", "https://x.com/facturalia"]
+  },
+  "competidores": [
+    { "nombre": "Holded", "dominios": ["holded.com"] },
+    { "nombre": "Quipu", "alias": ["getquipu"], "dominios": ["getquipu.com"] },
+    { "nombre": "Anfix", "dominios": ["anfix.com"] },
+    { "nombre": "Billin", "dominios": ["billin.net"] }
+  ],
+  "idioma": "es",
+  "pais": "ES",
+  "datos": "datos-demo",
+  "concurrencia": 3,
+  "motores": {
+    "chatgpt": { "activo": true, "modelo": "gpt-5" },
+    "claude": { "activo": true, "modelo": "claude-opus-5-5", "esfuerzo": "medium", "maxBusquedas": 5 },
+    "gemini": { "activo": true, "modelo": "gemini-2.5-flash" },
+    "perplexity": { "activo": true, "modelo": "sonar-pro" }
+  },
+  "inspeccion": { "activo": true, "maxUrls": 30 },
+  "reescritura": { "modelo": "claude-opus-5-5", "esfuerzo": "high" },
+  "paginas": [
+    {
+      "url": "https://facturalia.app/precios",
+      "titulo": "Precios de Facturalia",
+      "descripcion": "Planes, precio por mes y qué incluye cada uno.",
+      "seccion": "Producto",
+      "categorias": ["precio"]
+    },
+    {
+      "url": "https://facturalia.app/verifactu",
+      "titulo": "Verifactu con Facturalia",
+      "descripcion": "Cómo cumple Facturalia la normativa Verifactu y TicketBAI.",
+      "seccion": "Producto",
+      "categorias": ["normativa"]
+    },
+    {
+      "url": "https://facturalia.app/comparativa",
+      "titulo": "Facturalia frente a Holded, Quipu y Anfix",
+      "descripcion": "Comparativa de funciones y precios.",
+      "seccion": "Comparativas",
+      "categorias": ["comparativa", "alternativas"]
+    },
+    {
+      "url": "https://facturalia.app/blog",
+      "titulo": "Blog",
+      "descripcion": "Guías de facturación e impuestos para autónomos.",
+      "seccion": "Optional"
+    }
+  ],
+  "faqUrl": "https://facturalia.app/precios",
+  "faq": [
+    {
+      "pregunta": "¿Cuánto cuesta Facturalia?",
+      "respuesta": "Facturalia tiene un plan gratuito para hasta 5 facturas al mes y planes de pago desde 9 € al mes."
+    }
+  ]
+}

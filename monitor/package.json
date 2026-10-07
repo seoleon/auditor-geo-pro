@@ -1,0 +1,23 @@
+{
+  "name": "geo-monitor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pregunta cada semana a ChatGPT, Claude, Gemini y Perplexity, guarda las respuestas y registra qué marcas y URLs citan.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "geo-monitor": "src/cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "ejecutar": "node src/cli.js ejecutar",
+    "simular": "node src/cli.js ejecutar --simular",
+    "informe": "node src/cli.js informe",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0"
+  }
+}

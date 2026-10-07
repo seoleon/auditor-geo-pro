@@ -1,0 +1,84 @@
+name: Monitor GEO semanal
+
+# Cada lunes a las 05:17 UTC (≈ 7:17 en Madrid) pregunta a ChatGPT, Claude, Gemini y Perplexity,
+# guarda las respuestas en monitor/datos y publica el informe como artefacto.
+on:
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
+    inputs:
+      limite:
+        description: 'Solo las N primeras preguntas (vacío = todas)'
+        required: false
+      motores:
+        description: 'Motores separados por comas (vacío = todos los activos)'
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: geo-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: monitor
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: monitor/package-lock.json
+
+      - name: Comprobar configuración
+        id: config
+        run: |
+          if [ -f config.json ] && [ -f preguntas.txt ]; then
+            echo "listo=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Falta monitor/config.json o monitor/preguntas.txt. Cópialos desde los .example y haz commit."
+            echo "listo=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.config.outputs.listo == 'true'
+        run: npm ci
+
+      - name: Preguntar a los motores
+        if: steps.config.outputs.listo == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+          LIMITE: ${{ inputs.limite }}
+          MOTORES: ${{ inputs.motores }}
+        run: |
+          args=()
+          [ -n "$LIMITE" ] && args+=(--limite "$LIMITE")
+          [ -n "$MOTORES" ] && args+=(--motores "$MOTORES")
+          # Código 2 = algunas preguntas fallaron: se guarda lo obtenido igualmente.
+          node src/cli.js ejecutar "${args[@]}" || [ $? -eq 2 ]
+
+      - name: Guardar resultados en el repositorio
+        if: steps.config.outputs.listo == 'true'
+        run: |
+          git config user.name "geo-monitor"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add datos
+          git diff --cached --quiet && exit 0
+          git commit -m "Monitor GEO: ejecución del $(date -u +%F)"
+          for i in 1 2 3; do git pull --rebase && git push && break; sleep $((i * 5)); done
+
+      - uses: actions/upload-artifact@v4
+        if: steps.config.outputs.listo == 'true'
+        with:
+          name: informe-geo
+          path: |
+            monitor/datos/ultimo-informe.html
+            monitor/datos/ejecuciones/*/huecos.md
