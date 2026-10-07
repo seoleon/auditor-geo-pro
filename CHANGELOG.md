@@ -1,5 +1,27 @@
 # Registro de cambios
 
+## [8.2.1] · Revisión a fondo: fallos corregidos
+### Corregido
+- Servidor: una ruta mal codificada (`/%E0%A4%A`) tumbaba el proceso; ahora responde 400.
+- Servidor y Worker: el límite de 20 s era de inactividad y un servidor que gotea bytes bloqueaba el rastreo indefinidamente; ahora es un límite total.
+- Servidor: escuchaba en todas las interfaces (proxy abierto en la red local); ahora solo en 127.0.0.1 salvo `HOST`.
+- Servidor: bombas de compresión limitadas a 8 MB descomprimidos; soporte de deflate crudo y sitemaps `.xml.gz`; mensajes claros ante redirecciones inválidas.
+- Service worker: guardaba en caché las páginas rastreadas (`/api/`); ahora solo cachea los archivos de la app.
+- robots.txt: la precedencia ignoraba los comodines al medir la regla más específica y no se tenían en cuenta los parámetros de la URL (RFC 9309).
+- YMYL: falsos positivos con «medición», «investigación», «taxonomía», «diagnóstico», «es seguro», «seguridad web» o «tratamiento de datos».
+- Preguntas: «Es…», «Son…», «Como…», «Puede…», «Debe…» se contaban como preguntas, y «Qué es…» sin signos no.
+- Claims y contenido sensible al tiempo: «único», «#1», «últimos» y «estadísticas» no se detectaban por las tildes.
+- Enlazado interno: las anclas (#), `javascript:` y el enlace a la propia página contaban como enlaces internos.
+- X-Robots-Tag: las directivas para otros bots se aplicaban como si fueran para Google.
+- Rastreo: el robots.txt/llms.txt rellenado de un sitio anterior se quedaba al rastrear otro que no lo tiene; las URLs con comas se partían; el registro hacía saltar la página.
+- «Limpiar» desactivaba «Traer robots.txt y llms.txt» y vaciaba el máximo del sitemap.
+- Accesibilidad: todas las tablas con scroll son accesibles por teclado y tienen nombre propio.
+
+### Añadido
+- «Ver» en el lote: abre la auditoría completa de cualquier URL sin volver a descargarla.
+- Pegar una URL en el cuadro principal (o dejarlo vacío con una URL de página) la descarga y audita; Intro en el campo del sitemap lo rastrea.
+- 12 pruebas de regresión nuevas (35 en total).
+
 ## [8.2.0] · Modo bestia: análisis de URLs en vivo
 ### Añadido
 - Analizar URLs: una URL abre la auditoría completa; varias (hasta 50) crean el lote con veredicto de quality y canibalización.

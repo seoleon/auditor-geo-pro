@@ -13,12 +13,20 @@ let fixture, fx, app, base, browser;
 before(async () => {
   fixture = http.createServer((req, res) => {
     const send = (code, type, body, headers = {}) => { res.writeHead(code, { "content-type": type, ...headers }); res.end(body); };
-    switch (req.url) {
+    switch (new URL(req.url, "http://x").pathname) {
       case "/": return send(301, "text/html", "", { location: "/guia/" });
       case "/guia/": return send(200, "text/html; charset=utf-8", zlib.gzipSync(page("Optimización GEO", "La optimización GEO estructura el contenido para motores de respuesta.")), { "content-encoding": "gzip", "last-modified": "Tue, 06 Oct 2026 10:00:00 GMT" });
       case "/oculta/": return send(200, "text/html; charset=utf-8", page("Página oculta", "Contenido que no debería indexarse."), { "x-robots-tag": "noindex" });
       case "/latin/": return send(200, "text/html; charset=iso-8859-1", Buffer.from(page("España y la eñe", "Mañana habrá información útil."), "latin1"));
       case "/pdf": return send(200, "application/pdf", "%PDF-1.4");
+      case "/lento": res.writeHead(200, { "content-type": "text/html" }); { const t = setInterval(() => { if (res.destroyed) return clearInterval(t); res.write("<p>.</p>"); }, 200); req.on("close", () => clearInterval(t)); } return;
+      case "/badloc": return send(302, "text/html", "", { location: "http://[mal" });
+      case "/raw-deflate": return send(200, "text/html; charset=utf-8", zlib.deflateRawSync(page("Deflate crudo", "Contenido comprimido sin cabecera zlib.")), { "content-encoding": "deflate" });
+      case "/bomba": return send(200, "text/html", zlib.gzipSync(Buffer.alloc(20 * 1024 * 1024, 32)), { "content-encoding": "gzip" });
+      case "/sitemap.xml.gz": return send(200, "application/gzip", zlib.gzipSync(`<?xml version="1.0"?><urlset><url><loc>${fx}/guia/</loc></url><url><loc>${fx}/latin/</loc></url></urlset>`));
+      case "/otro-bot/": return send(200, "text/html; charset=utf-8", page("Solo bloquea a otro bot", "Indexable para Google."), { "x-robots-tag": "otrobot: noindex, nofollow" });
+      case "/google-noindex/": return send(200, "text/html; charset=utf-8", page("Bloqueada para Google", "No indexable en Google."), { "x-robots-tag": "max-snippet: 50, googlebot: noindex" });
+      case "/sin-robots/robots.txt": return send(404, "text/html", "<h1>No</h1>");
       case "/loop": return send(302, "text/html", "", { location: "/loop" });
       case "/grande": return send(200, "text/html", "<p>" + "x".repeat(9 * 1024 * 1024) + "</p>");
       case "/robots.txt": return send(200, "text/plain", "User-agent: *\nAllow: /\n\nUser-agent: GPTBot\nDisallow: /\n\nSitemap: /sitemap.xml\n");
@@ -204,4 +212,157 @@ test("app: en hosting estático sin rastreador lo indica sin errores en consola"
   assert.deepEqual(errors, []);
   await context.close();
   await new Promise(r => stat.close(r));
+});
+
+test("regresión: límite de tiempo total, Location inválida, deflate crudo, bomba de compresión y sitemap .gz", async () => {
+  const t0 = Date.now();
+  await assert.rejects(crawl(fx + "/lento", { allowPrivate: true, timeoutMs: 1500 }), /Tiempo de espera/);
+  assert.ok(Date.now() - t0 < 4000, "el goteo lento no debe bloquear el rastreo");
+  await assert.rejects(crawl(fx + "/badloc", { allowPrivate: true }), /redirección no válida/i);
+  assert.match((await crawl(fx + "/raw-deflate", { allowPrivate: true })).body, /Deflate crudo/);
+  await assert.rejects(crawl(fx + "/bomba", { allowPrivate: true }), /8 MB/);
+  assert.match((await crawl(fx + "/sitemap.xml.gz", { allowPrivate: true })).body, /<loc>/);
+  // El Worker aplica las mismas reglas
+  const t1 = Date.now();
+  await assert.rejects(workerCrawl(fx + "/lento", { allowPrivate: true, timeoutMs: 1500 }), /Tiempo de espera/);
+  assert.ok(Date.now() - t1 < 4000);
+  await assert.rejects(workerCrawl(fx + "/badloc", { allowPrivate: true }), /redirección no válida/i);
+  assert.match((await workerCrawl(fx + "/sitemap.xml.gz", { allowPrivate: true })).body, /<loc>/);
+});
+
+test("regresión: una ruta mal codificada no tumba el servidor", async () => {
+  const s = createServer({ allowPrivate: false });
+  await new Promise(r => s.listen(0, "127.0.0.1", r));
+  const b = `http://127.0.0.1:${s.address().port}`;
+  try {
+    const raw = await new Promise((resolve, reject) => { http.get(b + "/%E0%A4%A", r => { r.resume(); resolve(r.statusCode); }).on("error", reject); });
+    assert.equal(raw, 400);
+    assert.equal((await (await fetch(b + "/api/health")).json()).ok, true);
+  } finally { await new Promise(r => s.close(r)); }
+});
+
+test("regresión: npm start solo escucha en localhost (no es un proxy abierto en la red)", async () => {
+  const { spawn } = await import("node:child_process");
+  const os = await import("node:os");
+  const port = 20000 + Math.floor(Math.random() * 20000);
+  const child = spawn(process.execPath, ["server.mjs"], { env: { ...process.env, PORT: String(port) }, stdio: "pipe" });
+  try {
+    await new Promise((resolve, reject) => { child.stdout.on("data", d => /localhost/.test(String(d)) && resolve()); child.on("exit", c => reject(new Error("exit " + c))); setTimeout(() => reject(new Error("timeout")), 8000); });
+    assert.equal((await (await fetch(`http://127.0.0.1:${port}/api/health`)).json()).ok, true);
+    const external = Object.values(os.networkInterfaces()).flat().find(i => i && i.family === "IPv4" && !i.internal);
+    if (external) await assert.rejects(fetch(`http://${external.address}:${port}/api/health`));
+  } finally { child.kill(); }
+});
+
+test("regresión: el service worker no guarda las páginas rastreadas en caché", async () => {
+  const { p, context, errors } = await openApp();
+  await p.evaluate(() => navigator.serviceWorker.ready);
+  await p.reload();
+  await p.waitForFunction(() => !!navigator.serviceWorker.controller && document.querySelector("#crawlerChip").textContent === "RASTREO ACTIVO");
+  await p.fill("#urlList", fx + "/guia/");
+  await p.click("#crawlBtn");
+  await p.waitForFunction(() => /Auditoría completada/.test(document.querySelector("#crawlLog").textContent));
+  await p.waitForTimeout(300);
+  const cached = await p.evaluate(async () => { const out = []; for (const k of await caches.keys()) for (const r of await (await caches.open(k)).keys()) out.push(r.url); return out; });
+  assert.ok(cached.length > 0, "la app sí debe estar en caché");
+  assert.deepEqual(cached.filter(u => u.includes("/api/")), []);
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test("regresión: X-Robots-Tag por bot, robots.txt de otro dominio y URLs con comas", async () => {
+  const { p, context, errors } = await openApp();
+  await p.fill("#urlList", fx + "/otro-bot/");
+  await p.click("#crawlBtn");
+  await p.waitForFunction(() => /Auditoría completada/.test(document.querySelector("#crawlLog").textContent));
+  assert.notEqual(await p.textContent("#releaseState"), "BLOQUEADO");
+  assert.doesNotMatch(await p.locator("#crawlGrid").innerText(), /impide indexar/);
+  await p.fill("#urlList", fx + "/google-noindex/");
+  await p.click("#crawlBtn");
+  await p.waitForFunction(() => /Auditoría completada/.test(document.querySelector("#crawlLog").textContent));
+  assert.equal(await p.textContent("#releaseState"), "BLOQUEADO");
+  // robots.txt/llms.txt rellenados automáticamente se vacían si el nuevo sitio no los tiene
+  assert.match(await p.inputValue("#robots"), /GPTBot/);
+  const other = http.createServer((q, r) => { if (q.url === "/") { r.writeHead(200, { "content-type": "text/html; charset=utf-8" }); r.end(page("Otro sitio", "Sin robots.txt ni llms.txt.")); } else { r.writeHead(404, { "content-type": "text/html" }); r.end("<h1>404</h1>"); } });
+  await new Promise(r => other.listen(0, "127.0.0.1", r));
+  try {
+    await p.fill("#urlList", `http://127.0.0.1:${other.address().port}/`);
+    await p.click("#crawlBtn");
+    await p.waitForFunction(() => /Auditoría completada/.test(document.querySelector("#crawlLog").textContent));
+    assert.equal(await p.inputValue("#robots"), "", "no debe quedar el robots.txt del sitio anterior");
+    assert.equal(await p.inputValue("#llms"), "");
+  } finally { await new Promise(r => other.close(r)); }
+  // Lo que escribe el usuario a mano nunca se sobrescribe
+  await p.evaluate(() => { document.querySelector("details.advanced").open = true; });
+  await p.fill("#robots", "User-agent: *\nDisallow: /privado/");
+  await p.fill("#urlList", fx + "/guia/");
+  await p.click("#crawlBtn");
+  await p.waitForFunction(() => /Auditoría completada/.test(document.querySelector("#crawlLog").textContent));
+  assert.match(await p.inputValue("#robots"), /privado/);
+  // Una URL con coma no se parte
+  await p.fill("#urlList", fx + "/guia/?a=1,2");
+  await p.click("#crawlBtn");
+  await p.waitForFunction(() => /Auditoría completada/.test(document.querySelector("#crawlLog").textContent));
+  assert.equal(await p.inputValue("#pageUrl"), fx + "/guia/?a=1,2");
+  assert.doesNotMatch(await p.textContent("#crawlLog"), /ignoradas/);
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test("lote: «Ver» abre la auditoría completa de cualquier URL del lote", async () => {
+  const { p, context, errors } = await openApp();
+  await p.fill("#urlList", [fx + "/guia/", fx + "/latin/"].join("\n"));
+  await p.click("#crawlBtn");
+  await p.waitForFunction(() => /Auditoría completada/.test(document.querySelector("#crawlLog").textContent));
+  await p.click(`[data-open-doc="${fx}/latin/"]`);
+  assert.equal(await p.inputValue("#pageUrl"), fx + "/latin/");
+  assert.match(await p.textContent("#serpTitle"), /España y la eñe/);
+  assert.equal(await p.locator("#batchBody tr").count(), 2, "el lote sigue visible");
+  assert.equal(await p.evaluate(() => document.querySelector("#crawlPanel").style.display), "block");
+  assert.match(await p.locator("#crawlGrid").innerText(), new RegExp(fx.replace(/[.]/g, "\\.") + "/latin/"));
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test("atajos: pegar una URL en el cuadro principal o dejarlo vacío con URL la descarga y audita", async () => {
+  const { p, context, errors } = await openApp();
+  await p.fill("#source", fx + "/guia/");
+  await p.click("#scoreBtn");
+  await p.waitForFunction(() => /Auditoría completada/.test(document.querySelector("#crawlLog").textContent));
+  assert.match(await p.textContent("#serpTitle"), /Optimización GEO/);
+  assert.equal(await p.inputValue("#urlList"), fx + "/guia/");
+  // Limpiar mantiene las opciones por defecto del rastreo
+  await p.click("#resetBtn");
+  assert.equal(await p.isChecked("#autoExtras"), true);
+  assert.equal(await p.inputValue("#sitemapMax"), "20");
+  await p.evaluate(() => { document.querySelector("details.advanced").open = true; });
+  await p.fill("#pageUrl", fx + "/latin/");
+  await p.click("#scoreBtn");
+  await p.waitForFunction(() => /Auditoría completada/.test(document.querySelector("#crawlLog").textContent));
+  assert.match(await p.textContent("#serpTitle"), /España/);
+  // Intro en el campo del sitemap lo rastrea
+  await p.fill("#sitemapUrl", fx + "/sitemap.xml.gz");
+  await p.press("#sitemapUrl", "Enter");
+  await p.waitForFunction(() => /Auditoría completada: 2/.test(document.querySelector("#crawlLog").textContent));
+  assert.equal(await p.locator("#batchBody tr").count(), 2);
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test("accesibilidad (axe) de las secciones de rastreo, también en móvil y tema oscuro", async () => {
+  const { createRequire } = await import("node:module");
+  const AXE = createRequire(import.meta.url).resolve("axe-core/axe.min.js");
+  for (const opts of [{}, { colorScheme: "dark", viewport: { width: 375, height: 800 } }]) {
+    const context = await browser.newContext(opts); const p = await context.newPage();
+    await p.goto(base);
+    await p.waitForFunction(() => document.querySelector("#crawlerChip").textContent === "RASTREO ACTIVO");
+    await p.fill("#urlList", [fx + "/guia/", fx + "/oculta/"].join("\n"));
+    await p.click("#crawlBtn");
+    await p.waitForFunction(() => /Auditoría completada/.test(document.querySelector("#crawlLog").textContent));
+    await p.addScriptTag({ path: AXE });
+    const v = await p.evaluate(async () => (await window.axe.run(document, { resultTypes: ["violations"] })).violations.map(x => `${x.id}: ${x.nodes.map(n => n.target.join(" ")).slice(0, 3).join(", ")}`));
+    assert.deepEqual(v, [], JSON.stringify(opts));
+    if (opts.viewport) assert.ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "sin scroll horizontal en móvil");
+    await context.close();
+  }
 });

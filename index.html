@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171713'/%3E%3Cpath d='M17 18h30v8H27v8h16v8H27v12H17z' fill='%23fffaf3'/%3E%3C/svg%3E">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8","softwareVersion":"8.2.0","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, calidad MC 2026, E-E-A-T, citabilidad IA, evidencia, schemas y preparación técnica que funciona íntegramente en el navegador."}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8","softwareVersion":"8.2.1","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, calidad MC 2026, E-E-A-T, citabilidad IA, evidencia, schemas y preparación técnica que funciona íntegramente en el navegador."}
 </script>
 <style>
 :root{
@@ -507,7 +507,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   </div>
   <div class="or-sep"><span>o pega el contenido</span></div>
   <div class="input-head"><strong id="inputTitle">HTML, texto o Markdown de la página</strong><span class="chip" id="formatChip">AUTO-DETECT</span></div>
-  <textarea id="source" aria-labelledby="inputTitle" spellcheck="false" placeholder="Pega aquí el HTML completo, el contenido de la página o Markdown…"></textarea>
+  <textarea id="source" aria-labelledby="inputTitle" spellcheck="false" placeholder="Pega aquí el HTML completo, el texto o Markdown de la página… o simplemente una URL"></textarea>
   <div class="dropzone" id="dropzone" tabindex="0" role="button">
     <input id="fileInput" type="file" accept=".html,.htm,.txt,.md,text/html,text/plain,text/markdown" multiple hidden>
     <div class="drop-copy">
@@ -670,16 +670,16 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
     <section id="crawlPanel" style="display:none">
     <div class="section-head" id="sec-rastreo"><h2>Rastreo en vivo</h2><p>Respuesta HTTP real de la URL: estado, redirecciones, cabeceras que afectan a la indexación, tiempos, robots.txt y llms.txt.</p></div>
     <div class="check-grid" id="crawlGrid"></div>
-    <div class="table-panel" id="crawlTableWrap" style="margin-top:10px"><table class="detail-table"><thead><tr><th>URL</th><th>Estado</th><th>Redirecciones</th><th>Tiempo</th><th>Tamaño</th><th>X-Robots-Tag</th><th>Resultado</th></tr></thead><tbody id="crawlBody"></tbody></table></div>
+    <div class="table-panel" id="crawlTableWrap" style="margin-top:10px" tabindex="0" role="region" aria-label="Tabla: Rastreo en vivo"><table class="detail-table"><thead><tr><th>URL</th><th>Estado</th><th>Redirecciones</th><th>Tiempo</th><th>Tamaño</th><th>X-Robots-Tag</th><th>Resultado</th></tr></thead><tbody id="crawlBody"></tbody></table></div>
   </section>
 
   <section class="panel batch-panel" id="batchPanel">
     <div class="batch-head"><div><div class="label">Comparativa local</div><h3>Auditoría por lotes</h3></div><div class="batch-actions"><p id="batchSummary">—</p><button class="secondary tiny" id="batchCsvBtn" type="button">Exportar lote CSV</button></div></div>
-    <div class="table-panel"><table class="detail-table"><thead><tr><th>Archivo / URL</th><th>Tipo</th><th>Palabras</th><th>Global</th><th>GEO</th><th>Calidad</th><th>Commodity</th><th>Veredicto quality</th><th>Principal oportunidad</th></tr></thead><tbody id="batchBody"></tbody></table></div>
+    <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Auditoría por lotes"><table class="detail-table"><thead><tr><th>Archivo / URL</th><th>Tipo</th><th>Palabras</th><th>Global</th><th>GEO</th><th>Calidad</th><th>Commodity</th><th>Veredicto quality</th><th>Principal oportunidad</th></tr></thead><tbody id="batchBody"></tbody></table></div>
   </section>
   <section class="panel batch-panel cannibal-panel" id="cannibalPanel">
     <div class="batch-head"><div><div class="label">Comparativa local</div><h3>Canibalización y duplicidad entre archivos</h3></div><p id="cannibalSummary">—</p></div>
-    <div class="table-panel"><table class="detail-table"><thead><tr><th>Página A</th><th>Página B</th><th>Similitud</th><th>Riesgo</th><th>Acción</th></tr></thead><tbody id="cannibalBody"></tbody></table></div>
+    <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Canibalización y duplicidad entre archivos"><table class="detail-table"><thead><tr><th>Página A</th><th>Página B</th><th>Similitud</th><th>Riesgo</th><th>Acción</th></tr></thead><tbody id="cannibalBody"></tbody></table></div>
   </section>
 
   <div class="section-head" id="sec-resumen"><h2>Resumen ejecutivo</h2><p>Lo que un SEO o editor necesita saber antes de entrar en el detalle.</p></div>
@@ -715,7 +715,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-formula"><h2>Transparencia del score</h2><p>Qué aporta cada componente al 100 global y cuántos puntos teóricos quedan recuperables. El 55% procede de GEO y el 45% de calidad.</p></div>
   <div class="ledger-summary" id="ledgerSummary"></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Componente</th><th>Capa</th><th>Resultado</th><th>Contribución global</th><th>Recuperable</th><th>Lectura</th></tr></thead><tbody id="ledgerBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Transparencia del score"><table class="detail-table"><thead><tr><th>Componente</th><th>Capa</th><th>Resultado</th><th>Contribución global</th><th>Recuperable</th><th>Lectura</th></tr></thead><tbody id="ledgerBody"></tbody></table></div>
 
   <div class="section-head"><h2>Vista previa de extracción</h2><p>Cómo queda la página en dos superficies simplificadas: snippet de búsqueda y respuesta extractiva. No simula ningún modelo real.</p></div>
   <div class="preview-grid">
@@ -739,7 +739,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
         <div class="delta"><div class="label">Calidad</div><div class="dv" id="deltaQuality">—</div></div>
         <div class="delta"><div class="label">Palabras</div><div class="dv" id="deltaWords">—</div></div>
       </div>
-      <div class="table-panel" style="margin-top:10px"><table class="detail-table"><thead><tr><th>Check GEO</th><th>Antes</th><th>Después</th><th>Delta</th></tr></thead><tbody id="compareBody"></tbody></table></div>
+      <div class="table-panel" style="margin-top:10px" tabindex="0" role="region" aria-label="Tabla: Comparador antes / después"><table class="detail-table"><thead><tr><th>Check GEO</th><th>Antes</th><th>Después</th><th>Delta</th></tr></thead><tbody id="compareBody"></tbody></table></div>
     </div>
   </section>
 
@@ -772,16 +772,16 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   <div class="snippet-grid" id="snippetGrid"></div>
 
   <div class="section-head"><h2>Auditoría sección por sección</h2><p>Localiza exactamente dónde se pierde claridad, especificidad o capacidad de extracción.</p></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Sección</th><th>Palabras</th><th>Pregunta</th><th>Respuesta inmediata</th><th>Frase media</th><th>Datos /100</th><th>Puntuación del pasaje</th><th>Diagnóstico</th></tr></thead><tbody id="sectionBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Auditoría sección por sección"><table class="detail-table"><thead><tr><th>Sección</th><th>Palabras</th><th>Pregunta</th><th>Respuesta inmediata</th><th>Frase media</th><th>Datos /100</th><th>Puntuación del pasaje</th><th>Diagnóstico</th></tr></thead><tbody id="sectionBody"></tbody></table></div>
 
 
   <div class="section-head" id="sec-retrieval"><h2>Preparación para retrieval / chunks</h2><p>Divide el MC en pasajes compactos y mide si cada chunk conserva contexto, entidad, evidencia y una longitud razonable para recuperación. Es una heurística de pasajes, no una simulación de RAG real.</p></div>
   <div class="retrieval-summary" id="retrievalSummary"></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Sección</th><th>Chunk</th><th>Palabras</th><th>Score</th><th>Contexto</th><th>Evidencia</th><th>Diagnóstico</th></tr></thead><tbody id="retrievalBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Preparación para retrieval / chunks"><table class="detail-table"><thead><tr><th>Sección</th><th>Chunk</th><th>Palabras</th><th>Score</th><th>Contexto</th><th>Evidencia</th><th>Diagnóstico</th></tr></thead><tbody id="retrievalBody"></tbody></table></div>
 
   <div class="section-head" id="sec-preguntas"><h2>Cobertura de preguntas y respuestas</h2><p>Evalúa preguntas explícitas, calidad de la primera respuesta y evidencia dentro de cada sección. También identifica headings convertibles en queries naturales.</p></div>
   <div class="qa-stats" id="qaStats"></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Pregunta / heading</th><th>Respuesta inicial</th><th>Palabras</th><th>Directa</th><th>Evidencia</th><th>Score Q&A</th><th>Acción</th></tr></thead><tbody id="qaBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Cobertura de preguntas y respuestas"><table class="detail-table"><thead><tr><th>Pregunta / heading</th><th>Respuesta inicial</th><th>Palabras</th><th>Directa</th><th>Evidencia</th><th>Score Q&A</th><th>Acción</th></tr></thead><tbody id="qaBody"></tbody></table></div>
 
   <div class="section-head"><h2>Términos dominantes y foco</h2><p>Frecuencia léxica simple del contenido principal. No es NER ni embeddings: úsalo para detectar si el tema que creías central realmente domina la página.</p></div>
   <section class="panel" style="padding:17px"><div class="term-cloud" id="termCloud"></div></section>
@@ -795,7 +795,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-queries"><h2>Cobertura del set de queries</h2><p>Mapea cada query/prompt a la sección que mejor la responde. Útil para detectar huecos de intención y prompts que no tienen una respuesta directa.</p></div>
   <div class="query-summary" id="querySummary"></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Query</th><th>Mejor sección</th><th>Score</th><th>Answer-first</th><th>Primera respuesta</th><th>Acción</th></tr></thead><tbody id="queryBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Cobertura del set de queries"><table class="detail-table"><thead><tr><th>Query</th><th>Mejor sección</th><th>Score</th><th>Answer-first</th><th>Primera respuesta</th><th>Acción</th></tr></thead><tbody id="queryBody"></tbody></table></div>
 
   <div class="section-head" id="sec-claims"><h2>Claims y soporte de evidencia</h2><p>Extrae afirmaciones que merecen verificación — cifras, comparativas, causalidad y afirmaciones fuertes — y estima si el propio texto aporta soporte cercano.</p></div>
   <div class="claim-filters" id="claimFilters">
@@ -804,7 +804,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
     <button class="secondary filter-btn" data-claim="medio">Riesgo medio</button>
     <button class="secondary filter-btn" data-claim="bajo">Riesgo bajo</button>
   </div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Claim</th><th>Tipo</th><th>Soporte cercano</th><th>Riesgo</th><th>Qué revisar</th></tr></thead><tbody id="claimsBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Claims y soporte de evidencia"><table class="detail-table"><thead><tr><th>Claim</th><th>Tipo</th><th>Soporte cercano</th><th>Riesgo</th><th>Qué revisar</th></tr></thead><tbody id="claimsBody"></tbody></table></div>
 
 
   <div class="section-head" id="sec-evidencia"><h2>Cadena claim → evidencia</h2><p>Relaciona los claims detectados con señales de soporte en su mismo párrafo. Sirve para localizar afirmaciones fuertes sin fuente cercana y fuentes que no están trabajando para ningún claim.</p></div>
@@ -879,7 +879,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   <div class="angle-wrap">
     <section class="panel angle-card"><div class="label">Ángulos non-commodity · con lo que solo tú tienes</div><ol id="angleList"></ol><div class="note" id="angleNote"></div></section>
     <section class="panel angle-card"><div class="label">Ejemplos mostrados por Google · Deep Dive Europe 2026</div>
-      <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla desplazable"><table class="detail-table"><thead><tr><th>Sector</th><th>Commodity</th><th>Non-commodity</th></tr></thead><tbody>
+      <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla: Los cuatro pilares de calidad"><table class="detail-table"><thead><tr><th>Sector</th><th>Commodity</th><th>Non-commodity</th></tr></thead><tbody>
         <tr><td>Tienda de running</td><td>Top 10 cosas a tener en cuenta al comprar zapatillas</td><td>Por qué las zapatillas de este cliente se hundieron a las 400 millas: análisis del desgaste</td></tr>
         <tr><td>Agente inmobiliario</td><td>7 consejos para comprar tu primera casa</td><td>Por qué renunciamos a la inspección (y ahorramos 15.000 $): un vistazo a la tubería</td></tr>
         <tr><td>Tienda de cocina</td><td>¿Qué es una cocina y para qué sirve?</td><td>La sartén de la abuela: cómo cuidar el hierro fundido fabricado antes de 1940</td></tr>
@@ -899,14 +899,14 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-pagetypes"><h2>Page types y core updates</h2><p>Los core updates miran el site. Agrupa tus URLs por page type y detecta qué plantillas pueden estar arrastrando la nota global: mejorar, consolidar, sacar del dominio o eliminar.</p></div>
   <div class="ledger-summary" id="ptSummary"></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Page type</th><th>URLs</th><th>% del site</th><th>% indexado</th><th>Clics / URL</th><th>Crecimiento</th><th>Alarmas</th><th>Acción</th></tr></thead><tbody id="ptBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Page types y core updates"><table class="detail-table"><thead><tr><th>Page type</th><th>URLs</th><th>% del site</th><th>% indexado</th><th>Clics / URL</th><th>Crecimiento</th><th>Alarmas</th><th>Acción</th></tr></thead><tbody id="ptBody"></tbody></table></div>
   <div class="google-note" id="ptNote">—</div>
 
   <div class="section-head" id="sec-tecnico"><h2>Rastreo IA y preparación para agentes</h2><p>Diagnóstico técnico independiente del contenido. GPTBot y Google‑Extended no se usan como penalización de citabilidad.</p></div>
   <div class="tech-grid" id="techGrid"></div>
 
   <div class="section-head"><h2>Señales Google relacionadas</h2><p>El leak muestra conceptos almacenados, no pesos ni una receta de ranking. Se diferencia siempre “documentado” de “inferencia”.</p></div>
-  <div class="signal-table-wrap">
+  <div class="signal-table-wrap" tabindex="0" role="region" aria-label="Tabla: Señales Google relacionadas">
     <table class="signal-table">
       <thead><tr><th>Hallazgo</th><th>Señal</th><th>Qué está documentado</th><th>Relación con esta auditoría</th></tr></thead>
       <tbody id="signalsBody"></tbody>
@@ -916,7 +916,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   <details class="panel glossary">
     <summary>Glosario completo de señales de quality · leak, DOJ y patentes</summary>
     <p>El leak de la Content Warehouse API (mayo de 2024) expuso 2.596 módulos y 14.014 atributos. Enseña qué conceptos guarda Google; no enseña pesos ni si cada atributo se usa hoy en producción. Descripciones citadas de la documentación publicada (HexDocs). Etiquetas: <b>[Documentado]</b>, <b>[Inferencia]</b>, <b>[Hipótesis]</b>, <b>[Criterio propio]</b>.</p>
-    <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla desplazable"><table class="detail-table"><thead><tr><th>Atributo</th><th>Módulo / nivel</th><th>Descripción filtrada</th><th>Relación</th><th>Etiqueta</th></tr></thead><tbody>
+    <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla: Señales Google relacionadas (2)"><table class="detail-table"><thead><tr><th>Atributo</th><th>Módulo / nivel</th><th>Descripción filtrada</th><th>Relación</th><th>Etiqueta</th></tr></thead><tbody>
       <tr><td><code>contentEffort</code></td><td>QualityNsrPQData · página</td><td>“LLM-based effort estimation for article pages”</td><td>Pilar Esfuerzo</td><td>Descripción [Documentado]; que implemente el pilar Effort [Inferencia]</td></tr>
       <tr><td><code>chard</code></td><td>QualityNsrPQData · página</td><td>“URL-level chard prediction”</td><td>Predicción de calidad basada en contenido</td><td>Nombre [Documentado]; significado [Inferencia]</td></tr>
       <tr><td><code>tofu</code></td><td>QualityNsrPQData · página</td><td>“URL-level tofu prediction”</td><td>Predicción de calidad basada en contenido</td><td>Solo nombre [Documentado]</td></tr>
@@ -1023,7 +1023,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
     </details>
     <details class="panel"><summary>8 · ¿Cuánto tarda en notarse un cambio?</summary>
       <p>Tiempos de los slides de Gary Illyes (fotos de Estela Franco):</p>
-      <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla desplazable"><table class="detail-table"><thead><tr><th>Cambio</th><th>Lo típico</th><th>Lo más lento</th></tr></thead><tbody>
+      <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla: Guía: quality en Google y core updates"><table class="detail-table"><thead><tr><th>Cambio</th><th>Lo típico</th><th>Lo más lento</th></tr></thead><tbody>
         <tr><td>Recuperación tras un core update</td><td>3–6 meses</td><td>6 meses a 1 año (hasta el siguiente core)</td></tr>
         <tr><td>Despliegue de un core update</td><td>2–4 semanas</td><td>—</td></tr>
         <tr><td>Spam update</td><td>1–2 semanas (continuo)</td><td>Meses (refrescos por lotes)</td></tr>
@@ -1162,7 +1162,9 @@ const sentenceSplit=t=>{
   return text.split(/(?<=[.!?…])\s+(?=(?:["“'(\[]*[A-ZÁÉÍÓÚÜÑÀ-ÖØ-Þ¿¡0-9]))/u).map(x=>x.trim()).filter(Boolean)
 };
 const firstSentence=t=>sentenceSplit(t)[0]||String(t||"").trim();
-const isQuestion=t=>{t=String(t||"").trim();return /\?$/.test(t)||/^(what|why|how|when|where|who|which|can|does|do|is|are|should|will|could|would|qué|por qué|como|cómo|cuándo|dónde|quién|cuál|cuáles|puede|pueden|debe|deben|es|son)\b/i.test(t)};
+// Pregunta = termina en «?», empieza por «¿» o por un interrogativo (con tilde en español).
+// «Es», «Son», «Como», «Puede» o «Debe» sin signos son afirmaciones en español, no preguntas.
+const isQuestion=t=>{t=String(t||"").trim();return /\?$/.test(t)||/^¿/.test(t)||/^(?:what|why|how|when|where|who|which|can|does|do|is|are|should|will|could|would|qué|por qué|para qué|cómo|cuándo|dónde|quién(?:es)?|cuál(?:es)?|cuánt[oa]s?)(?![\p{L}\p{N}])/iu.test(t)};
 const directOpening=t=>{
   const s=firstSentence(t),n=words(s).length;
   if(!s||!n||n>28)return false;
@@ -1336,13 +1338,15 @@ function ymylDetect(d,c){
   if(c.ymylMode==="yes")return {yes:true,why:"Marcado manualmente"};
   if(c.ymylMode==="no")return {yes:false,why:"Marcado manualmente"};
   const hay=(c.query+" "+d.title+" "+d.headings.slice(0,4).map(x=>x.text).join(" ")+" "+d.text.slice(0,1400)).toLowerCase();
+  // Términos completos con límites de palabra que entienden acentos: evita falsos positivos como
+  // «medición», «investigación», «taxonomía», «diagnóstico SEO», «es seguro» o «seguridad web».
   const groups=[
-    ["salud","health|medical|medicine|disease|symptom|treatment|diagnos|medic|salud|enfermedad|síntoma|tratamiento|diagnóst|embarazo|nutrición clínica|mental health"],
-    ["finanzas","mortgage|loan|credit|invest|tax|pension|insurance|financial|hipoteca|préstamo|crédito|invers|impuesto|pensión|seguro|financ"],
-    ["seguridad/legal","legal|law|lawyer|attorney|crime|safety|emergency|abogado|legal|delito|seguridad|emergencia"],
-    ["cívico","election|vote|government service|elección|elecciones|votar|gobierno|servicio público"]
+    ["salud","health|medical|medicine|diseases?|symptoms?|diagnosis|pregnancy|mental health|salud|enfermedad(?:es)?|síntomas?|tratamientos? médicos?|médic[oa]s?|medicina|medicamentos?|fármacos?|embarazo|nutrición clínica|salud mental|dosis"],
+    ["finanzas","mortgages?|loans?|credit cards?|credit score|investing|investments?|taxes|tax return|pensions?|insurance|financial advice|hipotecas?|préstamos?|créditos?|inversi(?:ón|ones)|invertir|impuestos?|pensi(?:ón|ones)|jubilación|seguros? de (?:vida|salud|hogar|coche|auto|viaje|decesos)|aseguradoras?|financiación|asesor(?:ía|amiento) financier[oa]"],
+    ["seguridad/legal","legal advice|lawyers?|attorneys?|crimes?|emergenc(?:y|ies)|abogad[oa]s?|asesor(?:ía|amiento) (?:legal|jurídic[oa])|delitos?|denuncias?|demandas? judicial(?:es)?|emergencias?|seguridad (?:vial|alimentaria|laboral|infantil|física)"],
+    ["cívico","elections?|voting|government services?|elecci(?:ón|ones)|votar|votación|trámites? (?:oficiales?|administrativos?)|servicio público"]
   ];
-  for(const [name,re] of groups)if(new RegExp("\\b("+re+")","i").test(hay))return {yes:true,why:"Auto: "+name};
+  for(const [name,re] of groups)if(new RegExp("(?<![\\p{L}\\p{N}])(?:"+re+")(?![\\p{L}\\p{N}])","iu").test(hay))return {yes:true,why:"Auto: "+name};
   return {yes:false,why:"Sin señales claras"}
 }
 function inferPurpose(d,c){
@@ -1571,7 +1575,7 @@ function trustAudit(d,c,s,ymyl){
     add("Transparencia de autoría",au,d.authorName?`Autor detectado: ${d.authorName}.`:"No se detecta autor en meta/schema.",
       au>=.78?"Mantén identidad y credenciales reales y verificables.":"Expón autor/revisor real y experiencia pertinente; evita credenciales decorativas o ficticias.");
   } else add("Transparencia de autoría",0,"No se puede evaluar metadata de autor desde texto plano.","Comprueba la página publicada.",true);
-  const timeSensitive=/\b(latest|current|today|202[4-9]|últim|actual|hoy|precio|prices?|statistics?|estadístic)\b/i.test(c.query+" "+d.title+" "+d.text.slice(0,500));
+  const timeSensitive=/(?<![\p{L}\p{N}])(?:latest|current|today|202[4-9]|últim[oa]s?|actual(?:es|izad[oa]s?)?|hoy|precios?|prices?|statistics?|estadísticas?)(?![\p{L}\p{N}])/iu.test(c.query+" "+d.title+" "+d.text.slice(0,500));
   add("Freshness / fecha",d.dates.length?1:0,d.dates.length?`Fecha detectada: ${String(d.dates[0]).slice(0,42)}.`:"No se detecta fecha.",
     d.dates.length?"Actualiza la fecha solo cuando exista revisión material del contenido.":"Si el contenido es sensible al tiempo, muestra fecha de publicación/actualización real.",!d.dates.length&&!timeSensitive);
   const only=clamp(s.onlyYou/3*.82+Math.min(.18,s.experience*.06));
@@ -1614,13 +1618,14 @@ function robotAccess(groups,agent,path="/"){
   const ag=agent.toLowerCase(),specific=groups.filter(g=>g.agents.includes(ag)),chosen=specific.length?specific:groups.filter(g=>g.agents.includes("*"));
   const rules=chosen.flatMap(g=>g.rules).filter(r=>globMatch(r.path,path));
   if(!rules.length)return {allowed:true,reason:"sin regla coincidente"};
-  rules.sort((a,b)=>b.path.replace(/\*/g,"").length-a.path.replace(/\*/g,"").length||(a.type==="allow"?-1:1));
+  // RFC 9309 / Google: gana la regla más específica (más larga, contando comodines); en empate, Allow.
+  rules.sort((a,b)=>b.path.length-a.path.length||(a.type===b.type?0:a.type==="allow"?-1:1));
   return {allowed:rules[0].type==="allow",reason:`${rules[0].type}: ${rules[0].path||"(vacío)"}`}
 }
 function robotsCards(c,d){
   if(!c.robots)return [{status:"N/A",cls:"na",title:"robots.txt",body:"No pegado. Sin robots.txt no se puede comprobar acceso de crawlers."}];
   const groups=parseRobots(c.robots);let path="/";
-  try{if(c.pageUrl)path=new URL(c.pageUrl).pathname||"/"}catch(e){}
+  try{if(c.pageUrl)path=(u=>(u.pathname||"/")+u.search)(new URL(c.pageUrl))}catch(e){}
   const checks=[
     ["OAI-SearchBot","ChatGPT Search","Afecta a elegibilidad/crawling de ChatGPT Search."],
     ["PerplexityBot","Perplexity Search","Crawler de búsqueda de Perplexity."],
@@ -1918,7 +1923,7 @@ function renderBatch(rows){
   sorted.forEach(r=>{
     const opp=r.geo.checks.find(x=>!x.na&&x.score<.8)?.name||"Sin debilidad GEO clara";
     const tr=document.createElement("tr");
-    tr.innerHTML=`<td><strong>${esc(r.name)}</strong></td><td>${esc(r.type)}</td><td>${r.words}</td><td><strong>${r.unified}</strong></td><td>${r.geoScore}</td><td>${r.quality.toFixed(1)}/16</td><td>${esc(r.commodity)}</td><td>${esc(r.verdict)}</td><td>${esc(opp)}</td>`;
+    tr.innerHTML=`<td><strong>${esc(r.name)}</strong> <button class="secondary tiny" type="button" data-open-doc="${esc(r.name)}" aria-label="Ver la auditoría completa de ${esc(r.name)}">Ver</button></td><td>${esc(r.type)}</td><td>${r.words}</td><td><strong>${r.unified}</strong></td><td>${r.geoScore}</td><td>${r.quality.toFixed(1)}/16</td><td>${esc(r.commodity)}</td><td>${esc(r.verdict)}</td><td>${esc(opp)}</td>`;
     body.appendChild(tr)
   })
 }
@@ -2074,7 +2079,7 @@ function extractClaims(d,ymyl){
       if(words(sent).length<5)return;
       let types=[];
       if(/(?:[$€£]\s?\d|\d+(?:[.,]\d+)?\s?%|\b(?:19|20)\d{2}\b)/.test(sent))types.push("numérico");
-      if(/\b(mejor|mejores|líder|lider|único|unico|más rápido|más eficaz|número 1|#1|best|leading|fastest|most effective|only)\b/i.test(sent))types.push("comparativo");
+      if(/(?:(?<![\p{L}\p{N}])(?:mejor|mejores|líder(?:es)?|lider|únic[oa]s?|unic[oa]s?|más rápid[oa]s?|más eficaz|número 1|best|leading|fastest|most effective|only)(?![\p{L}\p{N}])|#1(?!\d))/iu.test(sent))types.push("comparativo");
       if(/\b(aumenta|incrementa|reduce|mejora|provoca|causa|genera|lleva a|results in|increases|reduces|improves|causes|leads to)\b/i.test(sent))types.push("causal");
       if(/\b(siempre|nunca|garantiza|demuestra|es seguro|sin riesgo|will always|guarantees|proves|safe|risk-free)\b/i.test(sent))types.push("fuerte");
       if(!types.length)return;
@@ -2432,7 +2437,7 @@ function renderCannibal(rows){
 
 function profileLabel(v){return ({balanced:"Equilibrado",geo:"GEO agresivo",b2b:"B2B / servicios",editorial:"Editorial / informacional",ecommerce:"Ecommerce / producto"})[v]||"Equilibrado"}
 function applyProfileActions(items,profile){return items.map(x=>{let m=1,t=(x.title+" "+x.source).toLowerCase();if(profile==="geo"&&/(geo|entidad|fuentes|citas|schema|query|técnico|answer)/.test(t))m=1.28;if(profile==="b2b"&&/(entidad|fuentes|autor|query|schema|específico|originalidad|commodity|servicio)/.test(t))m=1.30;if(profile==="editorial"&&/(precisión|fuentes|citas|autor|fresh|originalidad|claims|talento|conciso)/.test(t))m=1.30;if(profile==="ecommerce"&&/(schema|específico|title|meta|listas|tablas|claims|entidad|producto)/.test(t))m=1.32;return {...x,priority:x.priority*m,profileBoost:m>1?Math.round((m-1)*100):0}}).sort((a,b)=>b.priority-a.priority).slice(0,8)}
-function engineReadiness(d,c,s,geo,q){const q100=q.total/16*100,evidence=s.citationScore*100,query=s.queryFit==null?65:s.queryFit*100;let groups=null,path="/";if(c.robots)groups=parseRobots(c.robots);try{if(c.pageUrl)path=new URL(c.pageUrl).pathname||"/"}catch(e){}const access=agent=>groups?robotAccess(groups,agent,path).allowed:null,noindex=/\bnoindex\b/.test(d.robotsMeta||"");const rows=[{name:"ChatGPT Search",agent:"OAI-SearchBot",fit:Math.round(geo.score*.62+q100*.18+evidence*.20),access:access("OAI-SearchBot"),extra:false,note:"GPTBot se trata aparte como crawler de posible entrenamiento."},{name:"Perplexity",agent:"PerplexityBot",fit:Math.round(geo.score*.55+q100*.15+evidence*.30),access:access("PerplexityBot"),extra:false,note:"Esta lectura da más peso a evidencia y fuentes."},{name:"Google AI Overviews",agent:"Googlebot",fit:Math.round(geo.score*.45+q100*.40+query*.15),access:access("Googlebot"),extra:noindex,note:"Google-Extended no se usa como puerta de Search; noindex sí."}];return rows.map(x=>{const blocked=x.access===false||x.extra,unknown=x.access===null&&!x.extra,effective=blocked?Math.min(x.fit,20):x.fit;return {...x,effective,gate:blocked?"Bloqueado":unknown?"No comprobado":"Acceso permitido",gateCls:blocked?"bad":unknown?"warn":"ok"}})}
+function engineReadiness(d,c,s,geo,q){const q100=q.total/16*100,evidence=s.citationScore*100,query=s.queryFit==null?65:s.queryFit*100;let groups=null,path="/";if(c.robots)groups=parseRobots(c.robots);try{if(c.pageUrl)path=(u=>(u.pathname||"/")+u.search)(new URL(c.pageUrl))}catch(e){}const access=agent=>groups?robotAccess(groups,agent,path).allowed:null,noindex=/\bnoindex\b/.test(d.robotsMeta||"");const rows=[{name:"ChatGPT Search",agent:"OAI-SearchBot",fit:Math.round(geo.score*.62+q100*.18+evidence*.20),access:access("OAI-SearchBot"),extra:false,note:"GPTBot se trata aparte como crawler de posible entrenamiento."},{name:"Perplexity",agent:"PerplexityBot",fit:Math.round(geo.score*.55+q100*.15+evidence*.30),access:access("PerplexityBot"),extra:false,note:"Esta lectura da más peso a evidencia y fuentes."},{name:"Google AI Overviews",agent:"Googlebot",fit:Math.round(geo.score*.45+q100*.40+query*.15),access:access("Googlebot"),extra:noindex,note:"Google-Extended no se usa como puerta de Search; noindex sí."}];return rows.map(x=>{const blocked=x.access===false||x.extra,unknown=x.access===null&&!x.extra,effective=blocked?Math.min(x.fit,20):x.fit;return {...x,effective,gate:blocked?"Bloqueado":unknown?"No comprobado":"Acceso permitido",gateCls:blocked?"bad":unknown?"warn":"ok"}})}
 function renderEngines(rows){const box=$("#engineGrid");box.innerHTML="";rows.forEach(x=>{const el=document.createElement("article");el.className="panel engine-card";el.innerHTML=`<div><div class="engine-top"><div><div class="label">Preparación orientativa</div><h3>${esc(x.name)}</h3></div><div class="engine-score">${x.effective}<small>/100</small></div></div><div class="gate-row"><span class="gate-chip ${x.gateCls==="ok"?"gate-ok":x.gateCls==="bad"?"gate-bad":"gate-warn"}">${esc(x.gate)}</span><span class="gate-chip gate-na">${esc(x.agent)}</span></div><div class="engine-gate">Fit de contenido: <strong>${x.fit}/100</strong>. ${esc(x.note)}</div></div><div class="engine-formula">Score operativo = fit de contenido + puerta técnica. Un bloqueo aplica un tope conservador.</div>`;box.appendChild(el)})}
 function questionCoverage(d){const explicit=d.sections.filter(x=>isQuestion(x.heading));const bodyQuestions=sentenceSplit(d.text).filter(x=>/\?$/.test(x)).length;const rows=explicit.map(sec=>{const fs=firstSentence(sec.text),n=words(fs).length,direct=directOpening(sec.text),evidence=/(?:[$€£]\s?\d|\d+(?:[.,]\d+)?\s?%|\b(?:19|20)\d{2}\b|\b(según|according to|fuente|estudio|datos de|informe)\b)/i.test(sec.text);let score=(direct?42:10)+(n>=7&&n<=40?25:n<=55?14:5)+(evidence?23:5)+(words(sec.text).length>=25?10:4);score=Math.min(100,score);return {heading:sec.heading,answer:fs,n,direct,evidence,score,action:score>=78?"Mantener":!direct?"Responder de forma directa en la primera frase":!evidence?"Añadir evidencia o un ejemplo concreto":"Acortar y hacer autocontenida la respuesta"}});const candidates=d.headings.filter(h=>(h.level===2||h.level===3)&&!isQuestion(h.text)).slice(0,6).map(h=>h.text);const strong=rows.filter(x=>x.score>=78).length,coverage=rows.length?Math.round(rows.reduce((a,b)=>a+b.score,0)/rows.length):0;return {rows,explicit:rows.length,bodyQuestions,strong,coverage,candidates}}
 function renderQuestions(q){const stats=$("#qaStats");stats.innerHTML="";[["Preguntas H2/H3",q.explicit,"explícitas"],["Q&A fuertes",q.strong,`${q.explicit?Math.round(q.strong/q.explicit*100):0}% de las explícitas`],["Cobertura Q&A",q.coverage+"/100","media de calidad"],["Oportunidades",q.candidates.length,"headings no interrogativos"]].forEach(([l,v,t])=>{const e=document.createElement("article");e.className="panel qa-stat";e.innerHTML=`<div class="label">${esc(l)}</div><div class="qv">${esc(v)}</div><div class="qs">${esc(t)}</div>`;stats.appendChild(e)});const body=$("#qaBody");body.innerHTML="";q.rows.forEach(x=>{const cls=x.score>=78?"cell-good":x.score>=55?"cell-mid":"cell-bad",tr=document.createElement("tr");tr.innerHTML=`<td><strong>${esc(x.heading)}</strong></td><td>${esc(x.answer)}</td><td>${x.n}</td><td class="${x.direct?"cell-good":"cell-bad"}">${x.direct?"Sí":"No"}</td><td class="${x.evidence?"cell-good":"cell-mid"}">${x.evidence?"Sí":"Débil"}</td><td class="${cls}">${x.score}/100</td><td>${esc(x.action)}</td>`;body.appendChild(tr)});if(!q.rows.length){const tr=document.createElement("tr");tr.innerHTML=`<td colspan="7">No hay H2/H3 formulados como pregunta. Candidatos: ${esc(q.candidates.join(" · ")||"ninguno")}</td>`;body.appendChild(tr)}}
@@ -2560,7 +2565,12 @@ function reportMarkdown(r){
   return lines.join("\n")
 }
 function run(){
-  const raw=source.value.trim();if(!raw){source.focus();toast("Pega contenido primero.");return}
+  const raw=source.value.trim();
+  // Atajos: si el cuadro solo contiene URLs, o está vacío pero hay URL de página, se descargan y auditan.
+  const urlLines=raw.split(/\s+/).filter(Boolean);
+  if(raw&&urlLines.length<=MAX_URLS&&urlLines.every(x=>/^(?:https?:\/\/|www\.)\S+$/i.test(x))&&urlLines.every(normalizeUrl)){$("#urlList").value=urlLines.join("\n");source.value="";analyzeUrls(urlLines);return}
+  if(!raw&&normalizeUrl($("#pageUrl").value)){$("#urlList").value=$("#pageUrl").value.trim();analyzeUrls([$("#pageUrl").value]);return}
+  if(!raw){source.focus();toast("Pega contenido o escribe una URL.");return}
   if(raw.length>MAX_INPUT_CHARS){toast("El contenido supera el límite de seguridad de 8 millones de caracteres.");return}
   const type=detectType(raw);$("#formatChip").textContent=type.toUpperCase();
   const d=type==="HTML"?parseHtml(raw):parseText(raw),c=context(),s=baseSignals(d,c),ymyl=ymylDetect(d,c),purpose=inferPurpose(d,c);
@@ -2609,7 +2619,7 @@ function clearAll(){
   document.querySelectorAll("textarea,input[type=text],input[type=number]").forEach(e=>e.value="");
   document.querySelectorAll('input[type="checkbox"]').forEach(e=>e.checked=false);
   $("#ymylMode").value="auto";$("#pageType").value="auto";$("#auditProfile").value="balanced";$("#aiRole").value="unknown";$("#formatChip").textContent="AUTO-DETECT";$("#results").style.display="none";latest=null;
-  $("#copyBtn").disabled=$("#downloadBtn").disabled=$("#jsonBtn").disabled=$("#summaryBtn").disabled=$("#csvBtn").disabled=$("#printBtn").disabled=$("#htmlReportBtn").disabled=$("#backlogBtn").disabled=true;$("#batchPanel").style.display="none";$("#cannibalPanel").style.display="none";$("#compareResults").style.display="none";batchLatest=[];batchDocs=[];$("#fileInput").value="";$("#fileState").textContent="NINGÚN ARCHIVO · TODO SE PROCESA EN TU NAVEGADOR";currentCrawl=null;$("#crawlLog").innerHTML="";$("#crawlPanel").style.display="none";["#robots","#llms"].forEach(id=>{$(id).dataset.auto=""});source.focus()
+  $("#copyBtn").disabled=$("#downloadBtn").disabled=$("#jsonBtn").disabled=$("#summaryBtn").disabled=$("#csvBtn").disabled=$("#printBtn").disabled=$("#htmlReportBtn").disabled=$("#backlogBtn").disabled=true;$("#batchPanel").style.display="none";$("#cannibalPanel").style.display="none";$("#compareResults").style.display="none";batchLatest=[];batchDocs=[];$("#fileInput").value="";$("#fileState").textContent="NINGÚN ARCHIVO · TODO SE PROCESA EN TU NAVEGADOR";currentCrawl=null;$("#crawlLog").innerHTML="";$("#crawlPanel").style.display="none";$("#autoExtras").checked=true;$("#sitemapMax").value="20";["#robots","#llms"].forEach(id=>{$(id).dataset.auto=""});source.focus()
 }
 $("#scoreBtn").addEventListener("click",run);
 $("#sampleBtn").addEventListener("click",()=>{
@@ -2630,7 +2640,7 @@ $("#downloadBtn").addEventListener("click",()=>{
 });
 $("#jsonBtn").addEventListener("click",()=>{
   if(!latest)return;
-  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},qualityReport:latest.qualityReport,nonCommodityAngles:latest.angles,pageTypes:latest.pageTypes,crawl:latest.crawl,version:"8.2.0",summary:{type:latest.data.type,words:latest.signals.wc}};
+  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},qualityReport:latest.qualityReport,nonCommodityAngles:latest.angles,pageTypes:latest.pageTypes,crawl:latest.crawl,version:"8.2.1",summary:{type:latest.data.type,words:latest.signals.wc}};
   const blob=new Blob([JSON.stringify(safe,null,2)],{type:"application/json;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
   a.href=url;a.download="auditoria-geo-calidad.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)
 });
@@ -2749,7 +2759,9 @@ function onPageAudit(d,c){
   rows.push({name:"Número de H1",value:d.type!=="HTML"&&!h1s.length?"N/A":String(h1s.length),state:d.type!=="HTML"&&!h1s.length?"na":h1s.length===1?"ok":"warn",tip:h1s.length===1?"Un único H1 claro.":h1s.length?"Varios H1: deja uno que defina la página.":"Añade un H1 que defina el tema."});
   let ul=null;try{ul=url?new URL(url):null}catch(e){}
   rows.push({name:"Calidad de la URL",value:ul?ul.pathname.length+" car.":"N/A",state:!ul?"na":ul.pathname.length<=75&&!/[A-Z_?&=]/.test(ul.pathname+ul.search)?"ok":"warn",tip:!ul?"Indica la URL para evaluarla.":"Prefiere rutas cortas, en minúsculas, con guiones y sin parámetros."});
-  const internal=ul?d.links.filter(l=>{try{return new URL(l.href,ul.origin).host===ul.host}catch(e){return false}}).length:d.links.filter(l=>!/^https?:/i.test(l.href)&&!/^(mailto|tel|#)/i.test(l.href)).length;
+  // Enlaces internos reales: excluye anclas (#), mailto:, tel:, javascript: y el enlace a la propia página.
+  const realLinks=d.links.filter(l=>l.href&&!/^(#|mailto:|tel:|javascript:|data:)/i.test(l.href.trim()));
+  const internal=ul?realLinks.filter(l=>{try{const t=new URL(l.href,ul.href);return t.host===ul.host&&(t.pathname+t.search)!==(ul.pathname+ul.search)}catch(e){return false}}).length:realLinks.filter(l=>!/^[a-z][a-z0-9+.-]*:/i.test(l.href)&&!/^\/\//.test(l.href)).length;
   rows.push({name:"Enlazado interno",value:String(internal),state:internal>=3?"ok":internal>=1?"warn":d.type==="HTML"?"bad":"na",tip:internal>=3?"Hay enlaces internos que reparten contexto.":"Añade enlaces internos descriptivos hacia páginas relacionadas."});
   const altFit=q?fit(d.images.map(i=>i.alt).join(" ")):null;
   rows.push({name:"Imágenes con ALT descriptivo",value:d.images.length?`${d.images.filter(i=>i.alt.length>=5).length}/${d.images.length}`:"Sin imágenes",state:!d.images.length?"na":d.images.every(i=>i.alt.length>=5)?"ok":"warn",tip:d.images.length?`ALT descriptivos ayudan a accesibilidad y búsqueda de imágenes${altFit!=null?` · encaje con query ${pct(altFit)}`:""}.`:"Considera añadir un diagrama o imagen original con ALT."});
@@ -3043,16 +3055,23 @@ async function fetchUrl(url){
   const t0=performance.now();let res;
   try{res=await fetch(url,{cache:"no-store",redirect:"follow"})}catch(e){throw new Error("La web no permite descargarla desde el navegador (CORS). Ejecuta «npm start» o configura el Worker.")}
   const body=await res.text(),headers={};["content-type","x-robots-tag","last-modified","cache-control","content-language"].forEach(k=>{const v=res.headers.get(k);if(v!=null)headers[k]=v});
-  return {ok:true,url,finalUrl:res.url||url,status:res.status,statusText:res.statusText||"",redirects:res.redirected?[{url,status:301}]:[],headers,ms:Math.round(performance.now()-t0),bytes:body.length,body,direct:true}
+  return {ok:true,url,finalUrl:res.url||url,status:res.status,statusText:res.statusText||"",redirects:res.redirected?[{url,status:"3xx"}]:[],headers,ms:Math.round(performance.now()-t0),bytes:body.length,body,direct:true}
 }
 async function pool(items,n,fn){const out=new Array(items.length);let i=0;await Promise.all(Array.from({length:Math.min(n,items.length)},async()=>{while(i<items.length){const k=i++;out[k]=await fn(items[k],k)}}));return out}
 function isHtmlResponse(r){const ct=String(r.headers?.["content-type"]||"").toLowerCase();return !ct||/html|xml\+xhtml|text\/plain|markdown/.test(ct)}
+// Directivas de X-Robots-Tag que aplican a Google: las generales y las de «googlebot:»; las de otros bots se ignoran.
+function xRobotsForGoogle(v){
+  let ua=null;const out=[];
+  String(v||"").split(",").forEach(part=>{let p=part.trim();const m=p.match(/^([\w.-]+)\s*:\s*(.*)$/);if(m&&!/^(unavailable_after|max-snippet|max-image-preview|max-video-preview)$/i.test(m[1])){ua=m[1].toLowerCase();p=m[2].trim()}if(p&&(!ua||ua==="googlebot"))out.push(p)});
+  return out.join(", ")
+}
+const blocksIndex=v=>/(^|[\s,])(noindex|none)([\s,]|$)/i.test(xRobotsForGoogle(v));
 function prepareCrawledHtml(r){
-  let html=String(r.body||"").replace(/\r\n?/g,"\n");const xrt=String(r.headers?.["x-robots-tag"]||"").split(",").map(x=>x.replace(/^[\w-]+:\s*(?=(noindex|nofollow|none|noarchive|nosnippet))/i,"").trim()).filter(Boolean).join(", ");
-  if(xrt&&/noindex|none/i.test(xrt)){const m=html.match(/<meta[^>]+name=["']robots["'][^>]*content=["']([^"']*)["']/i);html=`<meta name="robots" content="${esc(xrt+(m?", "+m[1]:""))}">\n`+html}
+  let html=String(r.body||"").replace(/\r\n?/g,"\n");const xrt=xRobotsForGoogle(r.headers?.["x-robots-tag"]);
+  if(xrt&&blocksIndex(xrt)){const m=html.match(/<meta[^>]+name=["']robots["'][^>]*content=["']([^"']*)["']/i);html=`<meta name="robots" content="${esc(xrt+(m?", "+m[1]:""))}">\n`+html}
   return html
 }
-function crawlLog(text,cls){const li=document.createElement("li");li.textContent=text;if(cls)li.className=cls;$("#crawlLog").appendChild(li);li.scrollIntoView?.({block:"nearest"});return li}
+function crawlLog(text,cls){const ol=$("#crawlLog"),li=document.createElement("li");li.textContent=text;if(cls)li.className=cls;ol.appendChild(li);ol.scrollTop=ol.scrollHeight;return li}
 function setCrawlBusy(b){crawling=b;["#crawlBtn","#sitemapBtn","#scoreBtn"].forEach(s=>{$(s).disabled=b});$("#crawlBtn").textContent=b?"Analizando…":"Analizar URLs"}
 function softText(r){return r&&r.ok&&r.status===200&&!/<html[\s>]/i.test(r.body.slice(0,2000))?r.body:null}
 async function fetchExtras(finalUrl){
@@ -3064,7 +3083,7 @@ async function fetchExtras(finalUrl){
   }));
   return out
 }
-function fillAuto(id,text){const el=$(id);if(!el.value.trim()||el.dataset.auto==="1"){el.value=text||"";el.dataset.auto=text?"1":""}}
+function fillAuto(id,text){const el=$(id);if(el.dataset.auto==="1"||(!el.value.trim()&&text)){el.value=text||"";el.dataset.auto=text?"1":""}}
 async function analyzeUrls(list,{keepLog=false}={}){
   if(crawling)return;
   const urls=[...new Set(list.map(normalizeUrl).filter(Boolean))].slice(0,MAX_URLS);
@@ -3084,7 +3103,7 @@ async function analyzeUrls(list,{keepLog=false}={}){
         r.redirectCount=r.redirects.length;const chain=r.redirects.map(x=>x.status).concat(r.status).join(" → ");
         if(r.status>=400){r.auditError=`HTTP ${r.status}`;crawlLog(`✗ ${r.finalUrl} — HTTP ${chain}`,"bad")}
         else if(!isHtmlResponse(r)){r.auditError="No es HTML";crawlLog(`✗ ${r.finalUrl} — ${r.headers["content-type"]} no es HTML`,"bad")}
-        else crawlLog(`✓ ${chain} · ${r.ms} ms · ${Math.round(r.bytes/1024)} KB · ${r.finalUrl}`,/noindex|none/i.test(r.headers["x-robots-tag"]||"")?"warn":"ok")
+        else crawlLog(`✓ ${chain} · ${r.ms} ms · ${Math.round(r.bytes/1024)} KB · ${r.finalUrl}${blocksIndex(r.headers["x-robots-tag"])?" · noindex por cabecera":""}`,blocksIndex(r.headers["x-robots-tag"])?"warn":"ok")
       }
       return r
     });
@@ -3094,14 +3113,17 @@ async function analyzeUrls(list,{keepLog=false}={}){
     if(extras){
       crawlLog(extras.robots.found?`✓ robots.txt encontrado (${extras.robots.url})`:`· Sin robots.txt (${extras.robots.status||extras.robots.error||"no disponible"})`,extras.robots.found?"ok":"warn");
       crawlLog(extras.llms.found?`✓ llms.txt encontrado`:`· Sin llms.txt (opcional; Google lo ignora)`);
-      if(extras.robots.found)fillAuto("#robots",extras.robots.text);
-      if(extras.llms.found)fillAuto("#llms",extras.llms.text);
+      // Si el nuevo sitio no tiene el archivo, se vacía el que se rellenó automáticamente de otro sitio.
+      fillAuto("#robots",extras.robots.found?extras.robots.text:"");
+      fillAuto("#llms",extras.llms.found?extras.llms.text:"");
     }
     $("#pageUrl").value=first.finalUrl;
     const texts=good.map(r=>({name:r.finalUrl,text:prepareCrawledHtml(r)}));
     const strip=r=>{const{body,...rest}=r;return rest};
-    currentCrawl={snapshot:texts[0].text,summary:{at:new Date().toISOString(),mode:crawlerBase===null?"directo (CORS)":crawlerBase?"Worker":"servidor local",first:strip(first),items:results.map(strip),extras:extras?{robots:{found:extras.robots.found,status:extras.robots.status,url:extras.robots.url},llms:{found:extras.llms.found,status:extras.llms.status,url:extras.llms.url}}:null}};
+    currentCrawl={snapshot:texts[0].text,texts:new Map(texts.map(t=>[t.name,t.text])),summary:{at:new Date().toISOString(),mode:crawlerBase===null?"directo (CORS)":crawlerBase?"Worker":"servidor local",first:strip(first),items:results.map(strip),extras:extras?{robots:{found:extras.robots.found,status:extras.robots.status,url:extras.robots.url},llms:{found:extras.llms.found,status:extras.llms.status,url:extras.llms.url}}:null}};
     $("#fileState").textContent=texts.length>1?`${texts.length} URLS · COMPARATIVA EN VIVO`:first.finalUrl;
+    crawlLog(`Auditando ${texts.length} página(s)…`);
+    await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,0))); // deja pintar el progreso antes del cálculo
     auditTexts(texts);
     crawlLog(`Auditoría completada: ${good.length} de ${urls.length} URL(s).`,"ok")
   }finally{setCrawlBusy(false)}
@@ -3139,7 +3161,7 @@ function crawlRows(s){
   add("Estado HTTP",`${f.status} ${f.statusText||""}`.trim(),f.status<300?"ok":f.status<400?"warn":"bad",f.status<300?"La URL responde correctamente.":"La URL no devuelve 200: revisa el estado antes de auditar contenido.");
   add("Redirecciones",f.redirects.length?chain:"Ninguna",f.redirects.length===0?"ok":f.redirects.length===1?"warn":"bad",f.redirects.length?"Enlaza internamente a la URL final y evita cadenas de redirecciones.":"Respuesta directa, sin saltos.");
   add("URL final",f.finalUrl,f.finalUrl.startsWith("http:")?"bad":f.finalUrl!==f.url?"warn":"ok",f.finalUrl.startsWith("http:")?"Sin HTTPS: migra a https y redirige.":f.finalUrl!==f.url?"La URL pedida no es la final: usa la final en enlaces, sitemap y canonical.":"La URL pedida es la final.");
-  add("X-Robots-Tag",xrt||"No enviado",/noindex|none/i.test(xrt)?"bad":"ok",/noindex|none/i.test(xrt)?"La cabecera impide indexar la página aunque el HTML no lo diga. Se ha aplicado a la auditoría.":"La cabecera no bloquea la indexación.");
+  add("X-Robots-Tag",xrt||"No enviado",blocksIndex(xrt)?"bad":"ok",blocksIndex(xrt)?"La cabecera impide que Google indexe la página aunque el HTML no lo diga. Se ha aplicado a la auditoría.":xrt?"La cabecera no bloquea la indexación en Google (las directivas para otros bots no se aplican).":"La cabecera no bloquea la indexación.");
   add("Tiempo de respuesta",`${f.ms} ms`,f.ms<800?"ok":f.ms<2000?"warn":"bad",`Incluye la descarga completa${s.mode==="directo (CORS)"?" desde tu navegador":" desde el rastreador"}. No sustituye a Core Web Vitals.`);
   add("Tamaño del HTML",`${Math.round(f.bytes/1024)} KB`,f.bytes<512000?"ok":f.bytes<2097152?"warn":"bad",f.bytes<512000?"Peso razonable.":"HTML pesado: puede ralentizar el rastreo y el render.");
   add("Content-Type",h["content-type"]||"No enviado",/text\/html/i.test(h["content-type"]||"")?"ok":"warn","Las páginas deben servirse como text/html con charset.");
@@ -3159,7 +3181,7 @@ function attachCrawl(r){
   const body=$("#crawlBody");body.innerHTML="";
   r.crawl.items.forEach(x=>{
     const tr=document.createElement("tr"),xrt=x.headers?.["x-robots-tag"]||"",bad=!x.ok||x.auditError;
-    tr.innerHTML=x.ok?`<td><strong>${esc(x.finalUrl)}</strong>${x.finalUrl!==x.url?`<div class="note">pedida: ${esc(x.url)}</div>`:""}</td><td class="${x.status<300?"cell-good":x.status<400?"cell-mid":"cell-bad"}">${x.status}</td><td>${x.redirects.length?esc(x.redirects.map(y=>y.status).concat(x.status).join(" → ")):"—"}</td><td>${x.ms} ms</td><td>${Math.round(x.bytes/1024)} KB</td><td class="${/noindex|none/i.test(xrt)?"cell-bad":""}">${esc(xrt||"—")}</td><td class="${bad?"cell-bad":"cell-good"}">${esc(x.auditError||"Auditada")}</td>`
+    tr.innerHTML=x.ok?`<td><strong>${esc(x.finalUrl)}</strong>${x.finalUrl!==x.url?`<div class="note">pedida: ${esc(x.url)}</div>`:""}</td><td class="${x.status<300?"cell-good":x.status<400?"cell-mid":"cell-bad"}">${x.status}</td><td>${x.redirects.length?esc(x.redirects.map(y=>y.status).concat(x.status).join(" → ")):"—"}</td><td>${x.ms} ms</td><td>${Math.round(x.bytes/1024)} KB</td><td class="${blocksIndex(xrt)?"cell-bad":""}">${esc(xrt||"—")}</td><td class="${bad?"cell-bad":"cell-good"}">${esc(x.auditError||"Auditada")}</td>`
       :`<td><strong>${esc(x.url)}</strong></td><td class="cell-bad">Error</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="cell-bad">${esc(x.error)}</td>`;
     body.appendChild(tr)
   });
@@ -3178,10 +3200,20 @@ function batchCsv(){
   batchLatest.forEach(r=>{const cr=crawlMap.get(r.name);rows.push([r.name,cr?cr.status:"",cr?cr.ms:"",r.type,r.words,r.unified,r.geoScore,r.quality.toFixed(1),r.verdict,r.commodity])});
   return rows.map(row=>row.map(csvEscape).join(",")).join("\n")
 }
-$("#crawlBtn").addEventListener("click",()=>analyzeUrls($("#urlList").value.split(/[\n\s,]+/)));
+$("#crawlBtn").addEventListener("click",()=>analyzeUrls($("#urlList").value.split(/\s+|,(?=\s*(?:https?:\/\/|www\.))/)));
 $("#sitemapBtn").addEventListener("click",crawlSitemap);
+$("#sitemapUrl").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();crawlSitemap()}});
 $("#urlList").addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="Enter"){e.preventDefault();e.stopPropagation();$("#crawlBtn").click()}});
 ["#robots","#llms"].forEach(id=>$(id).addEventListener("input",()=>{$(id).dataset.auto=""}));
+// «Ver» en el lote: abre la auditoría completa de esa URL/archivo sin volver a descargarlo.
+function openBatchDoc(name){
+  const doc=batchDocs.find(x=>x.name===name);if(!doc)return;
+  const item=currentCrawl?.summary.items.find(x=>x.ok&&x.finalUrl===name);
+  if(item&&currentCrawl.texts?.has(name)){currentCrawl.snapshot=currentCrawl.texts.get(name);currentCrawl.summary.first=item;$("#pageUrl").value=name}
+  source.value=item?currentCrawl.snapshot:doc.text;$("#formatChip").textContent=detectType(source.value).toUpperCase();
+  run();toast(`Auditoría completa: ${name.length>60?name.slice(0,57)+"…":name}`)
+}
+$("#batchBody").addEventListener("click",e=>{const b=e.target.closest("[data-open-doc]");if(b)openBatchDoc(b.dataset.openDoc)});
 $("#batchCsvBtn").addEventListener("click",()=>{if(!batchLatest.length)return;const blob=new Blob(["﻿"+batchCsv()],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="auditoria-lote.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)});
 detectCrawler();
 

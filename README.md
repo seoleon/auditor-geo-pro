@@ -10,7 +10,9 @@ npm install
 npm start          # → http://localhost:8080 con análisis de URLs en vivo
 ```
 
-Escribe una o varias URLs (hasta 50) y pulsa **Analizar URLs**, o indica un sitemap y pulsa **Rastrear sitemap**.
+Escribe una o varias URLs (hasta 50) y pulsa **Analizar URLs**, o indica un sitemap y pulsa **Rastrear sitemap**. También puedes pegar una URL directamente en el cuadro principal y pulsar **Auditar página**. En el lote, el botón **Ver** abre la auditoría completa de cualquier URL sin volver a descargarla.
+
+> Por seguridad, `npm start` solo escucha en tu equipo (127.0.0.1). Para exponerlo a propósito, por ejemplo en un contenedor: `HOST=0.0.0.0 npm start`.
 
 > ⚠️ Es una heurística de priorización. No es una puntuación de Google ni garantiza ranking, citas o inclusión en ningún motor.
 

@@ -314,3 +314,66 @@ test("el informe ejecutivo escapa cualquier texto del usuario", async () => {
   assert.deepEqual(errors, []);
   await context.close();
 });
+
+test("robots.txt sigue el estándar RFC 9309: precedencia por longitud y parámetros de la URL", async () => {
+  const { page, context, errors } = await openPage();
+  await page.evaluate(() => { document.querySelector("details.advanced").open = true; });
+  const card = async agent => (await page.locator("#techGrid > *").allInnerTexts()).find(t => t.includes("· " + agent)) || "";
+  const check = async (url, robots) => { await page.fill("#pageUrl", url); await page.fill("#robots", robots); await page.fill("#source", "<html><body><h1>T</h1><p>Texto de prueba.</p></body></html>"); await page.click("#scoreBtn"); };
+  // La regla más larga gana contando comodines (Allow /*/landing = 10 > Disallow /promo/la = 9)
+  await check("https://x.com/promo/landing", "User-agent: *\nAllow: /*/landing\nDisallow: /promo/la");
+  assert.match(await card("OAI-SearchBot"), /Permitido/i);
+  // Los parámetros cuentan: Disallow: /*? bloquea URLs con query
+  await check("https://x.com/listado?page=2", "User-agent: *\nDisallow: /*?");
+  assert.match(await card("OAI-SearchBot"), /Bloqueado/i);
+  await check("https://x.com/listado", "User-agent: *\nDisallow: /*?");
+  assert.match(await card("OAI-SearchBot"), /Permitido/i);
+  // Grupo específico manda sobre *, y en empate gana Allow
+  await check("https://x.com/a", "User-agent: *\nDisallow: /\n\nUser-agent: OAI-SearchBot\nAllow: /a\nDisallow: /a");
+  assert.match(await card("OAI-SearchBot"), /Permitido/i);
+  assert.match(await card("PerplexityBot"), /Bloqueado/i);
+  // Disallow vacío no bloquea nada
+  await check("https://x.com/", "User-agent: *\nDisallow:");
+  assert.match(await card("Googlebot"), /Permitido/i);
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test("YMYL y preguntas: sin falsos positivos con vocabulario SEO habitual", async () => {
+  const { page, context, errors } = await openPage();
+  const doc = (h1, hs) => `<html lang="es"><head><title>${h1}</title></head><body><main><h1>${h1}</h1>${hs.map(h => `<h2>${h}</h2><p>Explicación breve y concreta de esta sección con un dato del 2025.</p>`).join("")}</main></body></html>`;
+  await audit(page, doc("Medición e investigación de palabras clave", ["Diagnóstico SEO de tu web", "Taxonomía del blog", "Es seguro usar IA para escribir", "Seguridad web para WordPress", "Tratamiento de datos personales"]));
+  assert.equal(await page.textContent("#ymylOut"), "No");
+  const qa = async () => (await page.locator("#qaStats").innerText()).match(/PREGUNTAS H2\/H3\s*(\d+)/i)?.[1];
+  assert.equal(await qa(), "0", "«Es seguro…» no es una pregunta");
+  await audit(page, doc("Cómo elegir una hipoteca", ["Qué es el Euríbor", "Cuánto cuesta una hipoteca", "¿Merece la pena amortizar?", "Es importante comparar"]));
+  assert.equal(await page.textContent("#ymylOut"), "Sí");
+  assert.equal(await qa(), "3");
+  await audit(page, doc("Síntomas de la gripe", ["Cuándo ir al médico"]));
+  assert.match(await page.textContent("#ymylWhy"), /salud/);
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test("claims comparativos con tilde («único», «#1») se detectan", async () => {
+  const { page, context, errors } = await openPage();
+  await audit(page, '<html lang="es"><body><main><h1>Agencia</h1><p>Somos la única agencia que garantiza resultados en buscadores generativos.</p><p>Nuestra herramienta es la #1 del mercado español en auditorías.</p></main></body></html>');
+  const claims = await page.locator("#claimsBody").innerText();
+  assert.match(claims, /única agencia/);
+  assert.match(claims, /#1 del mercado/);
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test("enlazado interno: las anclas y javascript: no cuentan como enlaces internos", async () => {
+  const { page, context, errors } = await openPage();
+  await page.evaluate(() => { document.querySelector("details.advanced").open = true; });
+  await page.fill("#pageUrl", "https://x.com/guia/");
+  const card = async () => (await page.locator("#onpageGrid > *").allInnerTexts()).find(t => /Enlazado interno/i.test(t)) || "";
+  await audit(page, '<html><body><main><h1>Guía</h1><p><a href="#a">Ir a A</a> <a href="#b">Ir a B</a> <a href="javascript:void(0)">x</a> <a href="mailto:a@x.com">mail</a> <a href="/guia/">esta misma</a></p><h2 id="a">A</h2><p>Texto.</p></main></body></html>');
+  assert.match(await card(), /\n0\n/);
+  await audit(page, '<html><body><main><h1>Guía</h1><p><a href="/otra/">Otra</a> <a href="../precios/">Precios</a> <a href="https://x.com/blog/">Blog</a> <a href="https://otro.com/">Fuera</a></p></main></body></html>');
+  assert.match(await card(), /\n3\n/);
+  assert.deepEqual(errors, []);
+  await context.close();
+});

@@ -27,26 +27,37 @@ function decode(buf, contentType) {
   if (!charset) charset = (new TextDecoder("latin1").decode(buf.subarray(0, 4096)).match(/<meta[^>]+charset=["']?([\w-]+)/i) || [])[1];
   try { return new TextDecoder(charset || "utf-8").decode(buf); } catch { return new TextDecoder("utf-8").decode(buf); }
 }
-export async function crawl(target, { allowPrivate = false, userAgent = "Mozilla/5.0 (compatible; AuditorGEOPRO-Worker; +https://github.com/seoleon/auditor-geo-pro)" } = {}) {
+export async function crawl(target, { allowPrivate = false, timeoutMs = TIMEOUT_MS, userAgent = "Mozilla/5.0 (compatible; AuditorGEOPRO-Worker; +https://github.com/seoleon/auditor-geo-pro)" } = {}) {
   const started = Date.now(), redirects = []; let url = target;
+  // Un único límite de tiempo TOTAL que cubre redirecciones y la descarga completa del cuerpo.
+  const ctrl = new AbortController(), timer = setTimeout(() => ctrl.abort(), timeoutMs);
+  const timeoutError = () => new Error(`Tiempo de espera agotado (${Math.round(TIMEOUT_MS / 1000)} s).`);
+  try {
   for (let i = 0; i <= MAX_REDIRECTS; i++) {
     const u = new URL(url);
     if (!/^https?:$/.test(u.protocol)) throw new Error("Solo se admiten URLs http(s).");
     if (!allowPrivate && PRIVATE_HOST.test(u.hostname)) throw Object.assign(new Error("Destino bloqueado: la URL apunta a una red privada o local."), { blocked: true });
-    const ctrl = new AbortController(), timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
     let res;
     try { res = await fetch(url, { redirect: "manual", signal: ctrl.signal, headers: { "user-agent": userAgent, accept: "text/html,application/xhtml+xml,application/xml;q=0.9,text/plain;q=0.8,*/*;q=0.5", "accept-language": "es-ES,es;q=0.9,en;q=0.8" } }); }
-    catch (e) { throw new Error(e.name === "AbortError" ? "Tiempo de espera agotado (20 s)." : (e.message || "Error de red.")); }
-    finally { clearTimeout(timer); }
+    catch (e) { throw ctrl.signal.aborted ? timeoutError() : new Error(e.message || "Error de red."); }
     if (res.status >= 300 && res.status < 400 && res.headers.get("location")) {
       redirects.push({ url, status: res.status });
       if (i === MAX_REDIRECTS) throw new Error(`Demasiadas redirecciones (más de ${MAX_REDIRECTS}).`);
-      url = new URL(res.headers.get("location"), url).href; continue;
+      try { url = new URL(res.headers.get("location"), url).href; } catch { throw new Error(`El servidor envió una redirección no válida (${String(res.headers.get("location")).slice(0, 80)}).`); }
+      continue;
     }
-    const buf = await readCapped(res), headers = {};
+    let buf;
+    try { buf = await readCapped(res); } catch (e) { throw ctrl.signal.aborted ? timeoutError() : e; }
+    const headers = {};
     for (const k of KEEP) { const v = res.headers.get(k); if (v != null) headers[k] = v; }
-    return { ok: true, url: target, finalUrl: url, status: res.status, statusText: res.statusText || "", redirects, headers, ms: Date.now() - started, bytes: buf.length, body: decode(buf, res.headers.get("content-type")) };
+    return { ok: true, url: target, finalUrl: url, status: res.status, statusText: res.statusText || "", redirects, headers, ms: Date.now() - started, bytes: buf.length, body: decode(await gunzipIfNeeded(buf, res.headers.get("content-type")), res.headers.get("content-type")) };
   }
+  } finally { clearTimeout(timer); }
+}
+// Sitemaps .gz servidos como application/gzip sin Content-Encoding: fetch no los descomprime.
+async function gunzipIfNeeded(buf, contentType) {
+  if (!/gzip/i.test(contentType || "") || buf[0] !== 0x1f || buf[1] !== 0x8b || typeof DecompressionStream === "undefined") return buf;
+  return readCapped(new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"))));
 }
 export default {
   async fetch(request, env) {
