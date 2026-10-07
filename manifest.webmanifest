@@ -1,0 +1,14 @@
+{
+  "name": "Auditor GEO PRO V8",
+  "short_name": "Auditor GEO",
+  "description": "Auditoría GEO, calidad, legibilidad y preparación para buscadores con IA. 100% local en el navegador.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3eee5",
+  "theme_color": "#171713",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
