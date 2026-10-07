@@ -356,3 +356,48 @@ test('reescritura: llama a Claude en streaming con esfuerzo y fallbacks', async 
   assert.equal(enviado.fallbacks, 'default');
   assert.deepEqual(enviado.output_config, { effort: 'high' });
 });
+
+test('CSV: escapa comillas y neutraliza fórmulas de Excel', async () => {
+  const { csv } = await import('../src/almacen.js');
+  const salida = csv([['titulo', 'url'], ['=HYPERLINK("http://x","clic")', 'https://a.com/?a=1,2'], ['+34 600', '@SUM(A1)']]);
+  const lineas = salida.trim().split('\n');
+  assert.equal(lineas[1], `"'=HYPERLINK(""http://x"",""clic"")","https://a.com/?a=1,2"`);
+  assert.equal(lineas[2], `'+34 600,'@SUM(A1)`);
+});
+
+test('el informe incluye cada respuesta con las marcas resaltadas y sus fuentes', () => {
+  const respuestas = [
+    {
+      id: 'p1', motor: 'chatgpt', pregunta: '¿Mejor programa?', categoria: 'recomendacion', fuente: 'navegador',
+      texto: 'Facturalia y Holded <b>destacan</b>.', heuristico: true,
+      citas: [{ url: 'https://holded.com/precios', dominio: 'holded.com', titulo: '' }],
+      marcas: [
+        { marca: 'Facturalia', propia: true, mencionada: true, citada: false, posicion: 1, urls: [] },
+        { marca: 'Holded', propia: false, mencionada: true, citada: true, posicion: 2, urls: [] },
+      ],
+    },
+    { id: 'p1', motor: 'claude', pregunta: '¿Mejor programa?', categoria: 'recomendacion', error: 'Cupo gratuito agotado por ahora' },
+  ];
+  const html = generarHtml({ config: CONFIG, fecha: '2026-10-05', analisis: analizar(respuestas, CONFIG), respuestas });
+  assert.match(html, /<mark class="tu">Facturalia<\/mark> y <mark class="comp">Holded<\/mark> &lt;b&gt;destacan&lt;\/b&gt;/);
+  assert.match(html, /1\/1 motores te nombran/);
+  assert.match(html, /leída con plan B/);
+  assert.match(html, /⚠ Cupo gratuito agotado por ahora/);
+  assert.match(html, /1 fuentes citadas/);
+});
+
+test('config.json: errores claros si el JSON está mal o hay un motor desconocido', async () => {
+  const { cargarConfig } = await import('../src/config.js');
+  const { writeFile } = await import('node:fs/promises');
+  const dir = await mkdtemp(path.join(tmpdir(), 'geo-cfg-'));
+  try {
+    const ruta = path.join(dir, 'config.json');
+    await writeFile(ruta, '{"marca": {"nombre": "X"},}');
+    await assert.rejects(cargarConfig(ruta), /no es un JSON válido/);
+    await writeFile(ruta, JSON.stringify({ marca: { nombre: 'X' }, motores: { bing: { activo: true } } }));
+    await assert.rejects(cargarConfig(ruta), /motor desconocido "bing"/);
+    await assert.rejects(cargarConfig(path.join(dir, 'no-existe.json')), /config\.example\.json/);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});

@@ -9,7 +9,7 @@
     "geo-monitor": "src/cli.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "capturar": "node src/cli.js capturar",
@@ -17,7 +17,7 @@
     "ejecutar": "node src/cli.js ejecutar",
     "simular": "node src/cli.js ejecutar --simular",
     "informe": "node src/cli.js informe",
-    "test": "node --test --test-concurrency=1 tests/*.test.js"
+    "test": "node --test --test-concurrency=1 \"tests/*.test.js\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",

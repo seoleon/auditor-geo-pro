@@ -42,6 +42,29 @@ export function servirSitiosFalsos() {
         <a href="https://www.google.com/url?q=https://getquipu.com/blog&amp;sa=U">Quipu blog</a>
         <a href="https://support.google.com/ayuda">Ayuda</a></div>`));
     }
+    if (url.pathname === '/claude-auto') {
+      // Variante que ya envía sola la pregunta del enlace: no se debe volver a enviar.
+      return res.end(pagina(`<div id="hilo"></div><div contenteditable="true" id="editor" style="min-height:40px;border:1px solid"></div>
+        <script>${STREAM('#hilo', 'font-claude-response', '', 'https://claude.ai')}
+        let envios=0;
+        function enviar(t){envios++;if(envios>1){const d=document.createElement('div');d.className='font-claude-response';d.textContent='ENVIADA DOS VECES';document.getElementById('hilo').appendChild(d);return}responder(t)}
+        const q=new URLSearchParams(location.search).get('q');if(q)setTimeout(()=>enviar(q),300);
+        document.getElementById('editor').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const t=e.target.innerText.trim();e.target.innerText='';if(t)enviar(t)}});</script>`));
+    }
+    if (url.pathname === '/limite-producto') {
+      return res.end(pagina(`<div class="prose">Facturalia tiene un plan gratis con un límite de uso de 5 facturas al mes; Holded no tiene plan gratis.</div>`));
+    }
+    if (url.pathname === '/rediseno') {
+      // El selector configurado ya no existe: la respuesta está en un formato nuevo.
+      return res.end(pagina(`<main><nav>${'Historial de chats '.repeat(5)}</nav><div class="usuario">¿Mejor programa?</div>
+        <div class="formato-nuevo-2027"><p>Para autónomos en España destacan Holded y Quipu por su facilidad de uso.</p>
+        <p>Facturalia es la opción más económica y cumple con Verifactu desde el primer día.</p>
+        <p>Fuente: <a href="https://getquipu.com/blog">blog de Quipu</a>.</p></div></main>`));
+    }
+    if (url.pathname === '/fuentes-tardias') {
+      return res.end(pagina(`<div data-subtree="aimc"><p>Quipu y Holded son las opciones más citadas para autónomos en España.</p></div>
+        <script>setTimeout(()=>{document.querySelector('[data-subtree="aimc"]').insertAdjacentHTML('beforeend','<a href="https://getquipu.com/fuente">Quipu</a>')},7000)</script>`));
+    }
     if (url.pathname === '/captcha') return res.end(pagina('<h1>Verify you are human</h1>'));
     res.end(pagina('<p>?</p>'));
   });

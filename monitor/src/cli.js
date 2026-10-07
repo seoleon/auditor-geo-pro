@@ -21,6 +21,7 @@ Uso: node src/cli.js <comando> [opciones]
 Comandos (gratis: usan las versiones gratuitas de cada motor en tu navegador)
   capturar     Panel local: abre cada pregunta en tu navegador y guardas la respuesta con un marcador (manual, 100 % seguro)
   acceder      Abre el navegador automático para iniciar sesión una vez en cada motor
+  probar       Hace UNA pregunta a cada motor y comprueba que se lee bien (hazlo antes de la primera semana)
   ejecutar     Hace todas las preguntas, guarda respuestas, inspecciona schema/llms.txt y genera el informe
                (modo "navegador": automatiza las webs gratuitas; modo "api": APIs de pago)
   informe      Regenera el informe de una ejecución ya guardada
@@ -41,6 +42,7 @@ Opciones
   --simular             respuestas falsas, sin APIs ni coste
   --sin-inspeccion      no visitar las URLs citadas
   --pregunta <ids>      (reescribir) IDs separados por comas; por defecto los 5 peores huecos
+                        (probar) texto de la pregunta de prueba
   --categoria <c>       (reescribir) usar los huecos de esa categoría
   --url <url>           (reescribir) tu página a reescribir
   --solo-brief          (reescribir) no llamar a Claude, solo guardar el brief
@@ -125,16 +127,36 @@ async function main() {
       console.log('✅ Sesiones guardadas. Ya puedes lanzar: node src/cli.js ejecutar');
       break;
     }
+    case 'probar': {
+      const { probarMotores } = await import('./navegador/automatico.js');
+      let pregunta = op.pregunta;
+      if (!pregunta) {
+        try {
+          pregunta = (await cargarPreguntas(config))[0].texto;
+        } catch {
+          pregunta = '¿Cuál es el mejor programa de facturación para autónomos?';
+        }
+      }
+      const r = await probarMotores(config, pregunta, { soloMotores: op.motores?.split(',').map((s) => s.trim()) });
+      if (Object.values(r).some((x) => !['ok', 'plan-b', 'incompleta'].includes(x.estado))) process.exitCode = 2;
+      break;
+    }
     case 'capturar': {
       const { crearServidor } = await import('./navegador/asistido.js');
       const fecha = op.fecha || fechaSemana();
       const preguntas = await cargarPreguntas(config);
-      const { servidor, url } = crearServidor(config, preguntas, { fecha, puerto: Number(op.puerto || 4567) });
-      servidor.listen(Number(op.puerto || 4567), '127.0.0.1', () => {
-        console.log(`🧭 Panel de captura de la semana ${fecha}: ${url}`);
-        console.log('   Ábrelo en tu navegador habitual. Ctrl+C para salir.');
+      const puerto = Number(op.puerto || 4567);
+      const { servidor, url } = crearServidor(config, preguntas, { fecha, puerto });
+      await new Promise((resolver, rechazar) => {
+        servidor.once('error', (err) =>
+          rechazar(err.code === 'EADDRINUSE' ? new Error(`El puerto ${puerto} está ocupado (¿ya tienes el panel abierto?). Usa --puerto ${puerto + 1}`) : err),
+        );
+        servidor.listen(puerto, '127.0.0.1', () => {
+          console.log(`🧭 Panel de captura de la semana ${fecha}: ${url}`);
+          console.log('   Ábrelo en tu navegador habitual. Ctrl+C para salir.');
+        });
+        servidor.on('close', resolver);
       });
-      await new Promise((r) => servidor.on('close', r));
       break;
     }
     case 'informe': {

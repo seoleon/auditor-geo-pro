@@ -54,7 +54,16 @@ export async function cargarConfig(ruta) {
       `No encuentro ${ruta}. Copia config.example.json a config.json y rellena tu marca y competidores.`,
     );
   }
-  const datos = JSON.parse(await readFile(ruta, 'utf8'));
+  let datos;
+  try {
+    datos = JSON.parse(await readFile(ruta, 'utf8'));
+  } catch (err) {
+    throw new Error(`${ruta} no es un JSON válido (${err.message}). Revisa comas y comillas.`);
+  }
+  for (const m of Object.keys(datos.motores || {})) {
+    if (!MOTORES.includes(m)) throw new Error(`config.json: motor desconocido "${m}". Válidos: ${MOTORES.join(', ')}`);
+  }
+  if (datos.modo && !['navegador', 'api'].includes(datos.modo)) throw new Error('config.json: "modo" debe ser "navegador" o "api".');
   if (!datos.marca?.nombre) throw new Error('config.json: falta "marca.nombre".');
   const motores = {};
   for (const m of MOTORES) motores[m] = { ...POR_DEFECTO.motores[m], ...(datos.motores?.[m] || {}) };

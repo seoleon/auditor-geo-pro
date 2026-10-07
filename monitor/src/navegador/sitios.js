@@ -47,7 +47,9 @@ export const SITIOS = {
     url: 'https://www.google.com/search?udm=50&hl=es&gl=es&q={q}',
     envioAutomatico: true,
     hosts: [...GOOGLE, 'youtube.com/redirect'],
-    selRespuesta: '[data-subtree="aimc"], [data-container-id="main-col"], #rso, [role="main"]',
+    // Solo el bloque de AI Mode: nunca los resultados orgánicos (#rso), que no son la respuesta de la IA.
+    selRespuesta: '[data-subtree="aimc"], [data-container-id="main-col"]',
+    heuristica: false,
     selPregunta: '',
     selFuentes: '',
     selEditor: 'textarea[name="q"], textarea',

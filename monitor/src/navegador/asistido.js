@@ -176,8 +176,11 @@ export function crearServidor(config, preguntas, { fecha, puerto = 4567, log = c
     res.end(typeof cuerpo === 'string' ? cuerpo : JSON.stringify(cuerpo));
   };
 
+  const hostsValidos = new Set([`127.0.0.1:${puerto}`, `localhost:${puerto}`]);
   const servidor = http.createServer(async (req, res) => {
     try {
+      // Protección frente a "DNS rebinding": solo se atiende a peticiones dirigidas a este equipo.
+      if (!hostsValidos.has(String(req.headers.host || '').toLowerCase())) return responder(res, 421, { error: 'Host no permitido' });
       const url = new URL(req.url, `http://127.0.0.1:${puerto}`);
       if (req.method === 'GET' && url.pathname === '/') return responder(res, 200, paginaPanel(token, puerto, marcador, fecha, config.marca.nombre), 'text/html; charset=utf-8');
       if (req.method === 'GET' && url.pathname === '/guardar') return responder(res, 200, paginaGuardar(token), 'text/html; charset=utf-8');

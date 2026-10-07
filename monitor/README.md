@@ -14,7 +14,7 @@ preguntas.txt ──► webs gratuitas (tu navegador) ──► respuestas.jsonl
 
 ## 1. Instalación
 
-Necesitas Node.js 20 o superior y Google Chrome.
+Necesitas Node.js 22 o superior y Google Chrome.
 
 ```bash
 cd monitor
@@ -43,13 +43,19 @@ Es la forma más fiel a un usuario real: tu navegador, sin automatizar nada. Si 
 
 ```bash
 node src/cli.js acceder    # primera vez: abre Chrome; inicia sesión en cada motor y ciérralo
+node src/cli.js probar     # 1 pregunta por motor: comprueba en 2 minutos que todo se lee bien
 node src/cli.js ejecutar   # escribe cada pregunta, espera a que termine la respuesta y la guarda
 ```
+
+`probar` muestra, para cada motor, ✅ (se lee bien), 🟡 (se lee con el plan B porque la web ha cambiado) o ❌ (no se lee, con el motivo). Además deja capturas en `datos/pruebas/`. **Hazlo antes de la primera semana y cuando algo te parezca raro.**
 
 - Abre un Chrome real y visible con su **propio perfil** (`.perfil-navegador/`, nunca se sube a git). Va motor por motor en pestañas, con pausas de 15–45 s entre preguntas.
 - ChatGPT se abre en **chat temporal** con búsqueda web, sin memoria ni historial.
 - Si un motor pide captcha, iniciar sesión o **agota el cupo gratuito**, ese motor se detiene y los demás siguen. **Vuelve a lanzar `ejecutar` más tarde esa misma semana** y continúa donde lo dejó: todo lo de una semana se guarda junto, en la carpeta del lunes.
-- Si no encuentra la respuesta, guarda una captura y el HTML en `datos/ejecuciones/<lunes>/diagnostico/` para ajustar los selectores.
+- Antes de dar una respuesta por terminada espera a que el texto **y sus fuentes** dejen de cambiar y a que desaparezca el botón «Detener». Si la web ya envió la pregunta sola, no la vuelve a escribir.
+- **Plan B:** si una web cambia de diseño y su selector deja de encontrar la respuesta, la lee igualmente como el bloque de texto principal de la página. La marca como «leída con plan B» en el informe y te avisa para que ajustes el selector.
+- Si no encuentra la respuesta, guarda una captura y el HTML en `datos/ejecuciones/<lunes>/diagnostico/`.
+- Si cierras el navegador a mitad, se detiene limpiamente: lo guardado se conserva y la próxima vez continúa.
 
 > ⚠️ Automatizar las webs de consumo puede ir contra sus condiciones de uso y provocar captchas o bloqueos de la cuenta. Usa cuentas gratuitas dedicadas, ritmo humano (100 preguntas por semana) o, si prefieres no arriesgar, la captura asistida.
 
@@ -95,7 +101,7 @@ datos/
     ├── llms/<dominio>.txt        # llms.txt (y llms-full.txt) de los dominios citados
     ├── huecos.md                 # preguntas donde no apareces y quién aparece en tu lugar
     ├── diagnostico/              # capturas cuando una respuesta no se pudo leer
-    ├── informe.html
+    ├── informe.html              # incluye TODAS las respuestas, con tu marca y competidores resaltados
     └── meta.json
 ```
 
@@ -106,6 +112,8 @@ datos/
 - **Posición**: orden en que aparece tu marca frente a las vigiladas.
 - **Cuota de voz**: % de respuestas que nombran cada marca, por motor.
 - **Huecos**: preguntas en las que al menos un motor no te nombra ni te cita.
+
+Al final del informe, **Todas las respuestas** muestra lo que contestó cada motor a cada pregunta. Tu marca y la competencia aparecen resaltadas, y cada respuesta lleva sus fuentes.
 
 Las respuestas de la IA cambian entre usuarios y días: fíjate en la tendencia de varias semanas, no en un dato suelto.
 
@@ -148,7 +156,7 @@ node src/cli.js schema   # datos/salida/schema.html → <script type="applicatio
 
 ### Si una web cambia y deja de leerse
 
-Abre la captura de `diagnostico/`, busca en el HTML el elemento que contiene la respuesta y pon su selector CSS en `config.json`:
+Lanza `node src/cli.js probar`. Si sale 🟡 o ❌, abre la captura de `datos/pruebas/` o de `diagnostico/`, busca en el HTML el elemento que contiene la respuesta y pon su selector CSS en `config.json`:
 
 ```json
 "motores": { "gemini": { "activo": true, "web": { "selRespuesta": "model-response .markdown" } } }
@@ -164,4 +172,4 @@ Si algún día quieres automatizarlo en la nube, `"modo": "api"` (o `--modo api`
 npm test
 ```
 
-Cubren el modo navegador automático y la captura asistida con réplicas locales de cada web. Comprueban las respuestas que llegan poco a poco, el editor en el que hay que escribir, los enlaces de redirección de Google, los captchas, la reanudación, el marcador y el token del panel. También cubren la lectura de las cuatro APIs, la detección de marcas y URLs, las métricas, la comparación semanal, el informe, el schema y el `llms.txt`.
+Cubren el modo navegador automático y la captura asistida con réplicas locales de cada web, incluidos los casos difíciles: una web que envía sola la pregunta (no se envía dos veces), una respuesta que habla de «límite de uso» (no se confunde con un cupo agotado), una web rediseñada (plan B), fuentes que cargan tarde, cierre del navegador a mitad, DNS rebinding contra el panel y fórmulas maliciosas en los CSV. Comprueban las respuestas que llegan poco a poco, el editor en el que hay que escribir, los enlaces de redirección de Google, los captchas, la reanudación, el marcador y el token del panel. También cubren la lectura de las cuatro APIs, la detección de marcas y URLs, las métricas, la comparación semanal, el informe, el schema y el `llms.txt`.

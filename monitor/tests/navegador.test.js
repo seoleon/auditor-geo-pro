@@ -165,3 +165,49 @@ test('abrirNavegador explica cómo seguir si no está Chrome instalado', async (
   config.navegador = { ...config.navegador, canal: 'canal-inexistente' };
   await assert.rejects(abrirNavegador(config), /npx playwright install chromium/);
 });
+
+test('casos difíciles: no envía dos veces, no confunde "límite de uso", plan B y fuentes tardías', { timeout: 120_000 }, async () => {
+  const { probarMotores } = await import('../src/navegador/automatico.js');
+  const base = `http://127.0.0.1:${falsos.puerto}`;
+  const config = configBase({ datos: 'datos-dificiles' });
+  config.motores = {
+    chatgpt: { activo: true, web: { url: `${base}/rediseno?q={q}` } },
+    claude: { activo: true, web: { url: `${base}/claude-auto?q={q}` } },
+    gemini: { activo: false },
+    perplexity: { activo: true, web: { url: `${base}/limite-producto?q={q}` } },
+    google: { activo: true, web: { url: `${base}/fuentes-tardias?q={q}` } },
+  };
+  config.navegador.esperaMaxSeg = 30;
+  const r = await probarMotores(config, PREGUNTAS[1].texto, { log: () => {} });
+
+  assert.equal(r.claude.estado, 'ok');
+  assert.doesNotMatch(r.claude.inicio, /DOS VECES/, 'no debe reenviar una pregunta que la web ya envió');
+
+  assert.equal(r.perplexity.estado, 'ok', 'una respuesta sobre "límite de uso" no es un cupo agotado');
+  assert.deepEqual(r.perplexity.marcas, ['Facturalia', 'Holded']);
+
+  assert.equal(r.chatgpt.estado, 'plan-b', 'web rediseñada: se lee con el plan B');
+  assert.match(r.chatgpt.inicio, /^Para autónomos/);
+  assert.equal(r.chatgpt.enlaces, 1);
+  assert.deepEqual(r.chatgpt.marcas.sort(), ['Facturalia', 'Holded', 'Quipu']);
+
+  assert.equal(r.google.estado, 'ok');
+  assert.equal(r.google.enlaces, 1, 'espera a las fuentes que cargan después del texto');
+});
+
+test('el panel rechaza peticiones con otro Host (DNS rebinding)', async () => {
+  const config = configBase({ datos: 'datos-host' });
+  const puerto = 4950 + Math.floor(Math.random() * 40);
+  const { servidor } = crearServidor(config, PREGUNTAS, { fecha: '2026-10-05', puerto, log: () => {} });
+  await new Promise((r) => servidor.listen(puerto, '127.0.0.1', r));
+  try {
+    const http = await import('node:http');
+    const status = await new Promise((r) =>
+      http.get({ host: '127.0.0.1', port: puerto, path: '/', headers: { host: `atacante.com:${puerto}` } }, (res) => r(res.statusCode)),
+    );
+    assert.equal(status, 421);
+    assert.equal((await fetch(`http://127.0.0.1:${puerto}/`)).status, 200);
+  } finally {
+    servidor.close();
+  }
+});

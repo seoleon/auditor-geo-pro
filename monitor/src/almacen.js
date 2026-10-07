@@ -49,10 +49,22 @@ export async function leerRespuestas(config, fecha) {
   return [...ultimos.values()];
 }
 
-export async function guardarRespuesta(config, fecha, registro) {
+// Las escrituras al mismo archivo se encadenan: varios motores guardan a la vez sin mezclar líneas.
+const colas = new Map();
+
+export function guardarRespuesta(config, fecha, registro) {
   const dir = dirEjecucion(config, fecha);
-  await mkdir(dir, { recursive: true });
-  await appendFile(path.join(dir, 'respuestas.jsonl'), JSON.stringify(registro) + '\n');
+  const archivo = path.join(dir, 'respuestas.jsonl');
+  const linea = JSON.stringify(registro) + '\n';
+  const anterior = colas.get(archivo) || Promise.resolve();
+  const siguiente = anterior
+    .catch(() => {})
+    .then(async () => {
+      await mkdir(dir, { recursive: true });
+      await appendFile(archivo, linea);
+    });
+  colas.set(archivo, siguiente);
+  return siguiente;
 }
 
 export async function guardarJson(ruta, datos) {
@@ -67,8 +79,10 @@ export async function leerJson(ruta, porDefecto = null) {
 
 export function csv(filas) {
   const celda = (v) => {
-    const s = v == null ? '' : String(v);
-    return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    let s = v == null ? '' : String(v);
+    // Evita que Excel/Sheets ejecute como fórmula un título o texto que empiece por = + - @.
+    if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
+    return /[",\n\r;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
   return filas.map((f) => f.map(celda).join(',')).join('\n') + '\n';
 }

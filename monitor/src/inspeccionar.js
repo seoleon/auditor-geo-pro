@@ -59,6 +59,20 @@ export function extraerMeta(html) {
   return { titulo, descripcion: meta('description'), h1, modificado };
 }
 
+async function enParalelo(elementos, limite, fn) {
+  const salida = new Array(elementos.length);
+  let i = 0;
+  await Promise.all(
+    Array.from({ length: Math.min(limite, elementos.length) }, async () => {
+      while (i < elementos.length) {
+        const k = i++;
+        salida[k] = await fn(elementos[k]);
+      }
+    }),
+  );
+  return salida;
+}
+
 function pareceLlmsTxt(r) {
   return r.status === 200 && !/html/i.test(r.tipo) && /^\s*#\s+\S/.test(r.texto);
 }
@@ -84,21 +98,20 @@ export async function inspeccionar(config, fecha, respuestas, { fetchImpl = fetc
   const dir = dirEjecucion(config, fecha);
   log(`🔎 Inspeccionando ${objetivo.length} URLs (schema) y sus dominios (llms.txt)…`);
 
-  const paginas = [];
-  for (const { url, citas } of objetivo) {
+  // Se mantiene el orden original (por número de citas) aunque se descarguen 5 a la vez.
+  const paginas = await enParalelo(objetivo, 5, async ({ url, citas }) => {
     try {
       const r = await descargar(url, fetchImpl);
       const esquema = /html/i.test(r.tipo) ? extraerEsquema(r.texto) : { tipos: [], microdatos: [], bloques: [], errores: [] };
-      paginas.push({ url, citas, status: r.status, ...extraerMeta(r.texto), esquema });
+      return { url, citas, status: r.status, ...extraerMeta(r.texto), esquema };
     } catch (e) {
-      paginas.push({ url, citas, error: String(e.message || e).slice(0, 200) });
+      return { url, citas, error: String(e.message || e).slice(0, 200) };
     }
-  }
+  });
 
   const dominios = [...new Set(objetivo.map((o) => dominio(o.url)).filter(Boolean))];
-  const llms = [];
   await mkdir(path.join(dir, 'llms'), { recursive: true });
-  for (const d of dominios) {
+  const llms = await enParalelo(dominios, 5, async (d) => {
     const entrada = { dominio: d, llmsTxt: false, llmsFullTxt: false };
     for (const [archivo, campo] of [['llms.txt', 'llmsTxt'], ['llms-full.txt', 'llmsFullTxt']]) {
       try {
@@ -112,8 +125,8 @@ export async function inspeccionar(config, fecha, respuestas, { fetchImpl = fetc
         // Dominio inaccesible o sin el archivo.
       }
     }
-    llms.push(entrada);
-  }
+    return entrada;
+  });
 
   const resultado = { fecha, paginas, llms };
   await guardarJson(path.join(dir, 'inspeccion.json'), resultado);

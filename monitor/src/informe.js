@@ -55,7 +55,53 @@ export async function actualizarHistorico(config, fecha, analisis) {
   });
 }
 
-export function generarHtml({ config, fecha, fechaAnterior, analisis: a, comparacion: c, inspeccion, historico = [], meta }) {
+/** Resalta en un texto YA escapado las marcas vigiladas (la propia con otro color). */
+export function resaltarMarcas(textoEscapado, config) {
+  const terminos = [];
+  const add = (m, propia) => {
+    for (const t of [m.nombre, ...(m.alias || [])]) if (t && t.trim().length > 1) terminos.push({ t: esc(t.trim()), propia });
+  };
+  if (config.marca) add(config.marca, true);
+  for (const c of config.competidores || []) add(c, false);
+  if (!terminos.length) return textoEscapado;
+  terminos.sort((x, y) => y.t.length - x.t.length);
+  const propias = new Set(terminos.filter((x) => x.propia).map((x) => x.t.toLowerCase()));
+  // `&` en el lookbehind: nunca se marca dentro de una entidad HTML como &amp;.
+  const re = new RegExp(`(?<![&\\p{L}\\p{N}])(${terminos.map((x) => x.t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})(?![\\p{L}\\p{N}])`, 'giu');
+  return textoEscapado.replace(re, (m) => `<mark class="${propias.has(m.toLowerCase()) ? 'tu' : 'comp'}">${m}</mark>`);
+}
+
+function visorRespuestas(respuestas, motores, config) {
+  if (!respuestas?.length) return '';
+  const porPregunta = new Map();
+  for (const r of respuestas) {
+    if (!porPregunta.has(r.id)) porPregunta.set(r.id, { pregunta: r.pregunta, categoria: r.categoria, motores: {} });
+    porPregunta.get(r.id).motores[r.motor] = r;
+  }
+  const bloques = [...porPregunta.values()].map((p) => {
+    const presentes = motores.filter((m) => p.motores[m]?.marcas?.some((x) => x.propia && (x.mencionada || x.citada))).length;
+    const validos = motores.filter((m) => p.motores[m] && !p.motores[m].error).length;
+    const celdas = motores
+      .filter((m) => p.motores[m])
+      .map((m) => {
+        const r = p.motores[m];
+        if (r.error) return `<div class="resp"><h4>${esc(NOMBRES_MOTOR[m])}</h4><p class="nota">⚠ ${esc(r.error)}</p></div>`;
+        const avisos = [r.heuristico ? 'leída con plan B' : '', r.incompleta ? 'posiblemente incompleta' : '', r.fuente && r.fuente !== 'navegador' ? r.fuente : '']
+          .filter(Boolean)
+          .map((x) => `<span class="chip">${esc(x)}</span>`)
+          .join(' ');
+        const fuentes = (r.citas || []).map((c) => `<li>${enlace(c.url)}</li>`).join('');
+        return `<div class="resp"><h4>${esc(NOMBRES_MOTOR[m])} ${avisos}</h4><div class="texto">${resaltarMarcas(esc(r.texto), config)}</div>${
+          fuentes ? `<details><summary>${r.citas.length} fuentes citadas</summary><ul class="urls">${fuentes}</ul></details>` : '<p class="nota">Sin enlaces.</p>'
+        }</div>`;
+      })
+      .join('');
+    return `<details class="pregunta"><summary><span class="cat">${esc(p.categoria)}</span> ${esc(p.pregunta)} <span class="chip">${presentes}/${validos} motores te nombran</span></summary><div class="resps">${celdas}</div></details>`;
+  });
+  return `<p class="nota">Pulsa una pregunta para leer qué contestó cada motor. <mark class="tu">Tu marca</mark> y <mark class="comp">competidores</mark> resaltados.</p>${bloques.join('')}`;
+}
+
+export function generarHtml({ config, fecha, fechaAnterior, analisis: a, comparacion: c, inspeccion, historico = [], meta, respuestas = [] }) {
   const motores = a.motores;
   const marca = config.marca.nombre;
 
@@ -235,6 +281,12 @@ tr.propia{background:var(--propia)}
 a{color:var(--acento)}
 pre{white-space:pre-wrap;font-size:.8rem;background:var(--fondo);padding:8px;border-radius:6px}
 ul{padding-left:18px}
+mark.tu{background:#ffe08a;color:#1d1d1b;padding:0 2px;border-radius:3px}mark.comp{background:#d9e4ff;color:#1d1d1b;padding:0 2px;border-radius:3px}
+details.pregunta{background:var(--panel);border:1px solid var(--borde);border-radius:10px;margin:8px 0;padding:10px 14px}
+details.pregunta>summary{cursor:pointer;font-weight:600}
+.resps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}
+.resp{border-top:1px solid var(--borde);padding-top:8px;min-width:0}.resp h4{margin:0 0 6px;font-size:.95rem}
+.resp .texto{white-space:pre-wrap;font-size:.88rem;max-height:420px;overflow:auto}
 .dos{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
 @media (max-width:640px){th,td{padding:6px}.kpi strong{font-size:1.4rem}}
 </style>
@@ -253,6 +305,7 @@ ul{padding-left:18px}
   <h2>Dominios más citados</h2><div class="tabla">${dominios}</div>
   <h2>URLs más citadas</h2><div class="tabla">${urls}</div>
   <h2>Qué hacen las páginas citadas: schema y llms.txt</h2>${bloqueInspeccion}
+  <h2>Todas las respuestas</h2>${visorRespuestas(respuestas, motores, config)}
   <p class="nota">Generado por geo-monitor. Las respuestas de la IA varían entre ejecuciones: mira tendencias de varias semanas, no un único dato.</p>
 </main>
 </body>
