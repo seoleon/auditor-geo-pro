@@ -7,7 +7,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
-import { chromium } from "playwright";
+import * as playwright from "playwright";
+
+// Navegador de las pruebas: chromium (por defecto), firefox o webkit. CI las ejecuta en los tres.
+const BROWSER = process.env.BROWSER || "chromium";
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -26,7 +29,7 @@ before(async () => {
   });
   await new Promise(r => server.listen(0, "127.0.0.1", r));
   base = `http://127.0.0.1:${server.address().port}/`;
-  browser = await chromium.launch();
+  browser = await playwright[BROWSER].launch();
 });
 
 after(async () => {

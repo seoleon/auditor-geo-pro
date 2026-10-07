@@ -24,7 +24,7 @@
 ### Añadido
 - «Ver» en el lote: abre la auditoría completa de cualquier URL sin volver a descargarla.
 - Pegar una URL en el cuadro principal (o dejarlo vacío con una URL de página) la descarga y audita; Intro en el campo del sitemap lo rastrea.
-- 15 pruebas de regresión nuevas (38 en total), incluido fuzzing de respuestas malformadas.
+- 14 pruebas de regresión nuevas (37 en total), incluido fuzzing de respuestas malformadas.
 
 ## [8.2.0] · Modo bestia: análisis de URLs en vivo
 ### Añadido
