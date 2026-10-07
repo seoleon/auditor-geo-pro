@@ -80,6 +80,9 @@ test("la demo genera el informe completo sin errores", async () => {
   assert.match(r.robots, /User-agent: OAI-SearchBot/);
   assert.match(r.prompts, /^1\. /m);
   assert.doesNotMatch(r.text, BAD_TEXT);
+  const fixes = await page.$$eval("#actionGrid .action-card p", els => els.map(e => e.textContent.trim()));
+  assert.ok(fixes.length > 0);
+  assert.equal(new Set(fixes).size, fixes.length, "acciones duplicadas en el plan");
   assert.deepEqual(errors, []);
   await context.close();
 });
@@ -93,7 +96,8 @@ test("las exportaciones se descargan y no contienen valores rotos", async () => 
   assert.match(json.version, /^8\.\d+\.\d+$/);
   assert.ok(json.readability && json.onPage && json.social && json.aiKit);
   const html = await download(page, "#htmlReportBtn");
-  assert.match(html, /Legibilidad y on-page/);
+  for (const h of ["Informe ejecutivo", "Decisión de publicación", "Veredicto de quality", "Las 5 acciones prioritarias", "Quality: los cuatro pilares", "Preparación por motor de IA"]) assert.ok(html.includes(h), h);
+  assert.doesNotMatch(html, /<script/i);
   const csv = await download(page, "#csvBtn"), backlog = await download(page, "#backlogBtn");
   for (const out of [md, JSON.stringify(json), html, csv, backlog]) assert.doesNotMatch(out, BAD_TEXT);
   assert.deepEqual(errors, []);
@@ -282,6 +286,31 @@ test("el informe avisa cuando la página es antigua", async () => {
   const { page, context, errors } = await openPage();
   await audit(page, '<html lang="es"><head><title>Guía 2019</title><meta property="article:modified_time" content="2019-05-01"></head><body><main><h1>Guía</h1><p>Contenido publicado hace años sobre el tema.</p></main></body></html>');
   assert.match(await page.textContent("#qualityReport"), /Fecha más reciente detectada: 2019/);
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test("el informe ejecutivo escapa cualquier texto del usuario", async () => {
+  const { page, context, errors } = await openPage();
+  await page.click("#sampleBtn");
+  await page.evaluate(() => { document.querySelector("details.advanced").open = true; });
+  const evil = '<img src=x onerror=alert(1)>"><script>alert(2)</script>';
+  await page.fill("#projectName", evil);
+  await page.fill("#targetQuery", evil);
+  await page.fill("#pageTypes", evil + "; 10; 5; 1; 0; sí; no");
+  await page.click("#scoreBtn");
+  const [d] = await Promise.all([page.waitForEvent("download"), page.click("#execReportBtn")]);
+  assert.equal(d.suggestedFilename(), "informe-ejecutivo-geo-quality.html");
+  const html = fs.readFileSync(await d.path(), "utf8");
+  assert.ok(!html.includes("<img src=x"), "img sin escapar");
+  assert.doesNotMatch(html, /<script/i);
+  assert.ok(html.includes("&lt;img src=x onerror=alert(1)&gt;"));
+  // El informe descargado se abre sin errores ni diálogos
+  const p2 = await context.newPage(); const errs2 = [];
+  p2.on("pageerror", e => errs2.push(e.message)); p2.on("dialog", dl => { errs2.push("dialog"); dl.dismiss(); });
+  await p2.setContent(html);
+  assert.match(await p2.textContent("h1"), /onerror/);
+  assert.deepEqual(errs2, []);
   assert.deepEqual(errors, []);
   await context.close();
 });

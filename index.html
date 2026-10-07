@@ -651,7 +651,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   <div class="section-head" id="sec-resumen"><h2>Resumen ejecutivo</h2><p>Lo que un SEO o editor necesita saber antes de entrar en el detalle.</p></div>
   <section class="panel executive">
     <div><div class="label">Diagnóstico</div><h3 id="execTitle">—</h3></div>
-    <div><p id="execBody">—</p><div class="inline-list" id="execTags"></div></div>
+    <div><p id="execBody">—</p><div class="inline-list" id="execTags"></div><div class="controls"><button class="primary tiny" id="execReportBtn" type="button">Descargar informe ejecutivo</button><button class="secondary tiny" id="execPrintBtn" type="button">Imprimir / PDF</button></div></div>
   </section>
 
 
@@ -927,7 +927,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
       <button class="secondary tiny" id="copyBtn">Copiar informe completo</button>
     </div>
     <div class="toolbar-group">
-      <button class="secondary tiny" id="htmlReportBtn">Informe HTML</button><button class="secondary tiny" id="backlogBtn">Backlog CSV</button><button class="secondary tiny" id="csvBtn">Auditoría CSV</button>
+      <button class="secondary tiny" id="htmlReportBtn">Informe ejecutivo (HTML)</button><button class="secondary tiny" id="backlogBtn">Backlog CSV</button><button class="secondary tiny" id="csvBtn">Auditoría CSV</button>
       <button class="secondary tiny" id="downloadBtn">Descargar Markdown</button>
       <button class="secondary tiny" id="jsonBtn">Descargar JSON</button>
       <button class="secondary tiny" id="printBtn">Imprimir / PDF</button>
@@ -2309,7 +2309,7 @@ function mergeGoogle2026Actions(items,g){
     priority:(1-x.score)*x.weight*1.15,source:"Google MC 2026"
   }));
   const all=[...items,...more],seen=new Set();
-  return all.sort((a,b)=>b.priority-a.priority).filter(x=>{const k=x.title.toLowerCase();if(seen.has(k))return false;seen.add(k);return true})
+  return all.sort((a,b)=>b.priority-a.priority).filter(x=>{const k=x.title.toLowerCase(),f="fix:"+String(x.fix||"").toLowerCase().trim();if(seen.has(k)||(x.fix&&seen.has(f)))return false;seen.add(k);if(x.fix)seen.add(f);return true})
 }
 
 
@@ -2408,18 +2408,67 @@ function renderLedger(rows,geo,q){const box=$("#ledgerSummary");box.innerHTML=""
 function backlogCsv(r){const rows=[["Prioridad","Acción","Impacto","Esfuerzo","Origen","Boost perfil","Fix"]];r.actions.forEach((x,i)=>rows.push([i+1,x.title,x.impact,x.effort,x.source,x.profileBoost?`+${x.profileBoost}%`:"0%",x.fix]));return rows.map(row=>row.map(csvEscape).join(",")).join("\n")}
 
 function fullHtmlReport(r){
-  const actions=r.actions.map((x,i)=>`<li><strong>${i+1}. ${esc(x.title)}</strong> — ${esc(x.fix)} <small>(impacto ${esc(x.impact)}, esfuerzo ${esc(x.effort)})</small></li>`).join("");
-  const geos=r.geo.checks.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.state.label)}</td><td>${x.na?"N/A":x.points.toFixed(1)+" / "+x.weight}</td><td>${esc(x.found)}</td><td>${esc(x.fix)}</td></tr>`).join("");
-  const claims=r.claims.slice(0,20).map(x=>`<tr><td>${esc(x.text)}</td><td>${esc(x.type)}</td><td>${esc(x.risk)}</td><td>${esc(x.fix)}</td></tr>`).join("");
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Informe GEO — ${esc(r.ctx.pageUrl||"Página")}</title><style>
-  body{font-family:system-ui,-apple-system,sans-serif;max-width:1080px;margin:40px auto;padding:0 20px;color:#171713;background:#faf7f0}h1,h2{font-family:Georgia,serif}h1{font-size:44px}h2{margin-top:34px} .scores{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.card{background:white;border:1px solid #ddd4c7;border-radius:16px;padding:18px}.big{font-size:38px;font-weight:900}table{width:100%;border-collapse:collapse;background:white}th,td{padding:10px;border:1px solid #e4ddd3;text-align:left;vertical-align:top;font-size:12px}th{background:#f2ece2}li{margin:9px 0;line-height:1.45}.muted{color:#6f695f}@media(max-width:700px){.scores{grid-template-columns:1fr}}</style></head><body>
-  <div class="muted">AUDITOR GEO PRO V8.1 · INFORME EXPORTADO</div><h1>${esc(r.ctx.projectName||"Auditoría GEO de Calidad")}</h1><p>${r.ctx.analystName?`<strong>Analista:</strong> ${esc(r.ctx.analystName)}<br>`:""}${r.ctx.pageUrl?`<strong>URL:</strong> ${esc(r.ctx.pageUrl)}<br>`:""}${esc(r.exec.body)}</p>
-  <div class="scores"><div class="card"><div>Global</div><div class="big">${r.unified}/100</div></div><div class="card"><div>GEO</div><div class="big">${r.geo.score}/100</div></div><div class="card"><div>Calidad</div><div class="big">${r.quality.total.toFixed(1)}/16</div></div></div><h2>Puerta de publicación</h2><p><strong>${esc(r.release.state)}</strong> · ${esc(r.release.body)}<br><span class="muted">${esc(r.release.signature)}</span></p><h2>Calidad MC 2026</h2><p><strong>${r.google2026.score}/100 — ${esc(r.google2026.grade)}</strong>. ${esc(r.google2026.verdict)}</p>
-  <h2>Preparación por motor</h2><ul>${r.engines.map(x=>`<li><strong>${esc(x.name)}:</strong> ${x.effective}/100 · ${esc(x.gate)} · fit ${x.fit}/100</li>`).join("")}</ul><h2>Plan de acción</h2><ol>${actions}</ol><h2>Checks GEO</h2><table><thead><tr><th>Check</th><th>Estado</th><th>Puntos</th><th>Hallazgo</th><th>Fix</th></tr></thead><tbody>${geos}</tbody></table>
-  <h2>Legibilidad y on-page</h2><p><strong>${esc(r.readability.index)}:</strong> ${r.readability.score}/100 — ${esc(r.readability.grade)}. ${r.onpage.score==null?"":`SEO on-page: <strong>${r.onpage.score}/100</strong>.`}</p><ul>${r.onpage.rows.filter(x=>x.state==="bad"||x.state==="warn").map(x=>`<li><strong>${esc(x.name)} (${esc(x.value)}):</strong> ${esc(x.tip)}</li>`).join("")}</ul>
-  <h2>Cobertura Q&A</h2><p>${r.qa.explicit} preguntas explícitas · ${r.qa.strong} fuertes · cobertura media ${r.qa.coverage}/100.</p><h2>Claims a revisar</h2><table><thead><tr><th>Claim</th><th>Tipo</th><th>Riesgo</th><th>Acción</th></tr></thead><tbody>${claims||'<tr><td colspan="4">No se detectaron claims prioritarios.</td></tr>'}</tbody></table>
-  <p class="muted">Heurística offline. No es una puntuación de Google ni garantiza ranking o citación.</p></body></html>`
+  const c=r.ctx,q=r.quality,date=new Date().toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"});
+  const tone=v=>v>=75?"g":v>=45?"a":"r",pct=(v,max)=>Math.round(clamp(v/max)*100);
+  const kpi=(label,value,max,sub)=>`<div class="kpi ${tone(pct(value,max))}"><div class="kl">${esc(label)}</div><div class="kv">${esc(typeof value==="number"?(max===16?value.toFixed(1):value):value)}<small>/${max}</small></div><div class="bar"><i style="width:${pct(value,max)}%"></i></div><div class="ks">${esc(sub)}</div></div>`;
+  const relCls=r.release.cls==="ship"?"g":r.release.cls==="review"?"a":"r";
+  const qCls=r.qVerdict.rank>=3?"g":r.qVerdict.rank===2?"a":"r";
+  const actions=r.actions.slice(0,5).map((x,i)=>`<tr><td class="n">${i+1}</td><td><b>${esc(x.title)}</b><div class="m">${esc(x.fix)}</div></td><td>${esc(x.impact)}</td><td>${esc(x.effort)}</td><td>${esc(x.source)}</td></tr>`).join("");
+  const pillars=q.pillars.map(p=>{const rl=rubricLevel(p.name,p.score);return `<tr><td><b>${esc(p.name)}</b></td><td class="n">${p.score.toFixed(1)}/4</td><td>${esc(p.evidence)}<div class="m">Nivel ${rl.lvl}: ${esc(rl.text)}</div></td><td>${esc(p.fix)}</td></tr>`}).join("");
+  const flags=r.flags.filter(f=>f.severity!=="clear").map(f=>`<li><b>${esc(f.title)}</b> <span class="tag ${f.severity==="lowest"?"r":"a"}">${f.severity==="lowest"?"Crítico":"Riesgo"}</span> — ${esc(f.body)} <span class="m">${esc(f.source)}</span></li>`).join("")||"<li>Ninguna red flag soportada con la evidencia disponible.</li>";
+  const engines=r.engines.map(x=>`<tr><td><b>${esc(x.name)}</b></td><td class="n">${x.effective}/100</td><td>${esc(x.gate)}</td><td class="n">${x.fit}/100</td></tr>`).join("");
+  const pt=r.pageTypes?.rows?.length?`<h2>Page types y core updates</h2><table><thead><tr><th>Page type</th><th>URLs</th><th>% indexado</th><th>Alarmas</th><th>Acción</th></tr></thead><tbody>${r.pageTypes.rows.map(p=>`<tr><td><b>${esc(p.name)}</b></td><td class="n">${p.urls.toLocaleString("es-ES")}</td><td class="n">${Math.round(p.idx*100)}%</td><td>${p.alarms.map(esc).join("<br>")||"—"}</td><td><span class="tag ${p.cls==="strong"?"g":p.cls==="partial"?"a":"r"}">${esc(p.action)}</span></td></tr>`).join("")}</tbody></table>`:"";
+  const claims=r.claims.filter(x=>x.risk!=="bajo").slice(0,8).map(x=>`<tr><td>${esc(x.text)}</td><td>${esc(x.type)}</td><td><span class="tag ${x.risk==="alto"?"r":"a"}">${esc(x.risk)}</span></td><td>${esc(x.fix)}</td></tr>`).join("");
+  const recovery=c.coreDrop?`<div class="note"><b>Expectativa de recuperación:</b> tras un core update${c.coreDropPct?` (caída del ${esc(c.coreDropPct)} %)`:""}, lo típico son 3–6 meses y, en el peor caso, hasta el siguiente core update. Los sistemas de Google tienen que confirmar que el site en su conjunto ha mejorado.</div>`:"";
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Informe ejecutivo GEO y quality — ${esc(c.projectName||c.pageUrl||"Página")}</title><style>
+:root{--ink:#171713;--mu:#6f695f;--ln:#e4ddd3;--bg:#faf7f0;--g:#1d7652;--gs:#dceee4;--a:#8f560f;--as:#f7e6c5;--r:#a54239;--rs:#f3d8d3}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;max-width:1080px;margin:0 auto;padding:36px 22px 60px;color:var(--ink);background:var(--bg);line-height:1.45}
+h1,h2{font-family:Georgia,serif;letter-spacing:-.02em}h1{font-size:40px;margin:6px 0 8px;line-height:1.05}h2{font-size:22px;margin:34px 0 12px;padding-top:14px;border-top:1px solid var(--ln)}
+.eyebrow{font:800 11px ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}.meta{color:var(--mu);font-size:13px}
+.decision{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}.dbox{border-radius:16px;padding:18px;border:1px solid var(--ln);background:#fff}.dbox .dl{font:800 10px ui-monospace,monospace;text-transform:uppercase;letter-spacing:.07em;color:var(--mu)}.dbox .dv{font:900 26px ui-monospace,monospace;margin:6px 0}.dbox p{margin:0;font-size:13px;color:var(--mu)}
+.dbox.g{border-left:6px solid var(--g)}.dbox.a{border-left:6px solid var(--a)}.dbox.r{border-left:6px solid var(--r)}.dbox.g .dv{color:var(--g)}.dbox.a .dv{color:var(--a)}.dbox.r .dv{color:var(--r)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.kpi{background:#fff;border:1px solid var(--ln);border-radius:14px;padding:14px}.kl{font:800 10px ui-monospace,monospace;text-transform:uppercase;letter-spacing:.07em;color:var(--mu)}.kv{font:900 30px ui-monospace,monospace;margin:4px 0}.kv small{font-size:12px;color:var(--mu)}.ks{font-size:12px;color:var(--mu)}
+.bar{height:7px;background:#eee7dc;border-radius:9px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%}.kpi.g .bar i{background:var(--g)}.kpi.a .bar i{background:var(--a)}.kpi.r .bar i{background:var(--r)}
+.summary{background:#fff;border:1px solid var(--ln);border-radius:16px;padding:18px;font-size:14px}.summary h3{margin:0 0 6px;font-family:Georgia,serif;font-size:20px}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--ln);border-radius:12px;overflow:hidden}th,td{padding:10px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:top;font-size:12.5px}th{background:#f2ece2;font:800 10px ui-monospace,monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--mu)}td.n{font-family:ui-monospace,monospace;font-weight:800;white-space:nowrap}
+.m{color:var(--mu);font-size:11.5px;margin-top:3px}.tag{display:inline-block;padding:3px 7px;border-radius:999px;font:800 10px ui-monospace,monospace;text-transform:uppercase}.tag.g{background:var(--gs);color:var(--g)}.tag.a{background:var(--as);color:var(--a)}.tag.r{background:var(--rs);color:var(--r)}
+ul{padding-left:18px}li{margin:7px 0;font-size:13px}.note{margin-top:14px;padding:12px 14px;border-left:4px solid #365f78;background:#dfeaf0;border-radius:0 10px 10px 0;font-size:13px}
+.foot{margin-top:36px;color:var(--mu);font-size:11px;border-top:1px solid var(--ln);padding-top:12px}.printbtn{position:fixed;right:18px;top:18px;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer}
+@media(max-width:720px){.decision,.kpis{grid-template-columns:1fr}h1{font-size:30px}table{display:block;overflow-x:auto}}
+@media print{body{background:#fff;padding:0}.printbtn{display:none}h2{break-after:avoid}tr,.kpi,.dbox{break-inside:avoid}}
+</style></head><body>
+<button class="printbtn" onclick="window.print()">Imprimir / PDF</button>
+<div class="eyebrow">Informe ejecutivo · Auditor GEO PRO V8.1 · ${esc(date)}</div>
+<h1>${esc(c.projectName||"Auditoría GEO y quality")}</h1>
+<div class="meta">${c.pageUrl?`<b>URL:</b> ${esc(c.pageUrl)} · `:""}${c.query?`<b>Intención:</b> ${esc(c.query)} · `:""}${c.analystName?`<b>Analista:</b> ${esc(c.analystName)} · `:""}<b>ID:</b> ${esc(r.release.signature)}</div>
+<div class="decision">
+  <div class="dbox ${relCls}"><div class="dl">Decisión de publicación</div><div class="dv">${esc(r.release.state)}</div><p>${esc(r.release.body)}</p></div>
+  <div class="dbox ${qCls}"><div class="dl">Veredicto de quality (Google)</div><div class="dv">${esc(r.qVerdict.name)}</div><p>${q.total.toFixed(1)}/16 · ${esc(r.commodity.commodity)} · YMYL ${r.ymyl.yes?"sí":"no"}</p></div>
+</div>
+<div class="kpis">
+  ${kpi("Preparación global",r.unified,100,r.overall[0])}
+  ${kpi("Citabilidad GEO",r.geo.score,100,r.geoBand[0])}
+  ${kpi("Calidad (4 pilares)",q.total,16,r.qVerdict.name)}
+  ${kpi("Calidad MC 2026",r.google2026.score,100,r.google2026.grade)}
+  ${kpi("Legibilidad",r.readability.score,100,r.readability.grade)}
+  ${r.onpage.score==null?`<div class="kpi"><div class="kl">SEO on-page</div><div class="kv">N/A</div><div class="ks">Indica una query objetivo</div></div>`:kpi("SEO on-page",r.onpage.score,100,"colocación y metadatos")}
+</div>
+<h2>Diagnóstico</h2>
+<div class="summary"><h3>${esc(r.exec.title)}</h3>${esc(r.exec.body)}</div>${recovery}
+<h2>Las 5 acciones prioritarias</h2>
+<table><thead><tr><th>#</th><th>Acción</th><th>Impacto</th><th>Esfuerzo</th><th>Origen</th></tr></thead><tbody>${actions||'<tr><td colspan="5">Sin acciones pendientes.</td></tr>'}</tbody></table>
+<h2>Quality: los cuatro pilares</h2>
+<table><thead><tr><th>Pilar</th><th>Nota</th><th>Evidencia</th><th>Corrección</th></tr></thead><tbody>${pillars}</tbody></table>
+<div class="note"><b>Commodity:</b> ${esc(r.commodity.commodity)} (${esc(r.commodity.confidence)}). ${r.angles?.list?.[0]?`<b>Ángulo non-commodity propuesto:</b> ${esc(r.angles.list[0])}`:""}</div>
+<h2>Riesgos y red flags</h2><ul>${flags}</ul>
+${pt}
+<h2>Preparación por motor de IA</h2>
+<table><thead><tr><th>Motor</th><th>Score operativo</th><th>Puerta técnica</th><th>Fit de contenido</th></tr></thead><tbody>${engines}</tbody></table>
+${claims?`<h2>Claims a verificar antes de publicar</h2><table><thead><tr><th>Claim</th><th>Tipo</th><th>Riesgo</th><th>Acción</th></tr></thead><tbody>${claims}</tbody></table>`:""}
+<div class="foot">Heurística de priorización generada localmente en el navegador. No es una puntuación de Google ni garantiza ranking, citas o inclusión en ChatGPT, Perplexity, Gemini o Google AI Overviews. Etiquetas de evidencia: [Documentado], [Inferencia], [Hipótesis], [Criterio propio]. Metodología de quality: google-quality-audit (Nacho Mascort).</div>
+</body></html>`
 }
+
 
 function reportMarkdown(r){
   const lines=[
@@ -2555,9 +2604,11 @@ $("#claimFilters").addEventListener("click",e=>{
   const b=e.target.closest("[data-claim]");if(!b||!latest)return;
   $("#claimFilters").querySelectorAll("[data-claim]").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderClaims(latest.claims,b.dataset.claim)
 });
+$("#execReportBtn").addEventListener("click",()=>$("#htmlReportBtn").click());
+$("#execPrintBtn").addEventListener("click",()=>window.print());
 $("#htmlReportBtn").addEventListener("click",()=>{
   if(!latest)return;const blob=new Blob([fullHtmlReport(latest)],{type:"text/html;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
-  a.href=url;a.download="informe-geo-calidad.html";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)
+  a.href=url;a.download="informe-ejecutivo-geo-quality.html";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)
 });
 document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="Enter"&&document.activeElement!==$("#afterSource")){e.preventDefault();run()}});
 

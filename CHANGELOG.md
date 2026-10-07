@@ -11,8 +11,13 @@
 - Veredicto de quality en la comparativa por lotes.
 - Pruebas e2e de la capa de quality.
 
+- Informe ejecutivo HTML (decisión de publicación, veredicto de quality, KPIs, diagnóstico, 5 acciones, pilares, commodity, red flags, page types, motores y claims), imprimible a PDF y accesible desde el resumen ejecutivo.
+
 ### Cambiado
 - La tarjeta de llms.txt aclara que Google lo ignora para AI Overviews y AI Mode.
+
+### Corregido
+- El plan de acción ya no repite la misma corrección con dos títulos distintos (p. ej. «MC 2026: Precisión» y «Pilar: Precisión»).
 
 ## [8.0.0] · Modo monstruo
 ### Añadido

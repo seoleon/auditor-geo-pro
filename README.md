@@ -49,7 +49,8 @@ Integra la skill **google-quality-audit** y el análisis «Quality en Google» d
 ### Productividad
 - Carga de archivos por arrastrar y soltar; varios archivos = **auditoría por lotes** + detección de **canibalización**.
 - **Comparador antes/después** y **simulador de potencial**.
-- Exporta a **Markdown, JSON, CSV, backlog CSV, informe HTML e impresión/PDF**.
+- **Informe ejecutivo** listo para cliente o dirección (decisión, veredicto, KPIs, 5 acciones, pilares, riesgos, page types y motores), imprimible a PDF.
+- Exporta además a **Markdown, JSON, CSV, backlog CSV e impresión/PDF**.
 - **Tema claro/oscuro** 🆕, **atajos de teclado** 🆕 y **PWA instalable que funciona sin conexión** 🆕.
 
 ## ⌨️ Atajos de teclado
