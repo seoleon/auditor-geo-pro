@@ -1,7 +1,16 @@
-# Auditor GEO PRO V8 · Modo monstruo
+# Auditor GEO PRO V8.2 · Modo bestia
 
-**Auditoría GEO (Generative Engine Optimization), calidad de contenido, legibilidad y SEO on-page que funciona al 100 % en tu navegador.**
-Sin backend, sin APIs, sin cookies, sin `localStorage`. Pega el HTML (o Markdown/texto) de una página y obtén un informe completo sobre lo preparada que está para ser entendida, extraída y citada por ChatGPT Search, Perplexity, Gemini y Google AI Overviews.
+**Mete una URL, una lista de URLs o un sitemap y obtén al instante una auditoría GEO (Generative Engine Optimization), de quality de Google, legibilidad, SEO on-page y rastreo técnico.**
+La app descarga las páginas con tu propio servidor de rastreo y hace todo el análisis en tu navegador: sin cookies, sin `localStorage` y sin enviar el contenido a terceros. También puedes pegar el HTML, Markdown o texto directamente.
+
+## ⚡ Arranque rápido
+
+```bash
+npm install
+npm start          # → http://localhost:8080 con análisis de URLs en vivo
+```
+
+Escribe una o varias URLs (hasta 50) y pulsa **Analizar URLs**, o indica un sitemap y pulsa **Rastrear sitemap**.
 
 > ⚠️ Es una heurística de priorización. No es una puntuación de Google ni garantiza ranking, citas o inclusión en ningún motor.
 
@@ -45,6 +54,15 @@ Integra la skill **google-quality-audit** y el análisis «Quality en Google» d
 - Generador de **`llms.txt`** a partir de la página.
 - Generador de **`robots.txt` para crawlers de IA** con tres políticas: permitir búsqueda y bloquear entrenamiento, permitir todo o bloquear todo.
 - **Prompts de prueba** para comprobar manualmente si los motores citan tu URL.
+
+### Análisis de URLs en vivo 🆕
+- **Una URL** → auditoría completa: descarga la página, sigue redirecciones, aplica `X-Robots-Tag` y carga automáticamente `robots.txt` y `llms.txt` del dominio.
+- **Varias URLs o un sitemap** (incluidos índices de sitemaps) → auditoría por lotes con veredicto de quality, canibalización y **exportación CSV del lote**.
+- **Rastreo en vivo**: estado HTTP, cadena de redirecciones, URL final, HTTPS/HSTS, `X-Robots-Tag`, tiempo de respuesta, peso del HTML, Content-Type y Last-Modified.
+- **Seguro por diseño**: el rastreador solo acepta http(s), bloquea redes privadas y locales en cada conexión (anti-SSRF, también tras redirecciones), limita a 5 redirecciones, 8 MB y 20 s por URL, y no expone ningún archivo del servidor.
+
+#### ¿Y en GitHub Pages?
+Los navegadores no permiten que una web descargue páginas de otros dominios. En la versión publicada, despliega el **Worker gratuito de Cloudflare** incluido (5 minutos, guía en [`worker/README.md`](worker/README.md)) y pon su URL en `auditor.config.json`. Sin Worker, la versión publicada sigue funcionando pegando el HTML.
 
 ### Productividad
 - Carga de archivos por arrastrar y soltar; varios archivos = **auditoría por lotes** + detección de **canibalización**.
@@ -105,10 +123,13 @@ Todo el análisis ocurre en tu navegador. El contenido auditado no se envía a n
 
 ```
 index.html             # La aplicación completa (HTML + CSS + JS, sin dependencias)
+server.mjs             # Servidor local: sirve la app y rastrea URLs de forma segura (npm start)
+worker/                # Worker de Cloudflare para rastrear desde la versión publicada
+auditor.config.json    # URL del Worker para la versión publicada (vacío = sin rastreo)
 manifest.webmanifest   # Manifest de la PWA
 sw.js                  # Service worker para uso offline
 icons/icon.svg         # Icono de la app
-tests/e2e.test.mjs     # Pruebas end-to-end (Playwright + axe-core)
+tests/                 # Pruebas end-to-end de la app, del rastreador y del Worker
 .github/workflows/     # Pruebas en CI y despliegue automático a GitHub Pages
 ```
 

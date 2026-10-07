@@ -1,13 +1,13 @@
 {
   "name": "auditor-geo-pro",
-  "version": "8.1.0",
+  "version": "8.2.0",
   "private": true,
   "description": "Auditoría GEO, calidad, legibilidad y preparación para buscadores con IA, 100 % en el navegador.",
   "license": "MIT",
   "type": "module",
   "scripts": {
     "test": "node --test --test-concurrency=1 tests/*.test.mjs",
-    "start": "python3 -m http.server 8080"
+    "start": "node server.mjs"
   },
   "devDependencies": {
     "axe-core": "^4.10.0",

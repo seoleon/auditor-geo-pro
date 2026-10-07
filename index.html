@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Auditor GEO PRO V8.1 — Auditoría GEO, quality de Google, legibilidad, evidencia y publicación</title>
+<title>Auditor GEO PRO V8.2 — Analiza URLs en vivo: GEO, quality de Google, legibilidad y publicación</title>
 <meta name="description" content="Auditor GEO gratuito para analizar citabilidad IA, calidad del contenido principal, E-E-A-T, revisión humana, evidencia, schemas, crawlers y preparación para ChatGPT Search, Perplexity y Google AI Overviews.">
 <meta name="theme-color" content="#171713">
 <meta name="color-scheme" content="light dark">
@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171713'/%3E%3Cpath d='M17 18h30v8H27v8h16v8H27v12H17z' fill='%23fffaf3'/%3E%3C/svg%3E">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8","softwareVersion":"8.1.0","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, calidad MC 2026, E-E-A-T, citabilidad IA, evidencia, schemas y preparación técnica que funciona íntegramente en el navegador."}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8","softwareVersion":"8.2.0","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, calidad MC 2026, E-E-A-T, citabilidad IA, evidencia, schemas y preparación técnica que funciona íntegramente en el navegador."}
 </script>
 <style>
 :root{
@@ -466,18 +466,46 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 @media(max-width:780px){.angle-wrap{grid-template-columns:1fr}}
 @media print{.guide details{display:block}.guide details>*{display:block}}
 
+/* ===== V8.2 RASTREO DE URLS ===== */
+.url-box{margin-bottom:6px}
+.url-area{min-height:96px!important;font:13px/1.55 var(--mono)}
+.url-controls input[type=text]{flex:1 1 240px;width:auto}
+.url-controls input[type=number]{width:84px}
+.tick.inline{padding:9px 11px}
+.crawl-log{margin:10px 0 0;padding-left:22px;max-height:220px;overflow:auto;font:11px/1.55 var(--mono);color:var(--muted)}
+.crawl-log li.ok{color:var(--green)}.crawl-log li.bad{color:var(--red)}.crawl-log li.warn{color:var(--amber)}
+.crawl-log:empty{display:none}
+.or-sep{display:flex;align-items:center;gap:12px;margin:16px 0 12px;font:800 10px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.or-sep:before,.or-sep:after{content:"";flex:1;height:1px;background:var(--line)}
+.chip.on{background:var(--green-soft);color:var(--green);border-color:transparent}.chip.off{background:var(--amber-soft);color:var(--amber);border-color:transparent}
+.batch-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
 </style>
 </head>
 <body>
 <noscript><div style="max-width:900px;margin:24px auto;padding:16px;border:1px solid #d9d0c2;border-radius:16px;font-family:system-ui">Esta herramienta necesita JavaScript para ejecutar la auditoría local en tu navegador.</div></noscript>
 <main class="wrap">
 <header class="hero">
-  <div><div class="kicker">GEO · CITABILIDAD IA · CALIDAD · LEGIBILIDAD · EVIDENCIA · V8</div><h1>Auditor GEO PRO</h1>
-  <div class="hero-tools"><span class="monster-badge">V8.1 · Modo monstruo</span><button class="secondary tiny" id="themeBtn" type="button">Tema: auto</button><button class="secondary tiny" id="helpBtn" type="button" aria-haspopup="dialog">Atajos <kbd>?</kbd></button></div></div>
-  <p>Audita contenido, citabilidad, calidad, legibilidad, SEO on-page, evidencia, claims, entidades, arquitectura, schemas, Open Graph, preguntas, crawlers y preparación por motor. Genera llms.txt, robots.txt para IA y prompts de prueba. Todo ocurre en tu navegador: sin backend, APIs, cookies ni almacenamiento. Funciona offline.</p>
+  <div><div class="kicker">URLS EN VIVO · GEO · QUALITY · LEGIBILIDAD · EVIDENCIA · V8.2</div><h1>Auditor GEO PRO</h1>
+  <div class="hero-tools"><span class="monster-badge">V8.2 · Modo bestia</span><button class="secondary tiny" id="themeBtn" type="button">Tema: auto</button><button class="secondary tiny" id="helpBtn" type="button" aria-haspopup="dialog">Atajos <kbd>?</kbd></button></div></div>
+  <p>Audita contenido, citabilidad, calidad, legibilidad, SEO on-page, evidencia, claims, entidades, arquitectura, schemas, Open Graph, preguntas, crawlers y preparación por motor. Genera llms.txt, robots.txt para IA y prompts de prueba. Mete URLs o un sitemap y la app las descarga y audita; o pega el HTML. El análisis ocurre en tu navegador, sin cookies ni almacenamiento. Funciona offline.</p>
 </header>
 
 <section class="panel input-panel" aria-labelledby="inputTitle">
+  <div class="url-box">
+    <div class="input-head"><strong id="urlTitle">Analizar URLs en vivo</strong><span class="chip" id="crawlerChip">COMPROBANDO RASTREO…</span></div>
+    <textarea id="urlList" class="url-area" aria-labelledby="urlTitle" spellcheck="false" placeholder="https://tusitio.es/pagina/&#10;Una URL por línea (hasta 50). Una URL abre la auditoría completa; varias crean la comparativa por lotes."></textarea>
+    <div class="controls url-controls">
+      <button class="primary" id="crawlBtn" type="button">Analizar URLs</button>
+      <input id="sitemapUrl" type="text" aria-label="URL del sitemap" placeholder="https://tusitio.es/sitemap.xml">
+      <input id="sitemapMax" type="number" min="1" max="50" step="1" value="20" aria-label="Máximo de URLs del sitemap">
+      <button class="secondary" id="sitemapBtn" type="button">Rastrear sitemap</button>
+      <label class="tick inline"><input type="checkbox" id="autoExtras" checked> Traer robots.txt y llms.txt</label>
+    </div>
+    <div class="help" id="crawlerHelp">Comprobando si hay un servidor de rastreo disponible…</div>
+    <ol class="crawl-log" id="crawlLog" aria-live="polite"></ol>
+  </div>
+  <div class="or-sep"><span>o pega el contenido</span></div>
   <div class="input-head"><strong id="inputTitle">HTML, texto o Markdown de la página</strong><span class="chip" id="formatChip">AUTO-DETECT</span></div>
   <textarea id="source" aria-labelledby="inputTitle" spellcheck="false" placeholder="Pega aquí el HTML completo, el contenido de la página o Markdown…"></textarea>
   <div class="dropzone" id="dropzone" tabindex="0" role="button">
@@ -603,13 +631,13 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
     <button class="primary" id="scoreBtn">Auditar página</button>
     <button class="secondary" id="sampleBtn">Cargar demo</button>
     <button class="danger-ghost" id="resetBtn">Limpiar</button>
-    <span class="privacy">100% LOCAL · NO API · NO LOCALSTORAGE</span>
+    <span class="privacy">ANÁLISIS 100% LOCAL · RASTREO CON TU SERVIDOR · NO LOCALSTORAGE</span>
   </div>
 </section>
 
 <section class="results" id="results">
   <nav class="sticky-jump" aria-label="Navegación del informe">
-    <a href="#sec-resumen">Resumen</a><a href="#sec-release">Publicación</a><a href="#sec-matriz">Matriz</a><a href="#sec-radar">Radar</a><a href="#sec-motores">Motores</a><a href="#sec-formula">Fórmula</a><a href="#sec-mc2026">MC 2026</a><a href="#sec-plan">Plan</a>
+    <a href="#sec-resumen">Resumen</a><a href="#sec-rastreo">Rastreo</a><a href="#sec-release">Publicación</a><a href="#sec-matriz">Matriz</a><a href="#sec-radar">Radar</a><a href="#sec-motores">Motores</a><a href="#sec-formula">Fórmula</a><a href="#sec-mc2026">MC 2026</a><a href="#sec-plan">Plan</a>
     <a href="#sec-citas">Citas</a><a href="#sec-retrieval">Retrieval</a><a href="#sec-preguntas">Preguntas</a><a href="#sec-queries">Queries</a><a href="#sec-claims">Claims</a><a href="#sec-evidencia">Evidencia</a><a href="#sec-arquitectura">Arquitectura</a><a href="#sec-poda">Poda</a><a href="#sec-brief">Brief</a><a href="#sec-schema">Schema</a><a href="#sec-kit">Kit IA</a><a href="#sec-legibilidad">Legibilidad</a><a href="#sec-onpage">On-page</a><a href="#sec-social">Social</a>
     <a href="#sec-geo">GEO</a><a href="#sec-calidad">Calidad</a><a href="#sec-pagetypes">Page types</a><a href="#sec-qreport">Informe quality</a><a href="#sec-guia">Guía</a><a href="#sec-tecnico">Técnico</a>
   </nav>
@@ -639,9 +667,15 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   </div>
 
 
+    <section id="crawlPanel" style="display:none">
+    <div class="section-head" id="sec-rastreo"><h2>Rastreo en vivo</h2><p>Respuesta HTTP real de la URL: estado, redirecciones, cabeceras que afectan a la indexación, tiempos, robots.txt y llms.txt.</p></div>
+    <div class="check-grid" id="crawlGrid"></div>
+    <div class="table-panel" id="crawlTableWrap" style="margin-top:10px"><table class="detail-table"><thead><tr><th>URL</th><th>Estado</th><th>Redirecciones</th><th>Tiempo</th><th>Tamaño</th><th>X-Robots-Tag</th><th>Resultado</th></tr></thead><tbody id="crawlBody"></tbody></table></div>
+  </section>
+
   <section class="panel batch-panel" id="batchPanel">
-    <div class="batch-head"><div><div class="label">Comparativa local</div><h3>Auditoría por lotes</h3></div><p id="batchSummary">—</p></div>
-    <div class="table-panel"><table class="detail-table"><thead><tr><th>Archivo</th><th>Tipo</th><th>Palabras</th><th>Global</th><th>GEO</th><th>Calidad</th><th>Commodity</th><th>Veredicto quality</th><th>Principal oportunidad</th></tr></thead><tbody id="batchBody"></tbody></table></div>
+    <div class="batch-head"><div><div class="label">Comparativa local</div><h3>Auditoría por lotes</h3></div><div class="batch-actions"><p id="batchSummary">—</p><button class="secondary tiny" id="batchCsvBtn" type="button">Exportar lote CSV</button></div></div>
+    <div class="table-panel"><table class="detail-table"><thead><tr><th>Archivo / URL</th><th>Tipo</th><th>Palabras</th><th>Global</th><th>GEO</th><th>Calidad</th><th>Commodity</th><th>Veredicto quality</th><th>Principal oportunidad</th></tr></thead><tbody id="batchBody"></tbody></table></div>
   </section>
   <section class="panel batch-panel cannibal-panel" id="cannibalPanel">
     <div class="batch-head"><div><div class="label">Comparativa local</div><h3>Canibalización y duplicidad entre archivos</h3></div><p id="cannibalSummary">—</p></div>
@@ -1923,13 +1957,16 @@ async function handleFiles(files){
   if(compatible.length>MAX_BATCH_FILES||oversized.length)toast(`Se cargarán ${arr.length} archivo(s). Límite: ${MAX_BATCH_FILES} archivos y 8 MB por archivo.`);
   $("#fileState").textContent=arr.length===1?arr[0].name:`${arr.length} ARCHIVOS · COMPARATIVA LOCAL`;
   const texts=await Promise.all(arr.map(async f=>({name:f.name,text:await f.text()})));
+  currentCrawl=null;auditTexts(texts);
+  $("#fileInput").value="";
+}
+function auditTexts(texts){
   source.value=texts[0].text;$("#formatChip").textContent=detectType(texts[0].text).toUpperCase();run();
   const c=context();batchDocs=texts.map(item=>{const type=detectType(item.text),d=type==="HTML"?parseHtml(item.text):parseText(item.text);return {name:item.name,text:item.text,d}});
   if(texts.length>1){
     const rows=batchDocs.map(item=>{const d=item.d,s=baseSignals(d,c),ymyl=ymylDetect(d,c),geo=geoAudit(d,c,s),q=qualityAudit(d,c,s,ymyl),com=commodityAudit(d,c,s,q),qv=qualityVerdict(q,com,redFlags(d,c,s,q,com,ymyl),ymyl);return {name:item.name,type:d.type,words:s.wc,geoScore:geo.score,quality:q.total,commodity:com.commodity,verdict:qv.name,unified:unifiedScore(geo,q),geo}});
     renderBatch(rows);renderCannibal(batchCannibalization(batchDocs))
   } else {renderBatch([]);renderCannibal([])}
-  $("#fileInput").value="";
 }
 
 
@@ -2438,9 +2475,9 @@ ul{padding-left:18px}li{margin:7px 0;font-size:13px}.note{margin-top:14px;paddin
 @media print{body{background:#fff;padding:0}.printbtn{display:none}h2{break-after:avoid}tr,.kpi,.dbox{break-inside:avoid}}
 </style></head><body>
 <button class="printbtn" onclick="window.print()">Imprimir / PDF</button>
-<div class="eyebrow">Informe ejecutivo · Auditor GEO PRO V8.1 · ${esc(date)}</div>
+<div class="eyebrow">Informe ejecutivo · Auditor GEO PRO V8.2 · ${esc(date)}</div>
 <h1>${esc(c.projectName||"Auditoría GEO y quality")}</h1>
-<div class="meta">${c.pageUrl?`<b>URL:</b> ${esc(c.pageUrl)} · `:""}${c.query?`<b>Intención:</b> ${esc(c.query)} · `:""}${c.analystName?`<b>Analista:</b> ${esc(c.analystName)} · `:""}<b>ID:</b> ${esc(r.release.signature)}</div>
+<div class="meta">${c.pageUrl?`<b>URL:</b> ${esc(c.pageUrl)} · `:""}${c.query?`<b>Intención:</b> ${esc(c.query)} · `:""}${c.analystName?`<b>Analista:</b> ${esc(c.analystName)} · `:""}${r.crawl?`<b>HTTP:</b> ${esc(r.crawl.first.status)} · ${esc(r.crawl.first.ms)} ms · `:""}<b>ID:</b> ${esc(r.release.signature)}</div>
 <div class="decision">
   <div class="dbox ${relCls}"><div class="dl">Decisión de publicación</div><div class="dv">${esc(r.release.state)}</div><p>${esc(r.release.body)}</p></div>
   <div class="dbox ${qCls}"><div class="dl">Veredicto de quality (Google)</div><div class="dv">${esc(r.qVerdict.name)}</div><p>${q.total.toFixed(1)}/16 · ${esc(r.commodity.commodity)} · YMYL ${r.ymyl.yes?"sí":"no"}</p></div>
@@ -2517,6 +2554,7 @@ function reportMarkdown(r){
   lines.push("","## Señales Google relacionadas","");
   r.leaks.forEach(x=>lines.push(`- **${x.signal}** — ${x.doc} ${x.link}`));
   lines.push(monsterMarkdown(r));
+  lines.push(crawlMarkdown(r));
   if(r.qualityReport)lines.push("","---","",r.qualityReport.replace(/^# /,"## "));
   lines.push("","---","Heurística de priorización. No es una puntuación de Google ni garantiza ranking, citas o inclusión. No verifica offline backlinks, autoridad, factualidad completa, status HTTP, WAF/CDN, indexación ni posiciones reales.");
   return lines.join("\n")
@@ -2536,7 +2574,7 @@ function run(){
   const queryMap=querySetAudit(d,c),retrieval=retrievalChunks(d),evidence=evidenceChain(d,claims),prune=pruneAudit(d);
   latest={data:d,ctx:c,signals:s,ymyl,purpose,geo,quality,commodity,flags,qVerdict,trust,siteView,tech,leaks,unified,overall,geoBand:gb,confidence,snippets,sections,terms,metrics,actions,claims,entities,gaps,engines,qa,schemaCards,hygiene,ledger,google2026,composition,eeat,aiPolicy,queryMap,retrieval,evidence,prune};
   latest.matrix=readinessMatrix(latest);latest.exec=executiveSummary(latest);latest.release=releaseGate(latest);latest.brief=buildBrief(latest);
-  runMonster(latest);runQuality(latest);
+  runMonster(latest);runQuality(latest);attachCrawl(latest);
 
   $("#unifiedScore").textContent=unified;$("#unifiedGrade").textContent=overall[0];$("#unifiedVerdict").textContent=overall[1];
   $("#geoScore").textContent=geo.score;$("#geoGrade").textContent=gb[0];$("#geoVerdict").textContent=gb[1];
@@ -2571,7 +2609,7 @@ function clearAll(){
   document.querySelectorAll("textarea,input[type=text],input[type=number]").forEach(e=>e.value="");
   document.querySelectorAll('input[type="checkbox"]').forEach(e=>e.checked=false);
   $("#ymylMode").value="auto";$("#pageType").value="auto";$("#auditProfile").value="balanced";$("#aiRole").value="unknown";$("#formatChip").textContent="AUTO-DETECT";$("#results").style.display="none";latest=null;
-  $("#copyBtn").disabled=$("#downloadBtn").disabled=$("#jsonBtn").disabled=$("#summaryBtn").disabled=$("#csvBtn").disabled=$("#printBtn").disabled=$("#htmlReportBtn").disabled=$("#backlogBtn").disabled=true;$("#batchPanel").style.display="none";$("#cannibalPanel").style.display="none";$("#compareResults").style.display="none";batchLatest=[];batchDocs=[];$("#fileInput").value="";$("#fileState").textContent="NINGÚN ARCHIVO · TODO SE PROCESA EN TU NAVEGADOR";source.focus()
+  $("#copyBtn").disabled=$("#downloadBtn").disabled=$("#jsonBtn").disabled=$("#summaryBtn").disabled=$("#csvBtn").disabled=$("#printBtn").disabled=$("#htmlReportBtn").disabled=$("#backlogBtn").disabled=true;$("#batchPanel").style.display="none";$("#cannibalPanel").style.display="none";$("#compareResults").style.display="none";batchLatest=[];batchDocs=[];$("#fileInput").value="";$("#fileState").textContent="NINGÚN ARCHIVO · TODO SE PROCESA EN TU NAVEGADOR";currentCrawl=null;$("#crawlLog").innerHTML="";$("#crawlPanel").style.display="none";["#robots","#llms"].forEach(id=>{$(id).dataset.auto=""});source.focus()
 }
 $("#scoreBtn").addEventListener("click",run);
 $("#sampleBtn").addEventListener("click",()=>{
@@ -2592,7 +2630,7 @@ $("#downloadBtn").addEventListener("click",()=>{
 });
 $("#jsonBtn").addEventListener("click",()=>{
   if(!latest)return;
-  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},qualityReport:latest.qualityReport,nonCommodityAngles:latest.angles,pageTypes:latest.pageTypes,version:"8.1.0",summary:{type:latest.data.type,words:latest.signals.wc}};
+  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},qualityReport:latest.qualityReport,nonCommodityAngles:latest.angles,pageTypes:latest.pageTypes,crawl:latest.crawl,version:"8.2.0",summary:{type:latest.data.type,words:latest.signals.wc}};
   const blob=new Blob([JSON.stringify(safe,null,2)],{type:"application/json;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
   a.href=url;a.download="auditoria-geo-calidad.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)
 });
@@ -2969,6 +3007,183 @@ function runQuality(r){
   $("#qreportTitle").textContent=`${r.qVerdict.name} · ${r.quality.total.toFixed(1)}/16 · ${r.commodity.commodity}`;$("#qualityReport").textContent=r.qualityReport
 }
 $("#qreportDl").addEventListener("click",()=>{if(!latest?.qualityReport)return;const blob=new Blob([latest.qualityReport],{type:"text/markdown;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="informe-quality.md";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)});
+
+
+/* ===== V8.2 RASTREO DE URLS EN VIVO ===== */
+const MAX_URLS=50;
+let crawlerBase=null,currentCrawl=null,crawling=false;
+const crawlerEndpoint=p=>(crawlerBase?crawlerBase+"/":"")+p;
+async function detectCrawler(){
+  const chip=$("#crawlerChip"),help=$("#crawlerHelp"),set=(on,label,txt)=>{chip.textContent=label;chip.className="chip "+(on?"on":"off");help.textContent=txt};
+  crawlerBase=null;
+  if(!/^https?:$/.test(location.protocol)){set(false,"SIN RASTREO","Abierta como archivo local: solo podrá descargar webs que permitan CORS. Para analizar cualquier URL ejecuta «npm start» y abre http://localhost:8080.");return}
+  let cfg=null;
+  try{const r=await fetch("auditor.config.json",{cache:"no-store"});if(r.ok)cfg=await r.json()}catch(e){}
+  const target=cfg&&typeof cfg.crawler==="string"?cfg.crawler.trim():"";
+  if(target==="self"){crawlerBase="";set(true,"RASTREO ACTIVO","Servidor de rastreo local activo: descarga cualquier URL pública de forma segura. La auditoría sigue ocurriendo en tu navegador.");return}
+  if(/^https:\/\//i.test(target)){
+    const base=target.replace(/\/+$/,"");
+    try{const ctrl=new AbortController(),t=setTimeout(()=>ctrl.abort(),6000);const r=await fetch(base+"/api/health",{signal:ctrl.signal,cache:"no-store"});clearTimeout(t);const j=await r.json();if(j&&j.ok){crawlerBase=base;set(true,"RASTREO ACTIVO","Rastreo a través de tu Worker configurado en auditor.config.json. La auditoría sigue ocurriendo en tu navegador.");return}}catch(e){}
+    set(false,"WORKER NO RESPONDE",`El Worker configurado (${base}) no responde. Revisa su despliegue o la variable ALLOWED_ORIGIN (guía en worker/README.md).`);return
+  }
+  set(false,"SIN RASTREO","Esta versión publicada no tiene servidor de rastreo: solo podrá descargar webs que permitan CORS. Despliega el Worker gratuito (worker/README.md) o ejecuta «npm start» en local.")
+}
+function normalizeUrl(s){
+  s=String(s||"").trim();if(!s)return null;if(!/^[a-z][a-z0-9+.-]*:\/\//i.test(s))s="https://"+s;
+  try{const u=new URL(s);return /^https?:$/.test(u.protocol)&&(u.hostname.includes(".")||/^(localhost|\d+\.\d+\.\d+\.\d+)$/.test(u.hostname))?u.href:null}catch(e){return null}
+}
+async function fetchUrl(url){
+  if(crawlerBase!==null){
+    let r;
+    try{r=await fetch(crawlerEndpoint("api/fetch?url="+encodeURIComponent(url)),{cache:"no-store"})}catch(e){throw new Error("No se pudo contactar con el servidor de rastreo.")}
+    let j=null;try{j=await r.json()}catch(e){}
+    if(!j||!j.ok)throw new Error(j?.error||`El servidor de rastreo respondió ${r.status}.`);
+    return j
+  }
+  const t0=performance.now();let res;
+  try{res=await fetch(url,{cache:"no-store",redirect:"follow"})}catch(e){throw new Error("La web no permite descargarla desde el navegador (CORS). Ejecuta «npm start» o configura el Worker.")}
+  const body=await res.text(),headers={};["content-type","x-robots-tag","last-modified","cache-control","content-language"].forEach(k=>{const v=res.headers.get(k);if(v!=null)headers[k]=v});
+  return {ok:true,url,finalUrl:res.url||url,status:res.status,statusText:res.statusText||"",redirects:res.redirected?[{url,status:301}]:[],headers,ms:Math.round(performance.now()-t0),bytes:body.length,body,direct:true}
+}
+async function pool(items,n,fn){const out=new Array(items.length);let i=0;await Promise.all(Array.from({length:Math.min(n,items.length)},async()=>{while(i<items.length){const k=i++;out[k]=await fn(items[k],k)}}));return out}
+function isHtmlResponse(r){const ct=String(r.headers?.["content-type"]||"").toLowerCase();return !ct||/html|xml\+xhtml|text\/plain|markdown/.test(ct)}
+function prepareCrawledHtml(r){
+  let html=String(r.body||"").replace(/\r\n?/g,"\n");const xrt=String(r.headers?.["x-robots-tag"]||"").split(",").map(x=>x.replace(/^[\w-]+:\s*(?=(noindex|nofollow|none|noarchive|nosnippet))/i,"").trim()).filter(Boolean).join(", ");
+  if(xrt&&/noindex|none/i.test(xrt)){const m=html.match(/<meta[^>]+name=["']robots["'][^>]*content=["']([^"']*)["']/i);html=`<meta name="robots" content="${esc(xrt+(m?", "+m[1]:""))}">\n`+html}
+  return html
+}
+function crawlLog(text,cls){const li=document.createElement("li");li.textContent=text;if(cls)li.className=cls;$("#crawlLog").appendChild(li);li.scrollIntoView?.({block:"nearest"});return li}
+function setCrawlBusy(b){crawling=b;["#crawlBtn","#sitemapBtn","#scoreBtn"].forEach(s=>{$(s).disabled=b});$("#crawlBtn").textContent=b?"Analizando…":"Analizar URLs"}
+function softText(r){return r&&r.ok&&r.status===200&&!/<html[\s>]/i.test(r.body.slice(0,2000))?r.body:null}
+async function fetchExtras(finalUrl){
+  const out={robots:{found:false,status:null,url:""},llms:{found:false,status:null,url:""}};let origin;
+  try{origin=new URL(finalUrl).origin}catch(e){return out}
+  await Promise.all([["robots","/robots.txt"],["llms","/llms.txt"]].map(async([k,p])=>{
+    const url=origin+p;out[k].url=url;
+    try{const r=await fetchUrl(url);out[k].status=r.status;const t=softText(r);if(t){out[k].found=true;out[k].text=t.slice(0,200000)}}catch(e){out[k].error=e.message}
+  }));
+  return out
+}
+function fillAuto(id,text){const el=$(id);if(!el.value.trim()||el.dataset.auto==="1"){el.value=text||"";el.dataset.auto=text?"1":""}}
+async function analyzeUrls(list,{keepLog=false}={}){
+  if(crawling)return;
+  const urls=[...new Set(list.map(normalizeUrl).filter(Boolean))].slice(0,MAX_URLS);
+  const invalid=list.filter(x=>String(x).trim()&&!normalizeUrl(x)).length;
+  if(!keepLog)$("#crawlLog").innerHTML="";
+  if(!urls.length){toast("Introduce al menos una URL válida.");$("#urlList").focus();return}
+  setCrawlBusy(true);
+  try{
+    if(invalid)crawlLog(`${invalid} línea(s) ignoradas por no ser URLs válidas.`,"warn");
+    if(list.filter(x=>String(x).trim()).length>MAX_URLS)crawlLog(`Se analizarán las primeras ${MAX_URLS} URLs.`,"warn");
+    let done=0;const head=crawlLog(`Descargando ${urls.length} URL(s)…`);
+    const results=await pool(urls,4,async url=>{
+      let r;try{r=await fetchUrl(url)}catch(e){r={ok:false,url,error:e.message}}
+      done++;head.textContent=`Descargadas ${done}/${urls.length}`;
+      if(!r.ok)crawlLog(`✗ ${url} — ${r.error}`,"bad");
+      else{
+        r.redirectCount=r.redirects.length;const chain=r.redirects.map(x=>x.status).concat(r.status).join(" → ");
+        if(r.status>=400){r.auditError=`HTTP ${r.status}`;crawlLog(`✗ ${r.finalUrl} — HTTP ${chain}`,"bad")}
+        else if(!isHtmlResponse(r)){r.auditError="No es HTML";crawlLog(`✗ ${r.finalUrl} — ${r.headers["content-type"]} no es HTML`,"bad")}
+        else crawlLog(`✓ ${chain} · ${r.ms} ms · ${Math.round(r.bytes/1024)} KB · ${r.finalUrl}`,/noindex|none/i.test(r.headers["x-robots-tag"]||"")?"warn":"ok")
+      }
+      return r
+    });
+    const good=results.filter(r=>r.ok&&!r.auditError);
+    if(!good.length){toast("Ninguna URL se pudo auditar. Revisa el registro.");return}
+    const first=good[0],extras=$("#autoExtras").checked?await fetchExtras(first.finalUrl):null;
+    if(extras){
+      crawlLog(extras.robots.found?`✓ robots.txt encontrado (${extras.robots.url})`:`· Sin robots.txt (${extras.robots.status||extras.robots.error||"no disponible"})`,extras.robots.found?"ok":"warn");
+      crawlLog(extras.llms.found?`✓ llms.txt encontrado`:`· Sin llms.txt (opcional; Google lo ignora)`);
+      if(extras.robots.found)fillAuto("#robots",extras.robots.text);
+      if(extras.llms.found)fillAuto("#llms",extras.llms.text);
+    }
+    $("#pageUrl").value=first.finalUrl;
+    const texts=good.map(r=>({name:r.finalUrl,text:prepareCrawledHtml(r)}));
+    const strip=r=>{const{body,...rest}=r;return rest};
+    currentCrawl={snapshot:texts[0].text,summary:{at:new Date().toISOString(),mode:crawlerBase===null?"directo (CORS)":crawlerBase?"Worker":"servidor local",first:strip(first),items:results.map(strip),extras:extras?{robots:{found:extras.robots.found,status:extras.robots.status,url:extras.robots.url},llms:{found:extras.llms.found,status:extras.llms.status,url:extras.llms.url}}:null}};
+    $("#fileState").textContent=texts.length>1?`${texts.length} URLS · COMPARATIVA EN VIVO`:first.finalUrl;
+    auditTexts(texts);
+    crawlLog(`Auditoría completada: ${good.length} de ${urls.length} URL(s).`,"ok")
+  }finally{setCrawlBusy(false)}
+}
+async function sitemapUrls(start,max){
+  const seen=new Set(),out=[],queue=[start];let fetched=0;
+  while(queue.length&&out.length<max&&fetched<8){
+    const sm=queue.shift();if(seen.has(sm))continue;seen.add(sm);fetched++;
+    let r;try{r=await fetchUrl(sm)}catch(e){if(fetched===1)throw e;crawlLog(`✗ ${sm} — ${e.message}`,"bad");continue}
+    if(r.status>=400){if(fetched===1)throw new Error(`El sitemap respondió HTTP ${r.status}.`);continue}
+    const xml=r.body||"",locs=[...xml.matchAll(/<loc>\s*(?:<!\[CDATA\[)?\s*([^<\]]+?)\s*(?:\]\]>)?\s*<\/loc>/gi)].map(m=>m[1].replace(/&amp;/g,"&").trim());
+    if(/<sitemapindex[\s>]/i.test(xml)){crawlLog(`Índice de sitemaps: ${locs.length} sitemap(s)`);queue.push(...locs)}
+    else for(const l of locs){if(out.length>=max)break;if(!out.includes(l))out.push(l)}
+  }
+  return out
+}
+async function crawlSitemap(){
+  if(crawling)return;
+  let sm=normalizeUrl($("#sitemapUrl").value);
+  if(!sm){const base=normalizeUrl($("#urlList").value.split(/\n/)[0])||normalizeUrl($("#pageUrl").value);if(base){sm=new URL("/sitemap.xml",base).href;$("#sitemapUrl").value=sm}}
+  if(!sm){toast("Indica la URL del sitemap o una URL del sitio.");$("#sitemapUrl").focus();return}
+  const max=Math.max(1,Math.min(MAX_URLS,Number($("#sitemapMax").value)||20));
+  $("#crawlLog").innerHTML="";setCrawlBusy(true);let urls=[];
+  try{crawlLog(`Leyendo sitemap ${sm}…`);urls=await sitemapUrls(sm,max)}
+  catch(e){crawlLog(`✗ ${sm} — ${e.message}`,"bad");toast("No se pudo leer el sitemap.");return}
+  finally{setCrawlBusy(false)}
+  if(!urls.length){crawlLog("El sitemap no contiene URLs.","bad");return}
+  crawlLog(`${urls.length} URL(s) encontradas en el sitemap.`,"ok");
+  $("#urlList").value=urls.join("\n");
+  await analyzeUrls(urls,{keepLog:true})
+}
+function crawlRows(s){
+  const f=s.first,h=f.headers||{},xrt=h["x-robots-tag"]||"",rows=[],add=(name,value,state,tip)=>rows.push({name,value:String(value),state,tip});
+  const chain=f.redirects.map(x=>x.status).concat(f.status).join(" → ");
+  add("Estado HTTP",`${f.status} ${f.statusText||""}`.trim(),f.status<300?"ok":f.status<400?"warn":"bad",f.status<300?"La URL responde correctamente.":"La URL no devuelve 200: revisa el estado antes de auditar contenido.");
+  add("Redirecciones",f.redirects.length?chain:"Ninguna",f.redirects.length===0?"ok":f.redirects.length===1?"warn":"bad",f.redirects.length?"Enlaza internamente a la URL final y evita cadenas de redirecciones.":"Respuesta directa, sin saltos.");
+  add("URL final",f.finalUrl,f.finalUrl.startsWith("http:")?"bad":f.finalUrl!==f.url?"warn":"ok",f.finalUrl.startsWith("http:")?"Sin HTTPS: migra a https y redirige.":f.finalUrl!==f.url?"La URL pedida no es la final: usa la final en enlaces, sitemap y canonical.":"La URL pedida es la final.");
+  add("X-Robots-Tag",xrt||"No enviado",/noindex|none/i.test(xrt)?"bad":"ok",/noindex|none/i.test(xrt)?"La cabecera impide indexar la página aunque el HTML no lo diga. Se ha aplicado a la auditoría.":"La cabecera no bloquea la indexación.");
+  add("Tiempo de respuesta",`${f.ms} ms`,f.ms<800?"ok":f.ms<2000?"warn":"bad",`Incluye la descarga completa${s.mode==="directo (CORS)"?" desde tu navegador":" desde el rastreador"}. No sustituye a Core Web Vitals.`);
+  add("Tamaño del HTML",`${Math.round(f.bytes/1024)} KB`,f.bytes<512000?"ok":f.bytes<2097152?"warn":"bad",f.bytes<512000?"Peso razonable.":"HTML pesado: puede ralentizar el rastreo y el render.");
+  add("Content-Type",h["content-type"]||"No enviado",/text\/html/i.test(h["content-type"]||"")?"ok":"warn","Las páginas deben servirse como text/html con charset.");
+  add("Last-Modified",h["last-modified"]||"No enviado",h["last-modified"]?"ok":"warn",h["last-modified"]?"Ayuda a los crawlers a detectar cambios.":"Opcional: ayuda a que los crawlers detecten cambios sin descargar todo.");
+  if(f.finalUrl.startsWith("https:")&&s.mode!=="directo (CORS)")add("HSTS",h["strict-transport-security"]?"Sí":"No",h["strict-transport-security"]?"ok":"warn","Strict-Transport-Security fuerza HTTPS en visitas posteriores.");
+  if(s.extras){
+    add("robots.txt",s.extras.robots.found?"Encontrado":`No encontrado${s.extras.robots.status?` (${s.extras.robots.status})`:""}`,s.extras.robots.found?"ok":"warn",s.extras.robots.found?"Cargado en el contexto: la puerta técnica por motor usa tus reglas reales.":"Sin robots.txt todo es rastreable por defecto; añádelo para gobernar los bots de IA.");
+    add("llms.txt",s.extras.llms.found?"Encontrado":"No encontrado",s.extras.llms.found?"ok":"na",s.extras.llms.found?"Cargado en el contexto para evaluarlo.":"Opcional: Google lo ignora; puede ayudar a otros agentes.");
+  }
+  return rows
+}
+function attachCrawl(r){
+  const panel=$("#crawlPanel");
+  if(!currentCrawl||currentCrawl.snapshot!==source.value){r.crawl=null;panel.style.display="none";return}
+  r.crawl=currentCrawl.summary;panel.style.display="block";
+  renderCheckGrid("#crawlGrid",crawlRows(r.crawl));
+  const body=$("#crawlBody");body.innerHTML="";
+  r.crawl.items.forEach(x=>{
+    const tr=document.createElement("tr"),xrt=x.headers?.["x-robots-tag"]||"",bad=!x.ok||x.auditError;
+    tr.innerHTML=x.ok?`<td><strong>${esc(x.finalUrl)}</strong>${x.finalUrl!==x.url?`<div class="note">pedida: ${esc(x.url)}</div>`:""}</td><td class="${x.status<300?"cell-good":x.status<400?"cell-mid":"cell-bad"}">${x.status}</td><td>${x.redirects.length?esc(x.redirects.map(y=>y.status).concat(x.status).join(" → ")):"—"}</td><td>${x.ms} ms</td><td>${Math.round(x.bytes/1024)} KB</td><td class="${/noindex|none/i.test(xrt)?"cell-bad":""}">${esc(xrt||"—")}</td><td class="${bad?"cell-bad":"cell-good"}">${esc(x.auditError||"Auditada")}</td>`
+      :`<td><strong>${esc(x.url)}</strong></td><td class="cell-bad">Error</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="cell-bad">${esc(x.error)}</td>`;
+    body.appendChild(tr)
+  });
+  $("#crawlTableWrap").style.display=r.crawl.items.length>1?"block":"none"
+}
+function crawlMarkdown(r){
+  if(!r.crawl)return "";
+  const L=["","## Rastreo en vivo","",`Modo: ${r.crawl.mode} · ${r.crawl.at}`,""];
+  crawlRows(r.crawl).forEach(x=>L.push(`- **${x.name}: ${x.value}** — ${x.tip}`));
+  if(r.crawl.items.length>1){L.push("","| URL | Estado | Tiempo | Resultado |","|---|---|---|---|");r.crawl.items.forEach(x=>L.push(x.ok?`| ${x.finalUrl} | ${x.status} | ${x.ms} ms | ${x.auditError||"Auditada"} |`:`| ${x.url} | Error | — | ${x.error} |`))}
+  return L.join("\n")
+}
+function batchCsv(){
+  const crawlMap=new Map((currentCrawl?.summary.items||[]).filter(x=>x.ok).map(x=>[x.finalUrl,x]));
+  const rows=[["URL o archivo","Estado HTTP","Tiempo (ms)","Tipo","Palabras","Global","GEO","Calidad /16","Veredicto quality","Commodity"]];
+  batchLatest.forEach(r=>{const cr=crawlMap.get(r.name);rows.push([r.name,cr?cr.status:"",cr?cr.ms:"",r.type,r.words,r.unified,r.geoScore,r.quality.toFixed(1),r.verdict,r.commodity])});
+  return rows.map(row=>row.map(csvEscape).join(",")).join("\n")
+}
+$("#crawlBtn").addEventListener("click",()=>analyzeUrls($("#urlList").value.split(/[\n\s,]+/)));
+$("#sitemapBtn").addEventListener("click",crawlSitemap);
+$("#urlList").addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="Enter"){e.preventDefault();e.stopPropagation();$("#crawlBtn").click()}});
+["#robots","#llms"].forEach(id=>$(id).addEventListener("input",()=>{$(id).dataset.auto=""}));
+$("#batchCsvBtn").addEventListener("click",()=>{if(!batchLatest.length)return;const blob=new Blob(["﻿"+batchCsv()],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="auditoria-lote.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)});
+detectCrawler();
 
 })();
 </script>

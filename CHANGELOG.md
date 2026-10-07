@@ -1,5 +1,16 @@
 # Registro de cambios
 
+## [8.2.0] · Modo bestia: análisis de URLs en vivo
+### Añadido
+- Analizar URLs: una URL abre la auditoría completa; varias (hasta 50) crean el lote con veredicto de quality y canibalización.
+- Rastrear sitemap, incluidos índices de sitemaps, con límite configurable.
+- Carga automática de robots.txt y llms.txt del dominio en el contexto.
+- Sección «Rastreo en vivo»: estado HTTP, redirecciones, URL final, HTTPS/HSTS, X-Robots-Tag (aplicado a la auditoría), tiempo, peso, Content-Type y Last-Modified, con tabla por URL.
+- Exportación CSV del lote; el rastreo se incluye en JSON, Markdown e informe ejecutivo.
+- `server.mjs` (`npm start`): servidor con rastreo seguro (anti-SSRF en cada conexión, 5 redirecciones, 8 MB, 20 s, gzip/brotli, charset) y mensajes de error claros.
+- Worker de Cloudflare con el mismo contrato y CORS restringible para la versión publicada, y `auditor.config.json` para activarlo.
+- 9 pruebas nuevas del rastreador, el Worker y el flujo completo en la app (23 en total).
+
 ## [8.1.0] · Quality de Google
 ### Añadido
 - Metodología google-quality-audit (Nacho Mascort): rúbrica 0–4 visible por pilar con nivel siguiente, informe de quality con su plantilla (copiar/descargar), ángulos non-commodity y ejemplos de Google.
