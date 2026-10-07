@@ -48,9 +48,23 @@ async function openPage(opts = {}) {
   return { page, context, errors };
 }
 
+// Pulsa «Auditar» y espera a que la app pinte la NUEVA auditoría (en Firefox el clic puede resolverse
+// antes de que termine el manejador; sin esta espera se leerían resultados de la auditoría anterior).
+async function runAudit(page) {
+  await page.evaluate(() => { document.querySelector("#unifiedScore").textContent = "pendiente"; });
+  await page.click("#scoreBtn");
+  await page.waitForFunction(() => document.querySelector("#unifiedScore").textContent !== "pendiente");
+}
+
+async function loadDemo(page) {
+  await page.evaluate(() => { document.querySelector("#unifiedScore").textContent = "pendiente"; });
+  await page.click("#sampleBtn");
+  await page.waitForFunction(() => document.querySelector("#unifiedScore").textContent !== "pendiente");
+}
+
 async function audit(page, src) {
   await page.evaluate(s => { document.querySelector("#source").value = s; }, src);
-  await page.click("#scoreBtn");
+  await runAudit(page);
 }
 
 async function download(page, selector) {
@@ -62,7 +76,7 @@ const BAD_TEXT = /\bNaN\b|\bundefined\b|\[object Object\]|\bInfinity\b/;
 
 test("la demo genera el informe completo sin errores", async () => {
   const { page, context, errors } = await openPage();
-  await page.click("#sampleBtn");
+  await loadDemo(page);
   assert.equal(await page.evaluate(() => document.querySelector("#results").style.display), "block");
   const r = await page.evaluate(() => ({
     unified: +document.querySelector("#unifiedScore").textContent,
@@ -92,7 +106,7 @@ test("la demo genera el informe completo sin errores", async () => {
 
 test("las exportaciones se descargan y no contienen valores rotos", async () => {
   const { page, context, errors } = await openPage();
-  await page.click("#sampleBtn");
+  await loadDemo(page);
   const md = await download(page, "#downloadBtn");
   assert.match(md, /## Legibilidad/);
   const json = JSON.parse(await download(page, "#jsonBtn"));
@@ -161,11 +175,11 @@ test("tema oscuro, atajos y ayuda funcionan", async () => {
   const { page, context, errors } = await openPage({ colorScheme: "dark" });
   assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), "dark");
   await page.click("#themeBtn"); await page.click("#themeBtn");
-  assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), "light");
+  await page.waitForFunction(() => document.documentElement.dataset.theme === "light");
   await page.keyboard.press("?");
-  assert.ok(await page.evaluate(() => document.querySelector("#kbdHelp").classList.contains("show")));
+  await page.waitForFunction(() => document.querySelector("#kbdHelp").classList.contains("show"));
   await page.keyboard.press("Escape");
-  assert.ok(!(await page.evaluate(() => document.querySelector("#kbdHelp").classList.contains("show"))));
+  await page.waitForFunction(() => !document.querySelector("#kbdHelp").classList.contains("show"));
   await page.keyboard.press("Alt+KeyD");
   await page.waitForFunction(() => document.querySelector("#results").style.display === "block");
   assert.deepEqual(errors, []);
@@ -175,7 +189,7 @@ test("tema oscuro, atajos y ayuda funcionan", async () => {
 test("sin errores de accesibilidad (axe) en tema claro y oscuro", async () => {
   for (const colorScheme of ["light", "dark"]) {
     const { page, context } = await openPage({ colorScheme });
-    await page.click("#sampleBtn");
+    await loadDemo(page);
     await page.addScriptTag({ path: AXE });
     const violations = await page.evaluate(async () => (await window.axe.run(document, { resultTypes: ["violations"] })).violations.map(v => `${v.id}: ${v.nodes.map(n => n.target.join(" ")).slice(0, 3).join(", ")}`));
     assert.deepEqual(violations, [], `tema ${colorScheme}`);
@@ -185,7 +199,7 @@ test("sin errores de accesibilidad (axe) en tema claro y oscuro", async () => {
 
 test("en móvil no hay scroll horizontal", async () => {
   const { page, context, errors } = await openPage({ viewport: { width: 360, height: 780 } });
-  await page.click("#sampleBtn");
+  await loadDemo(page);
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   assert.deepEqual(errors, []);
   await context.close();
@@ -218,7 +232,7 @@ test("funciona sin conexión gracias al service worker", async () => {
 
 test("capa de quality: rúbrica, commodity, page types, red flags, señales e informe", async () => {
   const { page, context, errors } = await openPage();
-  await page.click("#sampleBtn");
+  await loadDemo(page);
   await page.evaluate(() => { document.querySelector("details.advanced").open = true; });
   await page.check("#coreDrop");
   await page.fill("#coreDropPct", "22");
@@ -227,7 +241,7 @@ test("capa de quality: rúbrica, commodity, page types, red flags, señales e in
   await page.fill("#competitors", "Qué es GEO\n---RESULT---\nGuía de GEO para empresas");
   await page.fill("#siblings", "GEO para abogados. Guía práctica de GEO para estructurar contenidos.\n---PAGE---\nGEO para dentistas. Guía práctica de GEO para estructurar contenidos.");
   await page.fill("#pageTypes", "tipo; urls; indexadas; clics; crecimiento; foco; traducción\nPosts; 1.200; 1.100; 90000; 5; sí; no\nFichas de ciudad; 8000; 2100; 4000; 300; sí; no\nRecetas; 600; 200; 900; 40; no; no\nIdiomas; 3000; 2500; 20000; 10; sí; sí\nlínea rota");
-  await page.click("#scoreBtn");
+  await runAudit(page);
 
   // Rúbrica 0–4 con nivel y siguiente nivel en cada pilar
   assert.equal(await page.locator("#pillarGrid .rubric").count(), 4);
@@ -243,7 +257,7 @@ test("capa de quality: rúbrica, commodity, page types, red flags, señales e in
   assert.match(site, /3–6 meses/);
   // Red flag Lowest por dominio caducado => veredicto Riesgo alto y prioridad sobre «sacar del dominio»
   await page.check("#expiredDomain");
-  await page.click("#scoreBtn");
+  await runAudit(page);
   assert.match(await page.locator("#flags").innerText(), /Abuso de dominio caducado/);
   assert.equal(await page.textContent("#qualityGrade"), "Riesgo alto");
   assert.match(await page.locator("#siteView").innerText(), /revisión crítica/i);
@@ -300,13 +314,13 @@ test("el informe avisa cuando la página es antigua", async () => {
 
 test("el informe ejecutivo escapa cualquier texto del usuario", async () => {
   const { page, context, errors } = await openPage();
-  await page.click("#sampleBtn");
+  await loadDemo(page);
   await page.evaluate(() => { document.querySelector("details.advanced").open = true; });
   const evil = '<img src=x onerror=alert(1)>"><script>alert(2)</script>';
   await page.fill("#projectName", evil);
   await page.fill("#targetQuery", evil);
   await page.fill("#pageTypes", evil + "; 10; 5; 1; 0; sí; no");
-  await page.click("#scoreBtn");
+  await runAudit(page);
   const [d] = await Promise.all([page.waitForEvent("download"), page.click("#execReportBtn")]);
   assert.equal(d.suggestedFilename(), "informe-ejecutivo-geo-quality.html");
   const html = fs.readFileSync(await d.path(), "utf8");
@@ -327,7 +341,7 @@ test("robots.txt sigue el estándar RFC 9309: precedencia por longitud y paráme
   const { page, context, errors } = await openPage();
   await page.evaluate(() => { document.querySelector("details.advanced").open = true; });
   const card = async agent => (await page.locator("#techGrid > *").allInnerTexts()).find(t => t.includes("· " + agent)) || "";
-  const check = async (url, robots) => { await page.fill("#pageUrl", url); await page.fill("#robots", robots); await page.fill("#source", "<html><body><h1>T</h1><p>Texto de prueba.</p></body></html>"); await page.click("#scoreBtn"); };
+  const check = async (url, robots) => { await page.fill("#pageUrl", url); await page.fill("#robots", robots); await page.fill("#source", "<html><body><h1>T</h1><p>Texto de prueba.</p></body></html>"); await runAudit(page); };
   // La regla más larga gana contando comodines (Allow /*/landing = 10 > Disallow /promo/la = 9)
   await check("https://x.com/promo/landing", "User-agent: *\nAllow: /*/landing\nDisallow: /promo/la");
   assert.match(await card("OAI-SearchBot"), /Permitido/i);
@@ -389,12 +403,14 @@ test("enlazado interno: las anclas y javascript: no cuentan como enlaces interno
 test("la ayuda de atajos gestiona el foco del teclado", async () => {
   const { page, context, errors } = await openPage();
   await page.focus("#helpBtn");
+  const focusIs = id => page.waitForFunction(i => document.activeElement && document.activeElement.id === i, id, { timeout: 5000 });
   await page.keyboard.press("Enter");
-  assert.equal(await page.evaluate(() => document.activeElement.id), "kbdClose");
+  await focusIs("kbdClose");
   await page.keyboard.press("Tab");
-  assert.equal(await page.evaluate(() => document.activeElement.id), "kbdClose", "el foco no se escapa del diálogo");
+  await focusIs("kbdClose"); // el foco no se escapa del diálogo
+  assert.equal(await page.evaluate(() => document.activeElement.id), "kbdClose");
   await page.keyboard.press("Escape");
-  assert.equal(await page.evaluate(() => document.activeElement.id), "helpBtn", "el foco vuelve al botón");
+  await focusIs("helpBtn"); // el foco vuelve al botón
   assert.deepEqual(errors, []);
   await context.close();
 });
