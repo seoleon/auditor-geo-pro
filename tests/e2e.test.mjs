@@ -203,7 +203,12 @@ test("una página larga se audita en un tiempo razonable", async () => {
 
 test("funciona sin conexión gracias al service worker", async () => {
   const { page, context } = await openPage();
-  await page.evaluate(() => navigator.serviceWorker.ready);
+  // En todos los navegadores: el service worker se registra y queda activo.
+  const scope = await page.evaluate(async () => (await navigator.serviceWorker.ready).scope);
+  assert.ok(scope.startsWith(base), scope);
+  // Playwright no puede recargar páginas controladas por un service worker en WebKit para Linux
+  // («WebKit encountered an internal error»); la recarga sin conexión se comprueba en Chromium y Firefox.
+  if (BROWSER === "webkit") { await context.close(); return; }
   await page.reload();
   await context.setOffline(true);
   await page.reload();
