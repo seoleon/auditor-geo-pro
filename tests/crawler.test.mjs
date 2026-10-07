@@ -27,6 +27,11 @@ before(async () => {
       case "/otro-bot/": return send(200, "text/html; charset=utf-8", page("Solo bloquea a otro bot", "Indexable para Google."), { "x-robots-tag": "otrobot: noindex, nofollow" });
       case "/google-noindex/": return send(200, "text/html; charset=utf-8", page("Bloqueada para Google", "No indexable en Google."), { "x-robots-tag": "max-snippet: 50, googlebot: noindex" });
       case "/sin-robots/robots.txt": return send(404, "text/html", "<h1>No</h1>");
+      case "/vacio": return send(204, "text/html", "");
+      case "/charset-falso": return send(200, "text/html; charset=foobar-9", "<h1>Hola</h1>");
+      case "/cortado": res.writeHead(200, { "content-type": "text/html", "content-length": "100000" }); res.write("<h1>Parcial"); setTimeout(() => res.socket.destroy(), 50); return;
+      case "/gzip-falso": return send(200, "text/html", "esto no es gzip", { "content-encoding": "gzip" });
+      case "/a-https": return send(301, "text/html", "", { location: `https://127.0.0.1:${fixture.address().port}/` });
       case "/loop": return send(302, "text/html", "", { location: "/loop" });
       case "/grande": return send(200, "text/html", "<p>" + "x".repeat(9 * 1024 * 1024) + "</p>");
       case "/robots.txt": return send(200, "text/plain", "User-agent: *\nAllow: /\n\nUser-agent: GPTBot\nDisallow: /\n\nSitemap: /sitemap.xml\n");
@@ -365,4 +370,22 @@ test("accesibilidad (axe) de las secciones de rastreo, también en móvil y tema
     if (opts.viewport) assert.ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "sin scroll horizontal en móvil");
     await context.close();
   }
+});
+
+test("fuzzing: respuestas malformadas dan resultados o errores claros en español (servidor y Worker)", async () => {
+  const viaWorker = async u => { const r = await worker.fetch(new Request("https://w/api/fetch?url=" + encodeURIComponent(u)), { ALLOW_PRIVATE: "1" }); return r.json(); };
+  const s = createServer({ allowPrivate: true }); await new Promise(r => s.listen(0, "127.0.0.1", r));
+  const viaServer = async u => (await fetch(`http://127.0.0.1:${s.address().port}/api/fetch?url=` + encodeURIComponent(u))).json();
+  try {
+    for (const via of [viaServer, viaWorker]) {
+      assert.equal((await via(fx + "/vacio")).status, 204);
+      assert.equal((await via(fx + "/charset-falso")).status, 200);
+      for (const path of ["/cortado", "/gzip-falso", "/a-https"]) {
+        const j = await via(fx + path);
+        assert.equal(j.ok, false, path);
+        assert.match(j.error, /[áéíóúñ]|Error de red|servidor|HTTPS/, `${path}: ${j.error}`);
+        assert.doesNotMatch(j.error, /fetch failed|terminated|aborted|EPROTO|SSL routines|Cannot read/, `${path}: ${j.error}`);
+      }
+    }
+  } finally { await new Promise(r => s.close(r)); }
 });

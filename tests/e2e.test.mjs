@@ -377,3 +377,16 @@ test("enlazado interno: las anclas y javascript: no cuentan como enlaces interno
   assert.deepEqual(errors, []);
   await context.close();
 });
+
+test("la ayuda de atajos gestiona el foco del teclado", async () => {
+  const { page, context, errors } = await openPage();
+  await page.focus("#helpBtn");
+  await page.keyboard.press("Enter");
+  assert.equal(await page.evaluate(() => document.activeElement.id), "kbdClose");
+  await page.keyboard.press("Tab");
+  assert.equal(await page.evaluate(() => document.activeElement.id), "kbdClose", "el foco no se escapa del diálogo");
+  await page.keyboard.press("Escape");
+  assert.equal(await page.evaluate(() => document.activeElement.id), "helpBtn", "el foco vuelve al botón");
+  assert.deepEqual(errors, []);
+  await context.close();
+});

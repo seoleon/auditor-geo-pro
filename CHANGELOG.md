@@ -2,6 +2,10 @@
 
 ## [8.2.1] · Revisión a fondo: fallos corregidos
 ### Corregido
+- Worker: una respuesta 204 sin contenido lo rompía («Cannot read properties of null»).
+- Errores técnicos en inglés («fetch failed», «terminated», «aborted», errores TLS) ahora llegan como mensajes claros en español.
+- Ayuda de atajos: el foco entra en el diálogo al abrirlo y vuelve al botón al cerrarlo.
+- HTML 100 % válido (html-validate): `type="button"` en todos los botones, «Q&amp;A» escapado y `<tbody>` en la tabla de atajos.
 - Servidor: una ruta mal codificada (`/%E0%A4%A`) tumbaba el proceso; ahora responde 400.
 - Servidor y Worker: el límite de 20 s era de inactividad y un servidor que gotea bytes bloqueaba el rastreo indefinidamente; ahora es un límite total.
 - Servidor: escuchaba en todas las interfaces (proxy abierto en la red local); ahora solo en 127.0.0.1 salvo `HOST`.
@@ -20,7 +24,7 @@
 ### Añadido
 - «Ver» en el lote: abre la auditoría completa de cualquier URL sin volver a descargarla.
 - Pegar una URL en el cuadro principal (o dejarlo vacío con una URL de página) la descarga y audita; Intro en el campo del sitemap lo rastrea.
-- 12 pruebas de regresión nuevas (35 en total).
+- 15 pruebas de regresión nuevas (38 en total), incluido fuzzing de respuestas malformadas.
 
 ## [8.2.0] · Modo bestia: análisis de URLs en vivo
 ### Añadido

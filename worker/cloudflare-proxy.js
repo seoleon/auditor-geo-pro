@@ -13,6 +13,7 @@ function json(data, status, extra) {
   return new Response(JSON.stringify(data), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...extra } });
 }
 async function readCapped(res) {
+  if (!res.body) return new Uint8Array(0); // 204, 304 y respuestas sin cuerpo
   const reader = res.body.getReader(), chunks = []; let size = 0;
   for (;;) {
     const { done, value } = await reader.read(); if (done) break;
@@ -27,6 +28,16 @@ function decode(buf, contentType) {
   if (!charset) charset = (new TextDecoder("latin1").decode(buf.subarray(0, 4096)).match(/<meta[^>]+charset=["']?([\w-]+)/i) || [])[1];
   try { return new TextDecoder(charset || "utf-8").decode(buf); } catch { return new TextDecoder("utf-8").decode(buf); }
 }
+const OWN_MESSAGE = /^(Solo se admiten|Destino bloqueado|Demasiadas redirecciones|Tiempo de espera|La respuesta supera|No se pudo|El servidor envió)/;
+function friendly(e) {
+  const msg = String((e && e.message) || ""), code = String((e && e.cause && e.cause.code) || "");
+  if (OWN_MESSAGE.test(msg)) return e;
+  if (/ENOTFOUND|EAI_AGAIN/.test(code) || /dns|resolve/i.test(msg)) return new Error("No se encuentra el dominio (DNS). Revisa que la URL esté bien escrita.");
+  if (/SSL|TLS|EPROTO|CERT/i.test(code + msg)) return new Error("No se pudo establecer una conexión HTTPS segura con el sitio.");
+  if (/terminated|reset|aborted|ECONNRESET/i.test(code + msg)) return new Error("El servidor cortó la conexión.");
+  if (/ECONNREFUSED|refused/i.test(code + msg)) return new Error("El servidor rechazó la conexión.");
+  return new Error("Error de red al descargar la página. Comprueba que la URL funciona en el navegador.");
+}
 export async function crawl(target, { allowPrivate = false, timeoutMs = TIMEOUT_MS, userAgent = "Mozilla/5.0 (compatible; AuditorGEOPRO-Worker; +https://github.com/seoleon/auditor-geo-pro)" } = {}) {
   const started = Date.now(), redirects = []; let url = target;
   // Un único límite de tiempo TOTAL que cubre redirecciones y la descarga completa del cuerpo.
@@ -39,7 +50,7 @@ export async function crawl(target, { allowPrivate = false, timeoutMs = TIMEOUT_
     if (!allowPrivate && PRIVATE_HOST.test(u.hostname)) throw Object.assign(new Error("Destino bloqueado: la URL apunta a una red privada o local."), { blocked: true });
     let res;
     try { res = await fetch(url, { redirect: "manual", signal: ctrl.signal, headers: { "user-agent": userAgent, accept: "text/html,application/xhtml+xml,application/xml;q=0.9,text/plain;q=0.8,*/*;q=0.5", "accept-language": "es-ES,es;q=0.9,en;q=0.8" } }); }
-    catch (e) { throw ctrl.signal.aborted ? timeoutError() : new Error(e.message || "Error de red."); }
+    catch (e) { throw ctrl.signal.aborted ? timeoutError() : friendly(e); }
     if (res.status >= 300 && res.status < 400 && res.headers.get("location")) {
       redirects.push({ url, status: res.status });
       if (i === MAX_REDIRECTS) throw new Error(`Demasiadas redirecciones (más de ${MAX_REDIRECTS}).`);
@@ -47,7 +58,7 @@ export async function crawl(target, { allowPrivate = false, timeoutMs = TIMEOUT_
       continue;
     }
     let buf;
-    try { buf = await readCapped(res); } catch (e) { throw ctrl.signal.aborted ? timeoutError() : e; }
+    try { buf = await readCapped(res); } catch (e) { throw ctrl.signal.aborted ? timeoutError() : friendly(e); }
     const headers = {};
     for (const k of KEEP) { const v = res.headers.get(k); if (v != null) headers[k] = v; }
     return { ok: true, url: target, finalUrl: url, status: res.status, statusText: res.statusText || "", redirects, headers, ms: Date.now() - started, bytes: buf.length, body: decode(await gunzipIfNeeded(buf, res.headers.get("content-type")), res.headers.get("content-type")) };
@@ -68,6 +79,6 @@ export default {
     const target = u.searchParams.get("url") || "";
     try { new URL(target); } catch { return json({ ok: false, url: target, error: "URL no válida." }, 400, h); }
     try { return json(await crawl(target, { allowPrivate: env && env.ALLOW_PRIVATE === "1" }), 200, h); }
-    catch (e) { return json({ ok: false, url: target, code: e.blocked ? "BLOCKED" : "NETWORK", error: e.message || "Error de red." }, 200, h); }
+    catch (e) { return json({ ok: false, url: target, code: e.blocked ? "BLOCKED" : "NETWORK", error: (e.blocked ? e : friendly(e)).message }, 200, h); }
   }
 };

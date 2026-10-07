@@ -130,7 +130,14 @@ const NET_ERRORS = {
   UNABLE_TO_VERIFY_LEAF_SIGNATURE: "No se pudo verificar el certificado HTTPS del sitio.",
   SELF_SIGNED_CERT_IN_CHAIN: "La cadena de certificados HTTPS no es de confianza."
 };
-export function friendlyError(e) { return NET_ERRORS[e && e.code] || (e && e.message) || "Error de red."; }
+const OWN_MESSAGE = /^(Solo se admiten|Destino bloqueado|Demasiadas redirecciones|Tiempo de espera|La respuesta supera|No se pudo|El servidor envió)/;
+export function friendlyError(e) {
+  const code = String((e && e.code) || ""), msg = String((e && e.message) || "");
+  if (NET_ERRORS[code]) return NET_ERRORS[code];
+  if (OWN_MESSAGE.test(msg)) return msg;
+  if (/^(EPROTO|ERR_SSL|ERR_TLS|CERT_)/.test(code) || /SSL|TLS|certificate/i.test(msg)) return "No se pudo establecer una conexión HTTPS segura con el sitio.";
+  return `Error de red al descargar la página${code ? ` (${code})` : ""}. Comprueba que la URL funciona en el navegador.`;
+}
 
 function sendJson(res, code, data) {
   res.writeHead(code, { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff" });

@@ -628,9 +628,9 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   </details>
 
   <div class="controls">
-    <button class="primary" id="scoreBtn">Auditar página</button>
-    <button class="secondary" id="sampleBtn">Cargar demo</button>
-    <button class="danger-ghost" id="resetBtn">Limpiar</button>
+    <button type="button" class="primary" id="scoreBtn">Auditar página</button>
+    <button type="button" class="secondary" id="sampleBtn">Cargar demo</button>
+    <button type="button" class="danger-ghost" id="resetBtn">Limpiar</button>
     <span class="privacy">ANÁLISIS 100% LOCAL · RASTREO CON TU SERVIDOR · NO LOCALSTORAGE</span>
   </div>
 </section>
@@ -731,7 +731,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head"><h2>Comparador antes / después</h2><p>Pega una versión revisada y recalculamos la auditoría con exactamente la misma lógica y contexto.</p></div>
   <section class="panel compare-box">
-    <div class="compare-input"><textarea id="afterSource" aria-label="Versión revisada para comparar" spellcheck="false" placeholder="Pega aquí la versión revisada del HTML, texto o Markdown…"></textarea><button class="primary" id="compareBtn">Comparar versión</button></div>
+    <div class="compare-input"><textarea id="afterSource" aria-label="Versión revisada para comparar" spellcheck="false" placeholder="Pega aquí la versión revisada del HTML, texto o Markdown…"></textarea><button type="button" class="primary" id="compareBtn">Comparar versión</button></div>
     <div class="compare-results" id="compareResults">
       <div class="delta-grid">
         <div class="delta"><div class="label">Global</div><div class="dv" id="deltaGlobal">—</div></div>
@@ -781,7 +781,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-preguntas"><h2>Cobertura de preguntas y respuestas</h2><p>Evalúa preguntas explícitas, calidad de la primera respuesta y evidencia dentro de cada sección. También identifica headings convertibles en queries naturales.</p></div>
   <div class="qa-stats" id="qaStats"></div>
-  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Cobertura de preguntas y respuestas"><table class="detail-table"><thead><tr><th>Pregunta / heading</th><th>Respuesta inicial</th><th>Palabras</th><th>Directa</th><th>Evidencia</th><th>Score Q&A</th><th>Acción</th></tr></thead><tbody id="qaBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Cobertura de preguntas y respuestas"><table class="detail-table"><thead><tr><th>Pregunta / heading</th><th>Respuesta inicial</th><th>Palabras</th><th>Directa</th><th>Evidencia</th><th>Score Q&amp;A</th><th>Acción</th></tr></thead><tbody id="qaBody"></tbody></table></div>
 
   <div class="section-head"><h2>Términos dominantes y foco</h2><p>Frecuencia léxica simple del contenido principal. No es NER ni embeddings: úsalo para detectar si el tema que creías central realmente domina la página.</p></div>
   <section class="panel" style="padding:17px"><div class="term-cloud" id="termCloud"></div></section>
@@ -799,10 +799,10 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-claims"><h2>Claims y soporte de evidencia</h2><p>Extrae afirmaciones que merecen verificación — cifras, comparativas, causalidad y afirmaciones fuertes — y estima si el propio texto aporta soporte cercano.</p></div>
   <div class="claim-filters" id="claimFilters">
-    <button class="secondary filter-btn active" data-claim="all">Todos</button>
-    <button class="secondary filter-btn" data-claim="alto">Riesgo alto</button>
-    <button class="secondary filter-btn" data-claim="medio">Riesgo medio</button>
-    <button class="secondary filter-btn" data-claim="bajo">Riesgo bajo</button>
+    <button type="button" class="secondary filter-btn active" data-claim="all">Todos</button>
+    <button type="button" class="secondary filter-btn" data-claim="alto">Riesgo alto</button>
+    <button type="button" class="secondary filter-btn" data-claim="medio">Riesgo medio</button>
+    <button type="button" class="secondary filter-btn" data-claim="bajo">Riesgo bajo</button>
   </div>
   <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Claims y soporte de evidencia"><table class="detail-table"><thead><tr><th>Claim</th><th>Tipo</th><th>Soporte cercano</th><th>Riesgo</th><th>Qué revisar</th></tr></thead><tbody id="claimsBody"></tbody></table></div>
 
@@ -822,7 +822,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-brief"><h2>Brief de actualización generado</h2><p>Convierte el diagnóstico en una hoja de trabajo para SEO, redactor o cliente: estructura, queries, evidencia y controles antes de publicar.</p></div>
   <section class="panel brief">
-    <div class="brief-head"><div><div class="label">Brief determinista</div><h3 id="briefTitle">—</h3></div><button class="secondary tiny" id="copyBriefBtn">Copiar brief</button></div>
+    <div class="brief-head"><div><div class="label">Brief determinista</div><h3 id="briefTitle">—</h3></div><button type="button" class="secondary tiny" id="copyBriefBtn">Copiar brief</button></div>
     <div class="brief-grid" id="briefGrid"></div>
   </section>
 
@@ -831,11 +831,11 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-kit"><h2>Kit de despliegue para IA</h2><p>Borradores listos para copiar generados a partir de la página y del contexto: llms.txt, robots.txt para crawlers de IA y prompts para comprobar manualmente si los motores te citan.</p></div>
   <div class="gen-grid">
-    <section class="panel gen-card"><div class="label">Agentes · opcional</div><h3>llms.txt</h3><p>Resumen en Markdown para agentes. Google lo ignora y no hace falta para AI Overviews ni AI Mode; puede servir a otros agentes.</p><div class="codebox"><button class="copy-code" data-copy-code="genLlms">Copiar</button><pre id="genLlms"></pre></div></section>
+    <section class="panel gen-card"><div class="label">Agentes · opcional</div><h3>llms.txt</h3><p>Resumen en Markdown para agentes. Google lo ignora y no hace falta para AI Overviews ni AI Mode; puede servir a otros agentes.</p><div class="codebox"><button type="button" class="copy-code" data-copy-code="genLlms">Copiar</button><pre id="genLlms"></pre></div></section>
     <section class="panel gen-card"><div class="label">Rastreo · decide tu política</div><h3>robots.txt para IA</h3>
       <select id="robotsPolicy" aria-label="Política de crawlers de IA"><option value="search">Permitir búsqueda IA, bloquear entrenamiento</option><option value="all">Permitir búsqueda y entrenamiento</option><option value="none">Bloquear todos los bots de IA</option></select>
-      <div class="codebox"><button class="copy-code" data-copy-code="genRobots">Copiar</button><pre id="genRobots"></pre></div></section>
-    <section class="panel gen-card"><div class="label">Verificación manual</div><h3>Prompts de prueba</h3><p>Lánzalos en ChatGPT Search, Perplexity, Gemini y Google (modo IA) y anota si citan tu URL.</p><div class="codebox"><button class="copy-code" data-copy-code="genPrompts">Copiar</button><pre id="genPrompts"></pre></div></section>
+      <div class="codebox"><button type="button" class="copy-code" data-copy-code="genRobots">Copiar</button><pre id="genRobots"></pre></div></section>
+    <section class="panel gen-card"><div class="label">Verificación manual</div><h3>Prompts de prueba</h3><p>Lánzalos en ChatGPT Search, Perplexity, Gemini y Google (modo IA) y anota si citan tu URL.</p><div class="codebox"><button type="button" class="copy-code" data-copy-code="genPrompts">Copiar</button><pre id="genPrompts"></pre></div></section>
   </div>
 
   <div class="section-head"><h2>Higiene HTML y accesibilidad básica</h2><p>Checks de implementación que no se mezclan con la nota GEO, pero sí afectan a calidad editorial, comprensión y mantenimiento.</p></div>
@@ -957,14 +957,14 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="toolbar main-actions">
     <div class="toolbar-group">
-      <button class="secondary tiny" id="summaryBtn">Copiar resumen ejecutivo</button>
-      <button class="secondary tiny" id="copyBtn">Copiar informe completo</button>
+      <button type="button" class="secondary tiny" id="summaryBtn">Copiar resumen ejecutivo</button>
+      <button type="button" class="secondary tiny" id="copyBtn">Copiar informe completo</button>
     </div>
     <div class="toolbar-group">
-      <button class="secondary tiny" id="htmlReportBtn">Informe ejecutivo (HTML)</button><button class="secondary tiny" id="backlogBtn">Backlog CSV</button><button class="secondary tiny" id="csvBtn">Auditoría CSV</button>
-      <button class="secondary tiny" id="downloadBtn">Descargar Markdown</button>
-      <button class="secondary tiny" id="jsonBtn">Descargar JSON</button>
-      <button class="secondary tiny" id="printBtn">Imprimir / PDF</button>
+      <button type="button" class="secondary tiny" id="htmlReportBtn">Informe ejecutivo (HTML)</button><button type="button" class="secondary tiny" id="backlogBtn">Backlog CSV</button><button type="button" class="secondary tiny" id="csvBtn">Auditoría CSV</button>
+      <button type="button" class="secondary tiny" id="downloadBtn">Descargar Markdown</button>
+      <button type="button" class="secondary tiny" id="jsonBtn">Descargar JSON</button>
+      <button type="button" class="secondary tiny" id="printBtn">Imprimir / PDF</button>
     </div>
   </div>
 
@@ -1087,26 +1087,26 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
       <li>OAI‑SearchBot se trata como crawler de Search de OpenAI; GPTBot como crawler de posible entrenamiento. ChatGPT‑User no se usa para decidir elegibilidad en Search.</li>
       <li>Google‑Extended se muestra como control de Gemini/grounding, pero no como señal de Google Search ni de AI Overviews.</li>
       <li>llms.txt se evalúa contra la propuesta v2 como ayuda opcional para agentes. No suma puntos de ranking ni de citabilidad.</li>
-      <li>La preparación por motor es un diagnóstico operativo, no una probabilidad real de citación. Combina fit del contenido y puertas técnicas aportadas por el usuario.</li><li>Los checks GEO de preguntas, Q&A y formato son heurísticas de extractabilidad de esta herramienta. No significan que Google exija trocear o redactar el contenido de una forma especial para AI Overviews o AI Mode.</li><li>La V7 añade un release gate, cobertura de queries, scoring de chunks, cadena claim→evidencia y similitud entre archivos. Son herramientas de QA y priorización, no señales conocidas de ranking.</li><li>Schema Studio solo usa datos visibles/declarados; valida y completa cada borrador antes de publicar.</li><li>No se pueden verificar offline backlinks, autoridad de marca, consenso real, exactitud factual completa, WAF/CDN, status HTTP, indexación o posiciones reales.</li>
+      <li>La preparación por motor es un diagnóstico operativo, no una probabilidad real de citación. Combina fit del contenido y puertas técnicas aportadas por el usuario.</li><li>Los checks GEO de preguntas, Q&amp;A y formato son heurísticas de extractabilidad de esta herramienta. No significan que Google exija trocear o redactar el contenido de una forma especial para AI Overviews o AI Mode.</li><li>La V7 añade un release gate, cobertura de queries, scoring de chunks, cadena claim→evidencia y similitud entre archivos. Son herramientas de QA y priorización, no señales conocidas de ranking.</li><li>Schema Studio solo usa datos visibles/declarados; valida y completa cada borrador antes de publicar.</li><li>No se pueden verificar offline backlinks, autoridad de marca, consenso real, exactitud factual completa, WAF/CDN, status HTTP, indexación o posiciones reales.</li>
     </ul>
   </details>
 
   <div class="disclaimer">HEURÍSTICA DE PRIORIZACIÓN — NO ES UNA PUNTUACIÓN DE GOOGLE NI GARANTIZA RANKING, CITAS O INCLUSIÓN EN CHATGPT, PERPLEXITY O GOOGLE AI OVERVIEWS.</div>
 </section>
 </main>
-<button class="back-top" id="backTop" aria-label="Volver arriba">↑</button>
+<button type="button" class="back-top" id="backTop" aria-label="Volver arriba">↑</button>
 <div class="kbd-help" id="kbdHelp" role="dialog" aria-modal="true" aria-labelledby="kbdTitle">
   <section class="panel kbd-box">
     <h3 id="kbdTitle">Atajos de teclado</h3>
-    <table>
+    <table><tbody>
       <tr><td><kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>Enter</kbd></td><td>Auditar página</td></tr>
       <tr><td><kbd>Alt</kbd> + <kbd>D</kbd></td><td>Cargar demo</td></tr>
       <tr><td><kbd>Alt</kbd> + <kbd>T</kbd></td><td>Cambiar tema claro / oscuro</td></tr>
       <tr><td><kbd>Alt</kbd> + <kbd>M</kbd></td><td>Descargar informe Markdown</td></tr>
       <tr><td><kbd>?</kbd></td><td>Mostrar / ocultar esta ayuda</td></tr>
       <tr><td><kbd>Esc</kbd></td><td>Cerrar</td></tr>
-    </table>
-    <div class="controls"><button class="primary tiny" id="kbdClose">Entendido</button></div>
+    </tbody></table>
+    <div class="controls"><button type="button" class="primary tiny" id="kbdClose">Entendido</button></div>
   </section>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">Copiado</div>
@@ -2442,7 +2442,7 @@ function renderEngines(rows){const box=$("#engineGrid");box.innerHTML="";rows.fo
 function questionCoverage(d){const explicit=d.sections.filter(x=>isQuestion(x.heading));const bodyQuestions=sentenceSplit(d.text).filter(x=>/\?$/.test(x)).length;const rows=explicit.map(sec=>{const fs=firstSentence(sec.text),n=words(fs).length,direct=directOpening(sec.text),evidence=/(?:[$€£]\s?\d|\d+(?:[.,]\d+)?\s?%|\b(?:19|20)\d{2}\b|\b(según|according to|fuente|estudio|datos de|informe)\b)/i.test(sec.text);let score=(direct?42:10)+(n>=7&&n<=40?25:n<=55?14:5)+(evidence?23:5)+(words(sec.text).length>=25?10:4);score=Math.min(100,score);return {heading:sec.heading,answer:fs,n,direct,evidence,score,action:score>=78?"Mantener":!direct?"Responder de forma directa en la primera frase":!evidence?"Añadir evidencia o un ejemplo concreto":"Acortar y hacer autocontenida la respuesta"}});const candidates=d.headings.filter(h=>(h.level===2||h.level===3)&&!isQuestion(h.text)).slice(0,6).map(h=>h.text);const strong=rows.filter(x=>x.score>=78).length,coverage=rows.length?Math.round(rows.reduce((a,b)=>a+b.score,0)/rows.length):0;return {rows,explicit:rows.length,bodyQuestions,strong,coverage,candidates}}
 function renderQuestions(q){const stats=$("#qaStats");stats.innerHTML="";[["Preguntas H2/H3",q.explicit,"explícitas"],["Q&A fuertes",q.strong,`${q.explicit?Math.round(q.strong/q.explicit*100):0}% de las explícitas`],["Cobertura Q&A",q.coverage+"/100","media de calidad"],["Oportunidades",q.candidates.length,"headings no interrogativos"]].forEach(([l,v,t])=>{const e=document.createElement("article");e.className="panel qa-stat";e.innerHTML=`<div class="label">${esc(l)}</div><div class="qv">${esc(v)}</div><div class="qs">${esc(t)}</div>`;stats.appendChild(e)});const body=$("#qaBody");body.innerHTML="";q.rows.forEach(x=>{const cls=x.score>=78?"cell-good":x.score>=55?"cell-mid":"cell-bad",tr=document.createElement("tr");tr.innerHTML=`<td><strong>${esc(x.heading)}</strong></td><td>${esc(x.answer)}</td><td>${x.n}</td><td class="${x.direct?"cell-good":"cell-bad"}">${x.direct?"Sí":"No"}</td><td class="${x.evidence?"cell-good":"cell-mid"}">${x.evidence?"Sí":"Débil"}</td><td class="${cls}">${x.score}/100</td><td>${esc(x.action)}</td>`;body.appendChild(tr)});if(!q.rows.length){const tr=document.createElement("tr");tr.innerHTML=`<td colspan="7">No hay H2/H3 formulados como pregunta. Candidatos: ${esc(q.candidates.join(" · ")||"ninguno")}</td>`;body.appendChild(tr)}}
 function schemaStudio(d,c,purpose,qas){const existing=d.schema?.types||[],cards=[],url=c.pageUrl||d.canonical||"",headline=d.title||d.headings.find(x=>x.level===1)?.text||"",desc=d.meta||firstSentence(d.text).slice(0,180),image=d.images?.find(x=>/^https?:/i.test(x.src||""))?.src||"";const findVal=k=>{for(const o of d.schema?.objects||[])if(o&&o[k])return o[k];return null},pub=findVal("datePublished"),mod=findVal("dateModified");const article={"@context":"https://schema.org","@type":"Article"};if(headline)article.headline=headline;if(desc)article.description=desc;if(url)article.mainEntityOfPage={"@type":"WebPage","@id":url};if(d.authorName)article.author={"@type":"Person","name":d.authorName};if(c.brand)article.publisher={"@type":"Organization","name":c.brand};if(pub)article.datePublished=pub;if(mod)article.dateModified=mod;if(image)article.image=image;const articleProps=[headline,url,d.authorName,c.brand,pub||mod].filter(Boolean).length;cards.push({title:"Article · borrador",status:articleProps>=4?"Base sólida":"Completar",cls:articleProps>=4?"strong":"partial",text:`${existing.some(t=>/Article|BlogPosting|NewsArticle/i.test(t))?"Ya existe un tipo editorial. ":"No se detecta Article/BlogPosting. "}El borrador solo usa datos disponibles.`,code:`<script type="application/ld+json">\n${JSON.stringify(article,null,2)}\n<\/script>`});if(qas.rows.length>=2){const faq={"@context":"https://schema.org","@type":"FAQPage","mainEntity":qas.rows.slice(0,10).map(x=>({"@type":"Question","name":x.heading,"acceptedAnswer":{"@type":"Answer","text":x.answer}}))};cards.push({title:"FAQPage · visible Q&A",status:"Generado",cls:"strong",text:`${qas.rows.length} preguntas visibles detectadas. Úsalo solo si el bloque visible y el tipo son apropiados. No implica ni garantiza un rich result.`,code:`<script type="application/ld+json">\n${JSON.stringify(faq,null,2)}\n<\/script>`})}if(purpose==="Servicio / local"||/service|localbusiness/i.test(existing.join(" "))){const service={"@context":"https://schema.org","@type":"Service"};if(headline)service.name=headline;if(desc)service.description=desc;if(url)service.url=url;if(c.brand)service.provider={"@type":"Organization","name":c.brand};cards.push({title:"Service · base",status:c.brand&&url?"Base útil":"Completar",cls:c.brand&&url?"strong":"partial",text:"Añade areaServed, serviceType y provider real cuando estén visibles/verificados.",code:`<script type="application/ld+json">\n${JSON.stringify(service,null,2)}\n<\/script>`})}if(purpose==="Producto / ecommerce"||existing.some(t=>/^Product$/i.test(t))){const product={"@context":"https://schema.org","@type":"Product"};if(headline)product.name=headline;if(desc)product.description=desc;if(url)product.url=url;if(c.brand)product.brand={"@type":"Brand","name":c.brand};cards.push({title:"Product · esqueleto",status:"Requiere datos",cls:"partial",text:"No inventa precio, disponibilidad, SKU, GTIN, reviews ni offers. Completa solo con datos reales.",code:`<script type="application/ld+json">\n${JSON.stringify(product,null,2)}\n<\/script>`})}return cards}
-function renderSchemaStudio(cards,d){const box=$("#schemaGrid");box.innerHTML="";const existing=(d.schema?.types||[]).join(", ")||"ninguno",intro=document.createElement("article");intro.className="panel schema-card";intro.innerHTML=`<span class="pill ${d.schema?.count?"strong":"partial"}">${d.schema?.count?"Detectado":"Sin JSON-LD"}</span><h3>Estado actual</h3><p>Bloques JSON-LD: ${d.schema?.count||0}. Tipos: ${esc(existing)}. Errores: ${d.schema?.errors?.length||0}.</p><div class="schema-checks"><span class="schema-mini ${d.schema?.errors?.length?"weak":"strong"}">JSON ${d.schema?.errors?.length?"a revisar":"válido"}</span><span class="schema-mini ${d.authorName?"strong":"partial"}">Autor ${d.authorName?"sí":"no"}</span><span class="schema-mini ${d.dates?.length?"strong":"partial"}">Fecha ${d.dates?.length?"sí":"no"}</span></div>`;box.appendChild(intro);cards.forEach((x,i)=>{const el=document.createElement("article");el.className="panel schema-card";const id=`schemaCode${i}`;el.innerHTML=`<span class="pill ${x.cls}">${esc(x.status)}</span><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p><div class="codebox"><button class="copy-code" data-copy-code="${id}">Copiar</button><pre id="${id}">${esc(x.code)}</pre></div>`;box.appendChild(el)})}
+function renderSchemaStudio(cards,d){const box=$("#schemaGrid");box.innerHTML="";const existing=(d.schema?.types||[]).join(", ")||"ninguno",intro=document.createElement("article");intro.className="panel schema-card";intro.innerHTML=`<span class="pill ${d.schema?.count?"strong":"partial"}">${d.schema?.count?"Detectado":"Sin JSON-LD"}</span><h3>Estado actual</h3><p>Bloques JSON-LD: ${d.schema?.count||0}. Tipos: ${esc(existing)}. Errores: ${d.schema?.errors?.length||0}.</p><div class="schema-checks"><span class="schema-mini ${d.schema?.errors?.length?"weak":"strong"}">JSON ${d.schema?.errors?.length?"a revisar":"válido"}</span><span class="schema-mini ${d.authorName?"strong":"partial"}">Autor ${d.authorName?"sí":"no"}</span><span class="schema-mini ${d.dates?.length?"strong":"partial"}">Fecha ${d.dates?.length?"sí":"no"}</span></div>`;box.appendChild(intro);cards.forEach((x,i)=>{const el=document.createElement("article");el.className="panel schema-card";const id=`schemaCode${i}`;el.innerHTML=`<span class="pill ${x.cls}">${esc(x.status)}</span><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p><div class="codebox"><button type="button" class="copy-code" data-copy-code="${id}">Copiar</button><pre id="${id}">${esc(x.code)}</pre></div>`;box.appendChild(el)})}
 function hygieneAudit(d){const emptyHead=d.emptyHeadings||0,dups=new Map();d.headings.forEach(h=>dups.set(h.text.toLowerCase(),(dups.get(h.text.toLowerCase())||0)+1));const dupHead=[...dups.values()].filter(x=>x>1).length;let jumps=0;for(let i=1;i<d.headings.length;i++)if(d.headings[i].level-d.headings[i-1].level>1)jumps++;const missingAlt=d.images.filter(x=>!x.hasAlt).length,generic=d.links.filter(x=>/^(click here|read more|more|here|clic aquí|leer más|más|aquí|ver más)$/i.test((x.text||"").trim())).length;return [{title:"Headings vacíos",value:emptyHead,good:emptyHead===0,text:emptyHead?"Hay headings sin texto útil.":"No se detectan headings vacíos."},{title:"Headings duplicados",value:dupHead,good:dupHead===0,text:dupHead?"Revisa repeticiones exactas.":"Sin duplicados exactos relevantes."},{title:"Saltos jerárquicos",value:jumps,good:jumps===0,text:jumps?"Hay saltos de nivel >1.":"Jerarquía sin saltos fuertes."},{title:"Imágenes sin alt",value:missingAlt,good:missingAlt===0,text:d.images.length?`${missingAlt}/${d.images.length} sin atributo alt. ALT vacío puede ser válido en imágenes decorativas.`:"No se detectan imágenes."},{title:"Anchors genéricos",value:generic,good:generic===0,text:generic?"Sustituye anchors tipo ‘aquí’.":"Sin anchors genéricos comunes."},{title:"Canonical",value:d.type==="HTML"?(d.canonical?"Sí":"No"):"N/A",good:d.type!=="HTML"||!!d.canonical,text:d.type!=="HTML"?"Solo HTML.":d.canonical?"Canonical detectado.":"Falta rel=canonical."},{title:"Idioma HTML",value:d.type==="HTML"?(d.lang||"No"):"N/A",good:d.type!=="HTML"||!!d.lang,text:d.type!=="HTML"?"Solo HTML.":d.lang?`lang=${d.lang}`:"Falta atributo lang."},{title:"Meta noindex",value:d.type==="HTML"?(/\bnoindex\b/.test(d.robotsMeta)?"Sí":"No"):"N/A",good:d.type!=="HTML"||!/\bnoindex\b/.test(d.robotsMeta),text:/\bnoindex\b/.test(d.robotsMeta)?"Bloquea indexación normal de Search.":"No se detecta noindex."}]}
 function renderHygiene(rows){const box=$("#hygieneGrid");box.innerHTML="";rows.forEach(x=>{const el=document.createElement("article");el.className="panel hygiene";el.innerHTML=`<span class="pill ${x.good?"strong":"partial"}">${x.good?"OK":"Revisar"}</span><h3>${esc(x.title)} · ${esc(x.value)}</h3><p>${esc(x.text)}</p>`;box.appendChild(el)})}
 function scoreLedger(geo,q){const rows=[];geo.checks.filter(x=>!x.na).forEach(x=>{const contribution=geo.denom?x.points/geo.denom*55:0,recoverable=geo.denom?(x.weight-x.points)/geo.denom*55:0;rows.push({name:x.name,layer:"GEO",result:`${x.points.toFixed(1)}/${x.weight}`,contribution,recoverable,read:x.state.label})});q.pillars.forEach(p=>{const contribution=p.score/16*45,recoverable=(4-p.score)/16*45;rows.push({name:p.name,layer:"Calidad",result:`${p.score.toFixed(1)}/4`,contribution,recoverable,read:status(p.score/4).label})});rows.sort((a,b)=>b.recoverable-a.recoverable);return rows}
@@ -2479,7 +2479,7 @@ ul{padding-left:18px}li{margin:7px 0;font-size:13px}.note{margin-top:14px;paddin
 @media(max-width:720px){.decision,.kpis{grid-template-columns:1fr}h1{font-size:30px}table{display:block;overflow-x:auto}}
 @media print{body{background:#fff;padding:0}.printbtn{display:none}h2{break-after:avoid}tr,.kpi,.dbox{break-inside:avoid}}
 </style></head><body>
-<button class="printbtn" onclick="window.print()">Imprimir / PDF</button>
+<button type="button" class="printbtn" onclick="window.print()">Imprimir / PDF</button>
 <div class="eyebrow">Informe ejecutivo · Auditor GEO PRO V8.2 · ${esc(date)}</div>
 <h1>${esc(c.projectName||"Auditoría GEO y quality")}</h1>
 <div class="meta">${c.pageUrl?`<b>URL:</b> ${esc(c.pageUrl)} · `:""}${c.query?`<b>Intención:</b> ${esc(c.query)} · `:""}${c.analystName?`<b>Analista:</b> ${esc(c.analystName)} · `:""}${r.crawl?`<b>HTTP:</b> ${esc(r.crawl.first.status)} · ${esc(r.crawl.first.ms)} ms · `:""}<b>ID:</b> ${esc(r.release.signature)}</div>
@@ -2877,7 +2877,10 @@ applyTheme();
 matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",applyTheme);
 $("#themeBtn").addEventListener("click",cycleTheme);
 $("#robotsPolicy").addEventListener("change",()=>{if(latest)$("#genRobots").textContent=genRobotsTxt(latest,$("#robotsPolicy").value)});
-const kbd=$("#kbdHelp"),toggleHelp=show=>kbd.classList.toggle("show",show??!kbd.classList.contains("show"));
+const kbd=$("#kbdHelp");let kbdReturnFocus=null;
+// Al abrir la ayuda el foco entra en el diálogo; al cerrarla vuelve a donde estaba.
+const toggleHelp=show=>{const open=show??!kbd.classList.contains("show");if(open===kbd.classList.contains("show"))return;if(open)kbdReturnFocus=document.activeElement;kbd.classList.toggle("show",open);if(open)$("#kbdClose").focus();else kbdReturnFocus?.focus?.()};
+kbd.addEventListener("keydown",e=>{if(e.key==="Tab"){e.preventDefault();$("#kbdClose").focus()}});
 $("#helpBtn").addEventListener("click",()=>toggleHelp(true));$("#kbdClose").addEventListener("click",()=>toggleHelp(false));
 kbd.addEventListener("click",e=>{if(e.target===kbd)toggleHelp(false)});
 document.addEventListener("keydown",e=>{
