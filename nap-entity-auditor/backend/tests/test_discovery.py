@@ -2,13 +2,13 @@ import json
 
 import httpx
 import pytest
-from tests.conftest import OFFICIAL_SNAPSHOT, fixture_json
 
 from app.core.config import get_settings
 from app.models import Audit, Business, Organization, SearchQuery
 from app.services.discovery.classifier import classify_url
 from app.services.discovery.engine import DiscoveryEngine, build_queries
 from app.services.discovery.providers import BraveSearchProvider, ProviderError, SerpApiProvider
+from tests.conftest import OFFICIAL_SNAPSHOT, fixture_json
 
 
 def settings_with(**kw):

@@ -72,8 +72,8 @@ def classify_url(url: str, official_domain: str | None, sector_extra: list[str] 
     if dom in extra:
         return "sector_directory", dom
     if dom in NEWS_DOMAINS or EDITORIAL_HINTS.search(urlsplit(url).path + "/"):
-        return "editorial", dom
-    return "business_citation", dom
+        return "editorial", host or dom
+    return "business_citation", host or dom
 
 
 def refine_type(pre_type: str, extracted: dict, attribution_level: str) -> str:

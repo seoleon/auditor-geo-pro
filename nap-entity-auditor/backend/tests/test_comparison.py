@@ -1,10 +1,9 @@
-from tests.conftest import OFFICIAL_SNAPSHOT, fixture_html
-
 from app.services.comparison import NapReference, assess_source
 from app.services.discovery.classifier import classify_url
 from app.services.duplicates import Listing, detect_duplicates
 from app.services.extraction.nap_extractor import extract_nap
 from app.services.schema_audit import audit_schema
+from tests.conftest import OFFICIAL_SNAPSHOT, fixture_html
 
 REF = NapReference.from_snapshot(OFFICIAL_SNAPSHOT)
 REFS = REF.all_names

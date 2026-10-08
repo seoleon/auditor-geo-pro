@@ -1,7 +1,6 @@
-from tests.conftest import fixture_html
-
 from app.services.extraction.nap_extractor import extract_nap
 from app.services.extraction.structured import extract_structured
+from tests.conftest import fixture_html
 
 REFS = ["Centro Aurora Bienestar", "Aurora Bienestar"]
 

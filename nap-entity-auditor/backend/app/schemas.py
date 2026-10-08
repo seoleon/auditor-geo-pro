@@ -35,7 +35,8 @@ def _clean_list(v: list[str] | None, max_items: int = 30, max_len: int = 200) ->
 
 
 class LoginIn(BaseModel):
-    email: EmailStr
+    # Sin validación de entregabilidad: se admiten dominios internos (p. ej. admin@empresa.local)
+    email: str = Field(min_length=3, max_length=255, pattern=r"^[^@\s]+@[^@\s]+$")
     password: str = Field(min_length=1, max_length=200)
 
 

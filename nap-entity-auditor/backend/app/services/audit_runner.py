@@ -439,8 +439,10 @@ class AuditRunner:
                     if src and src.overall_status not in ("CONFIRMED_INCONSISTENCY",) and not src.manual_status:
                         src.overall_status = NapStatus.POSSIBLE_DUPLICATE.value
                         src.priority = dg.priority
+                        rest = src.recommended_action or ""
+                        rest = "" if rest.startswith("Sin acciones") else rest
                         src.recommended_action = ("Posible ficha duplicada: verificar si corresponde al mismo establecimiento antes de "
-                                                  "solicitar la fusión o eliminación. " + (src.recommended_action or ""))
+                                                  "solicitar la fusión o eliminación." + (f" {rest}" if rest else ""))
         self.db.flush()
 
     def step_schema(self) -> None:

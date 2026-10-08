@@ -6,12 +6,12 @@ import httpx
 import pytest
 from fastapi.testclient import TestClient
 from openpyxl import load_workbook
-from tests.conftest import FixtureFetcher, fixture_json
 
 from app.core.config import get_settings
 from app.main import app
 from app.services.discovery.providers import BraveSearchProvider
 from app.services.integrations.google import GooglePlacesClient
+from tests.conftest import FixtureFetcher, fixture_json
 
 H = {"X-Requested-With": "nap-auditor"}
 
@@ -129,6 +129,8 @@ def test_demo_audit_flow_and_exports():
     assert any("SIMULADOS" in lim for lim in audit["limitations"])
     sm = audit["summary"]
     assert sm["demo"] is True and sm["confirmed_inconsistencies"] >= 1 and sm["possible_duplicate_groups"] >= 1
+    dups = c.get(f"/api/audits/{audit['id']}/duplicates").json()
+    assert {d["platform"] for d in dups} == {"guia-local-demo.invalid", "Google Maps"}
     items = c.get(f"/api/audits/{audit['id']}/sources?page_size=200").json()["items"]
     assert all(s["extracted"].get("demo") for s in items if s["fetch_status"] in ("ok", "api"))
     csv = c.get(f"/api/audits/{audit['id']}/export.csv")

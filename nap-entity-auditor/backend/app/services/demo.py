@@ -71,38 +71,38 @@ class DemoWorld:
         abbrev = re.sub(r"(?i)^avenida( de)?\s+", "Avda. ", abbrev)
         wrong_number = re.sub(r"\d+", lambda m: str(int(m.group(0)) + 2), self.street, count=1) if self.street else ""
         self.results = [
-            (f"https://guia-local.demo.invalid/ficha/{s}-12345", f"{n} - Guía Local", "Ficha con datos completos"),
-            (f"https://directorio-empresas.demo.invalid/empresa/{s}", f"{n} en {self.city}", "Teléfono antiguo"),
-            (f"https://guia-local.demo.invalid/ficha/{s}-67890", f"{n} - Guía Local", "Ficha repetida"),
-            (f"https://mapas-demo.demo.invalid/place/{s}", f"{n}", "Dirección abreviada"),
-            (f"https://bienestar-directorio.demo.invalid/centro/{s}", f"{n} Massage Center", "Variante de nombre"),
-            (f"https://noticias-locales.demo.invalid/noticias/2025/{s}-abre-sus-puertas", f"Nuevo centro en {self.city}", "Mención"),
-            ("https://otra-empresa.demo.invalid/", "Otra empresa sin relación", "Resultado irrelevante"),
-            (f"https://bloqueado.demo.invalid/ficha/{s}", f"{n}", "Página con bloqueo anti-bot"),
+            (f"https://guia-local-demo.invalid/ficha/{s}-12345", f"{n} - Guía Local", "Ficha con datos completos"),
+            (f"https://directorio-empresas-demo.invalid/empresa/{s}", f"{n} en {self.city}", "Teléfono antiguo"),
+            (f"https://guia-local-demo.invalid/ficha/{s}-67890", f"{n} - Guía Local", "Ficha repetida"),
+            (f"https://mapas-locales-demo.invalid/place/{s}", f"{n}", "Dirección abreviada"),
+            (f"https://bienestar-directorio-demo.invalid/centro/{s}", f"{n} Massage Center", "Variante de nombre"),
+            (f"https://noticias-locales-demo.invalid/noticias/2025/{s}-abre-sus-puertas", f"Nuevo centro en {self.city}", "Mención"),
+            ("https://otra-empresa-demo.invalid/", "Otra empresa sin relación", "Resultado irrelevante"),
+            (f"https://bloqueado-demo.invalid/ficha/{s}", f"{n}", "Página con bloqueo anti-bot"),
         ]
         guide_body = (f"<h1>{n}</h1><div class='ficha'><p>{self._addr_line()}</p>"
                       f"<p>Teléfono: <a href='tel:{self.phone}'>{self.phone}</a></p><a href='{self.website}'>Web</a></div>")
-        self.pages[f"https://guia-local.demo.invalid/ficha/{s}-12345"] = _page(f"{n} - Guía Local", guide_body, self._ld())
-        self.pages[f"https://directorio-empresas.demo.invalid/empresa/{s}"] = _page(
+        self.pages[f"https://guia-local-demo.invalid/ficha/{s}-12345"] = _page(f"{n} - Guía Local", guide_body, self._ld())
+        self.pages[f"https://directorio-empresas-demo.invalid/empresa/{s}"] = _page(
             f"{n} en {self.city}",
             f"<h1>{n}</h1><p>{self._addr_line()}</p><p>Tel: <a href='tel:{self.alt_phone}'>{self.alt_phone}</a></p>",
             self._ld(phone=self.alt_phone, url=None))
-        self.pages[f"https://guia-local.demo.invalid/ficha/{s}-67890"] = _page(
+        self.pages[f"https://guia-local-demo.invalid/ficha/{s}-67890"] = _page(
             f"{n} - Guía Local",
             f"<h1>{n}</h1><p>{self._addr_line(abbrev)}</p><p>Teléfono: <a href='tel:{self.phone}'>{self.phone}</a></p>",
             self._ld(street=abbrev))
-        self.pages[f"https://mapas-demo.demo.invalid/place/{s}"] = _page(
+        self.pages[f"https://mapas-locales-demo.invalid/place/{s}"] = _page(
             n, f"<h1>{n}</h1><address>{self._addr_line(abbrev)}</address><a href='tel:{self.phone}'>{self.phone}</a>"
                f"<a href='{self.website}'>{self.domain}</a>")
-        self.pages[f"https://bienestar-directorio.demo.invalid/centro/{s}"] = _page(
+        self.pages[f"https://bienestar-directorio-demo.invalid/centro/{s}"] = _page(
             f"{n} Massage Center | Bienestar", f"<h1>{n} Massage Center</h1><p>Centro de masajes en {self.city}.</p>"
                                                f"<p>{self._addr_line(wrong_number) if wrong_number else ''}</p>")
-        self.pages[f"https://noticias-locales.demo.invalid/noticias/2025/{s}-abre-sus-puertas"] = _page(
+        self.pages[f"https://noticias-locales-demo.invalid/noticias/2025/{s}-abre-sus-puertas"] = _page(
             f"Nuevo centro en {self.city}",
             f"<article><h1>Nuevo centro de bienestar en {self.city}</h1><p>El centro {n} ha inaugurado su nuevo espacio. "
             f"Más información en <a href='{self.website}'>{self.domain}</a>.</p></article>",
             {"@context": "https://schema.org", "@type": "NewsArticle", "headline": f"Nuevo centro en {self.city}"})
-        self.pages["https://otra-empresa.demo.invalid/"] = _page(
+        self.pages["https://otra-empresa-demo.invalid/"] = _page(
             "Talleres Pérez", "<h1>Talleres Pérez</h1><p>Avenida del Puerto 100, 46023 Valencia. Tel 963 999 888</p>")
         # Web oficial simulada: portada correcta y página de contacto con un teléfono contradictorio
         home = self.website.rstrip("/") + "/"
@@ -121,9 +121,9 @@ class DemoWorld:
             "formattedAddress": self._addr_line() + ", España" if self.street else f"{self.city}, España",
             "internationalPhoneNumber": n.international if n else self.phone, "websiteUri": self.website,
             "primaryType": "massage", "primaryTypeDisplayName": {"text": "Centro de masajes (demo)"},
-            "businessStatus": "OPERATIONAL", "googleMapsUri": "https://maps.demo.invalid/?cid=1",
+            "businessStatus": "OPERATIONAL", "googleMapsUri": "https://google-maps-demo.invalid/?cid=1",
         }
-        dup = dict(base, id="DEMO_PLACE_ID_2", googleMapsUri="https://maps.demo.invalid/?cid=2",
+        dup = dict(base, id="DEMO_PLACE_ID_2", googleMapsUri="https://google-maps-demo.invalid/?cid=2",
                    formattedAddress=base["formattedAddress"])
         return [base, dup]
 
@@ -151,7 +151,7 @@ class DemoFetcher:
         self.world = world
 
     def fetch(self, url: str) -> FetchResult:
-        if "bloqueado.demo.invalid" in url:
+        if "bloqueado-demo.invalid" in url:
             return FetchResult(url=url, status="access_blocked", http_status=403,
                                detail=f"Acceso denegado (simulado). {DEMO_MARK}", render_method="demo")
         key = url if url in self.world.pages else url.rstrip("/") + "/" if url.rstrip("/") + "/" in self.world.pages else url.rstrip("/")
