@@ -1,4 +1,4 @@
-# Auditor GEO PRO V8.2 · Modo bestia
+# Auditor GEO PRO V8.4 · Modo bestia + Keyword Planner
 
 **Mete una URL, una lista de URLs o un sitemap y obtén al instante una auditoría GEO (Generative Engine Optimization), de quality de Google, legibilidad, SEO on-page y rastreo técnico.**
 La app descarga las páginas con tu propio servidor de rastreo y hace todo el análisis en tu navegador: sin cookies, sin `localStorage` y sin enviar el contenido a terceros. También puedes pegar el HTML, Markdown o texto directamente.
@@ -69,6 +69,26 @@ En la sección «Analizar URLs en vivo» hay un botón **★ Auditar con GEO PRO
 #### ¿Y en GitHub Pages?
 Los navegadores no permiten que una web descargue páginas de otros dominios. En la versión publicada, despliega el **Worker gratuito de Cloudflare** incluido (5 minutos, guía en [`worker/README.md`](worker/README.md)) y pon su URL en `auditor.config.json`. Sin Worker, la versión publicada funciona con el marcador o pegando el HTML; el Worker añade el análisis de listas de URLs y sitemaps.
 
+### Keyword Planner con Google Ads API + IA 🆕
+Una página aparte, [`keywords.html`](keywords.html), para hacer keyword research sin saltar de herramienta en herramienta:
+- **Datos oficiales de Google Ads API** (`KeywordPlanIdeaService.GenerateKeywordIdeas`): ideas a partir de hasta 20 semillas y/o una URL, con **volumen medio, competencia (e índice 0–100), CPC bajo y alto** (puja de la parte superior de la página, en la moneda de tu cuenta) e **histórico de 12 meses**. Pagina automáticamente: una sola semilla puede devolver miles de keywords.
+- **Clasificación automática con IA** (Claude) de cada keyword por **intención de búsqueda** (informacional, navegacional, comercial, transaccional) y **Brand / Non-Brand** (marca propia, otra marca o non-brand), por lotes de 200. Sin clave de Anthropic, o si un lote falla, se usa un clasificador por reglas en español e inglés.
+- **Tendencias**: variación interanual y de 3 meses, minigráfico mensual y mes pico.
+- **Filtros** por texto (incluye/excluye), intención, marca, competencia, volumen, CPC, número de palabras y tendencia; orden por cualquier columna y paginación.
+- **Exportación CSV** lista para Excel/Sheets (separador `;`, con los 12 meses y protegida contra inyección de fórmulas) y copia de keywords.
+- **Modo demo**: sin credenciales (o en GitHub Pages) genera datos de ejemplo para probar la interfaz.
+
+#### Configuración (una vez)
+La Google Ads API es gratuita; el acceso **Basic** permite 15.000 operaciones al día.
+1. En [Google Cloud](https://console.cloud.google.com/) crea un proyecto, activa la **Google Ads API** y crea un cliente OAuth de tipo **Aplicación de escritorio**.
+2. En tu cuenta de administrador (MCC) de Google Ads abre **Herramientas → Centro de API** y solicita el **developer token**. Con acceso de prueba solo funciona contra cuentas de prueba; solicita el acceso Basic para datos reales.
+3. `cp .env.example .env` y rellena `GOOGLE_ADS_DEVELOPER_TOKEN`, `GOOGLE_ADS_CLIENT_ID`, `GOOGLE_ADS_CLIENT_SECRET`, `GOOGLE_ADS_CUSTOMER_ID` (y `GOOGLE_ADS_LOGIN_CUSTOMER_ID` si accedes desde una MCC).
+4. `npm run keywords:auth` abre el flujo OAuth y guarda `GOOGLE_ADS_REFRESH_TOKEN` en `.env`. Si la app OAuth está en modo «Prueba», el token caduca a los 7 días: publícala para que no caduque.
+5. Opcional: añade `ANTHROPIC_API_KEY` para la clasificación con IA. Por defecto usa `claude-opus-5-5`; con listas muy grandes puedes abaratarlo con `KEYWORDS_AI_MODEL=claude-haiku-5-5`.
+6. `npm start` y abre `http://localhost:8080/keywords.html`.
+
+Las credenciales solo viven en tu `.env` (ignorado por git) y en el servidor local: el navegador nunca las ve. El endpoint solo acepta peticiones JSON del propio origen, para que otra web no pueda gastar tu cuota.
+
 ### Productividad
 - Carga de archivos por arrastrar y soltar; varios archivos = **auditoría por lotes** + detección de **canibalización**.
 - **Comparador antes/después** y **simulador de potencial**.
@@ -128,7 +148,12 @@ Todo el análisis ocurre en tu navegador y no se guarda nada: ni cookies ni `loc
 
 ```
 index.html             # La aplicación completa (HTML + CSS + JS, sin dependencias)
-server.mjs             # Servidor local: sirve la app y rastrea URLs de forma segura (npm start)
+keywords.html          # Keyword Planner (Google Ads API + intención con IA)
+keyword-core.js        # Núcleo del planner compartido por navegador y servidor: reglas, tendencias, CSV y demo
+keyword-planner.mjs    # Cliente de Google Ads API y clasificación con Claude (lado servidor)
+scripts/               # npm run keywords:auth: obtiene el refresh token de OAuth
+.env.example           # Variables de entorno del Keyword Planner
+server.mjs             # Servidor local: sirve la app, rastrea URLs y expone la API del planner (npm start)
 worker/                # Worker de Cloudflare para rastrear desde la versión publicada
 auditor.config.json    # URL del Worker para la versión publicada (vacío = sin rastreo)
 manifest.webmanifest   # Manifest de la PWA

@@ -1,7 +1,7 @@
 // Service worker de Auditor GEO PRO: cachea la app para que funcione sin conexión.
 // No intercepta ni almacena datos auditados: solo los archivos estáticos de la aplicación.
-const CACHE = "auditor-geo-pro-v8.3.0";
-const ASSETS = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon.svg"];
+const CACHE = "auditor-geo-pro-v8.4.0";
+const ASSETS = ["./", "./index.html", "./keywords.html", "./keyword-core.js", "./manifest.webmanifest", "./icons/icon.svg"];
 
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
@@ -18,7 +18,7 @@ self.addEventListener("activate", event => {
 // Red primero para obtener siempre la última versión; caché como respaldo offline.
 // Solo se cachean los archivos de la propia app: nunca las respuestas del rastreador (/api/),
 // que contienen páginas de terceros y no deben guardarse en el navegador.
-const APP_FILE = /(?:\/|\.html|\.webmanifest|\.svg|\/sw\.js|\/auditor\.config\.json)$/;
+const APP_FILE = /(?:\/|\.html|\.webmanifest|\.svg|\/sw\.js|\/keyword-core\.js|\/auditor\.config\.json)$/;
 self.addEventListener("fetch", event => {
   const req = event.request, url = new URL(req.url);
   if (req.method !== "GET" || url.origin !== self.location.origin || url.pathname.includes("/api/") || url.search || !APP_FILE.test(url.pathname)) return;

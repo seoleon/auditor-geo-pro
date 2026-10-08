@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Keyword Planner · Auditor GEO PRO — Google Ads API + intención con IA</title>
+<meta name="description" content="Keyword research con datos de Google Ads API (volumen, competencia, CPC e histórico de 12 meses) y clasificación automática con IA por intención de búsqueda y Brand / Non-Brand.">
+<meta name="theme-color" content="#171713">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171713'/%3E%3Cpath d='M17 18h30v8H27v8h16v8H27v12H17z' fill='%23fffaf3'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f3eee5;--paper:#fffaf3;--paper2:#faf4e9;--ink:#171713;--muted:#6f695e;
+  --line:#d9d0c2;--line2:#e7dfd3;--green:#1d7652;--green-soft:#dceee4;
+  --amber:#8a520c;--amber-soft:#f7e6c5;--red:#a54239;--red-soft:#f3d8d3;
+  --blue:#365f78;--blue-soft:#dfeaf0;--violet:#5d4a8c;--violet-soft:#e7e1f3;--gray:#665f56;--gray-soft:#ebe5dc;
+  --field:#fffdf8;--shadow:0 18px 55px rgba(58,45,25,.085);--r:22px;
+  --sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --serif:Georgia,"Times New Roman",serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#12120f;--paper:#1b1b17;--paper2:#22221d;--ink:#f1ece2;--muted:#a59e91;
+  --line:#3a372f;--line2:#2e2c25;--green:#4cc28f;--green-soft:#173327;
+  --amber:#e2a74d;--amber-soft:#3a2c14;--red:#ec8a80;--red-soft:#3d1f1b;
+  --blue:#7fb0cf;--blue-soft:#1a2a35;--violet:#b5a3e6;--violet-soft:#2a2440;--gray:#b3aa9c;--gray-soft:#2a2822;
+  --field:#1f1f1a;--shadow:0 18px 55px rgba(0,0,0,.35)
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:var(--sans);min-height:100vh;background:linear-gradient(180deg,var(--paper2) 0,var(--bg) 70%)}
+button,input,textarea,select{font:inherit}
+a{color:inherit}
+.wrap{width:min(1280px,calc(100% - 32px));margin:auto;padding:38px 0 70px}
+.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:28px;align-items:end;margin-bottom:24px}
+.kicker,.chip,.label,.badge,th{font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em}
+.kicker{font-size:11px;font-weight:900;color:var(--green);margin-bottom:10px}
+h1{font:700 clamp(40px,6.4vw,78px)/.93 var(--serif);letter-spacing:-.05em;margin:0}
+.hero p{margin:0;color:var(--muted);font-size:15px;line-height:1.55}
+.hero-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;align-items:center}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;color:var(--muted);border:1px solid var(--line);padding:6px 10px;border-radius:999px;background:var(--field)}
+.chip.ok{color:var(--green);border-color:var(--green)}
+.chip.warn{color:var(--amber);border-color:var(--amber)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.form-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:14px}
+.field label,.label{display:block;font-size:10px;font-weight:700;color:var(--muted);margin:0 0 6px 2px}
+.field.tall{grid-row:span 3}
+.help{font-size:11px;line-height:1.4;color:var(--muted);margin:5px 2px 0}
+textarea,input[type=text],input[type=url],input[type=number],input[type=search],select{width:100%;background:var(--field);border:1px solid var(--line);color:var(--ink);border-radius:12px;outline:none}
+textarea{min-height:200px;padding:13px;font:13px/1.5 var(--mono);resize:vertical}
+input[type=text],input[type=url],input[type=number],input[type=search],select{height:41px;padding:0 11px;font-size:13px}
+textarea:focus,input:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(29,118,82,.14)}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+button{appearance:none;border:0;border-radius:999px;padding:11px 16px;font-weight:800;font-size:13px;cursor:pointer}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid rgba(29,118,82,.4);outline-offset:2px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.primary{background:var(--ink);color:var(--paper)}
+.secondary{background:var(--field);color:var(--ink);border:1px solid var(--line)}
+.tiny{padding:7px 11px;font-size:12px}
+.controls{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:16px}
+.controls .note{margin-left:auto;font:11px var(--mono);color:var(--muted)}
+.progress{margin-top:14px;font:12px var(--mono);color:var(--muted)}
+.bar{height:6px;background:var(--gray-soft);border-radius:99px;overflow:hidden;margin-top:6px}
+.bar>span{display:block;height:100%;width:0;background:var(--green);transition:width .25s}
+.alert{border-radius:14px;padding:11px 14px;font-size:13px;line-height:1.45;margin-top:12px;background:var(--amber-soft);color:var(--ink);border:1px solid var(--line)}
+.alert.error{background:var(--red-soft)}
+.alert code{font-family:var(--mono);font-size:12px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:15px}
+.card .value{font:700 30px/1.05 var(--serif);letter-spacing:-.03em;margin-top:6px}
+.card .sub{font-size:12px;color:var(--muted);margin-top:4px}
+.dist{display:flex;height:12px;border-radius:99px;overflow:hidden;margin:10px 0 8px;background:var(--gray-soft)}
+.dist span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.sw{width:9px;height:9px;border-radius:3px;display:inline-block}
+.i-informational{--c:var(--blue);--s:var(--blue-soft)}
+.i-navigational{--c:var(--violet);--s:var(--violet-soft)}
+.i-commercial{--c:var(--amber);--s:var(--amber-soft)}
+.i-transactional{--c:var(--green);--s:var(--green-soft)}
+.b-own{--c:var(--green);--s:var(--green-soft)}
+.b-other{--c:var(--red);--s:var(--red-soft)}
+.b-none{--c:var(--gray);--s:var(--gray-soft)}
+.sw{background:var(--c)}
+.badge{display:inline-block;font-size:9.5px;font-weight:800;padding:4px 7px;border-radius:7px;color:var(--c);background:var(--s);white-space:nowrap}
+.filters{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;align-items:end}
+.filters .wide{grid-column:span 2}
+.intent-filter{display:flex;flex-wrap:wrap;gap:6px}
+.toggle{border:1px solid var(--line);background:var(--field);color:var(--muted);padding:7px 10px;font-size:12px;border-radius:999px}
+.toggle[aria-pressed="true"]{background:var(--s);color:var(--c);border-color:var(--c)}
+.range{display:flex;gap:6px}
+.table-head{display:flex;flex-wrap:wrap;gap:9px;align-items:center;justify-content:space-between;margin:16px 0 10px}
+.count{font-size:13px;color:var(--muted)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px;max-height:72vh}
+table{width:100%;border-collapse:collapse;font-size:13px}
+caption{position:absolute;left:-9999px}
+th{position:sticky;top:0;background:var(--paper2);font-size:10px;color:var(--muted);text-align:left;padding:0;border-bottom:1px solid var(--line);z-index:1;white-space:nowrap}
+th button{all:unset;cursor:pointer;display:block;padding:11px 10px;width:100%;box-sizing:border-box}
+th button:focus-visible{outline:2px solid var(--green);outline-offset:-2px}
+th[aria-sort="ascending"] button::after{content:" ▲"}
+th[aria-sort="descending"] button::after{content:" ▼"}
+th.static{padding:11px 10px}
+td{padding:9px 10px;border-bottom:1px solid var(--line2);vertical-align:middle}
+tr:hover td{background:var(--paper2)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+th.num button{text-align:right}
+td.kw{font-weight:650;min-width:220px}
+.brandname{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+.src{font:9px var(--mono);color:var(--muted);margin-left:5px}
+.up{color:var(--green)}.down{color:var(--red)}
+.comp{display:flex;align-items:center;gap:7px;justify-content:flex-end}
+.meter{width:42px;height:5px;background:var(--gray-soft);border-radius:9px;overflow:hidden}
+.meter span{display:block;height:100%;background:var(--amber)}
+svg.spark{display:block}
+svg.spark polyline{fill:none;stroke:var(--blue);stroke-width:1.6}
+.pager{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px;font-size:13px;color:var(--muted)}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+details.setup summary{cursor:pointer;font-weight:800}
+details.setup ol{line-height:1.6;font-size:14px;padding-left:20px}
+details.setup code{font-family:var(--mono);font-size:12px;background:var(--gray-soft);padding:1px 5px;border-radius:5px}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+[hidden]{display:none!important}
+@media(max-width:980px){.hero,.form-grid{grid-template-columns:1fr}.field.tall{grid-row:auto}.cards{grid-template-columns:1fr 1fr}.filters{grid-template-columns:1fr 1fr}.filters .wide{grid-column:1/-1}}
+@media(max-width:560px){.cards{grid-template-columns:1fr}.controls .note{margin-left:0}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="hero">
+  <div>
+    <div class="kicker">GOOGLE ADS API · INTENCIÓN CON IA · BRAND / NON-BRAND</div>
+    <h1>Keyword Planner</h1>
+    <div class="hero-tools">
+      <a class="chip" href="./">← Auditor GEO PRO</a>
+      <span class="chip" id="googleChip"><span class="dot"></span>Google Ads: comprobando…</span>
+      <span class="chip" id="aiChip"><span class="dot"></span>IA: comprobando…</span>
+      <button class="secondary tiny" id="themeBtn" type="button">Tema: auto</button>
+    </div>
+  </div>
+  <p>Volumen, competencia, CPC e histórico de 12 meses directamente de la API de Google Ads, y cada keyword clasificada automáticamente por intención de búsqueda y Brand / Non-Brand. Sin saltar de herramienta en herramienta ni limpiar datos a mano.</p>
+</header>
+
+<section class="panel" aria-labelledby="formTitle">
+  <h2 class="visually-hidden" id="formTitle">Búsqueda</h2>
+  <form id="kwForm" novalidate>
+    <div class="form-grid">
+      <div class="field tall">
+        <label for="seeds">Keywords semilla (una por línea, máx. 20)</label>
+        <textarea id="seeds" name="seeds" spellcheck="false" placeholder="keyword research&#10;investigación de palabras clave"></textarea>
+        <p class="help">Una sola semilla puede devolver miles de ideas.</p>
+      </div>
+      <div class="field">
+        <label for="seedUrl">URL semilla (opcional)</label>
+        <input type="url" id="seedUrl" name="url" placeholder="https://tusitio.com/categoria/" inputmode="url">
+      </div>
+      <div class="field">
+        <label for="country">País</label>
+        <select id="country" name="geo"></select>
+      </div>
+      <div class="field">
+        <label for="language">Idioma</label>
+        <select id="language" name="language"></select>
+      </div>
+      <div class="field">
+        <label for="network">Red</label>
+        <select id="network" name="network"><option value="GOOGLE_SEARCH">Búsqueda de Google</option><option value="GOOGLE_SEARCH_AND_PARTNERS">Google + socios de búsqueda</option></select>
+      </div>
+      <div class="field">
+        <label for="ownBrands">Marca propia (separada por comas)</label>
+        <input type="text" id="ownBrands" name="ownBrands" placeholder="tu marca, tumarca.com">
+      </div>
+      <div class="field">
+        <label for="competitors">Competidores (opcional)</label>
+        <input type="text" id="competitors" name="competitors" placeholder="semrush, ahrefs">
+      </div>
+      <div class="field">
+        <label for="maxKw">Máximo de keywords</label>
+        <input type="number" id="maxKw" name="max" min="10" max="10000" step="10" value="3000">
+      </div>
+      <div class="field">
+        <span class="label">Clasificación</span>
+        <label class="check" for="useAi"><input type="checkbox" id="useAi" checked> Clasificar con IA (intención y marca)</label>
+        <p class="help" id="aiHelp">Sin IA disponible se clasifica por reglas.</p>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="primary" id="searchBtn" type="submit">Buscar ideas</button>
+      <button class="secondary" id="demoBtn" type="button">Probar con datos de demo</button>
+      <span class="note" id="modeNote"></span>
+    </div>
+  </form>
+  <div class="progress" id="progress" role="status" aria-live="polite" hidden><span id="progressText"></span><div class="bar"><span id="progressBar"></span></div></div>
+  <div id="messages"></div>
+  <details class="setup" id="setupHelp" hidden>
+    <summary>Cómo conectar la Google Ads API (gratis)</summary>
+    <ol>
+      <li>Crea un proyecto en Google Cloud y activa la <strong>Google Ads API</strong>.</li>
+      <li>Crea un cliente OAuth de tipo <em>Aplicación de escritorio</em> y copia el ID y el secreto.</li>
+      <li>En tu cuenta de administrador (MCC) de Google Ads, abre el <strong>Centro de API</strong> y solicita un developer token. El acceso <em>Basic</em> permite 15.000 operaciones al día.</li>
+      <li>Copia <code>.env.example</code> a <code>.env</code>, rellena los datos y ejecuta <code>npm run keywords:auth</code> para obtener el refresh token.</li>
+      <li>Opcional: añade <code>ANTHROPIC_API_KEY</code> para clasificar con IA. Arranca con <code>npm start</code>.</li>
+    </ol>
+  </details>
+</section>
+
+<section id="results" hidden aria-labelledby="resultsTitle">
+  <h2 class="visually-hidden" id="resultsTitle">Resultados</h2>
+  <div class="cards">
+    <div class="card"><span class="label">Keywords</span><div class="value" id="sumTotal">0</div><div class="sub" id="sumSource"></div></div>
+    <div class="card"><span class="label">Volumen mensual total</span><div class="value" id="sumVolume">0</div><div class="sub" id="sumVolumeSub"></div></div>
+    <div class="card"><span class="label">Intención</span><div class="dist" id="intentBar" aria-hidden="true"></div><div class="legend" id="intentLegend"></div></div>
+    <div class="card"><span class="label">Brand / Non-brand</span><div class="dist" id="brandBar" aria-hidden="true"></div><div class="legend" id="brandLegend"></div></div>
+  </div>
+
+  <div class="panel">
+    <div class="filters" role="group" aria-label="Filtros">
+      <div class="field wide"><label for="fInclude">Incluye (palabras, separadas por comas)</label><input type="search" id="fInclude" placeholder="curso, gratis"></div>
+      <div class="field wide"><label for="fExclude">Excluye</label><input type="search" id="fExclude" placeholder="pdf, empleo"></div>
+      <div class="field"><label for="fBrand">Marca</label><select id="fBrand"><option value="all">Todas</option><option value="brand">Brand (cualquiera)</option><option value="own">Marca propia</option><option value="other">Otra marca</option><option value="none">Non-brand</option></select></div>
+      <div class="field"><label for="fComp">Competencia</label><select id="fComp"><option value="all">Todas</option><option value="LOW">Baja</option><option value="MEDIUM">Media</option><option value="HIGH">Alta</option></select></div>
+      <div class="field wide"><span class="label" id="intentFilterLabel">Intención</span><div class="intent-filter" id="fIntents" role="group" aria-labelledby="intentFilterLabel"></div></div>
+      <div class="field"><span class="label" id="volLabel">Volumen</span><div class="range" role="group" aria-labelledby="volLabel"><input type="number" id="fVolMin" min="0" placeholder="mín" aria-label="Volumen mínimo"><input type="number" id="fVolMax" min="0" placeholder="máx" aria-label="Volumen máximo"></div></div>
+      <div class="field"><label for="fCpcMax">CPC alto máximo</label><input type="number" id="fCpcMax" min="0" step="0.01" placeholder="sin límite"></div>
+      <div class="field"><span class="label" id="wordsLabel">Palabras</span><div class="range" role="group" aria-labelledby="wordsLabel"><input type="number" id="fWordsMin" min="1" placeholder="mín" aria-label="Palabras mínimas"><input type="number" id="fWordsMax" min="1" placeholder="máx" aria-label="Palabras máximas"></div></div>
+      <div class="field"><label for="fTrend">Tendencia interanual</label><select id="fTrend"><option value="all">Todas</option><option value="up">Creciendo (&gt; +10 %)</option><option value="down">Cayendo (&lt; −10 %)</option><option value="stable">Estable</option></select></div>
+    </div>
+    <div class="table-head">
+      <span class="count" id="countInfo" role="status"></span>
+      <div class="controls" style="margin:0">
+        <button class="secondary tiny" id="resetFilters" type="button">Limpiar filtros</button>
+        <button class="secondary tiny" id="copyKw" type="button">Copiar keywords</button>
+        <button class="primary tiny" id="exportCsv" type="button">Exportar CSV</button>
+      </div>
+    </div>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Tabla de keywords">
+      <table id="kwTable">
+        <caption>Ideas de keywords con métricas de Google Ads y clasificación</caption>
+        <thead><tr>
+          <th scope="col" data-key="keyword"><button type="button">Keyword</button></th>
+          <th scope="col" data-key="intent"><button type="button">Intención</button></th>
+          <th scope="col" data-key="brand"><button type="button">Marca</button></th>
+          <th scope="col" class="num" data-key="volume" aria-sort="descending"><button type="button">Volumen</button></th>
+          <th scope="col" class="static">Últimos 12 meses</th>
+          <th scope="col" class="num" data-key="yoy"><button type="button">Interanual</button></th>
+          <th scope="col" class="num" data-key="competitionIndex"><button type="button">Competencia</button></th>
+          <th scope="col" class="num" data-key="cpcLow"><button type="button">CPC bajo</button></th>
+          <th scope="col" class="num" data-key="cpcHigh"><button type="button">CPC alto</button></th>
+        </tr></thead>
+        <tbody id="kwBody"></tbody>
+      </table>
+    </div>
+    <div class="pager"><button class="secondary tiny" id="prevPage" type="button">← Anterior</button><span id="pageInfo"></span><button class="secondary tiny" id="nextPage" type="button">Siguiente →</button></div>
+  </div>
+</section>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</main>
+
+<script type="module">
+import { INTENTS, INTENT_LABELS, BRAND_LABELS, COUNTRIES, LANGUAGES, MONTHS, MONTH_SHORT, normalize, parseList, classifyAllHeuristic, enrich, demoIdeas, summarize, toCsv } from "./keyword-core.js";
+
+const $ = s => document.querySelector(s);
+const nf = new Intl.NumberFormat("es-ES");
+const PAGE = 100;
+const state = { data: null, rows: [], filtered: [], sort: { key: "volume", dir: -1 }, page: 0, intents: new Set(INTENTS), server: null };
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+// ===== Tema (sin almacenamiento: sigue al sistema hasta que lo cambias) =====
+let themeMode = "auto";
+const media = matchMedia("(prefers-color-scheme: dark)");
+function applyTheme() {
+  const dark = themeMode === "dark" || (themeMode === "auto" && media.matches);
+  document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+  $("#themeBtn").textContent = themeMode === "auto" ? "Tema: auto" : themeMode === "dark" ? "Tema: oscuro" : "Tema: claro";
+}
+media.addEventListener?.("change", applyTheme);
+$("#themeBtn").addEventListener("click", () => { themeMode = themeMode === "auto" ? "dark" : themeMode === "dark" ? "light" : "auto"; applyTheme(); });
+applyTheme();
+
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("show"), 2200); }
+function setChip(el, cls, text) { el.className = "chip " + cls; el.innerHTML = `<span class="dot"></span>${esc(text)}`; }
+function message(html, kind = "") { $("#messages").insertAdjacentHTML("beforeend", `<div class="alert ${kind}">${html}</div>`); }
+
+// ===== Selects =====
+function fillSelect(sel, list, value) { sel.innerHTML = list.map(([id, name]) => `<option value="${esc(id)}"${id === value ? " selected" : ""}>${esc(name)}</option>`).join(""); }
+fillSelect($("#country"), COUNTRIES, "2724");
+fillSelect($("#language"), LANGUAGES, "1003");
+$("#fIntents").innerHTML = INTENTS.map(i => `<button type="button" class="toggle i-${i}" data-intent="${i}" aria-pressed="true">${INTENT_LABELS[i]}</button>`).join("");
+
+// ===== Estado del servidor =====
+async function checkServer() {
+  try {
+    const res = await fetch("api/keywords/status", { cache: "no-store" });
+    if (!res.ok) throw new Error();
+    state.server = await res.json();
+  } catch { state.server = null; }
+  const s = state.server;
+  if (!s) {
+    setChip($("#googleChip"), "warn", "Sin servidor: solo demo");
+    setChip($("#aiChip"), "", "IA: reglas");
+    $("#searchBtn").disabled = true;
+    $("#modeNote").textContent = "Arranca `npm start` para usar la Google Ads API.";
+    $("#setupHelp").hidden = false;
+    return;
+  }
+  if (s.google.configured) setChip($("#googleChip"), "ok", `Google Ads API ${s.google.apiVersion}`);
+  else { setChip($("#googleChip"), "warn", "Google Ads: sin configurar"); $("#searchBtn").disabled = true; $("#modeNote").textContent = `Faltan: ${s.google.missing.join(", ")}`; $("#setupHelp").hidden = false; }
+  if (s.ai.available) { setChip($("#aiChip"), "ok", `IA: ${s.ai.model}`); $("#aiHelp").textContent = "Claude clasifica cada keyword; si un lote falla, se usan reglas."; }
+  else { setChip($("#aiChip"), "", "IA: reglas"); $("#aiHelp").textContent = s.ai.reason; }
+}
+
+// ===== Búsqueda =====
+function formPayload(demo) {
+  return {
+    seeds: parseList($("#seeds").value, 21), url: $("#seedUrl").value.trim(),
+    geo: $("#country").value, language: $("#language").value, network: $("#network").value,
+    ownBrands: $("#ownBrands").value, competitors: $("#competitors").value,
+    max: Number($("#maxKw").value) || 3000, ai: $("#useAi").checked, demo
+  };
+}
+
+function progress(text, pct) {
+  $("#progress").hidden = false; $("#progressText").textContent = text;
+  $("#progressBar").style.width = pct == null ? "35%" : `${Math.max(3, Math.min(100, pct))}%`;
+}
+
+async function search(demo) {
+  $("#messages").innerHTML = "";
+  const payload = formPayload(demo);
+  if (demo && !payload.seeds.length && !payload.url) { payload.seeds = ["keyword research"]; $("#seeds").value = "keyword research"; }
+  if (!payload.seeds.length && !payload.url) { message("Escribe al menos una keyword semilla o una URL.", "error"); $("#seeds").focus(); return; }
+  if (payload.seeds.length > 20) { message("Google Ads admite como máximo 20 keywords semilla por búsqueda.", "error"); return; }
+  $("#searchBtn").disabled = $("#demoBtn").disabled = true;
+  progress(demo ? "Generando datos de demo…" : "Conectando con Google Ads API…");
+  try {
+    const result = state.server ? await searchServer(payload) : searchOffline(payload);
+    if (result) show(result);
+  } catch (e) {
+    message(esc(e.message || "Error inesperado."), "error");
+  } finally {
+    $("#progress").hidden = true;
+    $("#demoBtn").disabled = false;
+    $("#searchBtn").disabled = !(state.server && state.server.google.configured);
+  }
+}
+
+// Sin servidor (GitHub Pages): demo y clasificación por reglas en el navegador.
+function searchOffline(p) {
+  let host = p.url; try { host = new URL(/^https?:/i.test(p.url) ? p.url : "https://" + p.url).hostname.replace(/^www\./, "").split(".")[0]; } catch {}
+  const ideas = demoIdeas(p.seeds.length ? p.seeds : [host], { max: p.max });
+  const rows = classifyAllHeuristic(ideas, { ownBrands: parseList(p.ownBrands), competitors: parseList(p.competitors) }).map(enrich);
+  return { source: "demo", currency: "", rows, ai: { used: false }, warnings: p.ai ? ["Sin servidor no hay IA: la intención y la marca se han clasificado por reglas."] : [] };
+}
+
+async function searchServer(payload) {
+  const res = await fetch("api/keywords/ideas", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+  if (!res.ok || !res.body) { const j = await res.json().catch(() => ({})); throw new Error(j.error || `El servidor respondió ${res.status}.`); }
+  const reader = res.body.getReader(), dec = new TextDecoder();
+  let buf = "", result = null;
+  for (;;) {
+    const { value, done } = await reader.read();
+    if (value) buf += dec.decode(value, { stream: true });
+    let nl;
+    while ((nl = buf.indexOf("\n")) >= 0) {
+      const line = buf.slice(0, nl); buf = buf.slice(nl + 1);
+      if (!line.trim()) continue;
+      const msg = JSON.parse(line);
+      if (msg.type === "progress") progress(msg.message, msg.total ? (msg.stage === "ai" ? 50 + 50 * msg.done / msg.total : 50 * msg.done / msg.total) : null);
+      else if (msg.type === "error") { if (msg.code === "NOT_CONFIGURED") $("#setupHelp").hidden = false; throw new Error(msg.error); }
+      else if (msg.type === "result") result = msg;
+    }
+    if (done) break;
+  }
+  if (!result) throw new Error("La respuesta del servidor se cortó antes de terminar.");
+  return result;
+}
+
+// ===== Resultados =====
+function money(v) {
+  if (v == null) return "—";
+  const cur = state.data?.currency;
+  try { if (cur) return new Intl.NumberFormat("es-ES", { style: "currency", currency: cur }).format(v); } catch {}
+  return v.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function distBar(barEl, legendEl, entries) {
+  const total = entries.reduce((s, e) => s + e.n, 0) || 1;
+  barEl.innerHTML = entries.map(e => `<span class="${e.cls}" style="width:${(e.n / total) * 100}%;background:var(--c)"></span>`).join("");
+  legendEl.innerHTML = entries.map(e => `<span class="${e.cls}"><i class="sw"></i>${esc(e.label)} ${Math.round((e.n / total) * 100)} %</span>`).join("");
+}
+
+function show(data) {
+  state.data = data; state.rows = data.rows; state.page = 0;
+  for (const w of data.warnings || []) message(esc(w));
+  const s = summarize(data.rows);
+  $("#results").hidden = false;
+  $("#sumTotal").textContent = nf.format(s.total);
+  const how = data.ai?.used ? `clasificadas con IA (${data.ai.model})` : "clasificadas por reglas";
+  $("#sumSource").textContent = `${data.source === "demo" ? "Datos de demo" : "Google Ads API"} · ${how}`;
+  $("#sumVolume").textContent = nf.format(s.volume);
+  $("#sumVolumeSub").textContent = s.cpc != null ? `CPC medio ${money(s.cpc)}` : "";
+  distBar($("#intentBar"), $("#intentLegend"), INTENTS.map(i => ({ cls: `i-${i}`, label: INTENT_LABELS[i], n: s.intents[i] })));
+  distBar($("#brandBar"), $("#brandLegend"), ["own", "other", "none"].map(b => ({ cls: `b-${b}`, label: BRAND_LABELS[b], n: s.brand[b] })));
+  applyFilters();
+  if (data.source === "demo") message("Estos son <strong>datos de demostración</strong> generados a partir de tu semilla: sirven para probar la herramienta, no para decidir.");
+  $("#results").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+const terms = v => parseList(v).map(normalize).filter(Boolean);
+function applyFilters() {
+  const inc = terms($("#fInclude").value), exc = terms($("#fExclude").value);
+  const brand = $("#fBrand").value, comp = $("#fComp").value, trend = $("#fTrend").value;
+  const num = id => { const v = $(id).value; return v === "" ? null : Number(v); };
+  const vMin = num("#fVolMin"), vMax = num("#fVolMax"), cpcMax = num("#fCpcMax"), wMin = num("#fWordsMin"), wMax = num("#fWordsMax");
+  state.filtered = state.rows.filter(r => {
+    const n = normalize(r.keyword);
+    if (inc.length && !inc.some(t => n.includes(t))) return false;
+    if (exc.some(t => n.includes(t))) return false;
+    if (!state.intents.has(r.intent)) return false;
+    if (brand === "brand" ? r.brand === "none" : brand !== "all" && r.brand !== brand) return false;
+    if (comp !== "all" && r.competition !== comp) return false;
+    if (vMin != null && r.volume < vMin) return false;
+    if (vMax != null && r.volume > vMax) return false;
+    if (cpcMax != null && (r.cpcHigh ?? 0) > cpcMax) return false;
+    if (wMin != null && r.words < wMin) return false;
+    if (wMax != null && r.words > wMax) return false;
+    if (trend === "up" && !(r.yoy > 10)) return false;
+    if (trend === "down" && !(r.yoy < -10)) return false;
+    if (trend === "stable" && !(r.yoy != null && Math.abs(r.yoy) <= 10)) return false;
+    return true;
+  });
+  sortRows(); state.page = 0; render();
+}
+
+function sortRows() {
+  const { key, dir } = state.sort;
+  const order = { intent: i => INTENTS.indexOf(i), brand: b => ["own", "other", "none"].indexOf(b) };
+  state.filtered.sort((a, b) => {
+    let x = a[key], y = b[key];
+    if (order[key]) { x = order[key](x); y = order[key](y); }
+    if (x == null && y == null) return 0;
+    if (x == null) return 1;
+    if (y == null) return -1;
+    return (typeof x === "string" ? x.localeCompare(y, "es") : x - y) * dir || b.volume - a.volume;
+  });
+}
+
+function spark(monthly) {
+  if (!monthly || monthly.length < 2) return "—";
+  const v = monthly.map(m => m.searches), max = Math.max(...v, 1), w = 84, h = 22;
+  const pts = v.map((x, i) => `${(i / (v.length - 1) * w).toFixed(1)},${(h - 2 - (x / max) * (h - 4)).toFixed(1)}`).join(" ");
+  const label = monthly.map(m => `${MONTH_SHORT[MONTHS.indexOf(m.month)]} ${m.year}: ${nf.format(m.searches)}`).join(" · ");
+  return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label)}"><title>${esc(label)}</title><polyline points="${pts}"/></svg>`;
+}
+
+const COMP_LABEL = { LOW: "Baja", MEDIUM: "Media", HIGH: "Alta", UNKNOWN: "—" };
+function render() {
+  const total = state.filtered.length, pages = Math.max(1, Math.ceil(total / PAGE));
+  state.page = Math.min(state.page, pages - 1);
+  const slice = state.filtered.slice(state.page * PAGE, state.page * PAGE + PAGE);
+  const vol = state.filtered.reduce((s, r) => s + r.volume, 0);
+  $("#countInfo").textContent = `${nf.format(total)} de ${nf.format(state.rows.length)} keywords · ${nf.format(vol)} búsquedas/mes`;
+  $("#kwBody").innerHTML = slice.length ? slice.map(r => `<tr>
+    <td class="kw">${esc(r.keyword)}</td>
+    <td><span class="badge i-${esc(r.intent)}">${esc(INTENT_LABELS[r.intent] || r.intent)}</span><span class="src" title="Clasificado por ${r.source === "IA" ? "IA" : "reglas"}">${r.source === "IA" ? "IA" : "R"}</span></td>
+    <td><span class="badge b-${esc(r.brand)}">${esc(BRAND_LABELS[r.brand] || r.brand)}</span>${r.brandName ? `<span class="brandname">${esc(r.brandName)}</span>` : ""}</td>
+    <td class="num">${nf.format(r.volume)}</td>
+    <td>${spark(r.monthly)}</td>
+    <td class="num ${r.yoy > 10 ? "up" : r.yoy < -10 ? "down" : ""}">${r.yoy == null ? "—" : `${r.yoy > 0 ? "+" : ""}${r.yoy} %`}</td>
+    <td class="num"><span class="comp">${COMP_LABEL[r.competition] || "—"}${r.competitionIndex != null ? `<span class="meter" title="Índice ${r.competitionIndex}/100"><span style="width:${r.competitionIndex}%"></span></span>` : ""}</span></td>
+    <td class="num">${money(r.cpcLow)}</td>
+    <td class="num">${money(r.cpcHigh)}</td>
+  </tr>`).join("") : `<tr><td colspan="9" class="empty">Ninguna keyword cumple los filtros.</td></tr>`;
+  $("#pageInfo").textContent = `Página ${state.page + 1} de ${pages}`;
+  $("#prevPage").disabled = state.page === 0;
+  $("#nextPage").disabled = state.page >= pages - 1;
+  document.querySelectorAll("#kwTable th[data-key]").forEach(th => {
+    if (th.dataset.key === state.sort.key) th.setAttribute("aria-sort", state.sort.dir > 0 ? "ascending" : "descending");
+    else th.removeAttribute("aria-sort");
+  });
+}
+
+// ===== Eventos =====
+$("#kwForm").addEventListener("submit", e => { e.preventDefault(); if (!$("#searchBtn").disabled) search(false); });
+$("#demoBtn").addEventListener("click", () => search(true));
+document.querySelectorAll("#kwTable th[data-key] button").forEach(b => b.addEventListener("click", () => {
+  const key = b.parentElement.dataset.key;
+  state.sort = { key, dir: state.sort.key === key ? -state.sort.dir : (key === "keyword" || key === "intent" || key === "brand" ? 1 : -1) };
+  sortRows(); state.page = 0; render();
+}));
+let ft;
+["#fInclude", "#fExclude", "#fVolMin", "#fVolMax", "#fCpcMax", "#fWordsMin", "#fWordsMax"].forEach(id => $(id).addEventListener("input", () => { clearTimeout(ft); ft = setTimeout(applyFilters, 150); }));
+["#fBrand", "#fComp", "#fTrend"].forEach(id => $(id).addEventListener("change", applyFilters));
+$("#fIntents").addEventListener("click", e => {
+  const b = e.target.closest("[data-intent]"); if (!b) return;
+  const i = b.dataset.intent;
+  if (state.intents.has(i)) state.intents.delete(i); else state.intents.add(i);
+  b.setAttribute("aria-pressed", state.intents.has(i));
+  applyFilters();
+});
+$("#resetFilters").addEventListener("click", () => {
+  ["#fInclude", "#fExclude", "#fVolMin", "#fVolMax", "#fCpcMax", "#fWordsMin", "#fWordsMax"].forEach(id => { $(id).value = ""; });
+  ["#fBrand", "#fComp", "#fTrend"].forEach(id => { $(id).value = "all"; });
+  state.intents = new Set(INTENTS);
+  document.querySelectorAll("#fIntents [data-intent]").forEach(b => b.setAttribute("aria-pressed", "true"));
+  applyFilters();
+});
+$("#prevPage").addEventListener("click", () => { state.page--; render(); });
+$("#nextPage").addEventListener("click", () => { state.page++; render(); });
+$("#exportCsv").addEventListener("click", () => {
+  if (!state.filtered.length) return toast("No hay keywords que exportar");
+  const blob = new Blob([toCsv(state.filtered, { currency: state.data?.currency })], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  const slug = normalize((state.data?.request?.seeds || [])[0] || $("#seeds").value.split("\n")[0] || "keywords").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "keywords";
+  a.href = URL.createObjectURL(blob); a.download = `keywords-${slug}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast(`CSV con ${nf.format(state.filtered.length)} keywords`);
+});
+$("#copyKw").addEventListener("click", async () => {
+  if (!state.filtered.length) return toast("No hay keywords que copiar");
+  try { await navigator.clipboard.writeText(state.filtered.map(r => r.keyword).join("\n")); toast(`${nf.format(state.filtered.length)} keywords copiadas`); }
+  catch { toast("El navegador no permitió copiar"); }
+});
+
+checkServer();
+</script>
+</body>
+</html>

@@ -2,6 +2,7 @@
 //   npm start            → http://localhost:8080
 //   PORT=3000 npm start  → otro puerto
 // Endpoint: GET /api/fetch?url=https://ejemplo.com/  ·  GET /api/health
+// Keyword Planner: GET /api/keywords/status  ·  POST /api/keywords/ideas (NDJSON con progreso)
 // Protecciones: solo http/https, bloqueo de IPs privadas en cada conexión (anti-SSRF,
 // también tras redirecciones y DNS rebinding), máx. 5 redirecciones, 8 MB y 20 s por URL.
 import http from "node:http";
@@ -12,13 +13,14 @@ import zlib from "node:zlib";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createKeywordPlanner, PlannerError } from "./keyword-planner.mjs";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const VERSION = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version;
 const MAX_BYTES = 8 * 1024 * 1024, TIMEOUT_MS = 20000, MAX_REDIRECTS = 5;
 const UA = `Mozilla/5.0 (compatible; AuditorGEOPRO/${VERSION}; +https://github.com/seoleon/auditor-geo-pro)`;
 const KEEP_HEADERS = ["content-type", "content-language", "x-robots-tag", "last-modified", "cache-control", "etag", "server", "link", "content-length", "location", "strict-transport-security", "vary"];
-const STATIC = new Set(["index.html", "manifest.webmanifest", "sw.js", "icons/icon.svg", "auditor.config.json"]);
+const STATIC = new Set(["index.html", "keywords.html", "keyword-core.js", "manifest.webmanifest", "sw.js", "icons/icon.svg", "auditor.config.json"]);
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".json": "application/json; charset=utf-8", ".webmanifest": "application/manifest+json", ".svg": "image/svg+xml" };
 
 export function isPrivateIp(ip) {
@@ -144,7 +146,36 @@ function sendJson(res, code, data) {
   res.end(JSON.stringify(data));
 }
 
-export function createServer({ allowPrivate = process.env.AUDITOR_ALLOW_PRIVATE === "1" } = {}) {
+function readJson(req, limit = 64 * 1024) {
+  return new Promise((resolve, reject) => {
+    const chunks = []; let size = 0;
+    req.on("data", c => { size += c.length; if (size > limit) { reject(new PlannerError("La petición es demasiado grande.", { status: 413 })); req.destroy(); } else chunks.push(c); });
+    req.on("end", () => { try { resolve(JSON.parse(Buffer.concat(chunks).toString("utf8") || "{}")); } catch { reject(new PlannerError("El cuerpo de la petición no es JSON válido.")); } });
+    req.on("error", reject);
+  });
+}
+
+// La búsqueda de keywords gasta tu cuota de Google Ads y de Anthropic: solo se acepta JSON
+// (obliga a una comprobación CORS que este servidor no concede) y desde el propio origen.
+function sameOrigin(req) {
+  const origin = req.headers.origin;
+  if (!origin) return true;
+  try { return new URL(origin).host === req.headers.host; } catch { return false; }
+}
+
+async function handleKeywords(req, res, planner) {
+  if (req.method !== "POST") return sendJson(res, 405, { ok: false, error: "Usa POST." });
+  if (!/^application\/json\b/i.test(req.headers["content-type"] || "") || !sameOrigin(req)) return sendJson(res, 403, { ok: false, error: "Petición no permitida." });
+  let body;
+  try { body = await readJson(req); } catch (e) { return sendJson(res, e.status || 400, { ok: false, error: e.message }); }
+  res.writeHead(200, { "content-type": "application/x-ndjson; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff" });
+  const emit = obj => { if (!res.destroyed) res.write(JSON.stringify(obj) + "\n"); };
+  try { emit(await planner.run(body, emit)); }
+  catch (e) { emit({ type: "error", ok: false, code: e.code || "ERROR", error: e instanceof PlannerError ? e.message : `Error inesperado: ${e.message}` }); }
+  res.end();
+}
+
+export function createServer({ allowPrivate = process.env.AUDITOR_ALLOW_PRIVATE === "1", planner = createKeywordPlanner() } = {}) {
   const server = http.createServer(async (req, res) => {
     try { await handle(req, res); }
     catch { if (!res.headersSent) sendJson(res, 500, { ok: false, error: "Error interno." }); else res.destroy(); }
@@ -156,6 +187,8 @@ export function createServer({ allowPrivate = process.env.AUDITOR_ALLOW_PRIVATE 
     if (u.pathname === "/api/health") return sendJson(res, 200, { ok: true, version: VERSION, crawler: true });
     // La app lee este archivo para saber si hay rastreador: aquí el propio servidor lo es.
     if (u.pathname === "/auditor.config.json") return sendJson(res, 200, { crawler: "self" });
+    if (u.pathname === "/api/keywords/status") return sendJson(res, 200, await planner.status());
+    if (u.pathname === "/api/keywords/ideas") return handleKeywords(req, res, planner);
     if (u.pathname === "/api/fetch") {
       const target = u.searchParams.get("url") || "";
       let parsed;
@@ -180,5 +213,5 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   // Por defecto solo escucha en este equipo: así nadie de tu red puede usarlo como proxy.
   // Para exponerlo a propósito (p. ej. en un contenedor): HOST=0.0.0.0 npm start
   const host = process.env.HOST || "127.0.0.1";
-  createServer().listen(port, host, () => console.log(`Auditor GEO PRO ${VERSION} en http://localhost:${port}  (rastreo de URLs activo · escuchando en ${host})`));
+  createServer().listen(port, host, () => console.log(`Auditor GEO PRO ${VERSION} en http://localhost:${port}  (rastreo de URLs activo · escuchando en ${host})\nKeyword Planner en http://localhost:${port}/keywords.html`));
 }

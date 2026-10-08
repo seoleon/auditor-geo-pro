@@ -1,5 +1,15 @@
 # Registro de cambios
 
+## [8.4.0] · Keyword Planner con Google Ads API e intención con IA
+### Añadido
+- Nueva página `keywords.html`: ideas de keywords desde la Google Ads API (hasta 20 semillas y/o una URL, por país, idioma y red) con volumen medio, competencia, CPC bajo/alto en la moneda de la cuenta e histórico de 12 meses, paginando hasta 10.000 ideas.
+- Clasificación automática con Claude por intención de búsqueda y Brand / Non-Brand (marca propia, otra marca, non-brand), por lotes con salida estructurada; respaldo por reglas en español e inglés.
+- Tendencia interanual y de 3 meses, minigráficos, filtros combinables, orden, paginación, exportación CSV y copia de keywords.
+- Progreso en directo (NDJSON) mientras llegan los datos de Google y se clasifican.
+- `npm run keywords:auth`: flujo OAuth de escritorio con PKCE que guarda el refresh token en `.env`; `npm start` carga `.env`.
+- Modo demo en el servidor y en GitHub Pages sin credenciales.
+- 12 pruebas nuevas: reglas, tendencias, CSV, Google Ads y Claude contra APIs simuladas, endpoint, página, accesibilidad y móvil.
+
 ## [8.3.0] · Marcador «Auditar con GEO PRO»
 ### Añadido
 - Marcador arrastrable a la barra de marcadores: en cualquier web abre el auditor con la página ya auditada, tal como la renderiza el navegador. Funciona en la versión publicada sin servidor ni Worker; copia también el HTML al portapapeles como respaldo.

@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171713'/%3E%3Cpath d='M17 18h30v8H27v8h16v8H27v12H17z' fill='%23fffaf3'/%3E%3C/svg%3E">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8.2","softwareVersion":"8.3.0","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, quality de Google, E-E-A-T, citabilidad IA, legibilidad, evidencia, schemas y rastreo técnico de URLs y sitemaps. El análisis ocurre en el navegador."}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8.2","softwareVersion":"8.4.0","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, quality de Google, E-E-A-T, citabilidad IA, legibilidad, evidencia, schemas y rastreo técnico de URLs y sitemaps. El análisis ocurre en el navegador."}
 </script>
 <style>
 :root{
@@ -373,6 +373,7 @@ button.tiny{padding:10px 13px;font-size:11px}
 /* ===== V8 MONSTRUO: legibilidad, on-page, social, radar, heatmap, generadores ===== */
 .hero-tools{display:flex;gap:8px;align-items:center;margin-top:16px;flex-wrap:wrap}
 .hero-tools .tiny{padding:8px 12px;font-size:11px}
+.kw-link{display:inline-block;border-radius:999px;font-weight:800;text-decoration:none}
 .monster-badge{display:inline-flex;align-items:center;gap:6px;font:900 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:7px 10px;border-radius:999px;background:var(--ink);color:var(--bg)}
 .radar-wrap{display:grid;grid-template-columns:minmax(260px,380px) 1fr;gap:12px;align-items:stretch}
 .radar-card{padding:16px;display:grid;place-items:center}
@@ -491,7 +492,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 <main class="wrap">
 <header class="hero">
   <div><div class="kicker">URLS EN VIVO · GEO · QUALITY · LEGIBILIDAD · EVIDENCIA · V8.2</div><h1>Auditor GEO PRO</h1>
-  <div class="hero-tools"><span class="monster-badge">V8.2 · Modo bestia</span><button class="secondary tiny" id="themeBtn" type="button">Tema: auto</button><button class="secondary tiny" id="helpBtn" type="button" aria-haspopup="dialog">Atajos <kbd>?</kbd></button></div></div>
+  <div class="hero-tools"><span class="monster-badge">V8.2 · Modo bestia</span><a class="secondary tiny kw-link" href="keywords.html">Keyword Planner</a><button class="secondary tiny" id="themeBtn" type="button">Tema: auto</button><button class="secondary tiny" id="helpBtn" type="button" aria-haspopup="dialog">Atajos <kbd>?</kbd></button></div></div>
   <p>Audita contenido, citabilidad, calidad, legibilidad, SEO on-page, evidencia, claims, entidades, arquitectura, schemas, Open Graph, preguntas, crawlers y preparación por motor. Genera llms.txt, robots.txt para IA y prompts de prueba. Mete URLs o un sitemap y la app las descarga y audita; o pega el HTML. El análisis ocurre en tu navegador, sin cookies ni almacenamiento. Funciona offline.</p>
 </header>
 
@@ -2648,7 +2649,7 @@ $("#downloadBtn").addEventListener("click",()=>{
 });
 $("#jsonBtn").addEventListener("click",()=>{
   if(!latest)return;
-  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},qualityReport:latest.qualityReport,nonCommodityAngles:latest.angles,pageTypes:latest.pageTypes,crawl:latest.crawl,version:"8.3.0",summary:{type:latest.data.type,words:latest.signals.wc}};
+  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},qualityReport:latest.qualityReport,nonCommodityAngles:latest.angles,pageTypes:latest.pageTypes,crawl:latest.crawl,version:"8.4.0",summary:{type:latest.data.type,words:latest.signals.wc}};
   const blob=new Blob([JSON.stringify(safe,null,2)],{type:"application/json;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
   a.href=url;a.download="auditoria-geo-calidad.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)
 });
