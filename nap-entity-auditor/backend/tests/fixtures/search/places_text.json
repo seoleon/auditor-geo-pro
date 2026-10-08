@@ -1,0 +1,12 @@
+{"places": [
+ {"id": "ChIJ_TEST_MAIN", "displayName": {"text": "Centro Aurora Bienestar", "languageCode": "es"},
+  "formattedAddress": "C. de Colón, 12, 3º, pta 4, Ciutat Vella, 46004 València, Valencia, España",
+  "addressComponents": [{"longText": "46004", "types": ["postal_code"]}, {"longText": "València", "types": ["locality", "political"]}],
+  "nationalPhoneNumber": "627 17 17 28", "internationalPhoneNumber": "+34 627 17 17 28",
+  "websiteUri": "https://www.aurora-bienestar.es/", "types": ["spa", "health", "point_of_interest"], "primaryType": "spa",
+  "primaryTypeDisplayName": {"text": "Spa"}, "businessStatus": "OPERATIONAL", "googleMapsUri": "https://maps.google.com/?cid=111",
+  "regularOpeningHours": {"periods": [{"open": {"day": 1, "hour": 10, "minute": 0}, "close": {"day": 1, "hour": 20, "minute": 0}}]}},
+ {"id": "ChIJ_TEST_DUP", "displayName": {"text": "Aurora Bienestar"},
+  "formattedAddress": "Carrer de Colón, 12, 46004 València, España",
+  "internationalPhoneNumber": "+34 627 17 17 28", "businessStatus": "OPERATIONAL", "googleMapsUri": "https://maps.google.com/?cid=222"}
+]}
