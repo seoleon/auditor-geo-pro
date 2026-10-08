@@ -22,6 +22,7 @@ const phoneRe = /^[+()\d\s.-]{6,25}$/;
 const schema = z
   .object({
     client_id: z.string().optional(),
+    parent_business_id: z.string().optional(),
     official_name: z.string().trim().min(2, "Obligatorio").max(255),
     name_variants: z.string().optional(),
     domain: z.string().trim().min(4, "Obligatorio").regex(/^(https?:\/\/)?(www\.)?[a-z0-9.-]+\.[a-z]{2,}\/?$/i, "Dominio no válido (midominio.com)"),
@@ -77,6 +78,7 @@ const nul = (s?: string) => (s && s.trim() ? s.trim() : null);
 function toDefaults(b?: Business): FormData {
   return {
     client_id: b?.client_id ? String(b.client_id) : "",
+    parent_business_id: b?.parent_business_id ? String(b.parent_business_id) : "",
     official_name: b?.official_name || "",
     name_variants: (b?.name_variants || []).join("\n"),
     domain: b?.domain || "",
@@ -120,6 +122,7 @@ function toDefaults(b?: Business): FormData {
 function toPayload(d: FormData) {
   return {
     client_id: d.client_id ? Number(d.client_id) : null,
+    parent_business_id: d.parent_business_id ? Number(d.parent_business_id) : null,
     official_name: d.official_name,
     name_variants: list(d.name_variants),
     domain: d.domain,
@@ -177,6 +180,7 @@ function Field({ label, error, hint, children, className }: { label: string; err
 export function BusinessForm({ business }: { business?: Business }) {
   const router = useRouter();
   const { data: clients } = useApi<Client[]>("/api/clients");
+  const { data: allBusinesses } = useApi<Business[]>("/api/businesses");
   const [serverError, setServerError] = useState<string | null>(null);
   const { register, handleSubmit, watch, formState, setError } = useForm<FormData>({ resolver: zodResolver(schema), defaultValues: toDefaults(business) });
   const e = formState.errors;
@@ -239,6 +243,20 @@ export function BusinessForm({ business }: { business?: Business }) {
               ))}
             </Select>
           </Field>
+          {type === "multi_location" && (
+            <Field label="Empresa matriz" hint="Para auditar cada ubicación por separado">
+              <Select {...register("parent_business_id")}>
+                <option value="">— Ninguna (es la matriz) —</option>
+                {(allBusinesses || [])
+                  .filter((x) => x.id !== business?.id)
+                  .map((x) => (
+                    <option key={x.id} value={x.id}>
+                      {x.official_name}
+                    </option>
+                  ))}
+              </Select>
+            </Field>
+          )}
           <Field label="Ciudad">
             <Input {...register("city")} />
           </Field>

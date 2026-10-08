@@ -140,3 +140,9 @@ tests/                 # Pruebas end-to-end de la app, del rastreador y del Work
 
 ## 📜 Licencia
 [MIT](LICENSE)
+
+---
+
+## 🧭 NAP Entity Auditor Pro (nuevo)
+
+En [`nap-entity-auditor/`](nap-entity-auditor/README.md) está la plataforma **NAP Entity Auditor Pro** (FastAPI + Next.js): auditoría de consistencia NAP, citaciones, duplicados, datos estructurados, Google Business Profile e identidad digital de empresas locales, con informes CSV/Excel/PDF y auditorías periódicas. Es independiente de esta app y tiene su propia documentación.

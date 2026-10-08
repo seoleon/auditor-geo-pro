@@ -62,8 +62,8 @@ def bootstrap_admin() -> None:
 async def lifespan(app: FastAPI):
     configure_logging()
     s = get_settings()
-    if s.ENVIRONMENT == "production" and s.SECRET_KEY in ("change-me-in-production", "") :
-        raise RuntimeError("Configure SECRET_KEY antes de arrancar en producción")
+    if s.ENVIRONMENT == "production" and (s.SECRET_KEY == "change-me-in-production" or len(s.SECRET_KEY) < 32):
+        raise RuntimeError("Configure una SECRET_KEY aleatoria de al menos 32 caracteres antes de arrancar en producción")
     if s.ENVIRONMENT != "test":
         bootstrap_admin()
         from app.tasks import resume_interrupted, start_scheduler_thread
