@@ -1,0 +1,8 @@
+# Configuración mínima de SearXNG para uso por API desde el auditor (red interna de Docker)
+use_default_settings: true
+server:
+  secret_key: "se-sobrescribe-con-SEARXNG_SECRET"   # la imagen usa la variable SEARXNG_SECRET
+  limiter: false
+  image_proxy: false
+search:
+  formats: [html, json]
