@@ -19,3 +19,4 @@ frontend/tsconfig.tsbuildinfo
 .env
 .env.*
 !.env.example
+!.env.free.example
