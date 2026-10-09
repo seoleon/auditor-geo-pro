@@ -1,0 +1,26 @@
+{
+  "name": "geo-monitor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pregunta cada semana a las versiones gratuitas de ChatGPT, Claude, Gemini, Perplexity y Google AI Mode, guarda las respuestas y registra qué marcas y URLs citan.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "geo-monitor": "src/cli.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "capturar": "node src/cli.js capturar",
+    "acceder": "node src/cli.js acceder",
+    "ejecutar": "node src/cli.js ejecutar",
+    "simular": "node src/cli.js ejecutar --simular",
+    "informe": "node src/cli.js informe",
+    "test": "node --test --test-concurrency=1 \"tests/*.test.js\""
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "playwright": "^1.56.1"
+  }
+}

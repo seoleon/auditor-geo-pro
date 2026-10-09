@@ -76,6 +76,17 @@ Los navegadores no permiten que una web descargue páginas de otros dominios. En
 - Exporta además a **Markdown, JSON, CSV, backlog CSV e impresión/PDF**.
 - **Tema claro/oscuro** 🆕, **atajos de teclado** 🆕 y **PWA instalable que funciona sin conexión** 🆕.
 
+## 📡 Monitor semanal de citas en IA (`monitor/`) 🆕
+La app audita una página; **geo-monitor** mide el resultado, **gratis**. Cada semana hace tus 100 preguntas reales de compradores a las **versiones gratuitas de ChatGPT, Claude, Gemini, Perplexity y Google AI Mode**, como un usuario en su navegador. Guarda las respuestas, registra qué marcas y URLs se citan, guarda el schema y el `llms.txt` de las páginas citadas, genera el `llms.txt` y el JSON-LD de tu web y prepara la reescritura de las páginas donde no apareces.
+
+```bash
+cd monitor && npm install
+node src/cli.js capturar     # panel local + marcador: tú preguntas y un clic guarda la respuesta
+node src/cli.js ejecutar     # o deja que Chrome escriba las preguntas por ti
+```
+
+Instrucciones completas en [monitor/README.md](monitor/README.md).
+
 ## ⌨️ Atajos de teclado
 
 | Atajo | Acción |
@@ -135,7 +146,8 @@ manifest.webmanifest   # Manifest de la PWA
 sw.js                  # Service worker para uso offline
 icons/icon.svg         # Icono de la app
 tests/                 # Pruebas end-to-end de la app, del rastreador y del Worker
-.github/workflows/     # Pruebas en CI y despliegue automático a GitHub Pages
+monitor/               # geo-monitor: preguntas semanales a las versiones gratuitas de ChatGPT, Claude, Gemini, Perplexity y Google AI Mode
+.github/workflows/     # Pruebas en CI, despliegue a GitHub Pages y monitor GEO (modo API, opcional)
 ```
 
 ## 📜 Licencia

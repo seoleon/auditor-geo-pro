@@ -1,5 +1,24 @@
 # Registro de cambios
 
+## [8.4.0] · geo-monitor
+### Añadido
+- `monitor/`: herramienta Node que pregunta a las versiones gratuitas de ChatGPT, Claude, Gemini, Perplexity y Google AI Mode y guarda cada respuesta con las marcas nombradas, su posición y las URLs y dominios citados.
+- Modo gratuito por defecto: captura asistida (panel local + marcador del navegador) y navegador automático con Playwright (perfil propio, chat temporal en ChatGPT, pausas, reanudación semanal, detección de captchas y cupos, capturas de diagnóstico).
+- Modo API opcional (de pago): ChatGPT (Responses + web_search), Claude (web_search), Gemini (Google Search grounding) y Perplexity (Sonar).
+- Inspección de las URLs más citadas: marcado de esquema (JSON-LD y microdatos) y `llms.txt`/`llms-full.txt` de cada dominio.
+- Informe HTML semanal (mención, citación, cuota de voz, huecos, ganadas/perdidas, evolución), `citas.csv`, `marcas.csv` e `historico.csv`.
+- Comandos `huecos` y `reescribir` (brief y reescritura con Claude: página, FAQ y JSON-LD), y generadores de `llms.txt` y schema para tu web.
+- Workflow de GitHub Actions para el modo API (bajo demanda) y pruebas del monitor en CI.
+- Comando `probar` (una pregunta por motor con ✅/🟡/❌ y capturas), plan B cuando una web cambia de diseño y visor de todas las respuestas en el informe con las marcas resaltadas.
+
+### Corregido
+- El aviso de «cupo agotado» ya no salta cuando una respuesta habla de «límites de uso» de un producto.
+- Una pregunta que la web ya envió sola no se vuelve a enviar.
+- La respuesta no se da por terminada mientras sus fuentes siguen cargando.
+- Google AI Mode ya no puede guardar resultados orgánicos como si fueran la respuesta de la IA.
+- Panel local protegido frente a DNS rebinding, y CSV protegidos frente a fórmulas de Excel.
+- Escrituras simultáneas de varios motores encadenadas, inspección de URLs en paralelo y errores claros con config.json mal formado o el puerto ocupado.
+
 ## [8.3.0] · Marcador «Auditar con GEO PRO»
 ### Añadido
 - Marcador arrastrable a la barra de marcadores: en cualquier web abre el auditor con la página ya auditada, tal como la renderiza el navegador. Funciona en la versión publicada sin servidor ni Worker; copia también el HTML al portapapeles como respaldo.
