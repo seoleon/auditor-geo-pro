@@ -1,0 +1,43 @@
+# NAP Entity Auditor Pro — MODO GRATUITO (sin APIs de pago)
+#
+#   cp .env.free.example .env      # rellena SECRET_KEY, ADMIN_EMAIL, ADMIN_PASSWORD y SEARXNG_SECRET
+#   docker compose -f docker-compose.free.yml up -d --build
+#   Panel: http://localhost:3000
+#
+# - Base de datos SQLite en un volumen (sin PostgreSQL)
+# - Auditorías en hilos dentro de la API (sin Redis ni Celery)
+# - Búsqueda web con SearXNG autoalojado (gratuito)
+# - Sin Google Places ni APIs de IA (puedes añadirlas después en .env)
+services:
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: sqlite:////data/nap.db
+      TASK_BACKEND: thread
+      SEARXNG_URL: http://searxng:8080
+      SEARCH_PROVIDERS: searxng
+      ENVIRONMENT: production
+    volumes: [napdata:/data]
+    depends_on: [searxng]
+    expose: ["8000"]
+
+  searxng:
+    image: searxng/searxng:latest   # fija una versión concreta si lo prefieres
+    restart: unless-stopped
+    environment:
+      SEARXNG_SECRET: ${SEARXNG_SECRET:?Define SEARXNG_SECRET en .env}
+    volumes: [./deploy/searxng:/etc/searxng]
+    expose: ["8080"]
+
+  frontend:
+    build:
+      context: ./frontend
+      args: { BACKEND_URL: "http://backend:8000" }
+    restart: unless-stopped
+    depends_on: [backend]
+    ports: ["${FRONTEND_PORT:-3000}:3000"]
+
+volumes:
+  napdata:

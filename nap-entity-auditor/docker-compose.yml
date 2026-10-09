@@ -1,0 +1,82 @@
+# NAP Entity Auditor Pro — despliegue completo
+#   cp .env.example .env   (y rellena SECRET_KEY, contraseñas y claves de API)
+#   docker compose up -d --build
+# Panel: http://localhost:3000   API: solo accesible a través del frontend (/api)
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nap
+      POSTGRES_USER: nap
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD en .env}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nap -d nap"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: [redisdata:/data]
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://nap:${POSTGRES_PASSWORD}@db:5432/nap
+      REDIS_URL: redis://redis:6379/0
+      TASK_BACKEND: celery
+      ENVIRONMENT: production
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_started }
+    expose: ["8000"]
+
+  worker:
+    build: ./backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://nap:${POSTGRES_PASSWORD}@db:5432/nap
+      REDIS_URL: redis://redis:6379/0
+      TASK_BACKEND: celery
+      ENVIRONMENT: production
+    command: ["celery", "-A", "app.worker", "worker", "-l", "info", "--concurrency", "2"]
+    depends_on: [backend, redis]
+
+  beat:
+    build: ./backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://nap:${POSTGRES_PASSWORD}@db:5432/nap
+      REDIS_URL: redis://redis:6379/0
+      TASK_BACKEND: celery
+      ENVIRONMENT: production
+    command: ["celery", "-A", "app.worker", "beat", "-l", "info", "--schedule", "/tmp/celerybeat-schedule"]
+    depends_on: [backend, redis]
+
+  frontend:
+    build:
+      context: ./frontend
+      args: { BACKEND_URL: "http://backend:8000" }
+    restart: unless-stopped
+    depends_on: [backend]
+    ports: ["${FRONTEND_PORT:-3000}:3000"]
+
+  # Buscador autoalojado opcional y gratuito: docker compose --profile searxng up -d
+  # y SEARXNG_URL=http://searxng:8080 en .env (habilita "json" en search.formats de settings.yml)
+  searxng:
+    image: searxng/searxng:latest   # fija una versión concreta en producción
+    profiles: ["searxng"]
+    restart: unless-stopped
+    volumes: [./deploy/searxng:/etc/searxng]
+    expose: ["8080"]
+
+volumes:
+  pgdata:
+  redisdata:

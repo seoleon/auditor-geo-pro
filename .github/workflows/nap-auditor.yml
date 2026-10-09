@@ -1,0 +1,106 @@
+name: NAP Entity Auditor Pro
+
+on:
+  push:
+    branches: [main]
+    paths: ["nap-entity-auditor/**", ".github/workflows/nap-auditor.yml"]
+  pull_request:
+    paths: ["nap-entity-auditor/**", ".github/workflows/nap-auditor.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env: { POSTGRES_USER: nap, POSTGRES_PASSWORD: nap, POSTGRES_DB: nap_test }
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U nap" --health-interval 5s --health-retries 10
+    defaults:
+      run:
+        working-directory: nap-entity-auditor/backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: nap-entity-auditor/backend/requirements*.txt
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check app tests
+      - name: Pruebas (SQLite)
+        run: pytest -q
+      - name: Pruebas (PostgreSQL)
+        run: pytest -q
+        env:
+          TEST_DATABASE_URL: postgresql+psycopg://nap:nap@localhost:5432/nap_test
+      - name: Migraciones al día
+        run: alembic upgrade head && alembic check
+        env:
+          DATABASE_URL: sqlite:///./ci.db
+
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: nap-entity-auditor/frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: nap-entity-auditor/frontend/package-lock.json
+      - run: npm ci
+      - run: npm run build
+
+  docker:
+    # Construye las imágenes y arranca el modo gratuito completo con una prueba de humo
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: nap-entity-auditor
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar .env del modo gratuito
+        run: |
+          cp .env.free.example .env
+          sed -i "s|^SECRET_KEY=.*|SECRET_KEY=$(openssl rand -hex 32)|" .env
+          sed -i "s|^SEARXNG_SECRET=.*|SEARXNG_SECRET=$(openssl rand -hex 32)|" .env
+          sed -i "s|^ADMIN_EMAIL=.*|ADMIN_EMAIL=ci@example.com|" .env
+          sed -i "s|^ADMIN_PASSWORD=.*|ADMIN_PASSWORD=ci-password-123456|" .env
+      - name: Validar docker-compose completo
+        run: POSTGRES_PASSWORD=x docker compose config -q
+      - name: Arrancar modo gratuito
+        run: docker compose -f docker-compose.free.yml up -d --build
+      - name: Prueba de humo (login, alta, auditoría demo, informes)
+        run: |
+          for i in $(seq 1 60); do curl -fs http://localhost:3000/api/health && break; sleep 2; done
+          H='X-Requested-With: nap-auditor'
+          curl -fs -c c.txt -X POST http://localhost:3000/api/auth/login -H 'Content-Type: application/json' \
+            -d '{"email":"ci@example.com","password":"ci-password-123456"}' > /dev/null
+          BID=$(curl -fs -b c.txt -H "$H" -H 'Content-Type: application/json' -X POST http://localhost:3000/api/businesses \
+            -d '{"official_name":"Centro Demo","domain":"centro-demo.example","address_street":"Calle de Colón 12","postal_code":"46004","locality":"Valencia","phone_primary":"627 171 728"}' \
+            | python3 -c 'import sys,json;print(json.load(sys.stdin)["id"])')
+          curl -fs -b c.txt -H "$H" -X POST http://localhost:3000/api/businesses/$BID/confirm-nap > /dev/null
+          AID=$(curl -fs -b c.txt -H "$H" -H 'Content-Type: application/json' -X POST http://localhost:3000/api/businesses/$BID/audits \
+            -d '{"mode":"demo"}' | python3 -c 'import sys,json;print(json.load(sys.stdin)["id"])')
+          for i in $(seq 1 60); do
+            ST=$(curl -fs -b c.txt http://localhost:3000/api/audits/$AID | python3 -c 'import sys,json;print(json.load(sys.stdin)["status"])')
+            echo "estado: $ST"; [ "$ST" = completed ] || [ "$ST" = partial ] && break; sleep 2
+          done
+          [ "$ST" = completed ] || [ "$ST" = partial ]
+          for f in csv xlsx pdf; do curl -fs -b c.txt -o /tmp/informe.$f http://localhost:3000/api/audits/$AID/export.$f; done
+          head -c 4 /tmp/informe.pdf | grep -q '%PDF'
+          curl -fs http://localhost:3000/login > /dev/null
+          echo "Modo gratuito operativo"
+      - name: Registros si falla
+        if: failure()
+        run: docker compose -f docker-compose.free.yml logs --tail 200

@@ -1,6 +1,6 @@
 # Registro de cambios
 
-## [8.2.0] · geo-monitor
+## [8.4.0] · geo-monitor
 ### Añadido
 - `monitor/`: herramienta Node que pregunta a las versiones gratuitas de ChatGPT, Claude, Gemini, Perplexity y Google AI Mode y guarda cada respuesta con las marcas nombradas, su posición y las URLs y dominios citados.
 - Modo gratuito por defecto: captura asistida (panel local + marcador del navegador) y navegador automático con Playwright (perfil propio, chat temporal en ChatGPT, pausas, reanudación semanal, detección de captchas y cupos, capturas de diagnóstico).
@@ -18,6 +18,51 @@
 - Google AI Mode ya no puede guardar resultados orgánicos como si fueran la respuesta de la IA.
 - Panel local protegido frente a DNS rebinding, y CSV protegidos frente a fórmulas de Excel.
 - Escrituras simultáneas de varios motores encadenadas, inspección de URLs en paralelo y errores claros con config.json mal formado o el puerto ocupado.
+
+## [8.3.0] · Marcador «Auditar con GEO PRO»
+### Añadido
+- Marcador arrastrable a la barra de marcadores: en cualquier web abre el auditor con la página ya auditada, tal como la renderiza el navegador. Funciona en la versión publicada sin servidor ni Worker; copia también el HTML al portapapeles como respaldo.
+- El auditor solo acepta páginas cuando se abre desde el marcador (`#desde-marcador`) y confirma la recepción.
+- Mensajes de «sin rastreo» y de CORS que explican el marcador como alternativa inmediata.
+- Prueba e2e del marcador entre orígenes distintos (38 en total) y prueba manual en una web real (GitHub).
+
+## [8.2.1] · Revisión a fondo: fallos corregidos
+### Corregido
+- Worker: una respuesta 204 sin contenido lo rompía («Cannot read properties of null»).
+- Errores técnicos en inglés («fetch failed», «terminated», «aborted», errores TLS) ahora llegan como mensajes claros en español.
+- Ayuda de atajos: el foco entra en el diálogo al abrirlo y vuelve al botón al cerrarlo.
+- HTML 100 % válido (html-validate): `type="button"` en todos los botones, «Q&amp;A» escapado y `<tbody>` en la tabla de atajos.
+- Servidor: una ruta mal codificada (`/%E0%A4%A`) tumbaba el proceso; ahora responde 400.
+- Servidor y Worker: el límite de 20 s era de inactividad y un servidor que gotea bytes bloqueaba el rastreo indefinidamente; ahora es un límite total.
+- Servidor: escuchaba en todas las interfaces (proxy abierto en la red local); ahora solo en 127.0.0.1 salvo `HOST`.
+- Servidor: bombas de compresión limitadas a 8 MB descomprimidos; soporte de deflate crudo y sitemaps `.xml.gz`; mensajes claros ante redirecciones inválidas.
+- Service worker: guardaba en caché las páginas rastreadas (`/api/`); ahora solo cachea los archivos de la app.
+- robots.txt: la precedencia ignoraba los comodines al medir la regla más específica y no se tenían en cuenta los parámetros de la URL (RFC 9309).
+- YMYL: falsos positivos con «medición», «investigación», «taxonomía», «diagnóstico», «es seguro», «seguridad web» o «tratamiento de datos».
+- Preguntas: «Es…», «Son…», «Como…», «Puede…», «Debe…» se contaban como preguntas, y «Qué es…» sin signos no.
+- Claims y contenido sensible al tiempo: «único», «#1», «últimos» y «estadísticas» no se detectaban por las tildes.
+- Enlazado interno: las anclas (#), `javascript:` y el enlace a la propia página contaban como enlaces internos.
+- X-Robots-Tag: las directivas para otros bots se aplicaban como si fueran para Google.
+- Rastreo: el robots.txt/llms.txt rellenado de un sitio anterior se quedaba al rastrear otro que no lo tiene; las URLs con comas se partían; el registro hacía saltar la página.
+- «Limpiar» desactivaba «Traer robots.txt y llms.txt» y vaciaba el máximo del sitemap.
+- Accesibilidad: todas las tablas con scroll son accesibles por teclado y tienen nombre propio.
+
+### Añadido
+- «Ver» en el lote: abre la auditoría completa de cualquier URL sin volver a descargarla.
+- Pegar una URL en el cuadro principal (o dejarlo vacío con una URL de página) la descarga y audita; Intro en el campo del sitemap lo rastrea.
+- 14 pruebas de regresión nuevas (37 en total), incluido fuzzing de respuestas malformadas.
+- CI: las pruebas de la app se ejecutan también en Firefox y WebKit (Safari).
+
+## [8.2.0] · Modo bestia: análisis de URLs en vivo
+### Añadido
+- Analizar URLs: una URL abre la auditoría completa; varias (hasta 50) crean el lote con veredicto de quality y canibalización.
+- Rastrear sitemap, incluidos índices de sitemaps, con límite configurable.
+- Carga automática de robots.txt y llms.txt del dominio en el contexto.
+- Sección «Rastreo en vivo»: estado HTTP, redirecciones, URL final, HTTPS/HSTS, X-Robots-Tag (aplicado a la auditoría), tiempo, peso, Content-Type y Last-Modified, con tabla por URL.
+- Exportación CSV del lote; el rastreo se incluye en JSON, Markdown e informe ejecutivo.
+- `server.mjs` (`npm start`): servidor con rastreo seguro (anti-SSRF en cada conexión, 5 redirecciones, 8 MB, 20 s, gzip/brotli, charset) y mensajes de error claros.
+- Worker de Cloudflare con el mismo contrato y CORS restringible para la versión publicada, y `auditor.config.json` para activarlo.
+- 9 pruebas nuevas del rastreador, el Worker y el flujo completo en la app (23 en total).
 
 ## [8.1.0] · Quality de Google
 ### Añadido

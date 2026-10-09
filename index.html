@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Auditor GEO PRO V8.1 — Auditoría GEO, quality de Google, legibilidad, evidencia y publicación</title>
-<meta name="description" content="Auditor GEO gratuito para analizar citabilidad IA, calidad del contenido principal, E-E-A-T, revisión humana, evidencia, schemas, crawlers y preparación para ChatGPT Search, Perplexity y Google AI Overviews.">
+<title>Auditor GEO PRO V8.2 — Analiza URLs en vivo: GEO, quality de Google, legibilidad y publicación</title>
+<meta name="description" content="Auditor GEO gratuito: mete URLs o un sitemap y analiza citabilidad IA, quality de Google, E-E-A-T, legibilidad, evidencia, schemas, crawlers y preparación para ChatGPT Search, Perplexity y Google AI Overviews.">
 <meta name="theme-color" content="#171713">
 <meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.webmanifest">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Auditor GEO PRO V8 · Monstruo">
-<meta property="og:description" content="Auditoría GEO y de calidad 100% local en el navegador, sin backend ni APIs.">
+<meta property="og:title" content="Auditor GEO PRO V8.2 · Modo bestia">
+<meta property="og:description" content="Mete URLs o un sitemap y obtén una auditoría GEO, de quality de Google, legibilidad y rastreo técnico. El análisis ocurre en tu navegador.">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171713'/%3E%3Cpath d='M17 18h30v8H27v8h16v8H27v12H17z' fill='%23fffaf3'/%3E%3C/svg%3E">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8","softwareVersion":"8.1.0","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, calidad MC 2026, E-E-A-T, citabilidad IA, evidencia, schemas y preparación técnica que funciona íntegramente en el navegador."}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Auditor GEO PRO V8.2","softwareVersion":"8.3.0","inLanguage":"es","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Auditoría GEO, quality de Google, E-E-A-T, citabilidad IA, legibilidad, evidencia, schemas y rastreo técnico de URLs y sitemaps. El análisis ocurre en el navegador."}
 </script>
 <style>
 :root{
@@ -466,20 +466,56 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 @media(max-width:780px){.angle-wrap{grid-template-columns:1fr}}
 @media print{.guide details{display:block}.guide details>*{display:block}}
 
+/* ===== V8.2 RASTREO DE URLS ===== */
+.url-box{margin-bottom:6px}
+.url-area{min-height:96px!important;font:13px/1.55 var(--mono)}
+.url-controls input[type=text]{flex:1 1 240px;width:auto}
+.url-controls input[type=number]{width:84px}
+.tick.inline{padding:9px 11px}
+.crawl-log{margin:10px 0 0;padding-left:22px;max-height:220px;overflow:auto;font:11px/1.55 var(--mono);color:var(--muted)}
+.crawl-log li.ok{color:var(--green)}.crawl-log li.bad{color:var(--red)}.crawl-log li.warn{color:var(--amber)}
+.crawl-log:empty{display:none}
+.or-sep{display:flex;align-items:center;gap:12px;margin:16px 0 12px;font:800 10px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.or-sep:before,.or-sep:after{content:"";flex:1;height:1px;background:var(--line)}
+.chip.on{background:var(--green-soft);color:var(--green);border-color:transparent}.chip.off{background:var(--amber-soft);color:var(--amber);border-color:transparent}
+.batch-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+.bookmarklet-box{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px;padding:10px 12px;border:1px dashed var(--line);border-radius:14px;background:var(--paper2)}
+.bookmarklet-box[hidden]{display:none}
+.bookmarklet{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:800;font-size:12px;text-decoration:none;cursor:grab;white-space:nowrap}
+.bookmarklet-box .help{flex:1 1 280px;margin:0}
 </style>
 </head>
 <body>
 <noscript><div style="max-width:900px;margin:24px auto;padding:16px;border:1px solid #d9d0c2;border-radius:16px;font-family:system-ui">Esta herramienta necesita JavaScript para ejecutar la auditoría local en tu navegador.</div></noscript>
 <main class="wrap">
 <header class="hero">
-  <div><div class="kicker">GEO · CITABILIDAD IA · CALIDAD · LEGIBILIDAD · EVIDENCIA · V8</div><h1>Auditor GEO PRO</h1>
-  <div class="hero-tools"><span class="monster-badge">V8.1 · Modo monstruo</span><button class="secondary tiny" id="themeBtn" type="button">Tema: auto</button><button class="secondary tiny" id="helpBtn" type="button" aria-haspopup="dialog">Atajos <kbd>?</kbd></button></div></div>
-  <p>Audita contenido, citabilidad, calidad, legibilidad, SEO on-page, evidencia, claims, entidades, arquitectura, schemas, Open Graph, preguntas, crawlers y preparación por motor. Genera llms.txt, robots.txt para IA y prompts de prueba. Todo ocurre en tu navegador: sin backend, APIs, cookies ni almacenamiento. Funciona offline.</p>
+  <div><div class="kicker">URLS EN VIVO · GEO · QUALITY · LEGIBILIDAD · EVIDENCIA · V8.2</div><h1>Auditor GEO PRO</h1>
+  <div class="hero-tools"><span class="monster-badge">V8.2 · Modo bestia</span><button class="secondary tiny" id="themeBtn" type="button">Tema: auto</button><button class="secondary tiny" id="helpBtn" type="button" aria-haspopup="dialog">Atajos <kbd>?</kbd></button></div></div>
+  <p>Audita contenido, citabilidad, calidad, legibilidad, SEO on-page, evidencia, claims, entidades, arquitectura, schemas, Open Graph, preguntas, crawlers y preparación por motor. Genera llms.txt, robots.txt para IA y prompts de prueba. Mete URLs o un sitemap y la app las descarga y audita; o pega el HTML. El análisis ocurre en tu navegador, sin cookies ni almacenamiento. Funciona offline.</p>
 </header>
 
 <section class="panel input-panel" aria-labelledby="inputTitle">
+  <div class="url-box">
+    <div class="input-head"><strong id="urlTitle">Analizar URLs en vivo</strong><span class="chip" id="crawlerChip">COMPROBANDO RASTREO…</span></div>
+    <textarea id="urlList" class="url-area" aria-labelledby="urlTitle" spellcheck="false" placeholder="https://tusitio.es/pagina/&#10;Una URL por línea (hasta 50). Una URL abre la auditoría completa; varias crean la comparativa por lotes."></textarea>
+    <div class="controls url-controls">
+      <button class="primary" id="crawlBtn" type="button">Analizar URLs</button>
+      <input id="sitemapUrl" type="text" aria-label="URL del sitemap" placeholder="https://tusitio.es/sitemap.xml">
+      <input id="sitemapMax" type="number" min="1" max="50" step="1" value="20" aria-label="Máximo de URLs del sitemap">
+      <button class="secondary" id="sitemapBtn" type="button">Rastrear sitemap</button>
+      <label class="tick inline"><input type="checkbox" id="autoExtras" checked> Traer robots.txt y llms.txt</label>
+    </div>
+    <div class="help" id="crawlerHelp">Comprobando si hay un servidor de rastreo disponible…</div>
+    <div class="bookmarklet-box" id="bookmarkletBox" hidden>
+      <a class="bookmarklet" id="bookmarklet" href="#" title="Arrástrame a la barra de marcadores">★ Auditar con GEO PRO</a>
+      <span class="help">Sin instalar nada: arrastra este botón a tu barra de marcadores. Después, en cualquier web, púlsalo y se abrirá aquí ya auditada (también copia su HTML al portapapeles por si el sitio bloquea la ventana).</span>
+    </div>
+    <ol class="crawl-log" id="crawlLog" aria-live="polite"></ol>
+  </div>
+  <div class="or-sep"><span>o pega el contenido</span></div>
   <div class="input-head"><strong id="inputTitle">HTML, texto o Markdown de la página</strong><span class="chip" id="formatChip">AUTO-DETECT</span></div>
-  <textarea id="source" aria-labelledby="inputTitle" spellcheck="false" placeholder="Pega aquí el HTML completo, el contenido de la página o Markdown…"></textarea>
+  <textarea id="source" aria-labelledby="inputTitle" spellcheck="false" placeholder="Pega aquí el HTML completo, el texto o Markdown de la página… o simplemente una URL"></textarea>
   <div class="dropzone" id="dropzone" tabindex="0" role="button">
     <input id="fileInput" type="file" accept=".html,.htm,.txt,.md,text/html,text/plain,text/markdown" multiple hidden>
     <div class="drop-copy">
@@ -600,16 +636,16 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   </details>
 
   <div class="controls">
-    <button class="primary" id="scoreBtn">Auditar página</button>
-    <button class="secondary" id="sampleBtn">Cargar demo</button>
-    <button class="danger-ghost" id="resetBtn">Limpiar</button>
-    <span class="privacy">100% LOCAL · NO API · NO LOCALSTORAGE</span>
+    <button type="button" class="primary" id="scoreBtn">Auditar página</button>
+    <button type="button" class="secondary" id="sampleBtn">Cargar demo</button>
+    <button type="button" class="danger-ghost" id="resetBtn">Limpiar</button>
+    <span class="privacy">ANÁLISIS 100% LOCAL · RASTREO CON TU SERVIDOR · NO LOCALSTORAGE</span>
   </div>
 </section>
 
 <section class="results" id="results">
   <nav class="sticky-jump" aria-label="Navegación del informe">
-    <a href="#sec-resumen">Resumen</a><a href="#sec-release">Publicación</a><a href="#sec-matriz">Matriz</a><a href="#sec-radar">Radar</a><a href="#sec-motores">Motores</a><a href="#sec-formula">Fórmula</a><a href="#sec-mc2026">MC 2026</a><a href="#sec-plan">Plan</a>
+    <a href="#sec-resumen">Resumen</a><a href="#sec-rastreo">Rastreo</a><a href="#sec-release">Publicación</a><a href="#sec-matriz">Matriz</a><a href="#sec-radar">Radar</a><a href="#sec-motores">Motores</a><a href="#sec-formula">Fórmula</a><a href="#sec-mc2026">MC 2026</a><a href="#sec-plan">Plan</a>
     <a href="#sec-citas">Citas</a><a href="#sec-retrieval">Retrieval</a><a href="#sec-preguntas">Preguntas</a><a href="#sec-queries">Queries</a><a href="#sec-claims">Claims</a><a href="#sec-evidencia">Evidencia</a><a href="#sec-arquitectura">Arquitectura</a><a href="#sec-poda">Poda</a><a href="#sec-brief">Brief</a><a href="#sec-schema">Schema</a><a href="#sec-kit">Kit IA</a><a href="#sec-legibilidad">Legibilidad</a><a href="#sec-onpage">On-page</a><a href="#sec-social">Social</a>
     <a href="#sec-geo">GEO</a><a href="#sec-calidad">Calidad</a><a href="#sec-pagetypes">Page types</a><a href="#sec-qreport">Informe quality</a><a href="#sec-guia">Guía</a><a href="#sec-tecnico">Técnico</a>
   </nav>
@@ -639,13 +675,19 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   </div>
 
 
+    <section id="crawlPanel" style="display:none">
+    <div class="section-head" id="sec-rastreo"><h2>Rastreo en vivo</h2><p>Respuesta HTTP real de la URL: estado, redirecciones, cabeceras que afectan a la indexación, tiempos, robots.txt y llms.txt.</p></div>
+    <div class="check-grid" id="crawlGrid"></div>
+    <div class="table-panel" id="crawlTableWrap" style="margin-top:10px" tabindex="0" role="region" aria-label="Tabla: Rastreo en vivo"><table class="detail-table"><thead><tr><th>URL</th><th>Estado</th><th>Redirecciones</th><th>Tiempo</th><th>Tamaño</th><th>X-Robots-Tag</th><th>Resultado</th></tr></thead><tbody id="crawlBody"></tbody></table></div>
+  </section>
+
   <section class="panel batch-panel" id="batchPanel">
-    <div class="batch-head"><div><div class="label">Comparativa local</div><h3>Auditoría por lotes</h3></div><p id="batchSummary">—</p></div>
-    <div class="table-panel"><table class="detail-table"><thead><tr><th>Archivo</th><th>Tipo</th><th>Palabras</th><th>Global</th><th>GEO</th><th>Calidad</th><th>Commodity</th><th>Veredicto quality</th><th>Principal oportunidad</th></tr></thead><tbody id="batchBody"></tbody></table></div>
+    <div class="batch-head"><div><div class="label">Comparativa local</div><h3>Auditoría por lotes</h3></div><div class="batch-actions"><p id="batchSummary">—</p><button class="secondary tiny" id="batchCsvBtn" type="button">Exportar lote CSV</button></div></div>
+    <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Auditoría por lotes"><table class="detail-table"><thead><tr><th>Archivo / URL</th><th>Tipo</th><th>Palabras</th><th>Global</th><th>GEO</th><th>Calidad</th><th>Commodity</th><th>Veredicto quality</th><th>Principal oportunidad</th></tr></thead><tbody id="batchBody"></tbody></table></div>
   </section>
   <section class="panel batch-panel cannibal-panel" id="cannibalPanel">
     <div class="batch-head"><div><div class="label">Comparativa local</div><h3>Canibalización y duplicidad entre archivos</h3></div><p id="cannibalSummary">—</p></div>
-    <div class="table-panel"><table class="detail-table"><thead><tr><th>Página A</th><th>Página B</th><th>Similitud</th><th>Riesgo</th><th>Acción</th></tr></thead><tbody id="cannibalBody"></tbody></table></div>
+    <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Canibalización y duplicidad entre archivos"><table class="detail-table"><thead><tr><th>Página A</th><th>Página B</th><th>Similitud</th><th>Riesgo</th><th>Acción</th></tr></thead><tbody id="cannibalBody"></tbody></table></div>
   </section>
 
   <div class="section-head" id="sec-resumen"><h2>Resumen ejecutivo</h2><p>Lo que un SEO o editor necesita saber antes de entrar en el detalle.</p></div>
@@ -681,7 +723,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-formula"><h2>Transparencia del score</h2><p>Qué aporta cada componente al 100 global y cuántos puntos teóricos quedan recuperables. El 55% procede de GEO y el 45% de calidad.</p></div>
   <div class="ledger-summary" id="ledgerSummary"></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Componente</th><th>Capa</th><th>Resultado</th><th>Contribución global</th><th>Recuperable</th><th>Lectura</th></tr></thead><tbody id="ledgerBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Transparencia del score"><table class="detail-table"><thead><tr><th>Componente</th><th>Capa</th><th>Resultado</th><th>Contribución global</th><th>Recuperable</th><th>Lectura</th></tr></thead><tbody id="ledgerBody"></tbody></table></div>
 
   <div class="section-head"><h2>Vista previa de extracción</h2><p>Cómo queda la página en dos superficies simplificadas: snippet de búsqueda y respuesta extractiva. No simula ningún modelo real.</p></div>
   <div class="preview-grid">
@@ -697,7 +739,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head"><h2>Comparador antes / después</h2><p>Pega una versión revisada y recalculamos la auditoría con exactamente la misma lógica y contexto.</p></div>
   <section class="panel compare-box">
-    <div class="compare-input"><textarea id="afterSource" aria-label="Versión revisada para comparar" spellcheck="false" placeholder="Pega aquí la versión revisada del HTML, texto o Markdown…"></textarea><button class="primary" id="compareBtn">Comparar versión</button></div>
+    <div class="compare-input"><textarea id="afterSource" aria-label="Versión revisada para comparar" spellcheck="false" placeholder="Pega aquí la versión revisada del HTML, texto o Markdown…"></textarea><button type="button" class="primary" id="compareBtn">Comparar versión</button></div>
     <div class="compare-results" id="compareResults">
       <div class="delta-grid">
         <div class="delta"><div class="label">Global</div><div class="dv" id="deltaGlobal">—</div></div>
@@ -705,7 +747,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
         <div class="delta"><div class="label">Calidad</div><div class="dv" id="deltaQuality">—</div></div>
         <div class="delta"><div class="label">Palabras</div><div class="dv" id="deltaWords">—</div></div>
       </div>
-      <div class="table-panel" style="margin-top:10px"><table class="detail-table"><thead><tr><th>Check GEO</th><th>Antes</th><th>Después</th><th>Delta</th></tr></thead><tbody id="compareBody"></tbody></table></div>
+      <div class="table-panel" style="margin-top:10px" tabindex="0" role="region" aria-label="Tabla: Comparador antes / después"><table class="detail-table"><thead><tr><th>Check GEO</th><th>Antes</th><th>Después</th><th>Delta</th></tr></thead><tbody id="compareBody"></tbody></table></div>
     </div>
   </section>
 
@@ -738,16 +780,16 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   <div class="snippet-grid" id="snippetGrid"></div>
 
   <div class="section-head"><h2>Auditoría sección por sección</h2><p>Localiza exactamente dónde se pierde claridad, especificidad o capacidad de extracción.</p></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Sección</th><th>Palabras</th><th>Pregunta</th><th>Respuesta inmediata</th><th>Frase media</th><th>Datos /100</th><th>Puntuación del pasaje</th><th>Diagnóstico</th></tr></thead><tbody id="sectionBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Auditoría sección por sección"><table class="detail-table"><thead><tr><th>Sección</th><th>Palabras</th><th>Pregunta</th><th>Respuesta inmediata</th><th>Frase media</th><th>Datos /100</th><th>Puntuación del pasaje</th><th>Diagnóstico</th></tr></thead><tbody id="sectionBody"></tbody></table></div>
 
 
   <div class="section-head" id="sec-retrieval"><h2>Preparación para retrieval / chunks</h2><p>Divide el MC en pasajes compactos y mide si cada chunk conserva contexto, entidad, evidencia y una longitud razonable para recuperación. Es una heurística de pasajes, no una simulación de RAG real.</p></div>
   <div class="retrieval-summary" id="retrievalSummary"></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Sección</th><th>Chunk</th><th>Palabras</th><th>Score</th><th>Contexto</th><th>Evidencia</th><th>Diagnóstico</th></tr></thead><tbody id="retrievalBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Preparación para retrieval / chunks"><table class="detail-table"><thead><tr><th>Sección</th><th>Chunk</th><th>Palabras</th><th>Score</th><th>Contexto</th><th>Evidencia</th><th>Diagnóstico</th></tr></thead><tbody id="retrievalBody"></tbody></table></div>
 
   <div class="section-head" id="sec-preguntas"><h2>Cobertura de preguntas y respuestas</h2><p>Evalúa preguntas explícitas, calidad de la primera respuesta y evidencia dentro de cada sección. También identifica headings convertibles en queries naturales.</p></div>
   <div class="qa-stats" id="qaStats"></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Pregunta / heading</th><th>Respuesta inicial</th><th>Palabras</th><th>Directa</th><th>Evidencia</th><th>Score Q&A</th><th>Acción</th></tr></thead><tbody id="qaBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Cobertura de preguntas y respuestas"><table class="detail-table"><thead><tr><th>Pregunta / heading</th><th>Respuesta inicial</th><th>Palabras</th><th>Directa</th><th>Evidencia</th><th>Score Q&amp;A</th><th>Acción</th></tr></thead><tbody id="qaBody"></tbody></table></div>
 
   <div class="section-head"><h2>Términos dominantes y foco</h2><p>Frecuencia léxica simple del contenido principal. No es NER ni embeddings: úsalo para detectar si el tema que creías central realmente domina la página.</p></div>
   <section class="panel" style="padding:17px"><div class="term-cloud" id="termCloud"></div></section>
@@ -761,16 +803,16 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-queries"><h2>Cobertura del set de queries</h2><p>Mapea cada query/prompt a la sección que mejor la responde. Útil para detectar huecos de intención y prompts que no tienen una respuesta directa.</p></div>
   <div class="query-summary" id="querySummary"></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Query</th><th>Mejor sección</th><th>Score</th><th>Answer-first</th><th>Primera respuesta</th><th>Acción</th></tr></thead><tbody id="queryBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Cobertura del set de queries"><table class="detail-table"><thead><tr><th>Query</th><th>Mejor sección</th><th>Score</th><th>Answer-first</th><th>Primera respuesta</th><th>Acción</th></tr></thead><tbody id="queryBody"></tbody></table></div>
 
   <div class="section-head" id="sec-claims"><h2>Claims y soporte de evidencia</h2><p>Extrae afirmaciones que merecen verificación — cifras, comparativas, causalidad y afirmaciones fuertes — y estima si el propio texto aporta soporte cercano.</p></div>
   <div class="claim-filters" id="claimFilters">
-    <button class="secondary filter-btn active" data-claim="all">Todos</button>
-    <button class="secondary filter-btn" data-claim="alto">Riesgo alto</button>
-    <button class="secondary filter-btn" data-claim="medio">Riesgo medio</button>
-    <button class="secondary filter-btn" data-claim="bajo">Riesgo bajo</button>
+    <button type="button" class="secondary filter-btn active" data-claim="all">Todos</button>
+    <button type="button" class="secondary filter-btn" data-claim="alto">Riesgo alto</button>
+    <button type="button" class="secondary filter-btn" data-claim="medio">Riesgo medio</button>
+    <button type="button" class="secondary filter-btn" data-claim="bajo">Riesgo bajo</button>
   </div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Claim</th><th>Tipo</th><th>Soporte cercano</th><th>Riesgo</th><th>Qué revisar</th></tr></thead><tbody id="claimsBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Claims y soporte de evidencia"><table class="detail-table"><thead><tr><th>Claim</th><th>Tipo</th><th>Soporte cercano</th><th>Riesgo</th><th>Qué revisar</th></tr></thead><tbody id="claimsBody"></tbody></table></div>
 
 
   <div class="section-head" id="sec-evidencia"><h2>Cadena claim → evidencia</h2><p>Relaciona los claims detectados con señales de soporte en su mismo párrafo. Sirve para localizar afirmaciones fuertes sin fuente cercana y fuentes que no están trabajando para ningún claim.</p></div>
@@ -788,7 +830,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-brief"><h2>Brief de actualización generado</h2><p>Convierte el diagnóstico en una hoja de trabajo para SEO, redactor o cliente: estructura, queries, evidencia y controles antes de publicar.</p></div>
   <section class="panel brief">
-    <div class="brief-head"><div><div class="label">Brief determinista</div><h3 id="briefTitle">—</h3></div><button class="secondary tiny" id="copyBriefBtn">Copiar brief</button></div>
+    <div class="brief-head"><div><div class="label">Brief determinista</div><h3 id="briefTitle">—</h3></div><button type="button" class="secondary tiny" id="copyBriefBtn">Copiar brief</button></div>
     <div class="brief-grid" id="briefGrid"></div>
   </section>
 
@@ -797,11 +839,11 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-kit"><h2>Kit de despliegue para IA</h2><p>Borradores listos para copiar generados a partir de la página y del contexto: llms.txt, robots.txt para crawlers de IA y prompts para comprobar manualmente si los motores te citan.</p></div>
   <div class="gen-grid">
-    <section class="panel gen-card"><div class="label">Agentes · opcional</div><h3>llms.txt</h3><p>Resumen en Markdown para agentes. Google lo ignora y no hace falta para AI Overviews ni AI Mode; puede servir a otros agentes.</p><div class="codebox"><button class="copy-code" data-copy-code="genLlms">Copiar</button><pre id="genLlms"></pre></div></section>
+    <section class="panel gen-card"><div class="label">Agentes · opcional</div><h3>llms.txt</h3><p>Resumen en Markdown para agentes. Google lo ignora y no hace falta para AI Overviews ni AI Mode; puede servir a otros agentes.</p><div class="codebox"><button type="button" class="copy-code" data-copy-code="genLlms">Copiar</button><pre id="genLlms"></pre></div></section>
     <section class="panel gen-card"><div class="label">Rastreo · decide tu política</div><h3>robots.txt para IA</h3>
       <select id="robotsPolicy" aria-label="Política de crawlers de IA"><option value="search">Permitir búsqueda IA, bloquear entrenamiento</option><option value="all">Permitir búsqueda y entrenamiento</option><option value="none">Bloquear todos los bots de IA</option></select>
-      <div class="codebox"><button class="copy-code" data-copy-code="genRobots">Copiar</button><pre id="genRobots"></pre></div></section>
-    <section class="panel gen-card"><div class="label">Verificación manual</div><h3>Prompts de prueba</h3><p>Lánzalos en ChatGPT Search, Perplexity, Gemini y Google (modo IA) y anota si citan tu URL.</p><div class="codebox"><button class="copy-code" data-copy-code="genPrompts">Copiar</button><pre id="genPrompts"></pre></div></section>
+      <div class="codebox"><button type="button" class="copy-code" data-copy-code="genRobots">Copiar</button><pre id="genRobots"></pre></div></section>
+    <section class="panel gen-card"><div class="label">Verificación manual</div><h3>Prompts de prueba</h3><p>Lánzalos en ChatGPT Search, Perplexity, Gemini y Google (modo IA) y anota si citan tu URL.</p><div class="codebox"><button type="button" class="copy-code" data-copy-code="genPrompts">Copiar</button><pre id="genPrompts"></pre></div></section>
   </div>
 
   <div class="section-head"><h2>Higiene HTML y accesibilidad básica</h2><p>Checks de implementación que no se mezclan con la nota GEO, pero sí afectan a calidad editorial, comprensión y mantenimiento.</p></div>
@@ -845,7 +887,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   <div class="angle-wrap">
     <section class="panel angle-card"><div class="label">Ángulos non-commodity · con lo que solo tú tienes</div><ol id="angleList"></ol><div class="note" id="angleNote"></div></section>
     <section class="panel angle-card"><div class="label">Ejemplos mostrados por Google · Deep Dive Europe 2026</div>
-      <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla desplazable"><table class="detail-table"><thead><tr><th>Sector</th><th>Commodity</th><th>Non-commodity</th></tr></thead><tbody>
+      <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla: Los cuatro pilares de calidad"><table class="detail-table"><thead><tr><th>Sector</th><th>Commodity</th><th>Non-commodity</th></tr></thead><tbody>
         <tr><td>Tienda de running</td><td>Top 10 cosas a tener en cuenta al comprar zapatillas</td><td>Por qué las zapatillas de este cliente se hundieron a las 400 millas: análisis del desgaste</td></tr>
         <tr><td>Agente inmobiliario</td><td>7 consejos para comprar tu primera casa</td><td>Por qué renunciamos a la inspección (y ahorramos 15.000 $): un vistazo a la tubería</td></tr>
         <tr><td>Tienda de cocina</td><td>¿Qué es una cocina y para qué sirve?</td><td>La sartén de la abuela: cómo cuidar el hierro fundido fabricado antes de 1940</td></tr>
@@ -865,14 +907,14 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="section-head" id="sec-pagetypes"><h2>Page types y core updates</h2><p>Los core updates miran el site. Agrupa tus URLs por page type y detecta qué plantillas pueden estar arrastrando la nota global: mejorar, consolidar, sacar del dominio o eliminar.</p></div>
   <div class="ledger-summary" id="ptSummary"></div>
-  <div class="table-panel"><table class="detail-table"><thead><tr><th>Page type</th><th>URLs</th><th>% del site</th><th>% indexado</th><th>Clics / URL</th><th>Crecimiento</th><th>Alarmas</th><th>Acción</th></tr></thead><tbody id="ptBody"></tbody></table></div>
+  <div class="table-panel" tabindex="0" role="region" aria-label="Tabla: Page types y core updates"><table class="detail-table"><thead><tr><th>Page type</th><th>URLs</th><th>% del site</th><th>% indexado</th><th>Clics / URL</th><th>Crecimiento</th><th>Alarmas</th><th>Acción</th></tr></thead><tbody id="ptBody"></tbody></table></div>
   <div class="google-note" id="ptNote">—</div>
 
   <div class="section-head" id="sec-tecnico"><h2>Rastreo IA y preparación para agentes</h2><p>Diagnóstico técnico independiente del contenido. GPTBot y Google‑Extended no se usan como penalización de citabilidad.</p></div>
   <div class="tech-grid" id="techGrid"></div>
 
   <div class="section-head"><h2>Señales Google relacionadas</h2><p>El leak muestra conceptos almacenados, no pesos ni una receta de ranking. Se diferencia siempre “documentado” de “inferencia”.</p></div>
-  <div class="signal-table-wrap">
+  <div class="signal-table-wrap" tabindex="0" role="region" aria-label="Tabla: Señales Google relacionadas">
     <table class="signal-table">
       <thead><tr><th>Hallazgo</th><th>Señal</th><th>Qué está documentado</th><th>Relación con esta auditoría</th></tr></thead>
       <tbody id="signalsBody"></tbody>
@@ -882,7 +924,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
   <details class="panel glossary">
     <summary>Glosario completo de señales de quality · leak, DOJ y patentes</summary>
     <p>El leak de la Content Warehouse API (mayo de 2024) expuso 2.596 módulos y 14.014 atributos. Enseña qué conceptos guarda Google; no enseña pesos ni si cada atributo se usa hoy en producción. Descripciones citadas de la documentación publicada (HexDocs). Etiquetas: <b>[Documentado]</b>, <b>[Inferencia]</b>, <b>[Hipótesis]</b>, <b>[Criterio propio]</b>.</p>
-    <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla desplazable"><table class="detail-table"><thead><tr><th>Atributo</th><th>Módulo / nivel</th><th>Descripción filtrada</th><th>Relación</th><th>Etiqueta</th></tr></thead><tbody>
+    <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla: Señales Google relacionadas (2)"><table class="detail-table"><thead><tr><th>Atributo</th><th>Módulo / nivel</th><th>Descripción filtrada</th><th>Relación</th><th>Etiqueta</th></tr></thead><tbody>
       <tr><td><code>contentEffort</code></td><td>QualityNsrPQData · página</td><td>“LLM-based effort estimation for article pages”</td><td>Pilar Esfuerzo</td><td>Descripción [Documentado]; que implemente el pilar Effort [Inferencia]</td></tr>
       <tr><td><code>chard</code></td><td>QualityNsrPQData · página</td><td>“URL-level chard prediction”</td><td>Predicción de calidad basada en contenido</td><td>Nombre [Documentado]; significado [Inferencia]</td></tr>
       <tr><td><code>tofu</code></td><td>QualityNsrPQData · página</td><td>“URL-level tofu prediction”</td><td>Predicción de calidad basada en contenido</td><td>Solo nombre [Documentado]</td></tr>
@@ -923,14 +965,14 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
 
   <div class="toolbar main-actions">
     <div class="toolbar-group">
-      <button class="secondary tiny" id="summaryBtn">Copiar resumen ejecutivo</button>
-      <button class="secondary tiny" id="copyBtn">Copiar informe completo</button>
+      <button type="button" class="secondary tiny" id="summaryBtn">Copiar resumen ejecutivo</button>
+      <button type="button" class="secondary tiny" id="copyBtn">Copiar informe completo</button>
     </div>
     <div class="toolbar-group">
-      <button class="secondary tiny" id="htmlReportBtn">Informe ejecutivo (HTML)</button><button class="secondary tiny" id="backlogBtn">Backlog CSV</button><button class="secondary tiny" id="csvBtn">Auditoría CSV</button>
-      <button class="secondary tiny" id="downloadBtn">Descargar Markdown</button>
-      <button class="secondary tiny" id="jsonBtn">Descargar JSON</button>
-      <button class="secondary tiny" id="printBtn">Imprimir / PDF</button>
+      <button type="button" class="secondary tiny" id="htmlReportBtn">Informe ejecutivo (HTML)</button><button type="button" class="secondary tiny" id="backlogBtn">Backlog CSV</button><button type="button" class="secondary tiny" id="csvBtn">Auditoría CSV</button>
+      <button type="button" class="secondary tiny" id="downloadBtn">Descargar Markdown</button>
+      <button type="button" class="secondary tiny" id="jsonBtn">Descargar JSON</button>
+      <button type="button" class="secondary tiny" id="printBtn">Imprimir / PDF</button>
     </div>
   </div>
 
@@ -989,7 +1031,7 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
     </details>
     <details class="panel"><summary>8 · ¿Cuánto tarda en notarse un cambio?</summary>
       <p>Tiempos de los slides de Gary Illyes (fotos de Estela Franco):</p>
-      <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla desplazable"><table class="detail-table"><thead><tr><th>Cambio</th><th>Lo típico</th><th>Lo más lento</th></tr></thead><tbody>
+      <div class="table-panel flat" tabindex="0" role="region" aria-label="Tabla: Guía: quality en Google y core updates"><table class="detail-table"><thead><tr><th>Cambio</th><th>Lo típico</th><th>Lo más lento</th></tr></thead><tbody>
         <tr><td>Recuperación tras un core update</td><td>3–6 meses</td><td>6 meses a 1 año (hasta el siguiente core)</td></tr>
         <tr><td>Despliegue de un core update</td><td>2–4 semanas</td><td>—</td></tr>
         <tr><td>Spam update</td><td>1–2 semanas (continuo)</td><td>Meses (refrescos por lotes)</td></tr>
@@ -1053,26 +1095,26 @@ kbd{font:800 10px var(--mono);border:1px solid var(--line);border-bottom-width:2
       <li>OAI‑SearchBot se trata como crawler de Search de OpenAI; GPTBot como crawler de posible entrenamiento. ChatGPT‑User no se usa para decidir elegibilidad en Search.</li>
       <li>Google‑Extended se muestra como control de Gemini/grounding, pero no como señal de Google Search ni de AI Overviews.</li>
       <li>llms.txt se evalúa contra la propuesta v2 como ayuda opcional para agentes. No suma puntos de ranking ni de citabilidad.</li>
-      <li>La preparación por motor es un diagnóstico operativo, no una probabilidad real de citación. Combina fit del contenido y puertas técnicas aportadas por el usuario.</li><li>Los checks GEO de preguntas, Q&A y formato son heurísticas de extractabilidad de esta herramienta. No significan que Google exija trocear o redactar el contenido de una forma especial para AI Overviews o AI Mode.</li><li>La V7 añade un release gate, cobertura de queries, scoring de chunks, cadena claim→evidencia y similitud entre archivos. Son herramientas de QA y priorización, no señales conocidas de ranking.</li><li>Schema Studio solo usa datos visibles/declarados; valida y completa cada borrador antes de publicar.</li><li>No se pueden verificar offline backlinks, autoridad de marca, consenso real, exactitud factual completa, WAF/CDN, status HTTP, indexación o posiciones reales.</li>
+      <li>La preparación por motor es un diagnóstico operativo, no una probabilidad real de citación. Combina fit del contenido y puertas técnicas aportadas por el usuario.</li><li>Los checks GEO de preguntas, Q&amp;A y formato son heurísticas de extractabilidad de esta herramienta. No significan que Google exija trocear o redactar el contenido de una forma especial para AI Overviews o AI Mode.</li><li>La V7 añade un release gate, cobertura de queries, scoring de chunks, cadena claim→evidencia y similitud entre archivos. Son herramientas de QA y priorización, no señales conocidas de ranking.</li><li>Schema Studio solo usa datos visibles/declarados; valida y completa cada borrador antes de publicar.</li><li>No se pueden verificar offline backlinks, autoridad de marca, consenso real, exactitud factual completa, WAF/CDN, status HTTP, indexación o posiciones reales.</li>
     </ul>
   </details>
 
   <div class="disclaimer">HEURÍSTICA DE PRIORIZACIÓN — NO ES UNA PUNTUACIÓN DE GOOGLE NI GARANTIZA RANKING, CITAS O INCLUSIÓN EN CHATGPT, PERPLEXITY O GOOGLE AI OVERVIEWS.</div>
 </section>
 </main>
-<button class="back-top" id="backTop" aria-label="Volver arriba">↑</button>
+<button type="button" class="back-top" id="backTop" aria-label="Volver arriba">↑</button>
 <div class="kbd-help" id="kbdHelp" role="dialog" aria-modal="true" aria-labelledby="kbdTitle">
   <section class="panel kbd-box">
     <h3 id="kbdTitle">Atajos de teclado</h3>
-    <table>
+    <table><tbody>
       <tr><td><kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>Enter</kbd></td><td>Auditar página</td></tr>
       <tr><td><kbd>Alt</kbd> + <kbd>D</kbd></td><td>Cargar demo</td></tr>
       <tr><td><kbd>Alt</kbd> + <kbd>T</kbd></td><td>Cambiar tema claro / oscuro</td></tr>
       <tr><td><kbd>Alt</kbd> + <kbd>M</kbd></td><td>Descargar informe Markdown</td></tr>
       <tr><td><kbd>?</kbd></td><td>Mostrar / ocultar esta ayuda</td></tr>
       <tr><td><kbd>Esc</kbd></td><td>Cerrar</td></tr>
-    </table>
-    <div class="controls"><button class="primary tiny" id="kbdClose">Entendido</button></div>
+    </tbody></table>
+    <div class="controls"><button type="button" class="primary tiny" id="kbdClose">Entendido</button></div>
   </section>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">Copiado</div>
@@ -1128,7 +1170,9 @@ const sentenceSplit=t=>{
   return text.split(/(?<=[.!?…])\s+(?=(?:["“'(\[]*[A-ZÁÉÍÓÚÜÑÀ-ÖØ-Þ¿¡0-9]))/u).map(x=>x.trim()).filter(Boolean)
 };
 const firstSentence=t=>sentenceSplit(t)[0]||String(t||"").trim();
-const isQuestion=t=>{t=String(t||"").trim();return /\?$/.test(t)||/^(what|why|how|when|where|who|which|can|does|do|is|are|should|will|could|would|qué|por qué|como|cómo|cuándo|dónde|quién|cuál|cuáles|puede|pueden|debe|deben|es|son)\b/i.test(t)};
+// Pregunta = termina en «?», empieza por «¿» o por un interrogativo (con tilde en español).
+// «Es», «Son», «Como», «Puede» o «Debe» sin signos son afirmaciones en español, no preguntas.
+const isQuestion=t=>{t=String(t||"").trim();return /\?$/.test(t)||/^¿/.test(t)||/^(?:what|why|how|when|where|who|which|can|does|do|is|are|should|will|could|would|qué|por qué|para qué|cómo|cuándo|dónde|quién(?:es)?|cuál(?:es)?|cuánt[oa]s?)(?![\p{L}\p{N}])/iu.test(t)};
 const directOpening=t=>{
   const s=firstSentence(t),n=words(s).length;
   if(!s||!n||n>28)return false;
@@ -1302,13 +1346,15 @@ function ymylDetect(d,c){
   if(c.ymylMode==="yes")return {yes:true,why:"Marcado manualmente"};
   if(c.ymylMode==="no")return {yes:false,why:"Marcado manualmente"};
   const hay=(c.query+" "+d.title+" "+d.headings.slice(0,4).map(x=>x.text).join(" ")+" "+d.text.slice(0,1400)).toLowerCase();
+  // Términos completos con límites de palabra que entienden acentos: evita falsos positivos como
+  // «medición», «investigación», «taxonomía», «diagnóstico SEO», «es seguro» o «seguridad web».
   const groups=[
-    ["salud","health|medical|medicine|disease|symptom|treatment|diagnos|medic|salud|enfermedad|síntoma|tratamiento|diagnóst|embarazo|nutrición clínica|mental health"],
-    ["finanzas","mortgage|loan|credit|invest|tax|pension|insurance|financial|hipoteca|préstamo|crédito|invers|impuesto|pensión|seguro|financ"],
-    ["seguridad/legal","legal|law|lawyer|attorney|crime|safety|emergency|abogado|legal|delito|seguridad|emergencia"],
-    ["cívico","election|vote|government service|elección|elecciones|votar|gobierno|servicio público"]
+    ["salud","health|medical|medicine|diseases?|symptoms?|diagnosis|pregnancy|mental health|salud|enfermedad(?:es)?|síntomas?|tratamientos? médicos?|médic[oa]s?|medicina|medicamentos?|fármacos?|embarazo|nutrición clínica|salud mental|dosis"],
+    ["finanzas","mortgages?|loans?|credit cards?|credit score|investing|investments?|taxes|tax return|pensions?|insurance|financial advice|hipotecas?|préstamos?|créditos?|inversi(?:ón|ones)|invertir|impuestos?|pensi(?:ón|ones)|jubilación|seguros? de (?:vida|salud|hogar|coche|auto|viaje|decesos)|aseguradoras?|financiación|asesor(?:ía|amiento) financier[oa]"],
+    ["seguridad/legal","legal advice|lawyers?|attorneys?|crimes?|emergenc(?:y|ies)|abogad[oa]s?|asesor(?:ía|amiento) (?:legal|jurídic[oa])|delitos?|denuncias?|demandas? judicial(?:es)?|emergencias?|seguridad (?:vial|alimentaria|laboral|infantil|física)"],
+    ["cívico","elections?|voting|government services?|elecci(?:ón|ones)|votar|votación|trámites? (?:oficiales?|administrativos?)|servicio público"]
   ];
-  for(const [name,re] of groups)if(new RegExp("\\b("+re+")","i").test(hay))return {yes:true,why:"Auto: "+name};
+  for(const [name,re] of groups)if(new RegExp("(?<![\\p{L}\\p{N}])(?:"+re+")(?![\\p{L}\\p{N}])","iu").test(hay))return {yes:true,why:"Auto: "+name};
   return {yes:false,why:"Sin señales claras"}
 }
 function inferPurpose(d,c){
@@ -1537,7 +1583,7 @@ function trustAudit(d,c,s,ymyl){
     add("Transparencia de autoría",au,d.authorName?`Autor detectado: ${d.authorName}.`:"No se detecta autor en meta/schema.",
       au>=.78?"Mantén identidad y credenciales reales y verificables.":"Expón autor/revisor real y experiencia pertinente; evita credenciales decorativas o ficticias.");
   } else add("Transparencia de autoría",0,"No se puede evaluar metadata de autor desde texto plano.","Comprueba la página publicada.",true);
-  const timeSensitive=/\b(latest|current|today|202[4-9]|últim|actual|hoy|precio|prices?|statistics?|estadístic)\b/i.test(c.query+" "+d.title+" "+d.text.slice(0,500));
+  const timeSensitive=/(?<![\p{L}\p{N}])(?:latest|current|today|202[4-9]|últim[oa]s?|actual(?:es|izad[oa]s?)?|hoy|precios?|prices?|statistics?|estadísticas?)(?![\p{L}\p{N}])/iu.test(c.query+" "+d.title+" "+d.text.slice(0,500));
   add("Freshness / fecha",d.dates.length?1:0,d.dates.length?`Fecha detectada: ${String(d.dates[0]).slice(0,42)}.`:"No se detecta fecha.",
     d.dates.length?"Actualiza la fecha solo cuando exista revisión material del contenido.":"Si el contenido es sensible al tiempo, muestra fecha de publicación/actualización real.",!d.dates.length&&!timeSensitive);
   const only=clamp(s.onlyYou/3*.82+Math.min(.18,s.experience*.06));
@@ -1580,13 +1626,14 @@ function robotAccess(groups,agent,path="/"){
   const ag=agent.toLowerCase(),specific=groups.filter(g=>g.agents.includes(ag)),chosen=specific.length?specific:groups.filter(g=>g.agents.includes("*"));
   const rules=chosen.flatMap(g=>g.rules).filter(r=>globMatch(r.path,path));
   if(!rules.length)return {allowed:true,reason:"sin regla coincidente"};
-  rules.sort((a,b)=>b.path.replace(/\*/g,"").length-a.path.replace(/\*/g,"").length||(a.type==="allow"?-1:1));
+  // RFC 9309 / Google: gana la regla más específica (más larga, contando comodines); en empate, Allow.
+  rules.sort((a,b)=>b.path.length-a.path.length||(a.type===b.type?0:a.type==="allow"?-1:1));
   return {allowed:rules[0].type==="allow",reason:`${rules[0].type}: ${rules[0].path||"(vacío)"}`}
 }
 function robotsCards(c,d){
   if(!c.robots)return [{status:"N/A",cls:"na",title:"robots.txt",body:"No pegado. Sin robots.txt no se puede comprobar acceso de crawlers."}];
   const groups=parseRobots(c.robots);let path="/";
-  try{if(c.pageUrl)path=new URL(c.pageUrl).pathname||"/"}catch(e){}
+  try{if(c.pageUrl)path=(u=>(u.pathname||"/")+u.search)(new URL(c.pageUrl))}catch(e){}
   const checks=[
     ["OAI-SearchBot","ChatGPT Search","Afecta a elegibilidad/crawling de ChatGPT Search."],
     ["PerplexityBot","Perplexity Search","Crawler de búsqueda de Perplexity."],
@@ -1884,7 +1931,7 @@ function renderBatch(rows){
   sorted.forEach(r=>{
     const opp=r.geo.checks.find(x=>!x.na&&x.score<.8)?.name||"Sin debilidad GEO clara";
     const tr=document.createElement("tr");
-    tr.innerHTML=`<td><strong>${esc(r.name)}</strong></td><td>${esc(r.type)}</td><td>${r.words}</td><td><strong>${r.unified}</strong></td><td>${r.geoScore}</td><td>${r.quality.toFixed(1)}/16</td><td>${esc(r.commodity)}</td><td>${esc(r.verdict)}</td><td>${esc(opp)}</td>`;
+    tr.innerHTML=`<td><strong>${esc(r.name)}</strong> <button class="secondary tiny" type="button" data-open-doc="${esc(r.name)}" aria-label="Ver la auditoría completa de ${esc(r.name)}">Ver</button></td><td>${esc(r.type)}</td><td>${r.words}</td><td><strong>${r.unified}</strong></td><td>${r.geoScore}</td><td>${r.quality.toFixed(1)}/16</td><td>${esc(r.commodity)}</td><td>${esc(r.verdict)}</td><td>${esc(opp)}</td>`;
     body.appendChild(tr)
   })
 }
@@ -1923,13 +1970,16 @@ async function handleFiles(files){
   if(compatible.length>MAX_BATCH_FILES||oversized.length)toast(`Se cargarán ${arr.length} archivo(s). Límite: ${MAX_BATCH_FILES} archivos y 8 MB por archivo.`);
   $("#fileState").textContent=arr.length===1?arr[0].name:`${arr.length} ARCHIVOS · COMPARATIVA LOCAL`;
   const texts=await Promise.all(arr.map(async f=>({name:f.name,text:await f.text()})));
+  currentCrawl=null;auditTexts(texts);
+  $("#fileInput").value="";
+}
+function auditTexts(texts){
   source.value=texts[0].text;$("#formatChip").textContent=detectType(texts[0].text).toUpperCase();run();
   const c=context();batchDocs=texts.map(item=>{const type=detectType(item.text),d=type==="HTML"?parseHtml(item.text):parseText(item.text);return {name:item.name,text:item.text,d}});
   if(texts.length>1){
     const rows=batchDocs.map(item=>{const d=item.d,s=baseSignals(d,c),ymyl=ymylDetect(d,c),geo=geoAudit(d,c,s),q=qualityAudit(d,c,s,ymyl),com=commodityAudit(d,c,s,q),qv=qualityVerdict(q,com,redFlags(d,c,s,q,com,ymyl),ymyl);return {name:item.name,type:d.type,words:s.wc,geoScore:geo.score,quality:q.total,commodity:com.commodity,verdict:qv.name,unified:unifiedScore(geo,q),geo}});
     renderBatch(rows);renderCannibal(batchCannibalization(batchDocs))
   } else {renderBatch([]);renderCannibal([])}
-  $("#fileInput").value="";
 }
 
 
@@ -2037,7 +2087,7 @@ function extractClaims(d,ymyl){
       if(words(sent).length<5)return;
       let types=[];
       if(/(?:[$€£]\s?\d|\d+(?:[.,]\d+)?\s?%|\b(?:19|20)\d{2}\b)/.test(sent))types.push("numérico");
-      if(/\b(mejor|mejores|líder|lider|único|unico|más rápido|más eficaz|número 1|#1|best|leading|fastest|most effective|only)\b/i.test(sent))types.push("comparativo");
+      if(/(?:(?<![\p{L}\p{N}])(?:mejor|mejores|líder(?:es)?|lider|únic[oa]s?|unic[oa]s?|más rápid[oa]s?|más eficaz|número 1|best|leading|fastest|most effective|only)(?![\p{L}\p{N}])|#1(?!\d))/iu.test(sent))types.push("comparativo");
       if(/\b(aumenta|incrementa|reduce|mejora|provoca|causa|genera|lleva a|results in|increases|reduces|improves|causes|leads to)\b/i.test(sent))types.push("causal");
       if(/\b(siempre|nunca|garantiza|demuestra|es seguro|sin riesgo|will always|guarantees|proves|safe|risk-free)\b/i.test(sent))types.push("fuerte");
       if(!types.length)return;
@@ -2395,12 +2445,12 @@ function renderCannibal(rows){
 
 function profileLabel(v){return ({balanced:"Equilibrado",geo:"GEO agresivo",b2b:"B2B / servicios",editorial:"Editorial / informacional",ecommerce:"Ecommerce / producto"})[v]||"Equilibrado"}
 function applyProfileActions(items,profile){return items.map(x=>{let m=1,t=(x.title+" "+x.source).toLowerCase();if(profile==="geo"&&/(geo|entidad|fuentes|citas|schema|query|técnico|answer)/.test(t))m=1.28;if(profile==="b2b"&&/(entidad|fuentes|autor|query|schema|específico|originalidad|commodity|servicio)/.test(t))m=1.30;if(profile==="editorial"&&/(precisión|fuentes|citas|autor|fresh|originalidad|claims|talento|conciso)/.test(t))m=1.30;if(profile==="ecommerce"&&/(schema|específico|title|meta|listas|tablas|claims|entidad|producto)/.test(t))m=1.32;return {...x,priority:x.priority*m,profileBoost:m>1?Math.round((m-1)*100):0}}).sort((a,b)=>b.priority-a.priority).slice(0,8)}
-function engineReadiness(d,c,s,geo,q){const q100=q.total/16*100,evidence=s.citationScore*100,query=s.queryFit==null?65:s.queryFit*100;let groups=null,path="/";if(c.robots)groups=parseRobots(c.robots);try{if(c.pageUrl)path=new URL(c.pageUrl).pathname||"/"}catch(e){}const access=agent=>groups?robotAccess(groups,agent,path).allowed:null,noindex=/\bnoindex\b/.test(d.robotsMeta||"");const rows=[{name:"ChatGPT Search",agent:"OAI-SearchBot",fit:Math.round(geo.score*.62+q100*.18+evidence*.20),access:access("OAI-SearchBot"),extra:false,note:"GPTBot se trata aparte como crawler de posible entrenamiento."},{name:"Perplexity",agent:"PerplexityBot",fit:Math.round(geo.score*.55+q100*.15+evidence*.30),access:access("PerplexityBot"),extra:false,note:"Esta lectura da más peso a evidencia y fuentes."},{name:"Google AI Overviews",agent:"Googlebot",fit:Math.round(geo.score*.45+q100*.40+query*.15),access:access("Googlebot"),extra:noindex,note:"Google-Extended no se usa como puerta de Search; noindex sí."}];return rows.map(x=>{const blocked=x.access===false||x.extra,unknown=x.access===null&&!x.extra,effective=blocked?Math.min(x.fit,20):x.fit;return {...x,effective,gate:blocked?"Bloqueado":unknown?"No comprobado":"Acceso permitido",gateCls:blocked?"bad":unknown?"warn":"ok"}})}
+function engineReadiness(d,c,s,geo,q){const q100=q.total/16*100,evidence=s.citationScore*100,query=s.queryFit==null?65:s.queryFit*100;let groups=null,path="/";if(c.robots)groups=parseRobots(c.robots);try{if(c.pageUrl)path=(u=>(u.pathname||"/")+u.search)(new URL(c.pageUrl))}catch(e){}const access=agent=>groups?robotAccess(groups,agent,path).allowed:null,noindex=/\bnoindex\b/.test(d.robotsMeta||"");const rows=[{name:"ChatGPT Search",agent:"OAI-SearchBot",fit:Math.round(geo.score*.62+q100*.18+evidence*.20),access:access("OAI-SearchBot"),extra:false,note:"GPTBot se trata aparte como crawler de posible entrenamiento."},{name:"Perplexity",agent:"PerplexityBot",fit:Math.round(geo.score*.55+q100*.15+evidence*.30),access:access("PerplexityBot"),extra:false,note:"Esta lectura da más peso a evidencia y fuentes."},{name:"Google AI Overviews",agent:"Googlebot",fit:Math.round(geo.score*.45+q100*.40+query*.15),access:access("Googlebot"),extra:noindex,note:"Google-Extended no se usa como puerta de Search; noindex sí."}];return rows.map(x=>{const blocked=x.access===false||x.extra,unknown=x.access===null&&!x.extra,effective=blocked?Math.min(x.fit,20):x.fit;return {...x,effective,gate:blocked?"Bloqueado":unknown?"No comprobado":"Acceso permitido",gateCls:blocked?"bad":unknown?"warn":"ok"}})}
 function renderEngines(rows){const box=$("#engineGrid");box.innerHTML="";rows.forEach(x=>{const el=document.createElement("article");el.className="panel engine-card";el.innerHTML=`<div><div class="engine-top"><div><div class="label">Preparación orientativa</div><h3>${esc(x.name)}</h3></div><div class="engine-score">${x.effective}<small>/100</small></div></div><div class="gate-row"><span class="gate-chip ${x.gateCls==="ok"?"gate-ok":x.gateCls==="bad"?"gate-bad":"gate-warn"}">${esc(x.gate)}</span><span class="gate-chip gate-na">${esc(x.agent)}</span></div><div class="engine-gate">Fit de contenido: <strong>${x.fit}/100</strong>. ${esc(x.note)}</div></div><div class="engine-formula">Score operativo = fit de contenido + puerta técnica. Un bloqueo aplica un tope conservador.</div>`;box.appendChild(el)})}
 function questionCoverage(d){const explicit=d.sections.filter(x=>isQuestion(x.heading));const bodyQuestions=sentenceSplit(d.text).filter(x=>/\?$/.test(x)).length;const rows=explicit.map(sec=>{const fs=firstSentence(sec.text),n=words(fs).length,direct=directOpening(sec.text),evidence=/(?:[$€£]\s?\d|\d+(?:[.,]\d+)?\s?%|\b(?:19|20)\d{2}\b|\b(según|according to|fuente|estudio|datos de|informe)\b)/i.test(sec.text);let score=(direct?42:10)+(n>=7&&n<=40?25:n<=55?14:5)+(evidence?23:5)+(words(sec.text).length>=25?10:4);score=Math.min(100,score);return {heading:sec.heading,answer:fs,n,direct,evidence,score,action:score>=78?"Mantener":!direct?"Responder de forma directa en la primera frase":!evidence?"Añadir evidencia o un ejemplo concreto":"Acortar y hacer autocontenida la respuesta"}});const candidates=d.headings.filter(h=>(h.level===2||h.level===3)&&!isQuestion(h.text)).slice(0,6).map(h=>h.text);const strong=rows.filter(x=>x.score>=78).length,coverage=rows.length?Math.round(rows.reduce((a,b)=>a+b.score,0)/rows.length):0;return {rows,explicit:rows.length,bodyQuestions,strong,coverage,candidates}}
 function renderQuestions(q){const stats=$("#qaStats");stats.innerHTML="";[["Preguntas H2/H3",q.explicit,"explícitas"],["Q&A fuertes",q.strong,`${q.explicit?Math.round(q.strong/q.explicit*100):0}% de las explícitas`],["Cobertura Q&A",q.coverage+"/100","media de calidad"],["Oportunidades",q.candidates.length,"headings no interrogativos"]].forEach(([l,v,t])=>{const e=document.createElement("article");e.className="panel qa-stat";e.innerHTML=`<div class="label">${esc(l)}</div><div class="qv">${esc(v)}</div><div class="qs">${esc(t)}</div>`;stats.appendChild(e)});const body=$("#qaBody");body.innerHTML="";q.rows.forEach(x=>{const cls=x.score>=78?"cell-good":x.score>=55?"cell-mid":"cell-bad",tr=document.createElement("tr");tr.innerHTML=`<td><strong>${esc(x.heading)}</strong></td><td>${esc(x.answer)}</td><td>${x.n}</td><td class="${x.direct?"cell-good":"cell-bad"}">${x.direct?"Sí":"No"}</td><td class="${x.evidence?"cell-good":"cell-mid"}">${x.evidence?"Sí":"Débil"}</td><td class="${cls}">${x.score}/100</td><td>${esc(x.action)}</td>`;body.appendChild(tr)});if(!q.rows.length){const tr=document.createElement("tr");tr.innerHTML=`<td colspan="7">No hay H2/H3 formulados como pregunta. Candidatos: ${esc(q.candidates.join(" · ")||"ninguno")}</td>`;body.appendChild(tr)}}
 function schemaStudio(d,c,purpose,qas){const existing=d.schema?.types||[],cards=[],url=c.pageUrl||d.canonical||"",headline=d.title||d.headings.find(x=>x.level===1)?.text||"",desc=d.meta||firstSentence(d.text).slice(0,180),image=d.images?.find(x=>/^https?:/i.test(x.src||""))?.src||"";const findVal=k=>{for(const o of d.schema?.objects||[])if(o&&o[k])return o[k];return null},pub=findVal("datePublished"),mod=findVal("dateModified");const article={"@context":"https://schema.org","@type":"Article"};if(headline)article.headline=headline;if(desc)article.description=desc;if(url)article.mainEntityOfPage={"@type":"WebPage","@id":url};if(d.authorName)article.author={"@type":"Person","name":d.authorName};if(c.brand)article.publisher={"@type":"Organization","name":c.brand};if(pub)article.datePublished=pub;if(mod)article.dateModified=mod;if(image)article.image=image;const articleProps=[headline,url,d.authorName,c.brand,pub||mod].filter(Boolean).length;cards.push({title:"Article · borrador",status:articleProps>=4?"Base sólida":"Completar",cls:articleProps>=4?"strong":"partial",text:`${existing.some(t=>/Article|BlogPosting|NewsArticle/i.test(t))?"Ya existe un tipo editorial. ":"No se detecta Article/BlogPosting. "}El borrador solo usa datos disponibles.`,code:`<script type="application/ld+json">\n${JSON.stringify(article,null,2)}\n<\/script>`});if(qas.rows.length>=2){const faq={"@context":"https://schema.org","@type":"FAQPage","mainEntity":qas.rows.slice(0,10).map(x=>({"@type":"Question","name":x.heading,"acceptedAnswer":{"@type":"Answer","text":x.answer}}))};cards.push({title:"FAQPage · visible Q&A",status:"Generado",cls:"strong",text:`${qas.rows.length} preguntas visibles detectadas. Úsalo solo si el bloque visible y el tipo son apropiados. No implica ni garantiza un rich result.`,code:`<script type="application/ld+json">\n${JSON.stringify(faq,null,2)}\n<\/script>`})}if(purpose==="Servicio / local"||/service|localbusiness/i.test(existing.join(" "))){const service={"@context":"https://schema.org","@type":"Service"};if(headline)service.name=headline;if(desc)service.description=desc;if(url)service.url=url;if(c.brand)service.provider={"@type":"Organization","name":c.brand};cards.push({title:"Service · base",status:c.brand&&url?"Base útil":"Completar",cls:c.brand&&url?"strong":"partial",text:"Añade areaServed, serviceType y provider real cuando estén visibles/verificados.",code:`<script type="application/ld+json">\n${JSON.stringify(service,null,2)}\n<\/script>`})}if(purpose==="Producto / ecommerce"||existing.some(t=>/^Product$/i.test(t))){const product={"@context":"https://schema.org","@type":"Product"};if(headline)product.name=headline;if(desc)product.description=desc;if(url)product.url=url;if(c.brand)product.brand={"@type":"Brand","name":c.brand};cards.push({title:"Product · esqueleto",status:"Requiere datos",cls:"partial",text:"No inventa precio, disponibilidad, SKU, GTIN, reviews ni offers. Completa solo con datos reales.",code:`<script type="application/ld+json">\n${JSON.stringify(product,null,2)}\n<\/script>`})}return cards}
-function renderSchemaStudio(cards,d){const box=$("#schemaGrid");box.innerHTML="";const existing=(d.schema?.types||[]).join(", ")||"ninguno",intro=document.createElement("article");intro.className="panel schema-card";intro.innerHTML=`<span class="pill ${d.schema?.count?"strong":"partial"}">${d.schema?.count?"Detectado":"Sin JSON-LD"}</span><h3>Estado actual</h3><p>Bloques JSON-LD: ${d.schema?.count||0}. Tipos: ${esc(existing)}. Errores: ${d.schema?.errors?.length||0}.</p><div class="schema-checks"><span class="schema-mini ${d.schema?.errors?.length?"weak":"strong"}">JSON ${d.schema?.errors?.length?"a revisar":"válido"}</span><span class="schema-mini ${d.authorName?"strong":"partial"}">Autor ${d.authorName?"sí":"no"}</span><span class="schema-mini ${d.dates?.length?"strong":"partial"}">Fecha ${d.dates?.length?"sí":"no"}</span></div>`;box.appendChild(intro);cards.forEach((x,i)=>{const el=document.createElement("article");el.className="panel schema-card";const id=`schemaCode${i}`;el.innerHTML=`<span class="pill ${x.cls}">${esc(x.status)}</span><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p><div class="codebox"><button class="copy-code" data-copy-code="${id}">Copiar</button><pre id="${id}">${esc(x.code)}</pre></div>`;box.appendChild(el)})}
+function renderSchemaStudio(cards,d){const box=$("#schemaGrid");box.innerHTML="";const existing=(d.schema?.types||[]).join(", ")||"ninguno",intro=document.createElement("article");intro.className="panel schema-card";intro.innerHTML=`<span class="pill ${d.schema?.count?"strong":"partial"}">${d.schema?.count?"Detectado":"Sin JSON-LD"}</span><h3>Estado actual</h3><p>Bloques JSON-LD: ${d.schema?.count||0}. Tipos: ${esc(existing)}. Errores: ${d.schema?.errors?.length||0}.</p><div class="schema-checks"><span class="schema-mini ${d.schema?.errors?.length?"weak":"strong"}">JSON ${d.schema?.errors?.length?"a revisar":"válido"}</span><span class="schema-mini ${d.authorName?"strong":"partial"}">Autor ${d.authorName?"sí":"no"}</span><span class="schema-mini ${d.dates?.length?"strong":"partial"}">Fecha ${d.dates?.length?"sí":"no"}</span></div>`;box.appendChild(intro);cards.forEach((x,i)=>{const el=document.createElement("article");el.className="panel schema-card";const id=`schemaCode${i}`;el.innerHTML=`<span class="pill ${x.cls}">${esc(x.status)}</span><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p><div class="codebox"><button type="button" class="copy-code" data-copy-code="${id}">Copiar</button><pre id="${id}">${esc(x.code)}</pre></div>`;box.appendChild(el)})}
 function hygieneAudit(d){const emptyHead=d.emptyHeadings||0,dups=new Map();d.headings.forEach(h=>dups.set(h.text.toLowerCase(),(dups.get(h.text.toLowerCase())||0)+1));const dupHead=[...dups.values()].filter(x=>x>1).length;let jumps=0;for(let i=1;i<d.headings.length;i++)if(d.headings[i].level-d.headings[i-1].level>1)jumps++;const missingAlt=d.images.filter(x=>!x.hasAlt).length,generic=d.links.filter(x=>/^(click here|read more|more|here|clic aquí|leer más|más|aquí|ver más)$/i.test((x.text||"").trim())).length;return [{title:"Headings vacíos",value:emptyHead,good:emptyHead===0,text:emptyHead?"Hay headings sin texto útil.":"No se detectan headings vacíos."},{title:"Headings duplicados",value:dupHead,good:dupHead===0,text:dupHead?"Revisa repeticiones exactas.":"Sin duplicados exactos relevantes."},{title:"Saltos jerárquicos",value:jumps,good:jumps===0,text:jumps?"Hay saltos de nivel >1.":"Jerarquía sin saltos fuertes."},{title:"Imágenes sin alt",value:missingAlt,good:missingAlt===0,text:d.images.length?`${missingAlt}/${d.images.length} sin atributo alt. ALT vacío puede ser válido en imágenes decorativas.`:"No se detectan imágenes."},{title:"Anchors genéricos",value:generic,good:generic===0,text:generic?"Sustituye anchors tipo ‘aquí’.":"Sin anchors genéricos comunes."},{title:"Canonical",value:d.type==="HTML"?(d.canonical?"Sí":"No"):"N/A",good:d.type!=="HTML"||!!d.canonical,text:d.type!=="HTML"?"Solo HTML.":d.canonical?"Canonical detectado.":"Falta rel=canonical."},{title:"Idioma HTML",value:d.type==="HTML"?(d.lang||"No"):"N/A",good:d.type!=="HTML"||!!d.lang,text:d.type!=="HTML"?"Solo HTML.":d.lang?`lang=${d.lang}`:"Falta atributo lang."},{title:"Meta noindex",value:d.type==="HTML"?(/\bnoindex\b/.test(d.robotsMeta)?"Sí":"No"):"N/A",good:d.type!=="HTML"||!/\bnoindex\b/.test(d.robotsMeta),text:/\bnoindex\b/.test(d.robotsMeta)?"Bloquea indexación normal de Search.":"No se detecta noindex."}]}
 function renderHygiene(rows){const box=$("#hygieneGrid");box.innerHTML="";rows.forEach(x=>{const el=document.createElement("article");el.className="panel hygiene";el.innerHTML=`<span class="pill ${x.good?"strong":"partial"}">${x.good?"OK":"Revisar"}</span><h3>${esc(x.title)} · ${esc(x.value)}</h3><p>${esc(x.text)}</p>`;box.appendChild(el)})}
 function scoreLedger(geo,q){const rows=[];geo.checks.filter(x=>!x.na).forEach(x=>{const contribution=geo.denom?x.points/geo.denom*55:0,recoverable=geo.denom?(x.weight-x.points)/geo.denom*55:0;rows.push({name:x.name,layer:"GEO",result:`${x.points.toFixed(1)}/${x.weight}`,contribution,recoverable,read:x.state.label})});q.pillars.forEach(p=>{const contribution=p.score/16*45,recoverable=(4-p.score)/16*45;rows.push({name:p.name,layer:"Calidad",result:`${p.score.toFixed(1)}/4`,contribution,recoverable,read:status(p.score/4).label})});rows.sort((a,b)=>b.recoverable-a.recoverable);return rows}
@@ -2437,10 +2487,10 @@ ul{padding-left:18px}li{margin:7px 0;font-size:13px}.note{margin-top:14px;paddin
 @media(max-width:720px){.decision,.kpis{grid-template-columns:1fr}h1{font-size:30px}table{display:block;overflow-x:auto}}
 @media print{body{background:#fff;padding:0}.printbtn{display:none}h2{break-after:avoid}tr,.kpi,.dbox{break-inside:avoid}}
 </style></head><body>
-<button class="printbtn" onclick="window.print()">Imprimir / PDF</button>
-<div class="eyebrow">Informe ejecutivo · Auditor GEO PRO V8.1 · ${esc(date)}</div>
+<button type="button" class="printbtn" onclick="window.print()">Imprimir / PDF</button>
+<div class="eyebrow">Informe ejecutivo · Auditor GEO PRO V8.2 · ${esc(date)}</div>
 <h1>${esc(c.projectName||"Auditoría GEO y quality")}</h1>
-<div class="meta">${c.pageUrl?`<b>URL:</b> ${esc(c.pageUrl)} · `:""}${c.query?`<b>Intención:</b> ${esc(c.query)} · `:""}${c.analystName?`<b>Analista:</b> ${esc(c.analystName)} · `:""}<b>ID:</b> ${esc(r.release.signature)}</div>
+<div class="meta">${c.pageUrl?`<b>URL:</b> ${esc(c.pageUrl)} · `:""}${c.query?`<b>Intención:</b> ${esc(c.query)} · `:""}${c.analystName?`<b>Analista:</b> ${esc(c.analystName)} · `:""}${r.crawl?`<b>HTTP:</b> ${esc(r.crawl.first.status)} · ${esc(r.crawl.first.ms)} ms · `:""}<b>ID:</b> ${esc(r.release.signature)}</div>
 <div class="decision">
   <div class="dbox ${relCls}"><div class="dl">Decisión de publicación</div><div class="dv">${esc(r.release.state)}</div><p>${esc(r.release.body)}</p></div>
   <div class="dbox ${qCls}"><div class="dl">Veredicto de quality (Google)</div><div class="dv">${esc(r.qVerdict.name)}</div><p>${q.total.toFixed(1)}/16 · ${esc(r.commodity.commodity)} · YMYL ${r.ymyl.yes?"sí":"no"}</p></div>
@@ -2517,12 +2567,18 @@ function reportMarkdown(r){
   lines.push("","## Señales Google relacionadas","");
   r.leaks.forEach(x=>lines.push(`- **${x.signal}** — ${x.doc} ${x.link}`));
   lines.push(monsterMarkdown(r));
+  lines.push(crawlMarkdown(r));
   if(r.qualityReport)lines.push("","---","",r.qualityReport.replace(/^# /,"## "));
   lines.push("","---","Heurística de priorización. No es una puntuación de Google ni garantiza ranking, citas o inclusión. No verifica offline backlinks, autoridad, factualidad completa, status HTTP, WAF/CDN, indexación ni posiciones reales.");
   return lines.join("\n")
 }
 function run(){
-  const raw=source.value.trim();if(!raw){source.focus();toast("Pega contenido primero.");return}
+  const raw=source.value.trim();
+  // Atajos: si el cuadro solo contiene URLs, o está vacío pero hay URL de página, se descargan y auditan.
+  const urlLines=raw.split(/\s+/).filter(Boolean);
+  if(raw&&urlLines.length<=MAX_URLS&&urlLines.every(x=>/^(?:https?:\/\/|www\.)\S+$/i.test(x))&&urlLines.every(normalizeUrl)){$("#urlList").value=urlLines.join("\n");source.value="";analyzeUrls(urlLines);return}
+  if(!raw&&normalizeUrl($("#pageUrl").value)){$("#urlList").value=$("#pageUrl").value.trim();analyzeUrls([$("#pageUrl").value]);return}
+  if(!raw){source.focus();toast("Pega contenido o escribe una URL.");return}
   if(raw.length>MAX_INPUT_CHARS){toast("El contenido supera el límite de seguridad de 8 millones de caracteres.");return}
   const type=detectType(raw);$("#formatChip").textContent=type.toUpperCase();
   const d=type==="HTML"?parseHtml(raw):parseText(raw),c=context(),s=baseSignals(d,c),ymyl=ymylDetect(d,c),purpose=inferPurpose(d,c);
@@ -2536,7 +2592,7 @@ function run(){
   const queryMap=querySetAudit(d,c),retrieval=retrievalChunks(d),evidence=evidenceChain(d,claims),prune=pruneAudit(d);
   latest={data:d,ctx:c,signals:s,ymyl,purpose,geo,quality,commodity,flags,qVerdict,trust,siteView,tech,leaks,unified,overall,geoBand:gb,confidence,snippets,sections,terms,metrics,actions,claims,entities,gaps,engines,qa,schemaCards,hygiene,ledger,google2026,composition,eeat,aiPolicy,queryMap,retrieval,evidence,prune};
   latest.matrix=readinessMatrix(latest);latest.exec=executiveSummary(latest);latest.release=releaseGate(latest);latest.brief=buildBrief(latest);
-  runMonster(latest);runQuality(latest);
+  runMonster(latest);runQuality(latest);attachCrawl(latest);
 
   $("#unifiedScore").textContent=unified;$("#unifiedGrade").textContent=overall[0];$("#unifiedVerdict").textContent=overall[1];
   $("#geoScore").textContent=geo.score;$("#geoGrade").textContent=gb[0];$("#geoVerdict").textContent=gb[1];
@@ -2571,7 +2627,7 @@ function clearAll(){
   document.querySelectorAll("textarea,input[type=text],input[type=number]").forEach(e=>e.value="");
   document.querySelectorAll('input[type="checkbox"]').forEach(e=>e.checked=false);
   $("#ymylMode").value="auto";$("#pageType").value="auto";$("#auditProfile").value="balanced";$("#aiRole").value="unknown";$("#formatChip").textContent="AUTO-DETECT";$("#results").style.display="none";latest=null;
-  $("#copyBtn").disabled=$("#downloadBtn").disabled=$("#jsonBtn").disabled=$("#summaryBtn").disabled=$("#csvBtn").disabled=$("#printBtn").disabled=$("#htmlReportBtn").disabled=$("#backlogBtn").disabled=true;$("#batchPanel").style.display="none";$("#cannibalPanel").style.display="none";$("#compareResults").style.display="none";batchLatest=[];batchDocs=[];$("#fileInput").value="";$("#fileState").textContent="NINGÚN ARCHIVO · TODO SE PROCESA EN TU NAVEGADOR";source.focus()
+  $("#copyBtn").disabled=$("#downloadBtn").disabled=$("#jsonBtn").disabled=$("#summaryBtn").disabled=$("#csvBtn").disabled=$("#printBtn").disabled=$("#htmlReportBtn").disabled=$("#backlogBtn").disabled=true;$("#batchPanel").style.display="none";$("#cannibalPanel").style.display="none";$("#compareResults").style.display="none";batchLatest=[];batchDocs=[];$("#fileInput").value="";$("#fileState").textContent="NINGÚN ARCHIVO · TODO SE PROCESA EN TU NAVEGADOR";currentCrawl=null;$("#crawlLog").innerHTML="";$("#crawlPanel").style.display="none";$("#autoExtras").checked=true;$("#sitemapMax").value="20";["#robots","#llms"].forEach(id=>{$(id).dataset.auto=""});source.focus()
 }
 $("#scoreBtn").addEventListener("click",run);
 $("#sampleBtn").addEventListener("click",()=>{
@@ -2592,7 +2648,7 @@ $("#downloadBtn").addEventListener("click",()=>{
 });
 $("#jsonBtn").addEventListener("click",()=>{
   if(!latest)return;
-  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},qualityReport:latest.qualityReport,nonCommodityAngles:latest.angles,pageTypes:latest.pageTypes,version:"8.1.0",summary:{type:latest.data.type,words:latest.signals.wc}};
+  const safe={generated:new Date().toISOString(),unified:latest.unified,overall:latest.overall,geo:{score:latest.geo.score,denom:latest.geo.denom,checks:latest.geo.checks},quality:{total:latest.quality.total,pillars:latest.quality.pillars,verdict:latest.qVerdict},commodity:latest.commodity,ymyl:latest.ymyl,purpose:latest.purpose,trust:latest.trust,flags:latest.flags,siteView:latest.siteView,tech:latest.tech,relatedGoogleSignals:latest.leaks,confidence:latest.confidence,releaseGate:latest.release,queryCoverage:latest.queryMap,retrievalChunks:latest.retrieval,evidenceChain:latest.evidence,pruneMerge:latest.prune,generatedBrief:latest.brief,googleMC2026:latest.google2026,mainContentComposition:latest.composition,eeatCompass:latest.eeat,aiEditorialPolicy:latest.aiPolicy,engineReadiness:latest.engines,questionCoverage:latest.qa,schemaStudio:latest.schemaCards,htmlHygiene:latest.hygiene,scoreLedger:latest.ledger,actionPlan:latest.actions,citationCandidates:latest.snippets,sectionDiagnostics:latest.sections,dominantTerms:latest.terms,metrics:latest.metrics,readinessMatrix:latest.matrix,claims:latest.claims,entities:latest.entities,competitorGaps:latest.gaps,readability:latest.readability,onPage:latest.onpage,social:latest.social,aiKit:{llmsTxt:latest.kit.llms,robotsTxt:genRobotsTxt(latest,$("#robotsPolicy").value),testPrompts:latest.kit.prompts},qualityReport:latest.qualityReport,nonCommodityAngles:latest.angles,pageTypes:latest.pageTypes,crawl:latest.crawl,version:"8.3.0",summary:{type:latest.data.type,words:latest.signals.wc}};
   const blob=new Blob([JSON.stringify(safe,null,2)],{type:"application/json;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
   a.href=url;a.download="auditoria-geo-calidad.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)
 });
@@ -2711,7 +2767,9 @@ function onPageAudit(d,c){
   rows.push({name:"Número de H1",value:d.type!=="HTML"&&!h1s.length?"N/A":String(h1s.length),state:d.type!=="HTML"&&!h1s.length?"na":h1s.length===1?"ok":"warn",tip:h1s.length===1?"Un único H1 claro.":h1s.length?"Varios H1: deja uno que defina la página.":"Añade un H1 que defina el tema."});
   let ul=null;try{ul=url?new URL(url):null}catch(e){}
   rows.push({name:"Calidad de la URL",value:ul?ul.pathname.length+" car.":"N/A",state:!ul?"na":ul.pathname.length<=75&&!/[A-Z_?&=]/.test(ul.pathname+ul.search)?"ok":"warn",tip:!ul?"Indica la URL para evaluarla.":"Prefiere rutas cortas, en minúsculas, con guiones y sin parámetros."});
-  const internal=ul?d.links.filter(l=>{try{return new URL(l.href,ul.origin).host===ul.host}catch(e){return false}}).length:d.links.filter(l=>!/^https?:/i.test(l.href)&&!/^(mailto|tel|#)/i.test(l.href)).length;
+  // Enlaces internos reales: excluye anclas (#), mailto:, tel:, javascript: y el enlace a la propia página.
+  const realLinks=d.links.filter(l=>l.href&&!/^(#|mailto:|tel:|javascript:|data:)/i.test(l.href.trim()));
+  const internal=ul?realLinks.filter(l=>{try{const t=new URL(l.href,ul.href);return t.host===ul.host&&(t.pathname+t.search)!==(ul.pathname+ul.search)}catch(e){return false}}).length:realLinks.filter(l=>!/^[a-z][a-z0-9+.-]*:/i.test(l.href)&&!/^\/\//.test(l.href)).length;
   rows.push({name:"Enlazado interno",value:String(internal),state:internal>=3?"ok":internal>=1?"warn":d.type==="HTML"?"bad":"na",tip:internal>=3?"Hay enlaces internos que reparten contexto.":"Añade enlaces internos descriptivos hacia páginas relacionadas."});
   const altFit=q?fit(d.images.map(i=>i.alt).join(" ")):null;
   rows.push({name:"Imágenes con ALT descriptivo",value:d.images.length?`${d.images.filter(i=>i.alt.length>=5).length}/${d.images.length}`:"Sin imágenes",state:!d.images.length?"na":d.images.every(i=>i.alt.length>=5)?"ok":"warn",tip:d.images.length?`ALT descriptivos ayudan a accesibilidad y búsqueda de imágenes${altFit!=null?` · encaje con query ${pct(altFit)}`:""}.`:"Considera añadir un diagrama o imagen original con ALT."});
@@ -2776,7 +2834,7 @@ const AI_SEARCH_BOTS=["OAI-SearchBot","ChatGPT-User","PerplexityBot","Perplexity
 const AI_TRAIN_BOTS=["GPTBot","Google-Extended","ClaudeBot","CCBot","Applebot-Extended","Bytespider","meta-externalagent","Amazonbot"];
 function genRobotsTxt(r,policy){
   let origin="https://tusitio.es";try{origin=new URL(r.ctx.pageUrl||r.data.canonical).origin}catch(e){}
-  const out=["# robots.txt generado por Auditor GEO PRO V8 — revísalo antes de publicar","","User-agent: *","Allow: /",""];
+  const out=["# robots.txt generado por Auditor GEO PRO — revísalo antes de publicar","","User-agent: *","Allow: /",""];
   out.push("# Buscadores y asistentes con IA (citan y enlazan fuentes)");
   AI_SEARCH_BOTS.forEach(b=>out.push(`User-agent: ${b}`,policy==="none"?"Disallow: /":"Allow: /",""));
   out.push("# Crawlers de entrenamiento de modelos / controles de uso de IA");
@@ -2827,7 +2885,10 @@ applyTheme();
 matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",applyTheme);
 $("#themeBtn").addEventListener("click",cycleTheme);
 $("#robotsPolicy").addEventListener("change",()=>{if(latest)$("#genRobots").textContent=genRobotsTxt(latest,$("#robotsPolicy").value)});
-const kbd=$("#kbdHelp"),toggleHelp=show=>kbd.classList.toggle("show",show??!kbd.classList.contains("show"));
+const kbd=$("#kbdHelp");let kbdReturnFocus=null;
+// Al abrir la ayuda el foco entra en el diálogo; al cerrarla vuelve a donde estaba.
+const toggleHelp=show=>{const open=show??!kbd.classList.contains("show");if(open===kbd.classList.contains("show"))return;if(open)kbdReturnFocus=document.activeElement;kbd.classList.toggle("show",open);if(open)$("#kbdClose").focus();else kbdReturnFocus?.focus?.()};
+kbd.addEventListener("keydown",e=>{if(e.key==="Tab"){e.preventDefault();$("#kbdClose").focus()}});
 $("#helpBtn").addEventListener("click",()=>toggleHelp(true));$("#kbdClose").addEventListener("click",()=>toggleHelp(false));
 kbd.addEventListener("click",e=>{if(e.target===kbd)toggleHelp(false)});
 document.addEventListener("keydown",e=>{
@@ -2969,6 +3030,233 @@ function runQuality(r){
   $("#qreportTitle").textContent=`${r.qVerdict.name} · ${r.quality.total.toFixed(1)}/16 · ${r.commodity.commodity}`;$("#qualityReport").textContent=r.qualityReport
 }
 $("#qreportDl").addEventListener("click",()=>{if(!latest?.qualityReport)return;const blob=new Blob([latest.qualityReport],{type:"text/markdown;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="informe-quality.md";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)});
+
+
+/* ===== V8.2 RASTREO DE URLS EN VIVO ===== */
+const MAX_URLS=50;
+let crawlerBase=null,currentCrawl=null,crawling=false;
+const crawlerEndpoint=p=>(crawlerBase?crawlerBase+"/":"")+p;
+async function detectCrawler(){
+  const chip=$("#crawlerChip"),help=$("#crawlerHelp"),set=(on,label,txt)=>{chip.textContent=label;chip.className="chip "+(on?"on":"off");help.textContent=txt};
+  crawlerBase=null;
+  if(!/^https?:$/.test(location.protocol)){set(false,"SIN RASTREO","Abierta como archivo local: solo podrá descargar webs que permitan CORS. Para analizar cualquier URL ejecuta «npm start» y abre http://localhost:8080.");return}
+  let cfg=null;
+  try{const r=await fetch("auditor.config.json",{cache:"no-store"});if(r.ok)cfg=await r.json()}catch(e){}
+  const target=cfg&&typeof cfg.crawler==="string"?cfg.crawler.trim():"";
+  if(target==="self"){crawlerBase="";set(true,"RASTREO ACTIVO","Servidor de rastreo local activo: descarga cualquier URL pública de forma segura. La auditoría sigue ocurriendo en tu navegador.");return}
+  if(/^https:\/\//i.test(target)){
+    const base=target.replace(/\/+$/,"");
+    try{const ctrl=new AbortController(),t=setTimeout(()=>ctrl.abort(),6000);const r=await fetch(base+"/api/health",{signal:ctrl.signal,cache:"no-store"});clearTimeout(t);const j=await r.json();if(j&&j.ok){crawlerBase=base;set(true,"RASTREO ACTIVO","Rastreo a través de tu Worker configurado en auditor.config.json. La auditoría sigue ocurriendo en tu navegador.");return}}catch(e){}
+    set(false,"WORKER NO RESPONDE",`El Worker configurado (${base}) no responde. Revisa su despliegue o la variable ALLOWED_ORIGIN (guía en worker/README.md).`);return
+  }
+  set(false,"SIN RASTREO","Esta versión publicada no descarga webs por sí sola (el navegador lo impide). Usa el marcador «Auditar con GEO PRO» de abajo: funciona en cualquier web sin instalar nada. Para analizar listas y sitemaps, despliega el Worker gratuito (worker/README.md) o ejecuta «npm start».")
+}
+function normalizeUrl(s){
+  s=String(s||"").trim();if(!s)return null;if(!/^[a-z][a-z0-9+.-]*:\/\//i.test(s))s="https://"+s;
+  try{const u=new URL(s);return /^https?:$/.test(u.protocol)&&(u.hostname.includes(".")||/^(localhost|\d+\.\d+\.\d+\.\d+)$/.test(u.hostname))?u.href:null}catch(e){return null}
+}
+async function fetchUrl(url){
+  if(crawlerBase!==null){
+    let r;
+    try{r=await fetch(crawlerEndpoint("api/fetch?url="+encodeURIComponent(url)),{cache:"no-store"})}catch(e){throw new Error("No se pudo contactar con el servidor de rastreo.")}
+    let j=null;try{j=await r.json()}catch(e){}
+    if(!j||!j.ok)throw new Error(j?.error||`El servidor de rastreo respondió ${r.status}.`);
+    return j
+  }
+  const t0=performance.now();let res;
+  try{res=await fetch(url,{cache:"no-store",redirect:"follow"})}catch(e){throw new Error("La web no permite descargarla desde el navegador (CORS). Sin instalar nada: abre la web y pulsa el marcador «Auditar con GEO PRO». También puedes ejecutar «npm start» o configurar el Worker.")}
+  const body=await res.text(),headers={};["content-type","x-robots-tag","last-modified","cache-control","content-language"].forEach(k=>{const v=res.headers.get(k);if(v!=null)headers[k]=v});
+  return {ok:true,url,finalUrl:res.url||url,status:res.status,statusText:res.statusText||"",redirects:res.redirected?[{url,status:"3xx"}]:[],headers,ms:Math.round(performance.now()-t0),bytes:body.length,body,direct:true}
+}
+async function pool(items,n,fn){const out=new Array(items.length);let i=0;await Promise.all(Array.from({length:Math.min(n,items.length)},async()=>{while(i<items.length){const k=i++;out[k]=await fn(items[k],k)}}));return out}
+function isHtmlResponse(r){const ct=String(r.headers?.["content-type"]||"").toLowerCase();return !ct||/html|xml\+xhtml|text\/plain|markdown/.test(ct)}
+// Directivas de X-Robots-Tag que aplican a Google: las generales y las de «googlebot:»; las de otros bots se ignoran.
+function xRobotsForGoogle(v){
+  let ua=null;const out=[];
+  String(v||"").split(",").forEach(part=>{let p=part.trim();const m=p.match(/^([\w.-]+)\s*:\s*(.*)$/);if(m&&!/^(unavailable_after|max-snippet|max-image-preview|max-video-preview)$/i.test(m[1])){ua=m[1].toLowerCase();p=m[2].trim()}if(p&&(!ua||ua==="googlebot"))out.push(p)});
+  return out.join(", ")
+}
+const blocksIndex=v=>/(^|[\s,])(noindex|none)([\s,]|$)/i.test(xRobotsForGoogle(v));
+function prepareCrawledHtml(r){
+  let html=String(r.body||"").replace(/\r\n?/g,"\n");const xrt=xRobotsForGoogle(r.headers?.["x-robots-tag"]);
+  if(xrt&&blocksIndex(xrt)){const m=html.match(/<meta[^>]+name=["']robots["'][^>]*content=["']([^"']*)["']/i);html=`<meta name="robots" content="${esc(xrt+(m?", "+m[1]:""))}">\n`+html}
+  return html
+}
+function crawlLog(text,cls){const ol=$("#crawlLog"),li=document.createElement("li");li.textContent=text;if(cls)li.className=cls;ol.appendChild(li);ol.scrollTop=ol.scrollHeight;return li}
+function setCrawlBusy(b){crawling=b;["#crawlBtn","#sitemapBtn","#scoreBtn"].forEach(s=>{$(s).disabled=b});$("#crawlBtn").textContent=b?"Analizando…":"Analizar URLs"}
+function softText(r){return r&&r.ok&&r.status===200&&!/<html[\s>]/i.test(r.body.slice(0,2000))?r.body:null}
+async function fetchExtras(finalUrl){
+  const out={robots:{found:false,status:null,url:""},llms:{found:false,status:null,url:""}};let origin;
+  try{origin=new URL(finalUrl).origin}catch(e){return out}
+  await Promise.all([["robots","/robots.txt"],["llms","/llms.txt"]].map(async([k,p])=>{
+    const url=origin+p;out[k].url=url;
+    try{const r=await fetchUrl(url);out[k].status=r.status;const t=softText(r);if(t){out[k].found=true;out[k].text=t.slice(0,200000)}}catch(e){out[k].error=e.message}
+  }));
+  return out
+}
+function fillAuto(id,text){const el=$(id);if(el.dataset.auto==="1"||(!el.value.trim()&&text)){el.value=text||"";el.dataset.auto=text?"1":""}}
+async function analyzeUrls(list,{keepLog=false}={}){
+  if(crawling)return;
+  const urls=[...new Set(list.map(normalizeUrl).filter(Boolean))].slice(0,MAX_URLS);
+  const invalid=list.filter(x=>String(x).trim()&&!normalizeUrl(x)).length;
+  if(!keepLog)$("#crawlLog").innerHTML="";
+  if(!urls.length){toast("Introduce al menos una URL válida.");$("#urlList").focus();return}
+  setCrawlBusy(true);
+  try{
+    if(invalid)crawlLog(`${invalid} línea(s) ignoradas por no ser URLs válidas.`,"warn");
+    if(list.filter(x=>String(x).trim()).length>MAX_URLS)crawlLog(`Se analizarán las primeras ${MAX_URLS} URLs.`,"warn");
+    let done=0;const head=crawlLog(`Descargando ${urls.length} URL(s)…`);
+    const results=await pool(urls,4,async url=>{
+      let r;try{r=await fetchUrl(url)}catch(e){r={ok:false,url,error:e.message}}
+      done++;head.textContent=`Descargadas ${done}/${urls.length}`;
+      if(!r.ok)crawlLog(`✗ ${url} — ${r.error}`,"bad");
+      else{
+        r.redirectCount=r.redirects.length;const chain=r.redirects.map(x=>x.status).concat(r.status).join(" → ");
+        if(r.status>=400){r.auditError=`HTTP ${r.status}`;crawlLog(`✗ ${r.finalUrl} — HTTP ${chain}`,"bad")}
+        else if(!isHtmlResponse(r)){r.auditError="No es HTML";crawlLog(`✗ ${r.finalUrl} — ${r.headers["content-type"]} no es HTML`,"bad")}
+        else crawlLog(`✓ ${chain} · ${r.ms} ms · ${Math.round(r.bytes/1024)} KB · ${r.finalUrl}${blocksIndex(r.headers["x-robots-tag"])?" · noindex por cabecera":""}`,blocksIndex(r.headers["x-robots-tag"])?"warn":"ok")
+      }
+      return r
+    });
+    const good=results.filter(r=>r.ok&&!r.auditError);
+    if(!good.length){toast("Ninguna URL se pudo auditar. Revisa el registro.");return}
+    const first=good[0],extras=$("#autoExtras").checked?await fetchExtras(first.finalUrl):null;
+    if(extras){
+      crawlLog(extras.robots.found?`✓ robots.txt encontrado (${extras.robots.url})`:`· Sin robots.txt (${extras.robots.status||extras.robots.error||"no disponible"})`,extras.robots.found?"ok":"warn");
+      crawlLog(extras.llms.found?`✓ llms.txt encontrado`:`· Sin llms.txt (opcional; Google lo ignora)`);
+      // Si el nuevo sitio no tiene el archivo, se vacía el que se rellenó automáticamente de otro sitio.
+      fillAuto("#robots",extras.robots.found?extras.robots.text:"");
+      fillAuto("#llms",extras.llms.found?extras.llms.text:"");
+    }
+    $("#pageUrl").value=first.finalUrl;
+    const texts=good.map(r=>({name:r.finalUrl,text:prepareCrawledHtml(r)}));
+    const strip=r=>{const{body,...rest}=r;return rest};
+    currentCrawl={snapshot:texts[0].text,texts:new Map(texts.map(t=>[t.name,t.text])),summary:{at:new Date().toISOString(),mode:crawlerBase===null?"directo (CORS)":crawlerBase?"Worker":"servidor local",first:strip(first),items:results.map(strip),extras:extras?{robots:{found:extras.robots.found,status:extras.robots.status,url:extras.robots.url},llms:{found:extras.llms.found,status:extras.llms.status,url:extras.llms.url}}:null}};
+    $("#fileState").textContent=texts.length>1?`${texts.length} URLS · COMPARATIVA EN VIVO`:first.finalUrl;
+    crawlLog(`Auditando ${texts.length} página(s)…`);
+    await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,0))); // deja pintar el progreso antes del cálculo
+    auditTexts(texts);
+    crawlLog(`Auditoría completada: ${good.length} de ${urls.length} URL(s).`,"ok")
+  }finally{setCrawlBusy(false)}
+}
+async function sitemapUrls(start,max){
+  const seen=new Set(),out=[],queue=[start];let fetched=0;
+  while(queue.length&&out.length<max&&fetched<8){
+    const sm=queue.shift();if(seen.has(sm))continue;seen.add(sm);fetched++;
+    let r;try{r=await fetchUrl(sm)}catch(e){if(fetched===1)throw e;crawlLog(`✗ ${sm} — ${e.message}`,"bad");continue}
+    if(r.status>=400){if(fetched===1)throw new Error(`El sitemap respondió HTTP ${r.status}.`);continue}
+    const xml=r.body||"",locs=[...xml.matchAll(/<loc>\s*(?:<!\[CDATA\[)?\s*([^<\]]+?)\s*(?:\]\]>)?\s*<\/loc>/gi)].map(m=>m[1].replace(/&amp;/g,"&").trim());
+    if(/<sitemapindex[\s>]/i.test(xml)){crawlLog(`Índice de sitemaps: ${locs.length} sitemap(s)`);queue.push(...locs)}
+    else for(const l of locs){if(out.length>=max)break;if(!out.includes(l))out.push(l)}
+  }
+  return out
+}
+async function crawlSitemap(){
+  if(crawling)return;
+  let sm=normalizeUrl($("#sitemapUrl").value);
+  if(!sm){const base=normalizeUrl($("#urlList").value.split(/\n/)[0])||normalizeUrl($("#pageUrl").value);if(base){sm=new URL("/sitemap.xml",base).href;$("#sitemapUrl").value=sm}}
+  if(!sm){toast("Indica la URL del sitemap o una URL del sitio.");$("#sitemapUrl").focus();return}
+  const max=Math.max(1,Math.min(MAX_URLS,Number($("#sitemapMax").value)||20));
+  $("#crawlLog").innerHTML="";setCrawlBusy(true);let urls=[];
+  try{crawlLog(`Leyendo sitemap ${sm}…`);urls=await sitemapUrls(sm,max)}
+  catch(e){crawlLog(`✗ ${sm} — ${e.message}`,"bad");toast("No se pudo leer el sitemap.");return}
+  finally{setCrawlBusy(false)}
+  if(!urls.length){crawlLog("El sitemap no contiene URLs.","bad");return}
+  crawlLog(`${urls.length} URL(s) encontradas en el sitemap.`,"ok");
+  $("#urlList").value=urls.join("\n");
+  await analyzeUrls(urls,{keepLog:true})
+}
+function crawlRows(s){
+  const f=s.first,h=f.headers||{},xrt=h["x-robots-tag"]||"",rows=[],add=(name,value,state,tip)=>rows.push({name,value:String(value),state,tip});
+  const chain=f.redirects.map(x=>x.status).concat(f.status).join(" → ");
+  add("Estado HTTP",`${f.status} ${f.statusText||""}`.trim(),f.status<300?"ok":f.status<400?"warn":"bad",f.status<300?"La URL responde correctamente.":"La URL no devuelve 200: revisa el estado antes de auditar contenido.");
+  add("Redirecciones",f.redirects.length?chain:"Ninguna",f.redirects.length===0?"ok":f.redirects.length===1?"warn":"bad",f.redirects.length?"Enlaza internamente a la URL final y evita cadenas de redirecciones.":"Respuesta directa, sin saltos.");
+  add("URL final",f.finalUrl,f.finalUrl.startsWith("http:")?"bad":f.finalUrl!==f.url?"warn":"ok",f.finalUrl.startsWith("http:")?"Sin HTTPS: migra a https y redirige.":f.finalUrl!==f.url?"La URL pedida no es la final: usa la final en enlaces, sitemap y canonical.":"La URL pedida es la final.");
+  add("X-Robots-Tag",xrt||"No enviado",blocksIndex(xrt)?"bad":"ok",blocksIndex(xrt)?"La cabecera impide que Google indexe la página aunque el HTML no lo diga. Se ha aplicado a la auditoría.":xrt?"La cabecera no bloquea la indexación en Google (las directivas para otros bots no se aplican).":"La cabecera no bloquea la indexación.");
+  add("Tiempo de respuesta",`${f.ms} ms`,f.ms<800?"ok":f.ms<2000?"warn":"bad",`Incluye la descarga completa${s.mode==="directo (CORS)"?" desde tu navegador":" desde el rastreador"}. No sustituye a Core Web Vitals.`);
+  add("Tamaño del HTML",`${Math.round(f.bytes/1024)} KB`,f.bytes<512000?"ok":f.bytes<2097152?"warn":"bad",f.bytes<512000?"Peso razonable.":"HTML pesado: puede ralentizar el rastreo y el render.");
+  add("Content-Type",h["content-type"]||"No enviado",/text\/html/i.test(h["content-type"]||"")?"ok":"warn","Las páginas deben servirse como text/html con charset.");
+  add("Last-Modified",h["last-modified"]||"No enviado",h["last-modified"]?"ok":"warn",h["last-modified"]?"Ayuda a los crawlers a detectar cambios.":"Opcional: ayuda a que los crawlers detecten cambios sin descargar todo.");
+  if(f.finalUrl.startsWith("https:")&&s.mode!=="directo (CORS)")add("HSTS",h["strict-transport-security"]?"Sí":"No",h["strict-transport-security"]?"ok":"warn","Strict-Transport-Security fuerza HTTPS en visitas posteriores.");
+  if(s.extras){
+    add("robots.txt",s.extras.robots.found?"Encontrado":`No encontrado${s.extras.robots.status?` (${s.extras.robots.status})`:""}`,s.extras.robots.found?"ok":"warn",s.extras.robots.found?"Cargado en el contexto: la puerta técnica por motor usa tus reglas reales.":"Sin robots.txt todo es rastreable por defecto; añádelo para gobernar los bots de IA.");
+    add("llms.txt",s.extras.llms.found?"Encontrado":"No encontrado",s.extras.llms.found?"ok":"na",s.extras.llms.found?"Cargado en el contexto para evaluarlo.":"Opcional: Google lo ignora; puede ayudar a otros agentes.");
+  }
+  return rows
+}
+function attachCrawl(r){
+  const panel=$("#crawlPanel");
+  if(!currentCrawl||currentCrawl.snapshot!==source.value){r.crawl=null;panel.style.display="none";return}
+  r.crawl=currentCrawl.summary;panel.style.display="block";
+  renderCheckGrid("#crawlGrid",crawlRows(r.crawl));
+  const body=$("#crawlBody");body.innerHTML="";
+  r.crawl.items.forEach(x=>{
+    const tr=document.createElement("tr"),xrt=x.headers?.["x-robots-tag"]||"",bad=!x.ok||x.auditError;
+    tr.innerHTML=x.ok?`<td><strong>${esc(x.finalUrl)}</strong>${x.finalUrl!==x.url?`<div class="note">pedida: ${esc(x.url)}</div>`:""}</td><td class="${x.status<300?"cell-good":x.status<400?"cell-mid":"cell-bad"}">${x.status}</td><td>${x.redirects.length?esc(x.redirects.map(y=>y.status).concat(x.status).join(" → ")):"—"}</td><td>${x.ms} ms</td><td>${Math.round(x.bytes/1024)} KB</td><td class="${blocksIndex(xrt)?"cell-bad":""}">${esc(xrt||"—")}</td><td class="${bad?"cell-bad":"cell-good"}">${esc(x.auditError||"Auditada")}</td>`
+      :`<td><strong>${esc(x.url)}</strong></td><td class="cell-bad">Error</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="cell-bad">${esc(x.error)}</td>`;
+    body.appendChild(tr)
+  });
+  $("#crawlTableWrap").style.display=r.crawl.items.length>1?"block":"none"
+}
+function crawlMarkdown(r){
+  if(!r.crawl)return "";
+  const L=["","## Rastreo en vivo","",`Modo: ${r.crawl.mode} · ${r.crawl.at}`,""];
+  crawlRows(r.crawl).forEach(x=>L.push(`- **${x.name}: ${x.value}** — ${x.tip}`));
+  if(r.crawl.items.length>1){L.push("","| URL | Estado | Tiempo | Resultado |","|---|---|---|---|");r.crawl.items.forEach(x=>L.push(x.ok?`| ${x.finalUrl} | ${x.status} | ${x.ms} ms | ${x.auditError||"Auditada"} |`:`| ${x.url} | Error | — | ${x.error} |`))}
+  return L.join("\n")
+}
+function batchCsv(){
+  const crawlMap=new Map((currentCrawl?.summary.items||[]).filter(x=>x.ok).map(x=>[x.finalUrl,x]));
+  const rows=[["URL o archivo","Estado HTTP","Tiempo (ms)","Tipo","Palabras","Global","GEO","Calidad /16","Veredicto quality","Commodity"]];
+  batchLatest.forEach(r=>{const cr=crawlMap.get(r.name);rows.push([r.name,cr?cr.status:"",cr?cr.ms:"",r.type,r.words,r.unified,r.geoScore,r.quality.toFixed(1),r.verdict,r.commodity])});
+  return rows.map(row=>row.map(csvEscape).join(",")).join("\n")
+}
+$("#crawlBtn").addEventListener("click",()=>analyzeUrls($("#urlList").value.split(/\s+|,(?=\s*(?:https?:\/\/|www\.))/)));
+$("#sitemapBtn").addEventListener("click",crawlSitemap);
+$("#sitemapUrl").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();crawlSitemap()}});
+$("#urlList").addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="Enter"){e.preventDefault();e.stopPropagation();$("#crawlBtn").click()}});
+["#robots","#llms"].forEach(id=>$(id).addEventListener("input",()=>{$(id).dataset.auto=""}));
+// «Ver» en el lote: abre la auditoría completa de esa URL/archivo sin volver a descargarlo.
+function openBatchDoc(name){
+  const doc=batchDocs.find(x=>x.name===name);if(!doc)return;
+  const item=currentCrawl?.summary.items.find(x=>x.ok&&x.finalUrl===name);
+  if(item&&currentCrawl.texts?.has(name)){currentCrawl.snapshot=currentCrawl.texts.get(name);currentCrawl.summary.first=item;$("#pageUrl").value=name}
+  source.value=item?currentCrawl.snapshot:doc.text;$("#formatChip").textContent=detectType(source.value).toUpperCase();
+  run();toast(`Auditoría completa: ${name.length>60?name.slice(0,57)+"…":name}`)
+}
+$("#batchBody").addEventListener("click",e=>{const b=e.target.closest("[data-open-doc]");if(b)openBatchDoc(b.dataset.openDoc)});
+$("#batchCsvBtn").addEventListener("click",()=>{if(!batchLatest.length)return;const blob=new Blob(["﻿"+batchCsv()],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="auditoria-lote.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)});
+detectCrawler();
+
+/* ===== Marcador «Auditar con GEO PRO»: envía el HTML de la página visitada al auditor ===== */
+// Se ejecuta en la web que se quiere auditar (no puede usar nada de este archivo): abre el auditor y le
+// envía el HTML ya renderizado por postMessage; además lo copia al portapapeles como respaldo.
+function auditorBookmarklet(A,O){var h="<!doctype html>\n"+document.documentElement.outerHTML,d={type:"auditor-geo-pro:page",url:location.href,html:h};try{navigator.clipboard&&navigator.clipboard.writeText(h).catch(function(){})}catch(e){}var w=window.open(A+"#desde-marcador","_blank");if(!w){alert("Auditor GEO PRO: permite las ventanas emergentes en este sitio, o abre el auditor y pega (Ctrl+V) el HTML que se ha copiado.");return}var n=0,t=setInterval(function(){n++;try{w.postMessage(d,O)}catch(e){}if(n>80)clearInterval(t)},250);window.addEventListener("message",function(e){if(e.origin===O&&e.data==="auditor-geo-pro:ok")clearInterval(t)})}
+let bookmarkletDone=false;
+if(/^https?:$/.test(location.protocol)){
+  const appUrl=location.origin+location.pathname.replace(/[^/]*$/,""),bm=$("#bookmarklet");
+  bm.href="javascript:"+encodeURIComponent("("+auditorBookmarklet.toString()+")("+JSON.stringify(appUrl)+","+JSON.stringify(location.origin)+")");
+  bm.addEventListener("click",e=>{e.preventDefault();toast("Arrástralo a tu barra de marcadores y púlsalo en la web que quieras auditar.")});
+  $("#bookmarkletBox").hidden=false;
+}
+// Solo se aceptan páginas cuando el auditor se abrió desde el marcador (#desde-marcador).
+addEventListener("message",e=>{
+  const d=e.data;
+  if(location.hash!=="#desde-marcador"||!d||d.type!=="auditor-geo-pro:page"||typeof d.html!=="string"||typeof d.url!=="string")return;
+  try{e.source&&e.source.postMessage("auditor-geo-pro:ok",e.origin)}catch(err){}
+  if(bookmarkletDone)return;
+  bookmarkletDone=true;
+  if(d.html.length>MAX_INPUT_CHARS){toast("La página supera el límite de 8 millones de caracteres.");return}
+  const u=normalizeUrl(d.url);
+  currentCrawl=null;$("#crawlLog").innerHTML="";
+  if(u){$("#pageUrl").value=u;$("#urlList").value=u}
+  source.value=d.html.replace(/\r\n?/g,"\n");$("#formatChip").textContent=detectType(source.value).toUpperCase();
+  $("#fileState").textContent=u?`DESDE EL MARCADOR · ${new URL(u).host}`:"DESDE EL MARCADOR";
+  crawlLog(`✓ Página recibida desde el marcador: ${u||"sin URL"} (${Math.round(d.html.length/1024)} KB, tal como la ve tu navegador)`,"ok");
+  run();
+  history.replaceState(null,"",location.pathname+location.search);
+});
+if(location.hash==="#desde-marcador")setTimeout(()=>{if(!bookmarkletDone){crawlLog("No ha llegado la página desde el marcador (algunos sitios bloquean la conexión entre ventanas). Su HTML se ha copiado: pégalo con Ctrl+V en el cuadro de abajo y pulsa «Auditar página».","warn");source.focus()}},6000);
 
 })();
 </script>

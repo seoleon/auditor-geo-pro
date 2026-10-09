@@ -1,0 +1,2 @@
+# Opcional: renderizado de respaldo para páginas que dependen de JavaScript (PLAYWRIGHT_ENABLED=true)
+playwright>=1.44

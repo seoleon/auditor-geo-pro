@@ -24,7 +24,28 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm test
 
+  navegadores:
+    # La app también se prueba en Firefox y WebKit (motor de Safari).
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - run: node --test --test-concurrency=1 tests/e2e.test.mjs
+        env:
+          BROWSER: ${{ matrix.browser }}
+
   monitor:
+    # geo-monitor (monitor/): pruebas unitarias y del modo navegador con réplicas locales.
     runs-on: ubuntu-latest
     timeout-minutes: 10
     defaults:
