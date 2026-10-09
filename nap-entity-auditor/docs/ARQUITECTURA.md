@@ -41,7 +41,7 @@ Navegador ──► Next.js (frontend, /api/* reescrito) ──► FastAPI (back
 | 7. Dashboard | Next.js con panel, empresas, auditorías (10 pestañas), evidencias, grafo interactivo, comparación. |
 | 8. Informes | CSV, Excel de 9 hojas y PDF con gráficos, confirmados frente a hipótesis y limitaciones. |
 | 9. Integraciones y programadas | Places, GBP OAuth, OpenAI/Perplexity/Gemini; auditorías semanales/mensuales (hilo o Celery beat); comparación entre auditorías; reanudación. |
-| 10. Pruebas, docs y despliegue | 109 pruebas (SQLite y PostgreSQL), CI de GitHub Actions, Docker Compose, manuales. |
+| 10. Pruebas, docs y despliegue | 110 pruebas (SQLite y PostgreSQL), CI de GitHub Actions, Docker Compose, manuales. |
 
 ## Seguridad
 

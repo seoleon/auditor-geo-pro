@@ -4,6 +4,23 @@ Plataforma de auditoría SEO local que comprueba la **identidad digital de empre
 
 > Principios: nunca inventa datos, nunca atribuye una citación sin evidencias suficientes, separa **hallazgos confirmados** de **hipótesis**, no se salta robots.txt, CAPTCHA ni inicios de sesión, y no hace scraping de Google Maps. Las puntuaciones son internas y **no son factores de ranking de Google**.
 
+## 🚀 Lanzar gratis (sin APIs de pago)
+
+Solo necesitas Docker. Usa SQLite, sin Redis, y SearXNG autoalojado como buscador:
+
+```bash
+git clone https://github.com/seoleon/auditor-geo-pro.git
+cd auditor-geo-pro/nap-entity-auditor
+cp .env.free.example .env
+# Edita .env: SECRET_KEY y SEARXNG_SECRET (python3 -c "import secrets;print(secrets.token_urlsafe(48))"),
+# ADMIN_EMAIL y ADMIN_PASSWORD (tu usuario)
+docker compose -f docker-compose.free.yml up -d --build
+```
+
+Abre <http://localhost:3000>, entra con tu usuario, da de alta la empresa y lanza una auditoría. Para probar sin Internet, usa el modo **Demo**. Coste: 0 € en APIs; solo pagas el servidor si lo alojas fuera de tu ordenador (un VPS básico basta). Más adelante puedes añadir Google Places o un buscador de pago en `.env` ([docs/APIS.md](docs/APIS.md)).
+
+La versión completa (PostgreSQL + Redis + Celery) está en `docker-compose.yml` ([docs/DESPLIEGUE.md](docs/DESPLIEGUE.md)).
+
 ## Estructura
 
 ```
@@ -26,7 +43,7 @@ nap-entity-auditor/
 │   │   ├── tasks.py / worker.py  hilos o Celery + planificador
 │   │   └── cli.py                crear usuarios, semilla Sadhana Center, ejecutar auditorías
 │   ├── alembic/             migraciones (SQLite y PostgreSQL)
-│   └── tests/               109 pruebas con fixtures HTML/JSON realistas, sin llamadas reales
+│   └── tests/               110 pruebas con fixtures HTML/JSON realistas, sin llamadas reales
 ├── frontend/                Next.js (App Router) + TypeScript + Tailwind + shadcn/ui + Recharts
 ├── deploy/searxng/          configuración del buscador autoalojado opcional
 ├── docs/                    manuales
@@ -67,7 +84,7 @@ Producción con Docker: ver [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md).
 
 ## Estado verificado
 
-- `pytest`: **109 pruebas** pasan en SQLite y en PostgreSQL 16 (normalización, JSON-LD, deduplicación, duplicados, discrepancias, páginas inaccesibles, errores de API, exportaciones, SSRF, aislamiento entre clientes, flujo completo de auditoría con proveedores simulados).
+- `pytest`: **110 pruebas** pasan en SQLite y en PostgreSQL 16 (normalización, JSON-LD, deduplicación, duplicados, discrepancias, páginas inaccesibles, errores de API, exportaciones, SSRF, aislamiento entre clientes, flujo completo de auditoría con proveedores simulados).
 - `alembic upgrade head` + `alembic check` sin diferencias en SQLite y PostgreSQL.
 - `next build` correcto; flujo completo probado en navegador (login → alta → confirmar NAP → auditoría demo → evidencias → grafo → informes).
 - Celery + Redis: auditoría ejecutada a través de la cola.

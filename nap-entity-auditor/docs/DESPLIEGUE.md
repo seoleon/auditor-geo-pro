@@ -1,5 +1,18 @@
 # Despliegue en producción (VPS)
 
+## Opción gratuita (recomendada para empezar)
+
+`docker-compose.free.yml` arranca solo el frontend, el backend (SQLite en un volumen, auditorías en hilos) y SearXNG. No necesita PostgreSQL, Redis ni ninguna API de pago:
+
+```bash
+cp .env.free.example .env      # SECRET_KEY, SEARXNG_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD
+docker compose -f docker-compose.free.yml up -d --build
+```
+
+Copia de seguridad: `docker compose -f docker-compose.free.yml exec -T backend sh -c "cat /data/nap.db" > nap-$(date +%F).db` (mejor con la app parada o en un momento sin auditorías). Cuando necesites más volumen o varios usuarios simultáneos, pasa a la opción completa de abajo.
+
+## Opción completa
+
 ## Servicios (docker-compose.yml)
 
 | Servicio | Función |

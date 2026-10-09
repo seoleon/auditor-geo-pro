@@ -117,3 +117,22 @@ def test_monthly_budget_blocks_provider(db):
 ])
 def test_source_classification(url, expected):
     assert classify_url(url, "aurora-bienestar.es")[0] == expected
+
+
+def test_searxng_free_provider_parsing():
+    from app.services.discovery.providers import SearxngProvider
+
+    seen = {}
+
+    def handler(req):
+        seen["url"] = str(req.url)
+        return httpx.Response(200, json={"results": [
+            {"url": "https://www.guiacomercial.es/ficha/1", "title": "Centro Aurora Bienestar", "content": "Valencia"},
+            {"url": "https://otra.es/", "title": "Otra", "content": ""}]})
+
+    p = SearxngProvider(settings_with(SEARXNG_URL="http://searxng:8080"), transport=httpx.MockTransport(handler))
+    r = p.search('"Centro Aurora Bienestar"')
+    assert p.configured and p.cost_per_1000 == 0.0
+    assert "format=json" in seen["url"] and "searxng:8080/search" in seen["url"]
+    assert [x.url for x in r.results] == ["https://www.guiacomercial.es/ficha/1", "https://otra.es/"]
+    assert r.units == 0  # no consume presupuesto de pago
