@@ -1,0 +1,37 @@
+{
+  "name": "rocky-adventures",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Rocky Adventures: El Reino de las Huellas — videojuego 3D de aventuras y plataformas en el navegador.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "test": "node --experimental-strip-types --no-warnings --test tests/*.test.mjs",
+    "test:e2e": "node tests/e2e-park.mjs"
+  },
+  "dependencies": {
+    "@fontsource/baloo-2": "^5.3.0",
+    "@fontsource/fredoka": "^5.3.0",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
+    "@react-three/postprocessing": "^3.2.0",
+    "@react-three/rapier": "^2.2.0",
+    "postprocessing": "^6.39.5",
+    "react": "19.2",
+    "react-dom": "19.2",
+    "three": "^0.186.1",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "playwright": "^1.56.1",
+    "typescript": "5.9",
+    "vite": "^8.3.4"
+  }
+}
