@@ -138,7 +138,7 @@ export function getTreeGeometry(kind: TreeKind, variant = 0): TreeGeo {
       const t = i / layers
       const y = 1.6 + t * (h - 1.4)
       const r = kind === 'pine' ? (1 - t) * 2.4 + 0.3 : (Math.sin((1 - t) * Math.PI * 0.9) * 0.9 + 0.25)
-      leafCluster(leaves, new THREE.Vector3(0, y, 0), r, kind === 'pine' ? 9 : 7, rnd, 0, kind === 'pine' ? 1.5 : 1.1, new THREE.Vector3(0, h * 0.5, 0))
+      leafCluster(leaves, new THREE.Vector3(0, y, 0), r, kind === 'pine' ? 13 : 10, rnd, 0, kind === 'pine' ? 1.8 : 1.35, new THREE.Vector3(0, h * 0.5, 0))
     }
   } else {
     const h = kind === 'birch' ? 3.2 : kind === 'willow' ? 2.4 : 2.6
@@ -160,7 +160,7 @@ export function getTreeGeometry(kind: TreeKind, variant = 0): TreeGeo {
     canopy.divideScalar(Math.max(1, tips.length))
     for (const t of tips) {
       if (kind === 'willow') leafCluster(leaves, t.clone().add(new THREE.Vector3(0, 0.6, 0)), 1.1, 10, rnd, 1, 1.0, canopy)
-      else leafCluster(leaves, t, kind === 'birch' ? 1.0 : 1.35, kind === 'birch' ? 7 : 9, rnd, 0, kind === 'birch' ? 1.1 : 1.5, canopy)
+      else leafCluster(leaves, t, kind === 'birch' ? 1.2 : 1.65, kind === 'birch' ? 9 : 12, rnd, 0, kind === 'birch' ? 1.3 : 1.75, canopy)
     }
   }
   const trunk = mergeGeometries(trunks.map((g) => g.toNonIndexed()), false)!

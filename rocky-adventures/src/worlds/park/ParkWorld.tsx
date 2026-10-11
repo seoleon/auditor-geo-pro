@@ -34,9 +34,9 @@ export default function ParkWorld() {
     enemies: L.ENEMIES,
     platforms: L.PLATFORMS,
     atmosphere: {
-      sunElevation: 26, sunAzimuth: 150, cycleAmplitude: 16, cyclePeriod: 420,
-      turbidity: 5, rayleigh: 1.6, fog: '#bfd8ea', fogDensity: 0.0052,
-      hemiSky: '#cfe8ff', hemiGround: '#5b7a3a', sunColor: '#fff0d4', sunIntensity: 3.1, exposure: 1.0, clouds: 22,
+      sunElevation: 22, sunAzimuth: 150, cycleAmplitude: 14, cyclePeriod: 420,
+      turbidity: 2.6, rayleigh: 3.0, fog: '#b3d3ee', fogDensity: 0.0032,
+      hemiSky: '#bfe2ff', hemiGround: '#6b7a3a', sunColor: '#ffe8c4', sunIntensity: 3.3, exposure: 1.05, clouds: 22,
     },
   }), [])
 
@@ -109,7 +109,7 @@ export default function ParkWorld() {
       <StoneTunnel pos={L.TUNNEL.pos} rot={L.TUNNEL.rot} length={L.TUNNEL.length} />
       <SecretZone pos={[L.TUNNEL.pos[0], L.TUNNEL.pos[1] + 0.5, L.TUNNEL.pos[2]]} radius={3} onEnter={() => useGame.getState().discoverSecret('sec-tunnel')} />
       {L.WEST_RAMPS.map((r, i) => <Ramp key={i} from={r.from} to={r.to} width={2.2} />)}
-      {L.WEST_DECKS.map((d, i) => <Block key={i} pos={d.pos} size={d.size} kind="wood" posts />)}
+      {L.WEST_DECKS.map((d, i) => <Block key={i} pos={d.pos} size={d.size} kind="wood" posts postsTo={H(d.pos[0], d.pos[2])} />)}
 
       {/* ------------------------------------------------ ruta central: jardín, campanas, terrazas */}
       <Bells pos={L.BELLS.pos} offsets={L.BELLS.offsets} />
@@ -124,7 +124,7 @@ export default function ParkWorld() {
       {L.TERRACES.map((t, i) => <Block key={i} pos={t.pos} size={t.size} kind="stone" />)}
 
       {/* ------------------------------------------------ ruta este: bosque, casa del árbol, pasarela */}
-      {L.TREE_DECKS.map((d, i) => <Block key={i} pos={d.pos} size={d.size} kind="wood" posts />)}
+      {L.TREE_DECKS.map((d, i) => <Block key={i} pos={d.pos} size={d.size} kind="wood" posts postsTo={H(d.pos[0], d.pos[2])} />)}
       <Block pos={[th.x, top - 0.25, th.z - 2.25]} size={[6.4, 0.25, 1.9]} kind="wood" />
       <Block pos={[th.x, top - 0.25, th.z + 2.25]} size={[6.4, 0.25, 1.9]} kind="wood" />
       <Block pos={[th.x - 2.25, top - 0.25, th.z]} size={[1.9, 0.25, 2.6]} kind="wood" />

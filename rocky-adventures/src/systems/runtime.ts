@@ -53,7 +53,7 @@ export const runtime = {
   world: null as WorldQuery | null,
   /** Velocidad de plataformas móviles por handle de cuerpo rígido. */
   platformVel: new Map<number, THREE.Vector3>(),
-  camera: { yaw: 0, pitch: 0.35, shake: 0 },
+  camera: { yaw: 0, pitch: 0.35, shake: 0, snap: false },
   paused: false,
   time: 0,
   rockyReady: false,

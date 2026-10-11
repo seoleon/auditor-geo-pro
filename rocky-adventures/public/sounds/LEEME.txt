@@ -1,0 +1,5 @@
+Efectos de sonido
+=================
+
+Los efectos (ladridos, pasos por superficie, saltos, premios, ambiente) se sintetizan en
+tiempo real con Web Audio API en src/audio/audioEngine.ts. No hay archivos de audio externos.

@@ -39,10 +39,13 @@ export function CameraRig() {
     const cam = runtime.camera
     const playing = game.screen === 'playing'
 
-    if (!s.init) {
-      s.focus.set(p.pos.x, p.pos.y + 0.35, p.pos.z)
+    if (!s.init || cam.snap) {
+      // primer fotograma o teletransporte: encuadre inmediato, sin cruzar el escenario
+      s.focus.set(p.pos.x, p.pos.y + 0.45, p.pos.z)
       s.groundY = p.pos.y
+      s.collDist = s.dist
       s.init = true
+      cam.snap = false
     }
 
     // ---------------- entrada ----------------

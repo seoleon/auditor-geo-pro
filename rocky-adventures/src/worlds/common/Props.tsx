@@ -65,7 +65,7 @@ export function Fountain({ pos }: { pos: V3 }) {
   const stone = useStone('#e9e2d6')
   const jets = useMemo(() => {
     const g = new THREE.BufferGeometry()
-    const n = 160
+    const n = 420
     const p = new Float32Array(n * 3), ph = new Float32Array(n)
     for (let i = 0; i < n; i++) ph[i] = Math.random()
     g.setAttribute('position', new THREE.BufferAttribute(p, 3))
@@ -74,13 +74,14 @@ export function Fountain({ pos }: { pos: V3 }) {
       uniforms: { uTime: { value: 0 } },
       vertexShader: `attribute float phase; uniform float uTime; varying float vA;
         void main() {
-          float t = fract(uTime * 0.6 + phase);
-          float a = phase * 6.2831 * 7.0;
-          float r = t * 1.5;
-          vec3 p = vec3(cos(a) * r, 3.1 + t * 2.2 - t * t * 3.6, sin(a) * r);
-          vA = 1.0 - t;
+          // chorro central que cae en forma de paraguas sobre la taza intermedia
+          float t = fract(uTime * 0.7 + phase);
+          float a = phase * 6.2831 * 13.0;
+          float r = t * (1.05 + fract(phase * 91.7) * 0.35);
+          vec3 p = vec3(cos(a) * r, 3.15 + t * 1.1 - t * t * 2.6, sin(a) * r);
+          vA = (1.0 - t) * smoothstep(0.0, 0.08, t);
           vec4 mv = modelViewMatrix * vec4(p, 1.0);
-          gl_PointSize = 70.0 / -mv.z;
+          gl_PointSize = clamp(55.0 / -mv.z, 1.0, 14.0);
           gl_Position = projectionMatrix * mv;
         }`,
       fragmentShader: `varying float vA; void main() { float d = length(gl_PointCoord - 0.5); if (d > 0.5) discard; gl_FragColor = vec4(0.85, 0.95, 1.0, vA * 0.7 * (1.0 - d * 2.0)); }`,
@@ -163,7 +164,7 @@ export function Ramp({ from, to, width = 2, thick = 0.25, rails = true, material
 }
 
 // ----------------------------------------------------------------------------- plataforma / bloque
-export function Block({ pos, size, rot = 0, kind = 'wood', posts = false }: { pos: V3; size: V3; rot?: number; kind?: 'wood' | 'stone' | 'rock'; posts?: boolean }) {
+export function Block({ pos, size, rot = 0, kind = 'wood', posts = false, postsTo }: { pos: V3; size: V3; rot?: number; kind?: 'wood' | 'stone' | 'rock'; posts?: boolean; postsTo?: number }) {
   const wood = useWood()
   const stone = useStone()
   const rockT = rockTexture()
@@ -176,9 +177,10 @@ export function Block({ pos, size, rot = 0, kind = 'wood', posts = false }: { po
         <CuboidCollider args={[sx / 2, sy / 2, sz / 2]} position={[0, sy / 2, 0]} />
       </RigidBody>
       <mesh position={[0, sy / 2, 0]} material={mat} castShadow receiveShadow><boxGeometry args={[sx, sy, sz]} /></mesh>
-      {posts && [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([a, b], i) => (
-        <mesh key={i} position={[a * (sx / 2 - 0.12), -2, b * (sz / 2 - 0.12)]} material={wood} castShadow><boxGeometry args={[0.18, 4, 0.18]} /></mesh>
-      ))}
+      {posts && [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([a, b], i) => {
+        const len = Math.max(0.5, pos[1] - (postsTo ?? pos[1] - 4) + 0.3)
+        return <mesh key={i} position={[a * (sx / 2 - 0.12), -len / 2, b * (sz / 2 - 0.12)]} material={wood} castShadow><boxGeometry args={[0.18, len, 0.18]} /></mesh>
+      })}
     </group>
   )
 }

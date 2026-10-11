@@ -245,7 +245,7 @@ export function leafCardTexture(kind: 'broad' | 'needle' | 'palm' = 'broad'): TH
   const g = c.getContext('2d')!
   const rnd = mulberry32(kind === 'broad' ? 91 : kind === 'needle' ? 92 : 93)
   g.clearRect(0, 0, size, size)
-  const leaves = kind === 'broad' ? 46 : kind === 'needle' ? 120 : 1
+  const leaves = kind === 'broad' ? 60 : kind === 'needle' ? 260 : 1
   if (kind === 'palm') {
     // fronda de palmera: nervio central con foliolos
     g.translate(size / 2, size - 6)
@@ -266,7 +266,7 @@ export function leafCardTexture(kind: 'broad' | 'needle' | 'palm' = 'broad'): TH
       const x = 20 + rnd() * (size - 40), y = 20 + rnd() * (size - 40)
       const a = rnd() * Math.PI * 2
       const L = kind === 'broad' ? 22 + rnd() * 16 : 18 + rnd() * 10
-      const W = kind === 'broad' ? L * 0.48 : 2.2
+      const W = kind === 'broad' ? L * 0.5 : 4.2
       const hue = kind === 'broad' ? 88 + rnd() * 30 : 120 + rnd() * 20
       const light = 24 + rnd() * 24
       g.save()

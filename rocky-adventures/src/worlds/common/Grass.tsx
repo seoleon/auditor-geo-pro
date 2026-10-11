@@ -14,9 +14,9 @@ function bladeClumpGeometry(blades: number, seed: number) {
   const pos: number[] = [], nrm: number[] = [], uv: number[] = [], idx: number[] = []
   const SEG = 3
   for (let b = 0; b < blades; b++) {
-    const ox = (rnd() - 0.5) * 0.28, oz = (rnd() - 0.5) * 0.28
-    const h = 0.22 + rnd() * 0.3
-    const w = 0.022 + rnd() * 0.018
+    const ox = (rnd() - 0.5) * 0.34, oz = (rnd() - 0.5) * 0.34
+    const h = 0.11 + rnd() * 0.2
+    const w = 0.02 + rnd() * 0.016
     const a = rnd() * Math.PI
     const lean = (rnd() - 0.5) * 0.25
     const ca = Math.cos(a), sa = Math.sin(a)
@@ -81,7 +81,7 @@ gl_Position = projectionMatrix * mvPosition;`)
     sh.fragmentShader = sh.fragmentShader
       .replace('#include <common>', '#include <common>\nvarying float vTip;')
       .replace('#include <color_fragment>', `#include <color_fragment>
-${opts.tipColor ? 'diffuseColor.rgb *= mix(0.42, 1.18, vTip);' : ''}`)
+${opts.tipColor ? 'diffuseColor.rgb *= mix(0.55, 1.2, vTip);' : ''}`)
   }
   mat.customProgramCacheKey = () => `wind-${opts.strength}-${opts.push}-${opts.heightVar}-${opts.tipColor}`
 }
@@ -97,10 +97,10 @@ interface GrassProps {
   seed?: number
 }
 
-export function Grass({ area, heightAt, density, perChunk, chunk = 12, colors = ['#4d8a2c', '#8dbb4a'], maxDist = 55, seed = 7 }: GrassProps) {
+export function Grass({ area, heightAt, density, perChunk, chunk = 12, colors = ['#5a9a30', '#a6cc52'], maxDist = 55, seed = 7 }: GrassProps) {
   const group = useRef<THREE.Group>(null)
   const { meshes, mat, geo } = useMemo(() => {
-    const geo = bladeClumpGeometry(5, seed)
+    const geo = bladeClumpGeometry(7, seed)
     const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.85, color: '#ffffff' })
     applyWind(mat, { strength: 0.16, push: true, heightVar: 'uv', tipColor: true })
     const rnd = mulberry32(seed * 13)
@@ -118,8 +118,8 @@ export function Grass({ area, heightAt, density, perChunk, chunk = 12, colors = 
           if (d <= 0 || rnd() > d) continue
           p.set(px, heightAt(px, pz) - 0.02, pz)
           q.setFromAxisAngle(up, rnd() * Math.PI * 2)
-          const s = 0.75 + rnd() * 0.6
-          sc.set(s, s * (0.8 + d * 0.5), s)
+          const s = 0.8 + rnd() * 0.45
+          sc.set(s, s * (0.75 + d * 0.4), s)
           mats.push(m.compose(p, q, sc).clone())
           cols.push(col.copy(c0).lerp(c1, rnd()).clone())
         }

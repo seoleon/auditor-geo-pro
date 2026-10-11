@@ -6,6 +6,8 @@ export interface MissionMeta {
   title: string
   description: string
   reward: string
+  /** Objetivo numérico (si la misión tiene contador). */
+  count?: number
 }
 
 export interface LevelMeta {
@@ -37,9 +39,9 @@ export const LEVEL_META: Record<WorldId, LevelMeta> = {
     goal: 'Encuentra 10 huesos dorados y abre la Puerta de las Huellas en lo alto de la colina.',
     intro: '¡Diez huesos dorados se han esparcido por el parque! Encuéntralos y abre la Puerta de las Huellas.',
     missions: [
-      { id: 'park-squirrels', title: 'Ardillas traviesas', description: 'Ladra (F) a las 3 ardillas que han robado las bellotas.', reward: 'Galleta dorada + 1500 pts' },
+      { id: 'park-squirrels', title: 'Ardillas traviesas', description: 'Ladra (F) a las 3 ardillas que han robado las bellotas.', reward: 'Galleta dorada + 1500 pts', count: 3 },
       { id: 'park-ball', title: '¡Gol de Rocky!', description: 'Empuja la pelota roja hasta la portería del parque infantil.', reward: 'Hueso dorado' },
-      { id: 'park-bells', title: 'Las campanas del jardín', description: 'Ladra junto a las campanas de la más pequeña a la más grande.', reward: 'Abre el jardín secreto' },
+      { id: 'park-bells', title: 'Las campanas del jardín', description: 'Ladra junto a las campanas de la más pequeña a la más grande.', reward: 'Abre el jardín secreto', count: 3 },
     ],
     next: 'city',
     color: '#7bd36b',
@@ -56,7 +58,7 @@ export const LEVEL_META: Record<WorldId, LevelMeta> = {
     goal: 'Reúne 8 huesos dorados y recoge la Medalla de la Ciudad en la plaza de la estatua.',
     intro: 'La ciudad de los perros te espera: ayuda a los vecinos, sube a las azoteas y encuentra 8 huesos.',
     missions: [
-      { id: 'city-puppies', title: 'Cachorros perdidos', description: 'Encuentra a los 3 cachorros perdidos y habla con ellos (E).', reward: 'Hueso dorado' },
+      { id: 'city-puppies', title: 'Cachorros perdidos', description: 'Encuentra a los 3 cachorros perdidos y habla con ellos (E).', reward: 'Hueso dorado', count: 3 },
       { id: 'city-rooftops', title: 'Rey de las azoteas', description: 'Llega a la bandera de la azotea más alta.', reward: 'Hueso dorado' },
       { id: 'city-delivery', title: 'El periódico de Lola', description: 'Recoge el periódico (E) y llévaselo a Lola en la panadería.', reward: 'Hueso dorado' },
     ],
@@ -75,9 +77,9 @@ export const LEVEL_META: Record<WorldId, LevelMeta> = {
     goal: 'Consigue 8 huesos dorados y abre el cofre de la cueva: dentro está el Collar Legendario.',
     intro: 'Dicen que el Collar Legendario de Rocky descansa en un cofre escondido en la cueva de la playa…',
     missions: [
-      { id: 'beach-crabs', title: 'Cangrejos gruñones', description: 'Salta sobre 4 cangrejos gruñones.', reward: 'Hueso dorado' },
+      { id: 'beach-crabs', title: 'Cangrejos gruñones', description: 'Salta sobre 4 cangrejos gruñones.', reward: 'Hueso dorado', count: 4 },
       { id: 'beach-lighthouse', title: 'Enciende el faro', description: 'Cruza los islotes y enciende el faro (E).', reward: 'Hueso dorado' },
-      { id: 'beach-shells', title: 'Coleccionista de conchas', description: 'Recoge las 12 conchas de la playa.', reward: '2000 pts' },
+      { id: 'beach-shells', title: 'Coleccionista de conchas', description: 'Recoge las 12 conchas de la playa.', reward: '2000 pts', count: 12 },
     ],
     next: null,
     color: '#4fc3f7',

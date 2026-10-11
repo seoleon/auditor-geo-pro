@@ -123,8 +123,8 @@ export function Atmosphere({ preset, shadowSize = 2048, shadows = true }: { pres
 
   return (
     <>
-      <Sky distance={4000} sunPosition={skySun} turbidity={preset.turbidity} rayleigh={preset.rayleigh} mieCoefficient={0.004} mieDirectionalG={0.86} />
-      <Environment key={envKey} frames={1} resolution={64} background={false} environmentIntensity={0.7}>
+      <Sky distance={4000} sunPosition={skySun} turbidity={preset.turbidity} rayleigh={preset.rayleigh} mieCoefficient={0.0025} mieDirectionalG={0.86} />
+      <Environment key={envKey} frames={1} resolution={64} background={false} environmentIntensity={0.85}>
         <Sky distance={4000} sunPosition={skySun} turbidity={preset.turbidity} rayleigh={preset.rayleigh} mieCoefficient={0.004} mieDirectionalG={0.86} />
         <mesh position={[0, -40, 0]} rotation-x={-Math.PI / 2}>
           <planeGeometry args={[400, 400]} />

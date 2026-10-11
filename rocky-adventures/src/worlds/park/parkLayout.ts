@@ -51,8 +51,12 @@ export function parkHeight(x: number, z: number): number {
   // caminos y plaza más llanos
   const dp = pathDist(x, z)
   const dPlaza = Math.hypot(x - PARK.plaza.x, z - PARK.plaza.z)
+  const dPlay = Math.hypot(x - 23, z - 13)
   const flat = Math.min(smoothstep(1.5, 7, dp), smoothstep(PARK.plaza.r, PARK.plaza.r + 6, dPlaza))
   h *= 0.25 + 0.75 * flat
+  // parque infantil totalmente llano (la pelota no debe rodar sola)
+  const play = smoothstep(9, 13, dPlay)
+  h = h * play + 0.05 * (1 - play)
   // lago
   const e = lakeE(x, z)
   if (e < 1.4) h = lerp(h, -2.6, smoothstep(1.35, 0.78, e))

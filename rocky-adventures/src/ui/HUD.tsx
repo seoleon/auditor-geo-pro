@@ -43,10 +43,10 @@ export function HUD() {
       <div className="hud-tr">
         {meta.missions.map((m) => {
           const done = p.missions.includes(m.id)
-          const prog = g.missionProgress[m.id]
+          const prog = m.id === 'beach-shells' ? p.cookies.length : g.missionProgress[m.id]
           return (
             <div key={m.id} className={'mission' + (done ? ' done' : '')}>
-              <div className="m-title"><span>{done ? '✔ ' : '◆ '}{m.title}</span>{!done && typeof prog === 'number' && <span>{prog}/3</span>}</div>
+              <div className="m-title"><span>{done ? '✔ ' : '◆ '}{m.title}</span>{!done && typeof prog === 'number' && m.count && <span>{prog}/{m.count}</span>}</div>
               {!done && <div className="m-desc">{m.description}</div>}
             </div>
           )

@@ -4,7 +4,7 @@ import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Physics } from '@react-three/rapier'
 import { PerformanceMonitor } from '@react-three/drei'
-import { Bloom, EffectComposer, N8AO, SMAA, ToneMapping, Vignette } from '@react-three/postprocessing'
+import { Bloom, BrightnessContrast, EffectComposer, HueSaturation, N8AO, SMAA, ToneMapping, Vignette } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
 import * as THREE from 'three'
 import { useGame } from '../stores/gameStore'
@@ -77,7 +77,9 @@ function Effects({ quality }: { quality: 'low' | 'medium' | 'high' }) {
     <EffectComposer multisampling={0} enableNormalPass={quality === 'high'}>
       <>{quality === 'high' && <N8AO aoRadius={1.2} intensity={1.6} distanceFalloff={0.6} halfRes />}</>
       <Bloom mipmapBlur intensity={0.55} luminanceThreshold={0.85} luminanceSmoothing={0.2} />
-      <Vignette offset={0.25} darkness={0.55} />
+      <HueSaturation saturation={0.14} />
+      <BrightnessContrast contrast={0.06} />
+      <Vignette offset={0.25} darkness={0.5} />
       <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
       <SMAA />
     </EffectComposer>

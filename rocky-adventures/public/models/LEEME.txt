@@ -1,0 +1,6 @@
+Modelos 3D
+==========
+
+Rocky se genera por código (src/characters/rocky). Para usar un modelo propio basado en
+fotografías de Rocky, coloca aquí `rocky.glb` (formato glTF binario): el juego lo detecta al
+arrancar y lo usa en lugar del modelo procedural. Consulta el README principal.

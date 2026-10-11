@@ -158,7 +158,10 @@ export function createFurMaterial(uniforms: FurUniforms, shell = 0, shellOffset 
     color: 0xffffff,
     roughness: 0.75,
     metalness: 0,
-    sheen: 0.6,
+    sheen: shell > 0 ? 0 : 0.6,
+    // el pelo corto apenas tiene reflejo especular; las capas exteriores ninguno (evita halos)
+    specularIntensity: shell > 0 ? 0 : 0.35,
+    envMapIntensity: shell > 0 ? 0.4 : 0.9,
     sheenRoughness: 0.45,
     sheenColor: new THREE.Color('#c99a6b'),
     transparent: shell > 0,
@@ -206,8 +209,8 @@ if (uShell > 0.0) {
   float rim = 1.0 - abs(dot(normalize(vNormal), vdir));
   float alive = step(uShell * 0.9, strand) * rkFur;
   if (alive < 0.5 || rim < 0.35) discard;
-  diffuseColor.rgb *= 1.0 + uShell * 0.12;
-  diffuseColor.a = (1.0 - uShell * 0.7) * smoothstep(0.35, 0.85, rim);
+  diffuseColor.rgb *= 0.92 + uShell * 0.08;
+  diffuseColor.a = (0.75 - uShell * 0.55) * smoothstep(0.35, 0.85, rim);
 }`,
       )
       .replace(

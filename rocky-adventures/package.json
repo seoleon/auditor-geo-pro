@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "typecheck": "tsc -b",
     "test": "node --experimental-strip-types --no-warnings --test tests/*.test.mjs",
-    "test:e2e": "node tests/e2e-park.mjs"
+    "test:e2e": "node tests/e2e-park.mjs && node tests/e2e-worlds.mjs",
+    "export:rocky": "node --experimental-strip-types --no-warnings scripts/export-rocky-glb.mjs"
   },
   "dependencies": {
     "@fontsource/baloo-2": "^5.3.0",

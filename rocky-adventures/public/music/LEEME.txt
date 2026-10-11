@@ -1,0 +1,5 @@
+Música
+======
+
+La música original de cada mundo se compone y sintetiza por código en src/audio/music.ts
+(menú, parque, ciudad y playa). No hay archivos de audio externos.

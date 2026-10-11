@@ -77,15 +77,15 @@ float wDepth; float wFoam;`)
 vec2 huv = (vWPos.xz - uOrigin) / uSize;
 float ground = texture2D(uHeight, huv).r;
 wDepth = max(0.0, uWaterY - ground);
-float shore = 1.0 - smoothstep(0.0, 0.45, wDepth);
-float n = rk_vnoise(vec3(vWPos.xz * 1.6, uTime * 0.6));
-wFoam = smoothstep(0.55, 0.95, shore + n * 0.35 * shore) ;
+float shore = 1.0 - smoothstep(0.02, 0.16, wDepth);
+float n = rk_vnoise(vec3(vWPos.xz * 2.2, uTime * 0.6));
+wFoam = smoothstep(0.6, 1.0, shore * (0.65 + n * 0.5)) * 0.75 * (1.0 - smoothstep(0.0, 0.03, -wDepth));
 // espuma de las olas en mar abierto
 if (uWaves > 0.0) wFoam = max(wFoam, smoothstep(0.78, 0.95, rk_fbm(vec3(vWPos.xz * 0.25, uTime * 0.2))) * 0.6);
 vec3 wc = mix(uShallow, uDeep, smoothstep(0.0, 3.5, wDepth));
-vec4 diffuseColor = vec4(mix(wc, vec3(0.95), wFoam), mix(0.55, 0.92, smoothstep(0.0, 1.8, wDepth)));
-diffuseColor.a = max(diffuseColor.a, wFoam);
-diffuseColor.a *= smoothstep(0.0, 0.06, wDepth + wFoam * 0.1);`)
+vec4 diffuseColor = vec4(mix(wc, vec3(0.93, 0.97, 1.0), wFoam), mix(0.25, 0.92, smoothstep(0.0, 1.6, wDepth)));
+diffuseColor.a = max(diffuseColor.a, wFoam * 0.8);
+diffuseColor.a *= smoothstep(0.0, 0.05, wDepth);`)
         .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
 {
   // oleaje: dos capas de ruido desplazándose en direcciones distintas

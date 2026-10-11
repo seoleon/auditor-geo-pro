@@ -37,7 +37,7 @@ La carpeta `dist/` es estática: se puede subir a cualquier hosting (GitHub Page
 ```bash
 npm test             # pruebas unitarias (guardado, malla de Rocky, coherencia de niveles)
 npm run dev &        # en otra terminal
-npm run test:e2e     # prueba de punta a punta del Parque en Chromium (Playwright)
+npm run test:e2e     # pruebas de punta a punta de los tres mundos en Chromium (Playwright)
 ```
 
 La prueba E2E usa `?lowfx` (renderizado mínimo) porque se ejecuta con WebGL por software.
@@ -172,21 +172,32 @@ en este repositorio. Bibliotecas empleadas (todas de código abierto):
    (`cam` = front | side | three | head | back; `anim` = walk | run | sit | sleep | sniff |
    jump | shake | celebrate | bark | pant).
 
-### Opción B — Usar un modelo 3D profesional (máxima fidelidad)
+### Opción B — Usar un modelo 3D propio (máxima fidelidad)
 
-1. Consigue un modelo de bulldog francés en **GLB/glTF** con esqueleto: encargándolo a un artista
-   con tus fotos de referencia, con fotogrametría (p. ej. Polycam o RealityScan con una serie de
-   fotos de Rocky quieto) o con un modelo de licencia libre (CC0/CC-BY) que luego se texturiza
-   con sus fotos en Blender.
-2. Reproyecta o pinta la textura en Blender usando las fotos de Rocky como referencia.
-3. Exporta como `public/models/rocky.glb`.
-4. Sustituye el contenido de `RockyModel` (`src/characters/rocky/RockyModel.tsx`) por la carga
-   del GLB con `useGLTF('./models/rocky.glb')` de drei. Si el GLB incluye animaciones
-   (idle, walk, run, jump…), reprodúcelas con `useAnimations` según `handle.input`
-   (velocidad, `grounded`, `crouching`…); si no las incluye, nombra los huesos del modelo como
-   los de `anatomy.ts` (`pelvis`, `spine`, `chest`, `neck`, `head`, `jaw`, `earL`…) y el
-   animador procedural actual los moverá sin más cambios.
-5. Ajusta `ROCKY_SCALE` en `src/characters/Player.tsx` para que mida ~0,9 m en el juego.
+El juego **ya detecta automáticamente** un modelo propio: si existe `public/models/rocky.glb`,
+lo usa en lugar del Rocky procedural (en todos los mundos), lo escala a su tamaño y lo apoya en
+el suelo. No hay que tocar código.
+
+1. Punto de partida recomendado: exporta el Rocky actual con su esqueleto
+   ```bash
+   npm run export:rocky -- rocky-base.glb
+   ```
+   e impórtalo en [Blender](https://www.blender.org) (gratuito).
+2. Con tus fotos de Rocky como imágenes de referencia, esculpe los detalles (pliegues, forma
+   exacta de la cabeza y orejas) y pinta o proyecta la textura del pelaje con sus manchas reales.
+   Alternativas: fotogrametría (Polycam, RealityScan) con Rocky quieto, o encargar el modelo a
+   un artista 3D a partir de las fotos.
+3. Mantén los nombres de los huesos (`pelvis`, `spine`, `chest`, `neck`, `head`, `jaw`, `earL`,
+   `earR`, `tail`, `upperArmL`, `forearmL`, `handL`, `thighL`, `shinL`, `footL`… y sus `R`):
+   así el animador procedural del juego moverá tu modelo con todas sus animaciones
+   (andar, correr, saltar, sentarse, dormir, sacudirse, ladrar…).
+   Si tu modelo trae su propio esqueleto con animaciones grabadas, también funciona: el juego
+   elige las animaciones por su nombre (`idle`, `walk`, `run`, `jump`, `fall`, `sit`, `sleep`,
+   `sniff`, `bark`) y las funde suavemente.
+4. Exporta como **glTF binario (.glb)**, mirando hacia +Z y con las patas en el origen, y guárdalo
+   como `public/models/rocky.glb`. Recarga el juego.
+
+El código está en `src/characters/rocky/CustomRockyModel.tsx`.
 
 ---
 
@@ -206,6 +217,7 @@ src/
   ui/           menús, HUD, iconos y estilos
   utils/        aleatoriedad determinista, banderas de URL
   worlds/       parque, ciudad, playa y piezas comunes (terreno, agua, hierba, vegetación…)
-public/         favicon (modelos, texturas, sonidos y música se generan por código)
+public/         favicon y carpetas models/ (aquí va tu rocky.glb), textures/, sounds/, music/
+scripts/        export-rocky-glb.mjs: exporta el Rocky procedural a GLB para editarlo en Blender
 tests/          pruebas unitarias y E2E
 ```

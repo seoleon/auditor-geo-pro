@@ -126,6 +126,7 @@ export function Player({ spawn, spawnYaw }: Props) {
       rb.setTranslation(s.pos, true)
       rb.setNextKinematicTranslation(s.pos)
       runtime.camera.yaw = s.yaw + Math.PI
+      runtime.camera.snap = true
       return
     }
     if (!playing) {
@@ -394,7 +395,7 @@ export function Player({ spawn, spawnYaw }: Props) {
         <CapsuleCollider ref={collider} args={[CAP_HALF, CAP_R]} />
       </RigidBody>
       <group ref={visual}>
-        <RockyModel quality={quality} handle={handle} input={animIn} scale={ROCKY_SCALE} legendary={legendary} onReady={() => { runtime.rockyReady = true; (window as unknown as { __rockyReady: boolean }).__rockyReady = true }} />
+        <RockyModel quality={quality} handle={handle} input={animIn} scale={ROCKY_SCALE} legendary={legendary} allowCustom onReady={() => { runtime.rockyReady = true; (window as unknown as { __rockyReady: boolean }).__rockyReady = true }} />
       </group>
     </>
   )

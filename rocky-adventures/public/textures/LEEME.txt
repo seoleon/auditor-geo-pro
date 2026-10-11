@@ -1,0 +1,7 @@
+Texturas
+========
+
+Todas las texturas (hierba, tierra, adoquines, roca, corteza, madera, arena, asfalto,
+fachadas, hojas, flores, nubes) se generan proceduralmente en
+src/worlds/common/textures.ts. Esta carpeta queda disponible para texturas externas
+(p. ej. CC0 de Poly Haven) si se quieren añadir.

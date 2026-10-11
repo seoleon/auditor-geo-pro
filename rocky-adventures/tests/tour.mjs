@@ -27,11 +27,14 @@ await until(async () => (await G(() => window.__game.state().screen)) === 'playi
 await page.waitForTimeout(2000)
 for (let i = 0; i < spots.length; i++) {
   const [x, y, z, yaw, camYaw, camPitch, dist] = spots[i]
+  const s0 = await G(() => window.__game.steps())
   await G(([x, y, z, yaw]) => window.__game.teleport(x, y, z, yaw), [x, y, z, yaw])
-  await page.waitForTimeout(1500)
+  await until(async () => (await G(() => window.__game.steps())) > s0 + 3)
   await G(([cy, cp]) => { const c = window.__game.runtime.camera; c.yaw = cy; c.pitch = cp }, [camYaw ?? yaw + Math.PI, camPitch ?? 0.3])
   if (dist) await G((d) => { window.__game.input.zoom += d }, dist)
-  await page.waitForTimeout(Number(process.env.WAIT ?? 6000))
+  // dejar que la cámara y la luz se asienten unos fotogramas (el renderizado por software es lento)
+  const s1 = await G(() => window.__game.steps())
+  await until(async () => (await G(() => window.__game.steps())) > s1 + Number(process.env.FRAMES ?? 8))
   const data = await G(() => document.querySelector('canvas').toDataURL('image/jpeg', 0.85))
   writeFileSync(`${SHOTS}/tour-${world}-${i}.jpg`, Buffer.from(data.split(',')[1], 'base64'))
   console.log('shot', i)

@@ -10,6 +10,8 @@ import type { RockyMeshData } from './mesher.ts'
 import { RockyAnimator, BONE_COUNT, ROOT_OFFSET_INDEX, type AnimInput } from '../../animations/rockyAnimator.ts'
 import { BONES } from './anatomy.ts'
 import { ROCKY_COAT, type CoatPalette } from '../../shaders/furMaterial'
+import { CustomRockyModel, loadCustomRocky } from './CustomRockyModel'
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 export type Quality = 'low' | 'medium' | 'high'
 
@@ -36,6 +38,8 @@ interface Props {
   /** Fuerza el número de capas de pelo (los NPC usan menos). */
   shellCount?: number
   mode?: 'auto' | 'sit' | 'stand'
+  /** Permite sustituir el modelo por public/models/rocky.glb si existe (solo el jugador). */
+  allowCustom?: boolean
 }
 
 export function useRockyMesh(quality: Quality) {
@@ -48,7 +52,14 @@ export function useRockyMesh(quality: Quality) {
   return data
 }
 
-export function RockyModel({ quality, palette = ROCKY_COAT, handle, scale = 1, legendary = false, input, onReady, shellCount, mode = 'auto' }: Props) {
+export function RockyModel({ quality, palette = ROCKY_COAT, handle, scale = 1, legendary = false, input, onReady, shellCount, mode = 'auto', allowCustom = false }: Props) {
+  const [custom, setCustom] = useState<GLTF | null>(null)
+  useEffect(() => {
+    if (!allowCustom) return
+    let alive = true
+    loadCustomRocky().then((g) => { if (alive) setCustom(g) })
+    return () => { alive = false }
+  }, [allowCustom])
   const data = useRockyMesh(quality)
   const animator = useMemo(() => new RockyAnimator(), [])
   animator.mode = mode
@@ -66,12 +77,19 @@ export function RockyModel({ quality, palette = ROCKY_COAT, handle, scale = 1, l
   }, [data, palette, shells])
 
   useEffect(() => {
-    if (!parts) return
+    if (!custom) return
+    if (handle) handle.current = { animator, parts: null, input: localInput }
+    onReady?.()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [custom])
+
+  useEffect(() => {
+    if (!parts || custom) return
     if (handle) handle.current = { animator, parts, input: localInput }
     onReady?.()
     return () => parts.dispose()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parts])
+  }, [parts, custom])
 
   useEffect(() => {
     if (!parts) return
@@ -84,7 +102,7 @@ export function RockyModel({ quality, palette = ROCKY_COAT, handle, scale = 1, l
   const chestScale = useRef(1)
 
   useFrame((_, dt) => {
-    if (!parts) return
+    if (!parts || custom) return
     const pose = animator.update(dt, localInput)
     for (let i = 0; i < BONE_COUNT; i++) {
       boneList[i].rotation.set(pose[i * 3], pose[i * 3 + 1], pose[i * 3 + 2])
@@ -113,6 +131,11 @@ export function RockyModel({ quality, palette = ROCKY_COAT, handle, scale = 1, l
     parts.eyes[1].rotation.y = yaw
   })
 
+  if (custom) return (
+    <group scale={scale}>
+      <CustomRockyModel gltf={custom} animator={animator} input={localInput} />
+    </group>
+  )
   if (!parts) return null
   return (
     <group scale={scale}>

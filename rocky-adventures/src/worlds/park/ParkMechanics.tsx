@@ -2,7 +2,7 @@
 // y la verja de seto que se abre al resolver el puzle.
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { BallCollider, CuboidCollider, RigidBody, type RapierRigidBody } from '@react-three/rapier'
+import { BallCollider, CuboidCollider, RigidBody, useBeforePhysicsStep, type RapierRigidBody } from '@react-three/rapier'
 import * as THREE from 'three'
 import { useGame } from '../../stores/gameStore'
 import { useLevel } from '../../stores/levelStore'
@@ -126,6 +126,29 @@ export function BallGame({ start, goal }: { start: V3; goal: V3 }) {
     })
     return () => { off(); runtime.lookTargets.delete('ball') }
   }, [look])
+  // regate: si Rocky toca la pelota avanzando hacia ella, la pelota sale rodando por delante
+  useBeforePhysicsStep(() => {
+    const b = body.current
+    if (!b) return
+    const p = b.translation()
+    const pl = runtime.player
+    const dx = p.x - pl.pos.x, dz = p.z - pl.pos.z
+    const d = Math.hypot(dx, dz)
+    const sp = Math.hypot(pl.vel.x, pl.vel.z)
+    if (d < 1.05 && sp > 0.5 && Math.abs(p.y - pl.pos.y) < 0.9) {
+      const toward = (pl.vel.x * dx + pl.vel.z * dz) / (d * sp)
+      if (toward > 0.35) {
+        const v = b.linvel()
+        const kick = sp * 1.35 + 0.6
+        // mezcla de la dirección de Rocky y de la línea Rocky→pelota (golpeo natural)
+        const ux = (pl.vel.x / sp) * 0.7 + (dx / d) * 0.3, uz = (pl.vel.z / sp) * 0.7 + (dz / d) * 0.3
+        const ul = Math.hypot(ux, uz) || 1
+        const tx = (ux / ul) * kick, tz = (uz / ul) * kick
+        if (v.x * ux + v.z * uz < kick * 0.9) b.setLinvel({ x: tx, y: Math.max(v.y, 0.4), z: tz }, true)
+      }
+    }
+  })
+
   useFrame(() => {
     const b = body.current
     if (!b) return
@@ -144,7 +167,7 @@ export function BallGame({ start, goal }: { start: V3; goal: V3 }) {
     }
   })
   return (
-    <RigidBody ref={body} colliders={false} position={start} ccd restitution={0.55} friction={0.8} linearDamping={0.45} angularDamping={0.6} canSleep={false}>
+    <RigidBody ref={body} colliders={false} position={start} ccd restitution={0.5} friction={0.9} linearDamping={0.7} angularDamping={1.1} canSleep={false}>
       <BallCollider args={[0.45]} density={0.35} />
       <mesh castShadow receiveShadow>
         <sphereGeometry args={[0.45, 28, 20]} />

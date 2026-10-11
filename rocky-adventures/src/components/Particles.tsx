@@ -36,7 +36,8 @@ class Pool {
 
 export const particles = new Pool()
 
-const gold = (): [number, number, number] => [1, 0.75 + Math.random() * 0.2, 0.25 + Math.random() * 0.3]
+// los destellos usan colores > 1 para que el bloom los haga brillar; el polvo es mate
+const gold = (): [number, number, number] => [2.2, 1.7 + Math.random() * 0.3, 0.5 + Math.random() * 0.4]
 
 export function ParticleSystem() {
   const { geo, mat, points } = useMemo(() => {
@@ -52,19 +53,19 @@ export function ParticleSystem() {
         void main() {
           vColor = color;
           vec4 mv = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = size * uScale / max(0.1, -mv.z);
+          gl_PointSize = min(size * uScale / max(0.1, -mv.z), 48.0);
           gl_Position = projectionMatrix * mv;
         }`,
       fragmentShader: /* glsl */ `
         uniform sampler2D uTex; varying vec4 vColor;
         void main() {
           vec4 t = texture2D(uTex, gl_PointCoord);
-          gl_FragColor = vec4(vColor.rgb * 1.6, t.a * vColor.a);
+          gl_FragColor = vec4(vColor.rgb, t.a * vColor.a);
           if (gl_FragColor.a < 0.01) discard;
         }`,
       transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
     })
     const points = new THREE.Points(geo, mat)
     points.frustumCulled = false
@@ -79,10 +80,10 @@ export function ParticleSystem() {
           particles.burst(e.kind === 'bone' ? 60 : 26, e.x, e.y, e.z, { speed: 3.5, up: 2, color: e.kind === 'shell' ? () => [0.7, 0.9, 1] : gold, size: 0.22, life: 1.1, grav: 3 })
           break
         case 'land':
-          if (e.strength > 0.35) particles.burst(Math.floor(10 * e.strength), runtime.player.pos.x, runtime.player.pos.y - 0.38, runtime.player.pos.z, { speed: 2.2, up: 0.4, color: e.surface === 'sand' ? [0.95, 0.85, 0.6] : [0.75, 0.68, 0.55], size: 0.35, life: 0.8, grav: -0.3, drag: 3 })
+          if (e.strength > 0.35) particles.burst(Math.floor(10 * e.strength), runtime.player.pos.x, runtime.player.pos.y - 0.38, runtime.player.pos.z, { speed: 2.2, up: 0.4, color: e.surface === 'sand' ? [0.85, 0.76, 0.55] : [0.62, 0.56, 0.45], size: 0.22, life: 0.7, grav: -0.3, drag: 3 })
           break
         case 'skid':
-          particles.burst(16, runtime.player.pos.x, runtime.player.pos.y - 0.38, runtime.player.pos.z, { speed: 2.5, up: 0.5, color: [0.8, 0.72, 0.6], size: 0.4, life: 0.9, grav: -0.2, drag: 3 })
+          particles.burst(16, runtime.player.pos.x, runtime.player.pos.y - 0.38, runtime.player.pos.z, { speed: 2.5, up: 0.5, color: [0.66, 0.58, 0.47], size: 0.26, life: 0.8, grav: -0.2, drag: 3 })
           break
         case 'splash':
           particles.burst(40, e.x, e.y, e.z, { speed: 3, up: 3.5, color: [0.7, 0.85, 1], size: 0.2, life: 1, grav: 9 })
@@ -137,7 +138,7 @@ export function ParticleSystem() {
       const k = p.life / p.max
       const j = w - 1
       pos[j * 3] = p.x; pos[j * 3 + 1] = p.y; pos[j * 3 + 2] = p.z
-      col[j * 4] = p.r; col[j * 4 + 1] = p.g; col[j * 4 + 2] = p.b; col[j * 4 + 3] = Math.min(1, (1 - k) * 2) * Math.min(1, p.life * 12)
+      col[j * 4] = p.r; col[j * 4 + 1] = p.g; col[j * 4 + 2] = p.b; col[j * 4 + 3] = Math.min(1, (1 - k) * 2) * Math.min(1, p.life * 12) * (p.r > 1 ? 1 : 0.7)
       siz[j] = p.size * (k < 0.15 ? k / 0.15 : 1)
     }
     ps.length = w
@@ -178,8 +179,9 @@ export function AmbientMotes({ count = 220, color = '#fff2b0', warm = true }: { 
           // envuelve el volumen alrededor del centro (la cámara)
           p = uCenter + mod(p - uCenter + vec3(20.0, 0.0, 20.0), vec3(40.0, 10.0, 40.0)) - vec3(20.0, 2.0, 20.0);
           vec4 mv = modelViewMatrix * vec4(p, 1.0);
-          vA = 0.5 + 0.5 * sin(uTime * 2.0 + phase * 3.0);
-          gl_PointSize = 60.0 / max(0.5, -mv.z);
+          // nunca enormes junto a la cámara: tamaño limitado y desvanecidas de cerca
+          vA = (0.5 + 0.5 * sin(uTime * 2.0 + phase * 3.0)) * smoothstep(2.0, 5.0, -mv.z);
+          gl_PointSize = clamp(60.0 / max(0.5, -mv.z), 1.0, 7.0);
           gl_Position = projectionMatrix * mv;
         }`,
       fragmentShader: /* glsl */ `
