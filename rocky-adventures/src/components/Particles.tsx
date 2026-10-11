@@ -77,7 +77,7 @@ export function ParticleSystem() {
     const off = on((e) => {
       switch (e.type) {
         case 'collect':
-          particles.burst(e.kind === 'bone' ? 60 : 26, e.x, e.y, e.z, { speed: 3.5, up: 2, color: e.kind === 'shell' ? () => [0.7, 0.9, 1] : gold, size: 0.22, life: 1.1, grav: 3 })
+          particles.burst(e.kind === 'bone' ? 60 : 26, e.x, e.y, e.z, { speed: 3.5, up: 2, color: e.kind === 'shell' ? () => [0.7, 0.9, 1] : gold, size: 0.13, life: 1.1, grav: 3 })
           break
         case 'land':
           if (e.strength > 0.35) particles.burst(Math.floor(10 * e.strength), runtime.player.pos.x, runtime.player.pos.y - 0.38, runtime.player.pos.z, { speed: 2.2, up: 0.4, color: e.surface === 'sand' ? [0.85, 0.76, 0.55] : [0.62, 0.56, 0.45], size: 0.22, life: 0.7, grav: -0.3, drag: 3 })
