@@ -39,9 +39,9 @@ function getIrisTexture(): THREE.CanvasTexture {
       else if (t < 0.36) {
         const k = (t - 0.13) / 0.23
         const base = 0.55 + 0.45 * fib
-        r = (92 - 40 * k) * base + 30 * noise * 255 / 40
-        gg = (52 - 22 * k) * base + 10 * noise
-        b = (22 - 8 * k) * base
+        r = (150 - 70 * k) * base + 20 * noise
+        gg = (82 - 40 * k) * base + 10 * noise
+        b = (30 - 14 * k) * base
         if (k < 0.12) { r *= 0.5; gg *= 0.5; b *= 0.5 } // borde de la pupila
       } else if (t < 0.42) { r = 18; gg = 11; b = 8 } // anillo límbico
       else { const k = Math.min(1, (t - 0.42) * 3); r = 70 + 120 * k; gg = 52 + 105 * k; b = 45 + 95 * k } // esclerótica

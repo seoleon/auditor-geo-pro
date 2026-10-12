@@ -94,7 +94,7 @@ export function RockyModel({ quality, palette = ROCKY_COAT, handle, scale = 1, l
   useEffect(() => {
     if (!parts) return
     parts.legendaryCollar.visible = legendary
-    parts.collar.visible = !legendary
+    parts.collar.visible = false // el Rocky real no lleva collar; el Legendario se gana en la playa
   }, [parts, legendary])
 
   const boneList = useMemo(() => (parts ? BONES.map((b) => parts.bones[b.name]) : []), [parts])

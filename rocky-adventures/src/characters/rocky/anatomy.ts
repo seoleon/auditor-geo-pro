@@ -125,8 +125,8 @@ function ear(side: 1 | -1): Primitive {
     op: 'add',
     k: 0.014,
     // Orejas de murciélago: grandes, erguidas, con la punta redondeada y abiertas hacia delante
-    center: [0.088 * s, 0.515, 0.215],
-    radii: [0.05, 0.068, 0.034],
+    center: [0.089 * s, 0.522, 0.215],
+    radii: [0.053, 0.076, 0.035],
     thickness: 0.0058,
     cut: 0.004,
     rot: rotEuler(-0.1, 0.45 * s, -0.42 * s),

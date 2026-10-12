@@ -22,16 +22,21 @@ export interface CoatPalette {
   whiteAmount: number
   /** Manchas blancas grandes (bulldog "pied"), 0-1. */
   pied: number
+  /** Mancha blanca alargada en el esternón + punto en la garganta (como el Rocky real), 0-1. */
+  blaze?: number
 }
 
+// Ajustado a la foto de Rocky: atigrado oscuro con vetas doradas, máscara negra-grisácea,
+// mancha blanca vertical en el pecho y un punto blanco en la garganta.
 export const ROCKY_COAT: CoatPalette = {
-  base: '#6a4127',
-  stripe: '#100a06',
-  white: '#e8ddd0',
-  mask: '#0b0806',
-  brindle: 0.66,
-  whiteAmount: 0.55,
+  base: '#86683f',
+  stripe: '#15100d',
+  white: '#efe9e2',
+  mask: '#1b1716',
+  brindle: 0.8,
+  whiteAmount: 0,
   pied: 0,
+  blaze: 1,
 }
 
 const FUR_FUNCS = /* glsl */ `
@@ -43,6 +48,7 @@ uniform vec3 uMaskCol;
 uniform float uBrindle;
 uniform float uWhiteAmt;
 uniform float uPied;
+uniform float uBlaze;
 varying vec3 vRest;
 varying vec4 vMask;
 varying vec4 vMask2;
@@ -59,9 +65,9 @@ vec3 rk_coat(vec3 p, out float rough, out float sheenAmt, out float furAmt) {
   float headW = smoothstep(0.34, 0.38, p.y) * smoothstep(0.17, 0.21, p.z);
   float legW = 1.0 - smoothstep(0.12, 0.17, p.y);
   band = mix(band, p.y * 240.0 + abs(p.x) * 90.0 + warp * 10.0, headW);
-  band = mix(band, p.y * 260.0 + warp * 9.0, legW);
+  band = mix(band, p.y * 200.0 + p.z * 120.0 + warp * 16.0, legW);
   float st = 0.5 + 0.5 * sin(band);
-  st = mix(st, 0.75, headW * 0.45); // en la cara el atigrado es más oscuro y difuso
+  st = mix(st, 0.8, headW * 0.6); // en la cara el atigrado es más oscuro y difuso
   float st2 = 0.5 + 0.5 * sin(band * 0.43 + warp2 * 9.0);
   float thr = 1.0 - uBrindle + (rk_vnoise(p * 23.0) - 0.5) * 0.45;
   float dark = smoothstep(thr - 0.28, thr + 0.28, mix(st, st2, 0.4));
@@ -85,19 +91,29 @@ vec3 rk_coat(vec3 p, out float rough, out float sheenAmt, out float furAmt) {
   c = mix(c, c * 1.25 + vec3(0.02, 0.015, 0.01), vMask2.y * 0.5);
   c *= mix(1.0, 0.82, smoothstep(0.31, 0.37, p.y) * (1.0 - headW));
   // máscara negra del hocico, con rastro de atigrado
-  c = mix(c, uMaskCol * (0.8 + 0.6 * streak), clamp(vMask.x * 1.3, 0.0, 1.0));
+  c = mix(c, uMaskCol * (0.75 + 0.9 * streak), clamp(vMask.x * 1.3, 0.0, 1.0));
   // mancha blanca del pecho con borde irregular
   float wEdge = smoothstep(0.35, 0.65, vMask.y * uWhiteAmt + (rk_fbm(p * 40.0) - 0.5) * 0.35);
   // manchas "pied" opcionales (otros perros de la ciudad)
   float pied = uPied * smoothstep(0.48, 0.56, rk_fbm(p * 7.0 + 3.0));
+  if (uBlaze > 0.0) {
+    // mancha alargada del esternón, de borde irregular, y punto blanco en la garganta
+    float wob = (rk_fbm(p * 55.0) - 0.5) * 0.022;
+    float strip = (1.0 - smoothstep(0.012, 0.024, abs(p.x + wob)))
+      * smoothstep(0.155, 0.175, p.y) * (1.0 - smoothstep(0.235, 0.255, p.y + wob))
+      * smoothstep(0.12, 0.15, p.z);
+    vec3 tq = (p - vec3(0.0, 0.302, 0.215)) / vec3(0.017, 0.013, 0.03);
+    float throat = 1.0 - smoothstep(0.7, 1.15, length(tq) + wob * 20.0);
+    wEdge = max(wEdge, max(strip, throat * 0.9) * uBlaze);
+  }
   vec3 white = uWhite * (0.88 + 0.18 * streak);
   c = mix(c, white, max(wEdge, pied));
   rough = 0.74 - streak * 0.08;
   sheenAmt = 1.0;
   furAmt = 1.0;
   // interior rosado de las orejas, con algo de pelo
-  vec3 ear = mix(vec3(0.42, 0.27, 0.24), vec3(0.25, 0.16, 0.14), streak2 * 0.7);
-  c = mix(c, ear, vMask2.x * 0.85);
+  vec3 ear = mix(vec3(0.5, 0.33, 0.32), vec3(0.3, 0.2, 0.19), streak2 * 0.6);
+  c = mix(c, ear, smoothstep(0.25, 0.9, vMask2.x) * 0.8);
   furAmt *= 1.0 - vMask2.x * 0.7;
   // interior de la boca
   c = mix(c, vec3(0.07, 0.025, 0.025), smoothstep(0.3, 0.8, vMask2.z));
@@ -130,6 +146,7 @@ export interface FurUniforms {
   uBrindle: { value: number }
   uWhiteAmt: { value: number }
   uPied: { value: number }
+  uBlaze: { value: number }
   uShell: { value: number }
   uShellOffset: { value: number }
 }
@@ -144,6 +161,7 @@ export function makeFurUniforms(p: CoatPalette): FurUniforms {
     uBrindle: { value: p.brindle },
     uWhiteAmt: { value: p.whiteAmount },
     uPied: { value: p.pied },
+    uBlaze: { value: p.blaze ?? 0 },
     uShell: { value: 0 },
     uShellOffset: { value: 0 },
   }
