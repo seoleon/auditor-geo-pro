@@ -23,7 +23,8 @@ const f = foto(clave);
     fetchpriority={prioridad ? 'high' : 'auto'}
     decoding={prioridad ? 'sync' : 'async'}
   />
-  {credito && (
+  {credito && f.tipo === 'ilustracion' && <figcaption>Ilustración</figcaption>}
+  {credito && f.tipo !== 'ilustracion' && (
     <figcaption>
       Foto: <a href={f.fuenteUrl} rel="nofollow noopener" target="_blank">{f.autor}</a>, <a href={f.licenciaUrl} rel="nofollow noopener license" target="_blank">{f.licencia}</a>{f.modificada ? ' (recortada)' : ''}
     </figcaption>

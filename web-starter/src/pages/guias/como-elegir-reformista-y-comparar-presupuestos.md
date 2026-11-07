@@ -2,7 +2,7 @@
 layout: ../../layouts/Guia.astro
 titulo: "Cómo elegir reformista y comparar presupuestos de reforma de baño"
 tituloSeo: "Cómo elegir reformista y comparar presupuestos de baño"
-descripcion: "Checklist para comparar presupuestos de reforma de baño: partidas, materiales, IVA, plazos, pagos, garantía y señales de alarma antes de contratar a un reformista."
+descripcion: "Checklist para comparar presupuestos de reforma de baño: partidas, materiales, IVA, plazos, pagos, garantía y señales de alarma antes de contratar."
 publicado: "2026-11-07"
 actualizado: "2026-11-07"
 orden: 8

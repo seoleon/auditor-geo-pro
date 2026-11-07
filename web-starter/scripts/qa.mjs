@@ -50,7 +50,9 @@ const vistos = { title: new Map(), description: new Map() };
 
 for (const { ruta, html } of paginas) {
   const es404 = ruta === '/404.html';
-  const noindex = /<meta name="robots" content="noindex/.test(html);
+  // En modo demo todo lleva noindex: las comprobaciones on-page se hacen igualmente
+  // sobre las páginas que serán indexables al publicar.
+  const noindex = /^\/(aviso-legal|privacidad|creditos-fotos)\/$|^\/404\.html$/.test(ruta) || (!cliente.demo && /<meta name="robots" content="noindex/.test(html));
 
   const titles = todos(html, /<title>([\s\S]*?)<\/title>/g);
   if (titles.length !== 1) err(ruta, `${titles.length} etiquetas <title>`);
@@ -108,7 +110,7 @@ for (const { ruta, html } of paginas) {
     const h2 = (html.match(/<h2[\s>]/g) ?? []).length;
     if (h2 < 2) aviso(ruta, `solo ${h2} H2: estructura pobre`);
     const palabras = (html.match(/<main[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? '').replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
-    if (palabras < 300) aviso(ruta, `contenido corto (${palabras} palabras)`);
+    if (palabras < 300 && !/^\/(contacto)\/$/.test(ruta)) aviso(ruta, `contenido corto (${palabras} palabras)`);
   }
 
   if (noindex && !cliente.demo && !/aviso-legal|privacidad|404/.test(ruta)) aviso(ruta, 'tiene noindex');

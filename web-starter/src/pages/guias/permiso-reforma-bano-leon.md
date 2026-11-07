@@ -2,7 +2,7 @@
 layout: ../../layouts/Guia.astro
 titulo: "¿Hace falta permiso para reformar el baño en León? Licencia o declaración responsable"
 tituloSeo: "Permiso para reformar el baño en León: qué trámite"
-descripcion: "Qué trámite municipal necesitas para reformar el baño en León, San Andrés del Rabanedo o Villaquilambre: licencia de obra menor, declaración responsable, tasas y contenedor."
+descripcion: "Qué trámite necesitas para reformar el baño en León y alrededores: licencia de obra menor o declaración responsable, tasas, ICIO y contenedor."
 publicado: "2026-11-07"
 actualizado: "2026-11-07"
 orden: 3

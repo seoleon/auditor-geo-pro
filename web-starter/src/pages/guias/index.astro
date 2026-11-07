@@ -6,13 +6,13 @@ import { negocio, url, textos } from '../../lib/sitio';
 import { guias } from '../../lib/guias';
 const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Guías', ruta: url.guias }];
 ---
-<Base titulo={`Guías para reformar el baño en ${negocio.ciudad} | ${negocio.nombreCorto}`} descripcion={`Precios, permisos y ayudas para reformar el baño en ${negocio.ciudad}: guías con fuentes para preparar tu reforma.`} migas={migas}>
+<Base titulo={`Guías para reformar el baño en ${negocio.ciudad} | ${negocio.nombreCorto}`} descripcion={`Guías para reformar el baño en ${negocio.ciudad}: precios 2026, permisos, ayudas, plazos, baño pequeño, baño adaptado y cómo comparar presupuestos.`} migas={migas}>
   <section class="seccion">
     <div class="contenedor">
       <h1>Guías para reformar el baño en {negocio.ciudad}</h1>
       <p class="lead">Lo que conviene saber antes de pedir presupuesto: cuánto cuesta, qué permisos hacen falta y qué ayudas hay.</p>
       <div class="rejilla">
-        {guias.map((g) => <article class="tarjeta tarjeta--foto"><Foto clave={g.foto ?? 'portada'} credito={false} sizes="(max-width: 760px) 100vw, 360px" /><h2><a href={g.ruta}>{g.titulo}</a></h2><p>{g.descripcion}</p></article>)}
+        {guias.map((g, i) => <article class="tarjeta tarjeta--foto"><Foto clave={g.foto ?? 'portada'} prioridad={i === 0} credito={false} sizes="(max-width: 760px) 100vw, 360px" /><h2><a href={g.ruta}>{g.titulo}</a></h2><p>{g.descripcion}</p></article>)}
       </div>
     </div>
   </section>

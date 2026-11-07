@@ -2,7 +2,7 @@
 layout: ../../layouts/Guia.astro
 titulo: "Ayudas para cambiar la bañera por ducha y adaptar el baño en Castilla y León"
 tituloSeo: "Ayudas bañera por ducha en Castilla y León (2026)"
-descripcion: "Qué ayudas existen en Castilla y León para cambiar la bañera por un plato de ducha o adaptar el baño a personas mayores, en qué estado están y dónde comprobarlo."
+descripcion: "Ayudas en Castilla y León para cambiar la bañera por ducha o adaptar el baño a personas mayores: qué hay anunciado, qué está vigente y dónde comprobarlo."
 publicado: "2026-11-07"
 actualizado: "2026-11-07"
 orden: 2

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Cta from '../components/Cta.astro';
+import Foto from '../components/Foto.astro';
 import { negocio, textos, zonas, serviciosConLanding, url, listaNatural } from '../lib/sitio';
 const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Zonas', ruta: url.zonas }];
 const ciudad = negocio.ciudad;
@@ -10,11 +11,13 @@ const ciudad = negocio.ciudad;
     <div class="contenedor">
       <h1>Reforma de baños por zonas</h1>
       <p class="lead">Reformistas en {ciudad} y en los municipios de alrededor. Elige tu zona para ver consejos y obras habituales allí.</p>
+      <Foto clave="duchaCristal" prioridad credito={false} sizes="(max-width: 760px) 100vw, 720px" class="zonas__foto" />
       <div class="rejilla">
         {zonas.map((z) => (
           <article class="tarjeta">
             <h2>{z.nombre}</h2>
             <p>{listaNatural(z.lugares)}.</p>
+            <p>{z.texto.split('. ')[0]}.</p>
             <ul>{serviciosConLanding.map((s) => <li><a href={url.landing(s, z)}>{s.nombreCorto} en {z.nombreCorto}</a></li>)}</ul>
           </article>
         ))}
@@ -23,3 +26,4 @@ const ciudad = negocio.ciudad;
   </section>
   <Cta titulo={textos.ctaTitulo} />
 </Base>
+<style>.zonas__foto { max-width: 720px; }</style>

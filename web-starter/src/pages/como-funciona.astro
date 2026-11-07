@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Proceso from '../components/Proceso.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
+import Foto from '../components/Foto.astro';
 import { negocio, textos, url, schemaFaq } from '../lib/sitio';
 const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Cómo funciona', ruta: url.comoFunciona }];
 const faq = [
@@ -16,8 +17,20 @@ const faq = [
 <Base titulo={`Cómo funciona | ${negocio.nombre}`} descripcion={`Cómo funciona ${negocio.nombre}: servicio gratuito que pone en contacto a particulares con reformistas de ${negocio.ciudad}. No ejecutamos obras.`} migas={migas} schemas={[schemaFaq(faq)]}>
   <section class="seccion">
     <div class="contenedor">
-      <h1>Cómo funciona</h1>
+      <h1>Cómo funciona {negocio.nombre}</h1>
+      <Foto clave="banoReformado" prioridad credito={false} sizes="(max-width: 760px) 100vw, 760px" />
       <p class="lead">{negocio.queSomos}</p>
+      <h2>Para quién es</h2>
+      <p>Para particulares de {negocio.ciudad} y alrededores que quieren reformar el baño, cambiar la bañera por una ducha, adaptar el baño a una persona mayor o renovar un aseo, y prefieren que les llame un profesional de la zona en lugar de buscar uno a uno.</p>
+      <h2>Qué hacemos y qué no</h2>
+      <ul class="lista-check">
+        <li>Recibimos tu solicitud y la pasamos a un reformista colaborador que trabaja en tu zona.</li>
+        <li>Publicamos guías con fuentes sobre precios, permisos y ayudas para que llegues informado a la visita.</li>
+        <li>No ejecutamos obras ni cobramos nada al particular.</li>
+        <li>No firmamos el contrato de obra: lo firmas directamente con el reformista, que es quien responde de ella.</li>
+      </ul>
+      <h2>Cómo elegimos a los reformistas</h2>
+      <p>Trabajamos con profesionales que hacen reformas de baño en {negocio.ciudad} y su alfoz. Aun así, te recomendamos pedir siempre presupuesto por escrito y por partidas, plazos y garantía, como explicamos en la <a href="/guias/como-elegir-reformista-y-comparar-presupuestos/">guía para comparar presupuestos</a>.</p>
     </div>
   </section>
   <Proceso titulo="Los pasos" />

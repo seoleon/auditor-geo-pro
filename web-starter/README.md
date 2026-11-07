@@ -53,13 +53,23 @@ npm run check     # build + QA: es la puerta antes de publicar
 
 Opcional: auditar las URLs publicadas con el **Auditor GEO PRO** de este mismo repo.
 
+## Imágenes
+
+- Archivos en `src/assets/fotos/`, datos (alt, autor, licencia) en `src/data/fotos.json`. Cada servicio y guía elige su imagen por clave (`foto`).
+- Astro las sirve en **AVIF/WebP**, en varios tamaños (`srcset`), con `width`/`height` (sin saltos de maquetación), la principal con prioridad de carga y el resto en diferido. Se usan también como `og:image` y en el schema `Article`.
+- **Ahora mismo son ilustraciones propias** generadas con `node scripts/ilustraciones.mjs` (sin licencias de terceros). Para poner **fotos reales**, copia la foto en `src/assets/fotos/` con el mismo nombre de archivo, o añade una entrada nueva en `fotos.json` con `"tipo": "foto"`, autor, licencia y URL de origen: el crédito sale solo bajo la foto y en `/creditos-fotos/`.
+- Lo mejor para rank & rent: fotos reales de obras del reformista que alquila la web, con su permiso. Nunca fotos de otras empresas sin licencia.
+
+Medido con Lighthouse en móvil (noviembre 2026): 100 en rendimiento, accesibilidad, buenas prácticas y SEO (con `"demo": false`), LCP < 1 s y CLS 0.
+
 ## Qué comprueba el QA (`scripts/qa.mjs`)
 
 - Un `<title>` y una meta description por página, **sin duplicados**.
 - Un solo `<h1>`.
 - Canonical presente y correcto.
 - JSON-LD válido.
-- Enlaces internos rotos e imágenes sin `alt`.
+- Enlaces internos rotos, imágenes sin `alt` o sin `width`/`height`, `og:image`, imagen principal con prioridad (LCP).
+- Title ≤ 60 caracteres, description 110–160, al menos 2 H2 y 300 palabras por página indexable (también en modo demo).
 - **Parecido entre landings hermanas** (mismo servicio, distinta zona): avisa por encima del 60 %. Con el ejemplo actual sale ~35 %.
 - Textos marcados como `REVISAR` y modo demo activo.
 

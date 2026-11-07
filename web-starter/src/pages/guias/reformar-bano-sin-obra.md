@@ -2,7 +2,7 @@
 layout: ../../layouts/Guia.astro
 titulo: "Reformar el baño sin obra: qué se puede cambiar y cuándo no compensa"
 tituloSeo: "Reformar el baño sin obra: qué se puede hacer"
-descripcion: "Ideas para renovar el baño sin obra o con muy poca: pintar azulejos, vinilos, cambiar mueble, grifería, mampara o iluminación, y cuándo conviene una reforma de verdad."
+descripcion: "Cómo renovar el baño sin obra: mueble, grifería, iluminación, mampara, pintura de azulejos o vinilos, y cuándo conviene una reforma de verdad."
 publicado: "2026-11-07"
 actualizado: "2026-11-07"
 orden: 6

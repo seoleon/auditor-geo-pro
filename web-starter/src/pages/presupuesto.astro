@@ -1,13 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
-import { negocio, servicios, zonas, url, telHref, esDemo } from '../lib/sitio';
+import Foto from '../components/Foto.astro';
+import Faq from '../components/Faq.astro';
+import { negocio, servicios, zonas, url, telHref, esDemo, schemaFaq } from '../lib/sitio';
+import { guias } from '../lib/guias';
 const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Pedir presupuesto', ruta: url.presupuesto }];
 const action = negocio.formularioAction;
+const faq = [
+  { p: '¿Cuánto tardan en llamarme?', r: 'Normalmente en uno o dos días laborables. El reformista te llamará para concertar la visita al baño.' },
+  { p: '¿La visita tiene coste?', r: 'Pedir presupuesto es gratis. Si la vivienda está lejos de León capital, pregunta al reformista si el desplazamiento tiene algún coste antes de concertar la visita.' },
+  { p: '¿Qué datos debo tener preparados?', r: 'Medidas aproximadas del baño, fotos del estado actual, si el piso tiene ascensor y qué te gustaría cambiar. Con eso la visita es más rápida.' },
+  { p: '¿Me comprometo a algo al enviar el formulario?', r: 'No. Solo autorizas que un reformista de tu zona te contacte para darte presupuesto.' },
+];
 ---
-<Base titulo={`Pedir presupuesto de reforma de baño en ${negocio.ciudad} | ${negocio.nombreCorto}`} descripcion={`Formulario para pedir presupuesto gratis de reforma de baño en ${negocio.ciudad} y alrededores. Un reformista de tu zona te llamará.`} migas={migas}>
+<Base titulo={`Pedir presupuesto de reforma de baño en ${negocio.ciudad} | ${negocio.nombreCorto}`} descripcion={`Pide presupuesto gratis de reforma de baño en ${negocio.ciudad} y alrededores: rellena el formulario en un minuto y un reformista de tu zona te llamará.`} migas={migas} imagen="obra" schemas={[schemaFaq(faq)]}>
   <section class="seccion">
     <div class="contenedor form-envoltura">
       <h1>Pide presupuesto gratis</h1>
+      <Foto clave="portada" prioridad credito={false} sizes="(max-width: 760px) 100vw, 720px" />
       <p class="lead">Cuéntanos tu obra. Pasaremos tu solicitud a un reformista de tu zona, que te llamará para concertar la visita. Si prefieres, llama al <a href={telHref}>{negocio.telefonoVisible}</a>.</p>
       {!action && (
         <p class="aviso">{esDemo ? 'Demo: el formulario no envía datos.' : 'Falta configurar el envío del formulario.'} Configura <code>negocio.formularioAction</code> en cliente.json (por ejemplo, un endpoint de Formspree, Web3Forms o tu CRM).</p>
@@ -47,8 +57,19 @@ const action = negocio.formularioAction;
         <button class="boton boton--primario" type="submit" disabled={!action}>Enviar solicitud</button>
         <p class="nota">{negocio.queSomos}</p>
       </form>
+
+      <h2>Qué pasa después de enviar el formulario</h2>
+      <ol>
+        <li><strong>Revisamos tu solicitud</strong> y la pasamos a un reformista que trabaja en tu zona.</li>
+        <li><strong>Te llama</strong> para concertar una visita al baño en el día y hora que te venga bien.</li>
+        <li><strong>Visita y presupuesto</strong>: mide, revisa instalaciones y te envía un presupuesto por escrito y por partidas.</li>
+        <li><strong>Tú decides</strong> si contratas. Si no te convence, no pasa nada.</li>
+      </ol>
+      <h2>Prepara la visita</h2>
+      <p>Para comparar con criterio, revisa antes la <a href="/guias/como-elegir-reformista-y-comparar-presupuestos/">checklist para comparar presupuestos</a> y la <a href="/guias/precio-reforma-bano-leon/">guía de precios de reforma de baño</a>.</p>
     </div>
   </section>
+  <Faq faq={faq} titulo="Dudas sobre pedir presupuesto" />
 </Base>
 <style>
   .form-envoltura { max-width: 720px; }

@@ -2,7 +2,7 @@
 layout: ../../layouts/Guia.astro
 titulo: "Plato de ducha de resina o ducha de obra: cuál elegir en tu reforma"
 tituloSeo: "Plato de ducha de resina o ducha de obra: cuál elegir"
-descripcion: "Diferencias entre plato de ducha de resina, cerámico, acrílico y ducha de obra a ras de suelo: precio relativo, mantenimiento, seguridad y cuándo conviene cada uno."
+descripcion: "Plato de ducha de resina, cerámico, acrílico o ducha de obra a ras de suelo: diferencias de precio, mantenimiento y seguridad, y cuándo elegir cada uno."
 publicado: "2026-11-07"
 actualizado: "2026-11-07"
 orden: 4

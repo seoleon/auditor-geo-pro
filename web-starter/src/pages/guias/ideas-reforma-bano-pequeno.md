@@ -2,7 +2,7 @@
 layout: ../../layouts/Guia.astro
 titulo: "Ideas para reformar un baño pequeño y ganar espacio"
 tituloSeo: "Ideas para reformar un baño pequeño y ganar espacio"
-descripcion: "Cómo aprovechar un baño pequeño en la reforma: ducha en lugar de bañera, sanitarios suspendidos, puerta corredera, nichos, mueble de poco fondo, luz y revestimientos."
+descripcion: "Ideas para reformar un baño pequeño y ganar espacio: ducha en lugar de bañera, sanitarios suspendidos, puerta corredera, nichos, luz y colores claros."
 publicado: "2026-11-07"
 actualizado: "2026-11-07"
 orden: 7

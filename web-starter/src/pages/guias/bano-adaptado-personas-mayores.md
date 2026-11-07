@@ -2,7 +2,7 @@
 layout: ../../layouts/Guia.astro
 titulo: "Baño adaptado para personas mayores: claves, medidas de referencia y errores"
 tituloSeo: "Baño adaptado para personas mayores: claves y medidas"
-descripcion: "Cómo adaptar el baño para una persona mayor o con movilidad reducida: ducha a ras de suelo, barras de apoyo, suelo antideslizante, alturas de referencia y errores comunes."
+descripcion: "Cómo adaptar el baño a una persona mayor o con movilidad reducida: ducha sin escalón, barras de apoyo, suelo antideslizante y medidas de referencia."
 publicado: "2026-11-07"
 actualizado: "2026-11-07"
 orden: 9

@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Foto from '../components/Foto.astro';
 import { negocio, textos, url, telHref, whatsappHref } from '../lib/sitio';
 const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Contacto', ruta: url.contacto }];
 const wa = whatsappHref(textos.mensajeWhatsapp);
@@ -9,6 +10,7 @@ const wa = whatsappHref(textos.mensajeWhatsapp);
     <div class="contenedor">
       <h1>Contacto</h1>
       <p class="lead">Para pedir presupuesto, lo más rápido es el <a href={url.presupuesto}>formulario</a>. También puedes llamarnos o escribirnos.</p>
+      <Foto clave="lavabo" prioridad credito={false} sizes="(max-width: 760px) 100vw, 720px" class="contacto__foto" />
       <div class="rejilla">
         <div class="tarjeta">
           <h2>Teléfono y WhatsApp</h2>
@@ -22,6 +24,9 @@ const wa = whatsappHref(textos.mensajeWhatsapp);
           <p>{negocio.queSomos}</p>
         </div>
       </div>
+      <h2>Antes de llamar</h2>
+      <p>Te ayudará tener a mano las medidas aproximadas del baño, unas fotos del estado actual y saber si el edificio tiene ascensor. Si tienes dudas de precio o de permisos, consulta las <a href={url.guias}>guías para reformar el baño</a>.</p>
     </div>
   </section>
 </Base>
+<style>.contacto__foto { max-width: 720px; }</style>
