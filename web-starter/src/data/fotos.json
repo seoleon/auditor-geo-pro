@@ -1,50 +1,82 @@
 {
   "portada": {
     "archivo": "portada-bano-reformado-leon.jpg",
-    "alt": "Baño reformado con ducha de mampara de cristal, mueble de lavabo de madera y espejo redondo",
-    "tipo": "ilustracion", "autor": "Ilustración propia", "licencia": "uso propio",
-    "fuenteUrl": "/creditos-fotos/", "licenciaUrl": "/creditos-fotos/", "modificada": false
+    "alt": "Ducha a ras de suelo con mampara de cristal de perfil negro, sumidero lineal, banco de mármol y grifería negra empotrada",
+    "tipo": "foto",
+    "autor": "",
+    "licencia": "",
+    "fuenteUrl": "",
+    "licenciaUrl": "",
+    "modificada": true
   },
   "banoReformado": {
     "archivo": "reforma-integral-bano-terminada.jpg",
     "alt": "Reforma integral de baño terminada: lavabo con mueble suspendido, inodoro y ducha con mampara",
-    "tipo": "ilustracion", "autor": "Ilustración propia", "licencia": "uso propio",
-    "fuenteUrl": "/creditos-fotos/", "licenciaUrl": "/creditos-fotos/", "modificada": false
+    "tipo": "ilustracion",
+    "autor": "Ilustración propia",
+    "licencia": "uso propio",
+    "fuenteUrl": "/creditos-fotos/",
+    "licenciaUrl": "/creditos-fotos/",
+    "modificada": false
   },
   "duchaCristal": {
     "archivo": "plato-ducha-extraplano-mampara.jpg",
     "alt": "Plato de ducha extraplano con mampara de cristal y rociador de techo en lugar de la antigua bañera",
-    "tipo": "ilustracion", "autor": "Ilustración propia", "licencia": "uso propio",
-    "fuenteUrl": "/creditos-fotos/", "licenciaUrl": "/creditos-fotos/", "modificada": false
+    "tipo": "ilustracion",
+    "autor": "Ilustración propia",
+    "licencia": "uso propio",
+    "fuenteUrl": "/creditos-fotos/",
+    "licenciaUrl": "/creditos-fotos/",
+    "modificada": false
   },
   "accesible": {
     "archivo": "bano-adaptado-barras-apoyo.jpg",
     "alt": "Baño adaptado con ducha a ras de suelo, asiento abatible y barras de apoyo junto al inodoro",
-    "tipo": "ilustracion", "autor": "Ilustración propia", "licencia": "uso propio",
-    "fuenteUrl": "/creditos-fotos/", "licenciaUrl": "/creditos-fotos/", "modificada": false
+    "tipo": "ilustracion",
+    "autor": "Ilustración propia",
+    "licencia": "uso propio",
+    "fuenteUrl": "/creditos-fotos/",
+    "licenciaUrl": "/creditos-fotos/",
+    "modificada": false
   },
   "banoPequeno": {
     "archivo": "aseo-pequeno-reformado.jpg",
     "alt": "Aseo pequeño reformado con puerta corredera, lavabo de poco fondo e inodoro compacto",
-    "tipo": "ilustracion", "autor": "Ilustración propia", "licencia": "uso propio",
-    "fuenteUrl": "/creditos-fotos/", "licenciaUrl": "/creditos-fotos/", "modificada": false
+    "tipo": "ilustracion",
+    "autor": "Ilustración propia",
+    "licencia": "uso propio",
+    "fuenteUrl": "/creditos-fotos/",
+    "licenciaUrl": "/creditos-fotos/",
+    "modificada": false
   },
   "alicatado": {
     "archivo": "alicatado-pared-bano-obra.jpg",
     "alt": "Pared de baño a medio alicatar con herramientas de alicatador en el suelo durante la reforma",
-    "tipo": "ilustracion", "autor": "Ilustración propia", "licencia": "uso propio",
-    "fuenteUrl": "/creditos-fotos/", "licenciaUrl": "/creditos-fotos/", "modificada": false
+    "tipo": "ilustracion",
+    "autor": "Ilustración propia",
+    "licencia": "uso propio",
+    "fuenteUrl": "/creditos-fotos/",
+    "licenciaUrl": "/creditos-fotos/",
+    "modificada": false
   },
   "lavabo": {
     "archivo": "lavabo-mueble-espejo-bano.jpg",
     "alt": "Mueble de lavabo verde con espejo redondo y planta, un cambio de imagen del baño sin obra",
-    "tipo": "ilustracion", "autor": "Ilustración propia", "licencia": "uso propio",
-    "fuenteUrl": "/creditos-fotos/", "licenciaUrl": "/creditos-fotos/", "modificada": false
+    "tipo": "ilustracion",
+    "autor": "Ilustración propia",
+    "licencia": "uso propio",
+    "fuenteUrl": "/creditos-fotos/",
+    "licenciaUrl": "/creditos-fotos/",
+    "modificada": false
   },
   "obra": {
     "archivo": "reforma-bano-en-obra.jpg",
     "alt": "Baño en obra con tuberías nuevas de fontanería a la vista antes de alicatar",
-    "tipo": "ilustracion", "autor": "Ilustración propia", "licencia": "uso propio",
-    "fuenteUrl": "/creditos-fotos/", "licenciaUrl": "/creditos-fotos/", "modificada": false
+    "tipo": "ilustracion",
+    "autor": "Ilustración propia",
+    "licencia": "uso propio",
+    "fuenteUrl": "/creditos-fotos/",
+    "licenciaUrl": "/creditos-fotos/",
+    "modificada": false
   }
 }

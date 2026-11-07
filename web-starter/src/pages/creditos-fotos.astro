@@ -12,6 +12,7 @@ const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Créditos de i
     <ul>
       {fotos.map((f) => (
         f.tipo === 'ilustracion' ? <li><em>{f.alt}</em>. Ilustración propia.</li> :
+        !f.autor ? <li><em>{f.alt}</em>. Fotografía con licencia libre.</li> :
         <li><em>{f.alt}</em>. Autor: <a href={f.fuenteUrl} rel="nofollow noopener">{f.autor}</a>. Licencia: <a href={f.licenciaUrl} rel="nofollow noopener license">{f.licencia}</a>{f.modificada ? '. Recortada y redimensionada para la web' : ''}.</li>
       ))}
     </ul>

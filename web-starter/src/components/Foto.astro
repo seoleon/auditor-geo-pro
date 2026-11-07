@@ -24,7 +24,7 @@ const f = foto(clave);
     decoding={prioridad ? 'sync' : 'async'}
   />
   {credito && f.tipo === 'ilustracion' && <figcaption>Ilustración</figcaption>}
-  {credito && f.tipo !== 'ilustracion' && (
+  {credito && f.tipo !== 'ilustracion' && f.autor && (
     <figcaption>
       Foto: <a href={f.fuenteUrl} rel="nofollow noopener" target="_blank">{f.autor}</a>, <a href={f.licenciaUrl} rel="nofollow noopener license" target="_blank">{f.licencia}</a>{f.modificada ? ' (recortada)' : ''}
     </figcaption>

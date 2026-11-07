@@ -161,6 +161,14 @@ const pendientes = cliente.zonas.filter((z) => z.revisar).map((z) => z.nombre);
 if (pendientes.length) aviso('cliente.json', `textos de zona marcados "revisar": ${pendientes.join(', ')}`);
 if (JSON.stringify(cliente).includes('REVISAR')) aviso('cliente.json', 'quedan textos con "REVISAR"');
 
+// ---------- Créditos de fotos ----------
+const fotos = JSON.parse(readFileSync(join(raiz, 'src/data/fotos.json'), 'utf8'));
+for (const [clave, f] of Object.entries(fotos)) {
+  if (f.tipo === 'foto' && (!f.autor || !f.fuenteUrl)) aviso('src/data/fotos.json', `foto "${clave}" sin autor o URL de origen: añádelos para el crédito`);
+}
+const ilus = Object.entries(fotos).filter(([, f]) => f.tipo === 'ilustracion').map(([k]) => k);
+if (ilus.length) aviso('src/data/fotos.json', `quedan ilustraciones en lugar de fotos: ${ilus.join(', ')}`);
+
 // ---------- Informe ----------
 console.log(`\nQA · ${paginas.length} páginas en dist/`);
 if (parecidos.length) {
