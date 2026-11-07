@@ -1,0 +1,18 @@
+{
+  "name": "web-starter-local",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Starter de webs locales con IA: un cliente = un cliente.json.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "qa": "node scripts/qa.mjs",
+    "check": "astro build && node scripts/qa.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.7"
+  }
+}

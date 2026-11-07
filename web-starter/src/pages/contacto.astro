@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import { negocio, textos, url, telHref, whatsappHref } from '../lib/sitio';
+const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Contacto', ruta: url.contacto }];
+const wa = whatsappHref(textos.mensajeWhatsapp);
+const d = negocio.direccion;
+const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${negocio.nombre}, ${d.calle}, ${d.cp} ${d.ciudad}`)}`;
+---
+<Base titulo={`Contacto y presupuesto | ${negocio.nombre}`} descripcion={`Pide presupuesto a ${negocio.nombre}: teléfono ${negocio.telefonoVisible}, WhatsApp o email. ${d.ciudad}.`} migas={migas}>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>Contacto y presupuesto</h1>
+      <p class="lead">{textos.ctaTexto}</p>
+      <div class="rejilla">
+        <div class="tarjeta">
+          <h2>Teléfono y WhatsApp</h2>
+          <p><a class="boton boton--primario" href={telHref}>{negocio.telefonoVisible}</a></p>
+          {wa && <p><a href={wa} rel="nofollow">Escríbenos por WhatsApp</a></p>}
+          <p><a href={`mailto:${negocio.email}`}>{negocio.email}</a></p>
+        </div>
+        <div class="tarjeta">
+          <h2>Dirección y horario</h2>
+          <address>{d.calle}<br />{d.cp} {d.ciudad} ({d.provincia})</address>
+          <p><a href={mapa} rel="nofollow">Ver en Google Maps</a></p>
+          <ul>{negocio.horario.map((h) => <li>{h.texto}</li>)}</ul>
+        </div>
+        {negocio.formularioAction && (
+          <form class="tarjeta" method="post" action={negocio.formularioAction}>
+            <h2>Formulario</h2>
+            <label>Nombre <input name="nombre" required autocomplete="name" /></label>
+            <label>Teléfono <input name="telefono" type="tel" required autocomplete="tel" /></label>
+            <label>Qué necesitas <textarea name="mensaje" rows="4"></textarea></label>
+            <label class="check"><input type="checkbox" required /> He leído la <a href="/privacidad/">política de privacidad</a></label>
+            <button class="boton boton--primario" type="submit">Enviar</button>
+          </form>
+        )}
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  address { font-style: normal; }
+  form { display: grid; gap: 12px; }
+  label { display: grid; gap: 4px; font-weight: 600; }
+  label.check { display: flex; gap: 8px; font-weight: 400; }
+  input, textarea { font: inherit; padding: 10px; border: 1px solid var(--c-borde); border-radius: 8px; }
+  button { cursor: pointer; font: inherit; }
+</style>

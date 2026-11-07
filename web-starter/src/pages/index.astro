@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Diferenciales from '../components/Diferenciales.astro';
+import Proceso from '../components/Proceso.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import { negocio, textos, servicios, zonas, serviciosConLanding, url, listaNatural, schemaFaq } from '../lib/sitio';
+
+const principal = serviciosConLanding[0] ?? servicios[0];
+const ciudad = negocio.direccion.ciudad;
+const faq = [
+  { p: `¿En qué zonas de ${ciudad} trabajáis?`, r: `Trabajamos en ${listaNatural(zonas.map((z) => z.nombre))}.` },
+  ...servicios.flatMap((s) => s.faq.slice(0, 1)),
+];
+const titulo = `${principal.nombreCorto} en ${ciudad} | ${negocio.nombre}`;
+const descripcion = `${negocio.descripcion} Llama al ${negocio.telefonoVisible}.`.slice(0, 160);
+---
+<Base titulo={titulo} descripcion={descripcion} schemas={[schemaFaq(faq)]}>
+  <Hero titulo={`${principal.nombre} en ${ciudad}`} subtitulo={negocio.eslogan} mensajeWhatsapp={textos.mensajeWhatsapp} />
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2>Nuestros servicios</h2>
+      <div class="rejilla">
+        {servicios.map((s) => (
+          <article class="tarjeta">
+            <h3><a href={url.servicio(s)}>{s.nombre}</a></h3>
+            <p>{s.resumen}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Diferenciales />
+  <Proceso />
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2>Dónde trabajamos</h2>
+      <p class="lead">{negocio.nombre} trabaja en {ciudad} y en los municipios de alrededor.</p>
+      <div class="rejilla">
+        {zonas.map((z) => (
+          <article class="tarjeta">
+            <h3><a href={url.landing(principal, z)}>{principal.nombreCorto} en {z.nombre}</a></h3>
+            <p>{listaNatural(z.lugares.slice(0, 4))}{z.lugares.length > 4 ? ' y alrededores' : ''}.</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Faq faq={faq} />
+  <Cta titulo={textos.ctaTitulo} mensajeWhatsapp={textos.mensajeWhatsapp} />
+</Base>

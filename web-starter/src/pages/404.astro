@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import { negocio } from '../lib/sitio';
+---
+<Base titulo={`Página no encontrada | ${negocio.nombre}`} descripcion="La página que buscas no existe." noindex>
+  <section class="seccion"><div class="contenedor">
+    <h1>Esta página no existe</h1>
+    <p><a href="/">Volver al inicio</a> o llámanos al <a href={`tel:${negocio.telefono}`}>{negocio.telefonoVisible}</a>.</p>
+  </div></section>
+</Base>

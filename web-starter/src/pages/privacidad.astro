@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { negocio } from '../lib/sitio';
+---
+<Base titulo={`Política de privacidad | ${negocio.nombre}`} descripcion={`Política de privacidad de ${negocio.nombre}.`} noindex>
+  <section class="seccion"><div class="contenedor">
+    <h1>Política de privacidad</h1>
+    <p><strong>PLANTILLA: la agencia debe completarla y revisarla antes de publicar.</strong></p>
+    <p>Responsable: {negocio.nombre} ({negocio.email}). Esta web no usa cookies de seguimiento por defecto.</p>
+    <p>[COMPLETAR: finalidad, base legal, conservación, destinatarios y derechos del interesado.]</p>
+  </div></section>
+</Base>

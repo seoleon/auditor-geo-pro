@@ -1,0 +1,18 @@
+---
+import { proceso } from '../lib/sitio';
+interface Props { titulo?: string; }
+const { titulo = 'Cómo trabajamos' } = Astro.props;
+---
+<section class="seccion">
+  <div class="contenedor">
+    <h2>{titulo}</h2>
+    <ol class="pasos">
+      {proceso.map((p) => <li class="tarjeta"><h3>{p.titulo}</h3><p>{p.texto}</p></li>)}
+    </ol>
+  </div>
+</section>
+<style>
+  .pasos { list-style: none; padding: 0; margin: 0; counter-reset: paso; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .pasos li { counter-increment: paso; }
+  .pasos li::before { content: counter(paso); display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--c-primario); color: #fff; font-weight: 700; margin-bottom: 10px; }
+</style>

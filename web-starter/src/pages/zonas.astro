@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import Cta from '../components/Cta.astro';
+import { negocio, textos, zonas, serviciosConLanding, url, listaNatural } from '../lib/sitio';
+const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Zonas', ruta: url.zonas }];
+const ciudad = negocio.direccion.ciudad;
+---
+<Base titulo={`Zonas de trabajo en ${ciudad} y alrededores | ${negocio.nombreCorto}`} descripcion={`Zonas donde trabaja ${negocio.nombre}: ${listaNatural(zonas.map((z) => z.nombre))}.`.slice(0, 160)} migas={migas}>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>Zonas donde trabajamos</h1>
+      <p class="lead">Trabajamos en {ciudad} y en los municipios de alrededor. Elige tu zona para ver qué solemos encontrar allí.</p>
+      <div class="rejilla">
+        {zonas.map((z) => (
+          <article class="tarjeta">
+            <h2>{z.nombre}</h2>
+            <p>{listaNatural(z.lugares)}.</p>
+            <ul>{serviciosConLanding.map((s) => <li><a href={url.landing(s, z)}>{s.nombreCorto} en {z.nombreCorto}</a></li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <Cta titulo={textos.ctaTitulo} mensajeWhatsapp={textos.mensajeWhatsapp} />
+</Base>

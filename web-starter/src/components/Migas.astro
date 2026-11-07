@@ -1,0 +1,15 @@
+---
+import type { Miga } from '../lib/sitio';
+const { migas } = Astro.props as { migas: Miga[] };
+---
+<nav class="migas contenedor" aria-label="Migas de pan">
+  <ol>
+    {migas.map((m, i) => (
+      <li>{i < migas.length - 1 ? <a href={m.ruta}>{m.nombre}</a> : <span aria-current="page">{m.nombre}</span>}</li>
+    ))}
+  </ol>
+</nav>
+<style>
+  .migas ol { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 0 0; margin: 0; font-size: .9rem; color: var(--c-suave); }
+  .migas li + li::before { content: '›'; margin-right: 6px; }
+</style>

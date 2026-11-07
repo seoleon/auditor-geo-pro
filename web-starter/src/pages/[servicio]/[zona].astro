@@ -1,0 +1,76 @@
+---
+// Landing servicio × zona: el corazón del SEO local.
+// Solo se generan para los servicios de cliente.json → landings.servicios.
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { negocio, servicios, zonas, serviciosConLanding, url, listaNatural, schemaServicio, schemaFaq, type Servicio, type Zona } from '../../lib/sitio';
+
+export function getStaticPaths() {
+  return serviciosConLanding.flatMap((s) =>
+    zonas.map((z) => ({ params: { servicio: s.slug, zona: z.slug }, props: { s, z } })),
+  );
+}
+
+const { s, z } = Astro.props as { s: Servicio; z: Zona };
+const enZona = `${s.nombre} en ${z.nombre}`;
+const mensaje = `Hola, quiero presupuesto para ${s.nombre.toLowerCase()} en ${z.nombreCorto}`;
+const vecinas = zonas.filter((x) => x.slug !== z.slug);
+const otrosAqui = serviciosConLanding.filter((x) => x.slug !== s.slug);
+const otrosServicios = servicios.filter((x) => x.slug !== s.slug && !otrosAqui.includes(x));
+
+// FAQ: primero las propias de la zona, luego 2 del servicio (no todas, para no repetir la página de servicio).
+const faq = [
+  ...z.faq,
+  {
+    p: `¿Trabajáis en ${listaNatural(z.lugares.slice(0, 3))}?`,
+    r: `Sí. En ${z.nombre} trabajamos en ${listaNatural(z.lugares)}. ${z.notaLogistica}`,
+  },
+  ...s.faq.slice(0, 2),
+];
+const migas = [
+  { nombre: 'Inicio', ruta: url.inicio },
+  { nombre: s.nombre, ruta: url.servicio(s) },
+  { nombre: z.nombre, ruta: url.landing(s, z) },
+];
+---
+<Base
+  titulo={`${s.nombreCorto} en ${z.nombre} | ${negocio.nombreCorto}`}
+  descripcion={`${s.nombre} en ${z.nombre} (${listaNatural(z.lugares.slice(0, 2))}). Visita, medición y presupuesto cerrado. Llama al ${negocio.telefonoVisible}.`.slice(0, 160)}
+  migas={migas}
+  schemas={[schemaServicio(s, z), schemaFaq(faq)]}
+>
+  <Hero titulo={enZona} subtitulo={`${s.resumen} Damos servicio en ${listaNatural(z.lugares)}.`} mensajeWhatsapp={mensaje} />
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2>{s.nombreCorto} en {z.nombreCorto}: lo que solemos encontrar</h2>
+      <p class="lead">{z.texto}</p>
+      <p>{z.notaLogistica}</p>
+      <h3>Un trabajo típico en {z.nombreCorto}</h3>
+      <p>{z.trabajoTipico}</p>
+      <p>Qué incluye, materiales y plazos en la página de <a href={url.servicio(s)}>{s.nombre.toLowerCase()}</a>.</p>
+    </div>
+  </section>
+
+  <Faq faq={faq} titulo={`Preguntas frecuentes en ${z.nombreCorto}`} />
+
+  <section class="seccion">
+    <div class="contenedor">
+      {otrosAqui.length > 0 && (
+        <>
+          <h2>Otros servicios en {z.nombreCorto}</h2>
+          <ul>{otrosAqui.map((o) => <li><a href={url.landing(o, z)}>{o.nombre} en {z.nombre}</a></li>)}</ul>
+        </>
+      )}
+      {otrosServicios.length > 0 && (
+        <><h2>Más servicios</h2><ul>{otrosServicios.map((o) => <li><a href={url.servicio(o)}>{o.nombre}</a></li>)}</ul></>
+      )}
+      <h2>{s.nombreCorto} en otras zonas</h2>
+      <ul>{vecinas.map((v) => <li><a href={url.landing(s, v)}>{s.nombreCorto} en {v.nombre}</a></li>)}</ul>
+    </div>
+  </section>
+
+  <Cta titulo={`Presupuesto de ${s.nombreCorto.toLowerCase()} en ${z.nombreCorto}`} mensajeWhatsapp={mensaje} />
+</Base>

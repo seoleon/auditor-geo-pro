@@ -1,0 +1,43 @@
+---
+import { negocio, servicios, zonas, serviciosConLanding, url } from '../lib/sitio';
+const principal = serviciosConLanding[0];
+const ano = new Date().getFullYear();
+---
+<footer class="pie">
+  <div class="contenedor pie__rejilla">
+    <div>
+      <p class="pie__nombre">{negocio.nombre}</p>
+      <address>
+        {negocio.direccion.calle}<br />
+        {negocio.direccion.cp} {negocio.direccion.ciudad} ({negocio.direccion.provincia})<br />
+        <a href={`tel:${negocio.telefono}`}>{negocio.telefonoVisible}</a><br />
+        <a href={`mailto:${negocio.email}`}>{negocio.email}</a>
+      </address>
+      <p>{negocio.horario.map((h) => h.texto).join(' · ')}</p>
+    </div>
+    <div>
+      <p class="pie__titulo">Servicios</p>
+      <ul>{servicios.map((s) => <li><a href={url.servicio(s)}>{s.nombre}</a></li>)}</ul>
+    </div>
+    {principal && (
+      <div>
+        <p class="pie__titulo">{principal.nombreCorto} por zonas</p>
+        <ul>{zonas.map((z) => <li><a href={url.landing(principal, z)}>{principal.nombreCorto} en {z.nombreCorto}</a></li>)}</ul>
+      </div>
+    )}
+  </div>
+  <div class="contenedor pie__legal">
+    <span>© {ano} {negocio.nombre}</span>
+    <a href="/aviso-legal/">Aviso legal</a>
+    <a href="/privacidad/">Privacidad</a>
+  </div>
+</footer>
+<style>
+  .pie { background: #1d2329; color: #d8dde2; padding-block: 48px 24px; margin-top: 0; }
+  .pie a { color: #fff; }
+  .pie ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+  address { font-style: normal; margin-bottom: 1em; }
+  .pie__rejilla { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .pie__nombre, .pie__titulo { font-weight: 700; color: #fff; }
+  .pie__legal { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 32px; padding-top: 16px; border-top: 1px solid #39424b; font-size: .9rem; }
+</style>

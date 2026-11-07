@@ -1,0 +1,88 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Migas from '../components/Migas.astro';
+import { negocio, marca, esDemo, absoluta, schemaNegocio, schemaMigas, type Miga } from '../lib/sitio';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  migas?: Miga[];
+  schemas?: object[];
+  noindex?: boolean;
+}
+
+const { titulo, descripcion, migas = [], schemas = [], noindex = false } = Astro.props;
+const canonica = absoluta(Astro.url.pathname);
+const todos = [schemaNegocio(), ...(migas.length > 1 ? [schemaMigas(migas)] : []), ...schemas];
+// Una web de demostración nunca debe indexarse.
+const robots = esDemo || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+    <meta name="robots" content={robots} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={negocio.nombre} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    <meta name="theme-color" content={marca.colorPrimario} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {todos.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+    <style set:html={`:root{--c-primario:${marca.colorPrimario};--c-acento:${marca.colorAcento};--c-fondo:${marca.colorFondo};--fuente:${marca.tipografia}}`}></style>
+    <style is:global>
+      :root {
+        --c-texto: #1d2329;
+        --c-suave: #56606a;
+        --c-borde: #dfdad3;
+        --c-blanco: #fff;
+        --radio: 12px;
+        --ancho: 1120px;
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body { margin: 0; font-family: var(--fuente); color: var(--c-texto); background: var(--c-fondo); line-height: 1.6; font-size: 1.0625rem; }
+      img { max-width: 100%; height: auto; }
+      a { color: var(--c-primario); }
+      h1, h2, h3 { line-height: 1.2; margin: 0 0 .6em; }
+      h1 { font-size: clamp(1.9rem, 4.5vw, 2.9rem); }
+      h2 { font-size: clamp(1.45rem, 3vw, 2rem); }
+      h3 { font-size: 1.15rem; }
+      p { margin: 0 0 1em; }
+      .contenedor { width: min(100% - 32px, var(--ancho)); margin-inline: auto; }
+      .seccion { padding-block: clamp(40px, 7vw, 80px); }
+      .seccion--blanca { background: var(--c-blanco); }
+      .lead { font-size: 1.15rem; color: var(--c-suave); max-width: 62ch; }
+      .rejilla { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+      .tarjeta { background: var(--c-blanco); border: 1px solid var(--c-borde); border-radius: var(--radio); padding: 22px; }
+      .tarjeta h3 a { text-decoration: none; }
+      .tarjeta h3 a::after { content: ' →'; }
+      .boton { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 999px; font-weight: 700; text-decoration: none; border: 2px solid transparent; }
+      .boton--primario { background: var(--c-acento); color: #1b1206; }
+      .boton--secundario { border-color: currentColor; color: inherit; }
+      .botones { display: flex; flex-wrap: wrap; gap: 12px; }
+      .lista-check { list-style: none; padding: 0; margin: 0 0 1em; display: grid; gap: 8px; }
+      .lista-check li { padding-left: 28px; position: relative; }
+      .lista-check li::before { content: '✓'; position: absolute; left: 0; color: var(--c-primario); font-weight: 700; }
+      .aviso-demo { background: #fff3cd; color: #5c4400; text-align: center; padding: 8px 16px; font-size: .9rem; }
+      :focus-visible { outline: 3px solid var(--c-acento); outline-offset: 2px; }
+    </style>
+  </head>
+  <body>
+    {esDemo && <div class="aviso-demo">Web de demostración con datos ficticios. No es un negocio real.</div>}
+    <Header />
+    {migas.length > 1 && <Migas migas={migas} />}
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

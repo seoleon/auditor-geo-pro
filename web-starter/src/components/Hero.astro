@@ -1,0 +1,26 @@
+---
+import { negocio, textos, telHref, whatsappHref } from '../lib/sitio';
+interface Props { titulo: string; subtitulo: string; mensajeWhatsapp: string; }
+const { titulo, subtitulo, mensajeWhatsapp } = Astro.props;
+const wa = whatsappHref(mensajeWhatsapp);
+---
+<section class="hero">
+  <div class="contenedor">
+    <h1>{titulo}</h1>
+    <p class="hero__sub">{subtitulo}</p>
+    <div class="botones">
+      <a class="boton boton--primario" href={telHref}>Llamar al {negocio.telefonoVisible}</a>
+      {wa && <a class="boton boton--secundario" href={wa} rel="nofollow">Pedir presupuesto por WhatsApp</a>}
+    </div>
+    <ul class="hero__datos">
+      {textos.sellosHero.map((t) => <li>{t}</li>)}
+    </ul>
+  </div>
+</section>
+<style>
+  .hero { background: linear-gradient(135deg, var(--c-primario), color-mix(in srgb, var(--c-primario) 70%, #000)); color: #fff; padding-block: clamp(48px, 9vw, 96px); }
+  .hero h1 { max-width: 22ch; }
+  .hero__sub { font-size: 1.2rem; max-width: 60ch; opacity: .92; }
+  .hero__datos { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: .95rem; opacity: .9; }
+  .hero__datos li::before { content: '✓ '; }
+</style>

@@ -1,0 +1,13 @@
+---
+import { diferenciales } from '../lib/sitio';
+interface Props { titulo?: string; }
+const { titulo = 'Por qué elegirnos' } = Astro.props;
+---
+<section class="seccion seccion--blanca">
+  <div class="contenedor">
+    <h2>{titulo}</h2>
+    <div class="rejilla">
+      {diferenciales.map((d) => <div class="tarjeta"><h3>{d.titulo}</h3><p>{d.texto}</p></div>)}
+    </div>
+  </div>
+</section>

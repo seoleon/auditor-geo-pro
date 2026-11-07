@@ -1,0 +1,21 @@
+---
+import { negocio, textos, telHref, whatsappHref } from '../lib/sitio';
+interface Props { titulo: string; mensajeWhatsapp: string; }
+const { titulo, mensajeWhatsapp } = Astro.props;
+const wa = whatsappHref(mensajeWhatsapp);
+---
+<section class="cta">
+  <div class="contenedor">
+    <h2>{titulo}</h2>
+    <p>{textos.ctaTexto}</p>
+    <div class="botones">
+      <a class="boton boton--primario" href={telHref}>Llamar al {negocio.telefonoVisible}</a>
+      {wa && <a class="boton boton--secundario" href={wa} rel="nofollow">WhatsApp</a>}
+      <a class="boton boton--secundario" href="/contacto/">Otras formas de contacto</a>
+    </div>
+  </div>
+</section>
+<style>
+  .cta { background: var(--c-primario); color: #fff; padding-block: clamp(40px, 7vw, 72px); }
+  .cta a.boton--secundario { color: #fff; }
+</style>

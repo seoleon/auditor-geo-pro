@@ -1,0 +1,21 @@
+---
+import type { Faq } from '../lib/sitio';
+interface Props { faq: Faq[]; titulo?: string; }
+const { faq, titulo = 'Preguntas frecuentes' } = Astro.props;
+---
+{faq.length > 0 && (
+  <section class="seccion seccion--blanca">
+    <div class="contenedor">
+      <h2>{titulo}</h2>
+      <div class="faq">
+        {faq.map((f) => <details><summary>{f.p}</summary><p>{f.r}</p></details>)}
+      </div>
+    </div>
+  </section>
+)}
+<style>
+  .faq { display: grid; gap: 10px; max-width: 820px; }
+  details { border: 1px solid var(--c-borde); border-radius: var(--radio); padding: 14px 18px; background: var(--c-fondo); }
+  summary { font-weight: 700; cursor: pointer; }
+  details p { margin: 10px 0 0; }
+</style>
