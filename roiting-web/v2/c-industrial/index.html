@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roiting · Estrategia industrial</title>
+<meta name="description" content="Prototipo C. Home de Roiting con dirección de estrategia industrial.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* DIRECCIÓN C · ESTRATEGIA INDUSTRIAL
+   Concepto: plano de ingeniería. Retícula de 12 columnas visible, cajetines, referencias y cotas.
+   Tipografía Archivo condensada en titulares, normal en texto. Amarillo de seguridad solo como relleno. */
+:root{
+  --bg:#F1F0EC; --bg-2:#E6E4DE; --white:#FAFAF8;
+  --ink:#111111; --ink-2:#2D2E30; --steel:#5E6266;
+  --line:rgba(17,17,17,.12); --line-2:rgba(17,17,17,.85);
+  --yellow:#FFC629;  /* relleno de señal, siempre con texto negro */
+  --dark:#141414; --on-dark:#F1F0EC; --on-dark-2:#A9ABAE;
+  --f-sans:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  --t-cap:.75rem; --t-sm:.9375rem; --t-md:clamp(1rem,.96rem + .2vw,1.125rem); --t-lg:clamp(1.125rem,1.05rem + .4vw,1.375rem);
+  --t-xl:clamp(1.5rem,1.2rem + 1.2vw,2.25rem); --t-2xl:clamp(2.25rem,1.4rem + 3.6vw,5rem); --t-hero:clamp(3.25rem,1.2rem + 9vw,10.5rem);
+  --s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;--s9:96px;
+  --section:clamp(72px,9vw,136px);
+  --max:1280px; --gut:max(20px,3.6vw); --gap:clamp(12px,1.6vw,24px);
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--t-md)/1.55 var(--f-sans);font-stretch:100%;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit}
+svg{display:block;max-width:100%}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;box-shadow:0 0 0 6px var(--yellow)}
+.skip{position:absolute;left:16px;top:-80px;background:var(--yellow);color:var(--ink);padding:12px 16px;z-index:99;font-weight:700}
+.skip:focus{top:16px}
+.wrap{max-width:calc(var(--max) + 2*var(--gut));margin:0 auto;padding-inline:var(--gut);position:relative}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+.grid>*{min-width:0}
+/* Retícula visible de fondo */
+.ruled{position:relative}
+.gl{position:absolute;inset:0;pointer-events:none;z-index:0}
+.gl .grid{height:100%}
+.gl i{border-inline:1px solid rgba(17,17,17,.06);height:100%}
+.ruled>.wrap{z-index:1}
+@media (max-width:599px){.gl .grid{grid-template-columns:repeat(4,minmax(0,1fr))}.gl i:nth-child(n+5){display:none}}
+.cond{font-stretch:62%;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;line-height:.86}
+.ref{font:500 var(--t-cap)/1.3 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--steel)}
+.ref b{background:var(--yellow);color:var(--ink);padding:1px 6px;font-weight:500}
+.lead{font-size:var(--t-lg);line-height:1.45;color:var(--ink-2);max-width:46ch}
+.section{padding-block:var(--section);border-top:1px solid var(--line-2)}
+.shead{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:var(--s4);margin-bottom:clamp(36px,5vw,64px);align-items:end}
+.shead>*{min-width:0}
+.shead .ref{grid-column:1/3;align-self:start;padding-top:10px}
+.shead h2{grid-column:3/10;font-size:var(--t-2xl)}
+.shead p{grid-column:10/13;font-size:var(--t-sm);color:var(--steel)}
+@media (max-width:1023px){.shead .ref,.shead h2,.shead p{grid-column:1/-1}}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;gap:14px;min-height:52px;padding:0 22px;font:700 var(--t-sm)/1 var(--f-sans);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;border:2px solid var(--ink);cursor:pointer;transition:background .2s var(--ease),color .2s}
+.btn--y{background:var(--yellow);color:var(--ink)}
+.btn--y:hover{background:var(--ink);color:var(--yellow)}
+.btn--o{background:transparent;color:var(--ink)}
+.btn--o:hover{background:var(--ink);color:var(--bg)}
+.btn svg{width:18px;height:18px}
+
+/* Cabecera */
+.hdr{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:2px solid var(--ink)}
+.hdr__bar{display:grid;grid-template-columns:auto 1fr auto;align-items:stretch;min-height:68px}
+.logo{display:flex;align-items:center;gap:12px;padding-right:24px;border-right:1px solid var(--line-2);text-decoration:none}
+.logo b{font:800 26px/1 var(--f-sans);font-stretch:75%;letter-spacing:-.01em;text-transform:uppercase}
+.logo span{font:500 10.5px/1.2 var(--f-mono);color:var(--steel);text-transform:uppercase}
+.nav{display:flex;align-items:stretch}
+.nav a{display:flex;align-items:center;padding:0 18px;border-right:1px solid var(--line);font:600 var(--t-sm) var(--f-sans);text-decoration:none;transition:background .2s}
+.nav a:hover{background:var(--yellow)}
+.nav a small{font:500 10.5px var(--f-mono);color:var(--steel);margin-right:8px}
+.hdr__cta{display:flex;align-items:center;padding-left:16px}
+.hdr__cta .btn{min-height:46px}
+.menu{display:none;align-items:center;gap:10px;background:none;border:0;border-left:1px solid var(--line-2);padding:0 0 0 18px;font:700 var(--t-sm) var(--f-sans);text-transform:uppercase;cursor:pointer;color:var(--ink)}
+.menu i{width:22px;height:2px;background:currentColor;box-shadow:0 7px 0 currentColor,0 -7px 0 currentColor}
+.mpanel{position:fixed;inset:70px 0 0;background:var(--yellow);z-index:39;overflow:auto;padding:16px var(--gut) 32px}
+.mpanel a.it{display:grid;grid-template-columns:56px 1fr;align-items:baseline;border-bottom:2px solid var(--ink);padding:16px 0;text-decoration:none}
+.mpanel a.it span{font:500 12px var(--f-mono)}
+.mpanel a.it b{font:800 40px/1 var(--f-sans);font-stretch:62%;text-transform:uppercase}
+.mpanel .btn{margin-top:24px;background:var(--ink);color:var(--yellow)}
+@media (max-width:1100px){.nav{display:none}.menu{display:flex}.hdr__bar{grid-template-columns:1fr auto auto}.logo{border-right:0}}
+@media (max-width:599px){.hdr__cta{display:none}.logo span{display:none}}
+
+/* Hero */
+.hero{padding-top:clamp(28px,4vw,56px);padding-bottom:clamp(40px,5vw,72px)}
+.hero__top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line-2);padding-bottom:var(--s3)}
+.hero h1{font-size:var(--t-hero);margin-top:var(--s5)}
+.hero h1 .y{background:var(--yellow);padding:0 .06em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero__row{margin-top:var(--s6);align-items:start;row-gap:var(--s6)}
+.hero__txt{grid-column:1/5;display:flex;flex-direction:column;gap:var(--s5)}
+.hero__ctas{display:flex;flex-wrap:wrap;gap:10px}
+.drawing{grid-column:5/13;border:2px solid var(--ink);background:var(--white);position:relative}
+.drawing svg{width:100%;height:auto}
+.drawing text{font-family:var(--f-mono)}
+.dlegend{display:none}
+@media (max-width:767px){.drawing svg .callout text:not(.num){display:none}.drawing svg .callout .num{font-size:22px}.dlegend{display:grid;grid-template-columns:1fr 1fr;border-top:2px solid var(--ink)}.dlegend li{display:flex;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);font-size:13px;align-items:flex-start}.dlegend li:nth-child(odd){border-right:1px solid var(--line)}.dlegend b{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font:500 11px var(--f-mono)}.dlegend li:first-child b{background:var(--yellow)}.dlegend li:last-child b{background:var(--ink);color:var(--yellow)}.dlegend span{display:block;color:var(--steel);font:500 11px var(--f-mono)}}
+.cajetin{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:2px solid var(--ink);font:500 11px/1.3 var(--f-mono);text-transform:uppercase}
+.cajetin div{padding:8px 10px;border-right:1px solid var(--ink);min-width:0}
+.cajetin div:last-child{border-right:0}
+.cajetin span{display:block;color:var(--steel);font-size:10px}
+@media (max-width:1023px){.hero__txt,.drawing{grid-column:1/-1}.hero__txt{display:grid;grid-template-columns:1fr 1fr;align-items:start}}
+@media (max-width:599px){.hero__txt{display:flex}.cajetin{grid-template-columns:1fr 1fr}.cajetin div:nth-child(2){border-right:0}.cajetin div:nth-child(-n+2){border-bottom:1px solid var(--ink)}}
+
+/* Banda de canales */
+.band{background:var(--ink);color:var(--on-dark);overflow:hidden}
+.band ul{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
+.band li{padding:18px 16px;border-right:1px solid rgba(241,240,236,.18);display:flex;flex-direction:column;gap:4px}
+.band li:last-child{border-right:0}
+.band li span{font:500 11px var(--f-mono);color:var(--on-dark-2)}
+.band li b{font:700 var(--t-md)/1.2 var(--f-sans)}
+@media (max-width:1023px){.band ul{grid-template-columns:repeat(3,1fr)}.band li:nth-child(3){border-right:0}.band li:nth-child(-n+3){border-bottom:1px solid rgba(241,240,236,.18)}}
+@media (max-width:599px){.band ul{grid-template-columns:1fr 1fr}.band li:nth-child(3){border-right:1px solid rgba(241,240,236,.18)}.band li:nth-child(2n){border-right:0}.band li:nth-child(-n+4){border-bottom:1px solid rgba(241,240,236,.18)}}
+
+/* Especificación */
+.spec{border:2px solid var(--ink);background:var(--white);overflow-x:auto}
+.spec table{width:100%;border-collapse:collapse;min-width:640px}
+.spec th,.spec td{text-align:left;vertical-align:top;padding:16px 18px;border-bottom:1px solid var(--line)}
+.spec thead th{font:500 11px var(--f-mono);text-transform:uppercase;letter-spacing:.04em;color:var(--steel);border-bottom:2px solid var(--ink);background:var(--bg-2)}
+.spec tbody th{font:700 var(--t-md)/1.25 var(--f-sans);width:24%}
+.spec td{font-size:var(--t-sm);color:var(--ink-2)}
+.spec td.ok{font-weight:600;color:var(--ink);position:relative;padding-left:40px}
+.spec td.ok::before{content:"";position:absolute;left:18px;top:22px;width:10px;height:10px;background:var(--yellow);outline:1.5px solid var(--ink)}
+.spec tr:last-child th,.spec tr:last-child td{border-bottom:0}
+@media (max-width:599px){.spec{overflow:visible}.spec table{min-width:0}.spec thead{display:none}.spec tr{display:block;padding:14px 16px;border-bottom:1px solid var(--line-2)}.spec tr:last-child{border-bottom:0}.spec th,.spec td{display:block;padding:4px 0;border:0;width:auto!important}.spec td::before{content:attr(data-l);display:block;font:500 10.5px var(--f-mono);text-transform:uppercase;color:var(--steel);margin:6px 0 2px}.spec td.ok{padding-left:0}.spec td.ok::before{position:static;width:auto;height:auto;background:none;outline:0}}
+
+/* Comité de compra */
+.committee{grid-column:1/-1;border:2px solid var(--ink);background:var(--white);padding:clamp(16px,2vw,28px)}
+.com{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--gap);position:relative;padding-top:56px}
+.com::before{content:"";position:absolute;top:24px;left:10%;right:10%;height:2px;background:var(--ink)}
+.com::after{content:"COMITÉ DE COMPRA";position:absolute;top:12px;left:50%;transform:translateX(-50%);background:var(--yellow);border:2px solid var(--ink);font:700 12px var(--f-mono);padding:4px 10px}
+.role{position:relative;border:1px solid var(--line-2);padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.role::before{content:"";position:absolute;top:-34px;left:50%;width:2px;height:34px;background:var(--ink)}
+.role .ref{font-size:10.5px}
+.role h3{font:800 clamp(1.25rem,.9rem + .9vw,1.875rem)/1 var(--f-sans);font-stretch:62%;text-transform:uppercase;overflow-wrap:anywhere}
+.role p{font-size:13.5px;color:var(--ink-2)}
+.role .needs{margin-top:auto;padding-top:10px;border-top:1px dashed var(--line-2);font:500 11.5px/1.5 var(--f-mono);color:var(--ink)}
+@media (max-width:1023px){.com{grid-template-columns:repeat(3,1fr);row-gap:24px}.com::before,.role::before{display:none}.com::after{top:8px}}
+@media (max-width:599px){.com{grid-template-columns:1fr 1fr}.role:last-child{grid-column:1/-1}}
+
+/* Servicios: catálogo */
+.cat{border-top:2px solid var(--ink)}
+.cat a{display:grid;grid-template-columns:90px minmax(0,1.3fr) minmax(0,2fr) minmax(0,1.6fr) 48px;gap:var(--gap);align-items:center;padding:22px 0;border-bottom:1px solid var(--line-2);text-decoration:none;transition:background .15s}
+.cat a:hover{background:var(--yellow)}
+.cat .code{font:500 12px var(--f-mono)}
+.cat h3{font:800 var(--t-xl)/1 var(--f-sans);font-stretch:68%;text-transform:uppercase}
+.cat p{font-size:var(--t-sm);color:var(--ink-2)}
+.cat ul{display:flex;flex-wrap:wrap;gap:6px}
+.cat ul li{font:500 11px var(--f-mono);border:1px solid var(--line-2);padding:3px 8px;background:var(--bg)}
+.cat .arr{width:44px;height:44px;border:2px solid var(--ink);display:grid;place-items:center;justify-self:end;transition:background .15s}
+.cat a:hover .arr{background:var(--ink);color:var(--yellow)}
+@media (max-width:1023px){.cat a{grid-template-columns:70px 1fr 44px;row-gap:10px}.cat p,.cat ul{grid-column:2/3}.cat .arr{grid-row:1;grid-column:3}}
+@media (max-width:599px){.cat a{grid-template-columns:1fr 44px}.cat .code{grid-column:1/-1}.cat p,.cat ul{grid-column:1/-1}.cat .arr{grid-row:2;grid-column:2}}
+
+/* Proceso tipo diagrama de planta */
+.proc{border:2px solid var(--ink);background:var(--white);overflow-x:auto}
+.proc svg{min-width:880px;width:100%;height:auto}
+.proc text{font-family:var(--f-sans)}
+.proc .m{font-family:var(--f-mono)}
+.procl{display:none}
+@media (max-width:767px){.proc{display:none}.procl{display:grid;gap:0;border:2px solid var(--ink);background:var(--white)}
+ .procl li{display:grid;grid-template-columns:56px 1fr;border-bottom:1px solid var(--line-2)}
+ .procl li:last-child{border-bottom:0}
+ .procl .n{display:grid;place-items:center;background:var(--ink);color:var(--yellow);font:800 28px var(--f-sans);font-stretch:62%}
+ .procl li:last-child .n{background:var(--yellow);color:var(--ink)}
+ .procl div{padding:14px 16px}
+ .procl h3{font:800 22px/1 var(--f-sans);font-stretch:68%;text-transform:uppercase}
+ .procl p{font-size:13.5px;color:var(--ink-2);margin-top:6px}
+ .procl small{display:block;font:500 11px var(--f-mono);color:var(--steel);margin-top:8px}}
+
+/* Sectores: matriz */
+.mtx{border:2px solid var(--ink);overflow-x:auto;background:var(--white)}
+.mtx table{width:100%;border-collapse:collapse;min-width:720px}
+.mtx th,.mtx td{border:1px solid var(--line);padding:14px 12px;text-align:center;font-size:13.5px}
+.mtx thead th{font:500 11px var(--f-mono);text-transform:uppercase;color:var(--steel);background:var(--bg-2);border-bottom:2px solid var(--ink)}
+.mtx tbody th{text-align:left;font:800 var(--t-lg)/1 var(--f-sans);font-stretch:70%;text-transform:uppercase;white-space:nowrap}
+.mtx td.r{text-align:left;color:var(--ink-2)}
+.mtx .k{display:inline-block;width:14px;height:14px;background:var(--ink)}
+.mtx .k.p{background:var(--yellow);outline:2px solid var(--ink)}
+.mtx tbody tr:hover{background:var(--bg)}
+.mtx tbody th{position:sticky;left:0;background:var(--white);z-index:1;box-shadow:1px 0 0 var(--line-2)}
+.mtx thead th:first-child{position:sticky;left:0;z-index:2}
+.swipe{display:none;font:500 11px var(--f-mono);color:var(--steel);margin-bottom:8px}
+@media (max-width:767px){.swipe{display:block}}
+.mlegend{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:12px;font:500 12px var(--f-mono);color:var(--steel)}
+.mlegend span{display:inline-flex;gap:8px;align-items:center}
+.mlegend i{width:12px;height:12px;background:var(--ink);display:inline-block}
+.mlegend i.p{background:var(--yellow);outline:2px solid var(--ink)}
+
+/* Casos */
+.caso{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--gap);align-items:center;border:2px dashed var(--ink);padding:clamp(20px,3vw,36px)}
+.caso>*{min-width:0}
+.caso h2{grid-column:1/7;font-size:var(--t-xl)}
+.caso p{grid-column:7/10;font-size:var(--t-sm);color:var(--ink-2)}
+.caso a{grid-column:10/13;justify-self:end}
+@media (max-width:1023px){.caso h2,.caso p,.caso a{grid-column:1/-1;justify-self:start}}
+
+/* CTA orden de trabajo */
+.cta{background:var(--ink);color:var(--on-dark);border-top:0}
+.cta .ref{color:var(--on-dark-2)}
+.cta h2{font-size:var(--t-2xl);margin-top:var(--s4)}
+.cta h2 .y{background:var(--yellow);color:var(--ink);padding:0 .06em}
+.cta p.lead{color:var(--on-dark-2);margin-top:var(--s5)}
+.cta__g{row-gap:var(--s7);align-items:start}
+.cta__t{grid-column:1/6}.ot{grid-column:7/13}
+@media (max-width:1023px){.cta__t,.ot{grid-column:1/-1}}
+.ot{background:var(--white);color:var(--ink);border:2px solid var(--yellow)}
+.ot__h{display:flex;justify-content:space-between;align-items:center;background:var(--yellow);padding:10px 14px;font:700 12px var(--f-mono);text-transform:uppercase}
+.ot__g{display:grid;grid-template-columns:1fr 1fr}
+.cell{display:flex;flex-direction:column;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:10px 14px 4px;min-width:0}
+.cell:nth-child(2n){border-right:0}
+.cell.full{grid-column:1/-1;border-right:0}
+.cell label{font:500 10.5px var(--f-mono);text-transform:uppercase;color:var(--steel)}
+.cell input,.cell select,.cell textarea{font:inherit;font-size:var(--t-md);border:0;background:transparent;padding:6px 0 10px;color:var(--ink);min-height:44px;width:100%}
+.cell textarea{min-height:84px;resize:vertical}
+.cell:focus-within{background:#FFF6D9}
+.cell input:focus,.cell select:focus,.cell textarea:focus{outline:none}
+.ot__f{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px}
+.ot__f p{font:500 11.5px var(--f-mono);color:var(--steel);max-width:30ch}
+.okm{padding:0 14px 14px;font-size:var(--t-sm);font-weight:600}
+@media (max-width:479px){.ot__g{grid-template-columns:1fr}.cell{border-right:0}}
+
+/* Footer */
+.ftr{padding-top:var(--s7)}
+.ftr__big{font-size:clamp(4rem,1rem + 14vw,15rem);border-bottom:2px solid var(--ink);padding-bottom:.05em;overflow:hidden;white-space:nowrap}
+.ftr__g{row-gap:var(--s6);padding-block:var(--s6)}
+.ftr h2{font:500 11px var(--f-mono);text-transform:uppercase;color:var(--steel);margin-bottom:12px}
+.ftr ul{display:grid;gap:8px;font-size:var(--t-sm);font-weight:600}
+.ftr a{text-decoration:none}.ftr a:hover{background:var(--yellow)}
+.g1{grid-column:1/5}.g2{grid-column:5/7}.g3{grid-column:7/9}.g4{grid-column:9/13}
+@media (max-width:1023px){.g1{grid-column:1/-1}.g2{grid-column:1/5}.g3{grid-column:5/9}.g4{grid-column:9/13}}
+@media (max-width:599px){.g2{grid-column:1/7}.g3{grid-column:7/13}.g4{grid-column:1/-1}}
+.ftr__caj{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:2px solid var(--ink);border-bottom:0;font:500 11px var(--f-mono);text-transform:uppercase}
+.ftr__caj div{padding:10px 12px;border-right:1px solid var(--ink)}.ftr__caj div:last-child{border-right:0}
+.ftr__caj span{display:block;color:var(--steel);font-size:10px}
+@media (max-width:599px){.ftr__caj{grid-template-columns:1fr 1fr}.ftr__caj div:nth-child(2){border-right:0}.ftr__caj div:nth-child(-n+2){border-bottom:1px solid var(--ink)}}
+@media (min-width:1024px){.demo-flag{display:block}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+.demo-flag{display:none;position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:30;font:700 11px var(--f-mono);background:var(--yellow);color:var(--ink);padding:8px 12px;border:2px solid var(--ink)}
+@keyframes dash{to{stroke-dashoffset:-24}}
+.flowline{stroke-dasharray:6 6;animation:dash 1.2s linear infinite}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="hdr">
+  <div class="wrap hdr__bar">
+    <a class="logo" href="#top" aria-label="Roiting, inicio"><b>Roiting</b><span>Marketing B2B<br>Valencia</span></a>
+    <nav class="nav" aria-label="Principal"><a href="#especificacion"><small>01</small>Problema</a><a href="#comite"><small>02</small>Comité</a><a href="#servicios"><small>03</small>Servicios</a><a href="#proceso"><small>04</small>Proceso</a><a href="#sectores"><small>05</small>Sectores</a><a href="#casos"><small>06</small>Casos</a></nav>
+    <div class="hdr__cta"><a class="btn btn--y" href="#contacto">Pedir diagnóstico</a></div>
+    <button class="menu" id="mn" aria-expanded="false" aria-controls="mp"><i></i>Menú</button>
+  </div>
+</header>
+<div class="mpanel" id="mp" hidden>
+  <a class="it" href="#especificacion"><span>01</span><b>Problema</b></a><a class="it" href="#comite"><span>02</span><b>Comité</b></a><a class="it" href="#servicios"><span>03</span><b>Servicios</b></a><a class="it" href="#proceso"><span>04</span><b>Proceso</b></a><a class="it" href="#sectores"><span>05</span><b>Sectores</b></a><a class="it" href="#casos"><span>06</span><b>Casos</b></a>
+  <a class="btn" href="#contacto">Pedir diagnóstico</a>
+</div>
+
+<main id="main">
+<section class="hero ruled" id="top">
+  <div class="gl" aria-hidden="true"><div class="wrap grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+  <div class="wrap">
+    <div class="hero__top"><span class="ref">Marketing B2B para industria, tecnología y servicios</span><span class="ref"><b>SEO</b> <b>GEO</b> <b>ADS</b> <b>ABM</b> <b>CRM</b></span></div>
+    <h1 class="cond">Ingeniería de la <span class="y">demanda</span> B2B</h1>
+    <div class="grid hero__row">
+      <div class="hero__txt">
+        <p class="lead">Las compras industriales las deciden comités que investigan durante meses. Roiting diseña el sistema que acompaña a cada persona del comité, desde la primera búsqueda técnica hasta la reunión con su equipo comercial.</p>
+        <div class="hero__ctas"><a class="btn btn--y" href="#contacto">Pedir diagnóstico <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></a><a class="btn btn--o" href="#proceso">Ver el proceso</a></div>
+      </div>
+      <figure class="drawing" aria-labelledby="dcap">
+        <svg viewBox="0 0 800 430" role="img" aria-labelledby="dcap">
+          <defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#111" stroke-width="1.2"/></pattern></defs>
+          <!-- suelo isométrico -->
+          <g stroke="#111" stroke-opacity=".12">
+            <path d="M40 330 L400 150 L760 330 L400 410Z" fill="none"/>
+            <path d="M130 285 L490 375 M220 240 L580 330 M310 195 L670 285 M130 375 L490 195 M220 395 L580 220" fill="none"/>
+          </g>
+          <!-- nave industrial (isométrica) -->
+          <g stroke="#111" stroke-width="2" stroke-linejoin="round">
+            <path d="M250 300 L250 200 L400 125 L400 225Z" fill="#E6E4DE"/>
+            <path d="M400 225 L400 125 L560 205 L560 305Z" fill="#FAFAF8"/>
+            <path d="M250 200 L300 150 L450 75 L400 125Z" fill="#FFC629"/>
+            <path d="M400 125 L450 75 L610 155 L560 205Z" fill="url(#hatch)"/>
+            <path d="M250 300 L400 225 L560 305 L410 380Z" fill="none" stroke-opacity=".25"/>
+            <path d="M430 240 L430 280 L470 300 L470 260Z" fill="#111"/>
+            <path d="M490 270 L490 300 L530 320 L530 290Z" fill="#E6E4DE"/>
+            <path d="M280 255 L280 225 L320 205 L320 235Z" fill="#E6E4DE"/>
+            <path d="M335 228 L335 198 L375 178 L375 208Z" fill="#E6E4DE"/>
+            <path d="M590 260 L590 120 L612 131 L612 271Z" fill="#FAFAF8"/>
+          </g>
+          <!-- recorrido del comprador -->
+          <path class="flowline" d="M90 150 C 160 150, 200 210, 262 232" fill="none" stroke="#111" stroke-width="2"/>
+          <path class="flowline" d="M610 120 C 680 100, 700 160, 720 210" fill="none" stroke="#111" stroke-width="2"/>
+          <!-- llamadas -->
+          <g font-size="12" fill="#111" class="callout">
+            <g><circle cx="90" cy="150" r="16" fill="#FFC629" stroke="#111" stroke-width="2"/><text x="90" y="154" text-anchor="middle" font-weight="500" class="num">1</text>
+               <text x="40" y="104" font-weight="500">BÚSQUEDA TÉCNICA</text><text x="40" y="120" fill="#5E6266">SEO · motores de IA</text></g>
+            <g><circle cx="300" cy="320" r="16" fill="#FFF" stroke="#111" stroke-width="2"/><text x="300" y="324" text-anchor="middle" font-weight="500" class="num">2</text>
+               <text x="120" y="372" font-weight="500">FICHA Y COMPARATIVA</text><text x="120" y="388" fill="#5E6266">contenido · paid media</text><path d="M286 330 L240 360" stroke="#111"/></g>
+            <g><circle cx="520" cy="345" r="16" fill="#FFF" stroke="#111" stroke-width="2"/><text x="520" y="349" text-anchor="middle" font-weight="500" class="num">3</text>
+               <text x="560" y="380" font-weight="500">COMITÉ DE COMPRA</text><text x="560" y="396" fill="#5E6266">ABM · nurturing</text><path d="M534 354 L556 372" stroke="#111"/></g>
+            <g><circle cx="720" cy="226" r="16" fill="#111" stroke="#111" stroke-width="2"/><text x="720" y="230" text-anchor="middle" font-weight="500" class="num" fill="#FFC629">4</text>
+               <text x="640" y="40" font-weight="500">REUNIÓN COMERCIAL</text><text x="640" y="56" fill="#5E6266">CRM · aviso a ventas</text><path d="M700 62 L716 206" stroke="#111" stroke-dasharray="2 3"/></g>
+          </g>
+          <!-- cota -->
+          <g stroke="#111" font-size="11" fill="#5E6266" class="callout"><path d="M250 418 L560 418 M250 412 L250 424 M560 412 L560 424"/><text x="405" y="414" text-anchor="middle" stroke="none">CICLO DE COMPRA · 3 A 18 MESES</text></g>
+        </svg>
+        <ol class="dlegend" aria-hidden="true"><li><b>1</b><div>Búsqueda técnica<span>SEO · IA</span></div></li><li><b>2</b><div>Ficha y comparativa<span>contenido · paid</span></div></li><li><b>3</b><div>Comité de compra<span>ABM · nurturing</span></div></li><li><b>4</b><div>Reunión comercial<span>CRM · ventas</span></div></li></ol>
+        <figcaption class="cajetin" id="dcap"><div><span>Plano</span>R-001 · Recorrido</div><div><span>Objeto</span>Compra industrial</div><div><span>Escala</span>Conceptual</div><div><span>Rev.</span>A · demo</div></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<div class="band" aria-label="Disciplinas">
+  <ul class="wrap" style="padding-inline:0">
+    <li><span>SEO</span><b>SEO técnico B2B</b></li><li><span>GEO</span><b>Visibilidad en IA</b></li><li><span>ADS</span><b>Google y LinkedIn</b></li><li><span>ABM</span><b>Cuentas objetivo</b></li><li><span>MA</span><b>Automatización</b></li><li><span>CRM</span><b>Medición</b></li>
+  </ul>
+</div>
+
+<section class="section" id="especificacion" aria-labelledby="t-esp">
+  <div class="wrap">
+    <div class="shead"><span class="ref">01 · Especificación</span><h2 class="cond" id="t-esp">Lo que debe cumplir su captación</h2><p>Cuatro requisitos que comprobamos en el diagnóstico.</p></div>
+    <div class="spec"><table>
+      <thead><tr><th scope="col">Requisito</th><th scope="col">Situación habitual</th><th scope="col">Con el sistema Roiting</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Encontrable en búsquedas técnicas</th><td data-l="Situación habitual">Web corporativa con poco contenido de producto y aplicación.</td><td class="ok" data-l="Con el sistema Roiting">Arquitectura por familia de producto, aplicación y sector.</td></tr>
+        <tr><th scope="row">Presente en respuestas de IA</th><td data-l="Situación habitual">La marca no aparece cuando un ingeniero pregunta a un asistente.</td><td class="ok" data-l="Con el sistema Roiting">Entidad clara, datos estructurados y contenido citable.</td></tr>
+        <tr><th scope="row">Útil para todo el comité</th><td data-l="Situación habitual">Un único mensaje comercial para perfiles muy distintos.</td><td class="ok" data-l="Con el sistema Roiting">Contenido por rol: dirección, ingeniería, compras y calidad.</td></tr>
+        <tr><th scope="row">Medible hasta la oportunidad</th><td data-l="Situación habitual">Se reportan visitas y clics; ventas no ve el origen.</td><td class="ok" data-l="Con el sistema Roiting">CRM con origen, historial y valor de cada oportunidad.</td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<section class="section" id="comite" style="background:var(--white)" aria-labelledby="t-com">
+  <div class="wrap">
+    <div class="shead"><span class="ref">02 · Comité de compra</span><h2 class="cond" id="t-com">Cinco personas deciden. Hablamos con las cinco.</h2><p>Composición orientativa de un comité en una compra industrial.</p></div>
+    <div class="grid"><div class="committee"><div class="com">
+      <article class="role"><span class="ref">R-01</span><h3>Dirección</h3><p>Valora el impacto en el negocio y el riesgo del cambio.</p><p class="needs">Necesita: caso de negocio, referencias del sector</p></article>
+      <article class="role"><span class="ref">R-02</span><h3>Ingeniería</h3><p>Comprueba especificaciones, tolerancias y compatibilidad.</p><p class="needs">Necesita: fichas técnicas, CAD, normativa</p></article>
+      <article class="role"><span class="ref">R-03</span><h3>Compras</h3><p>Compara proveedores, plazos y condiciones.</p><p class="needs">Necesita: comparativas, plazos, capacidad</p></article>
+      <article class="role"><span class="ref">R-04</span><h3>Calidad</h3><p>Exige certificaciones y trazabilidad.</p><p class="needs">Necesita: certificados, auditorías, procesos</p></article>
+      <article class="role"><span class="ref">R-05</span><h3>Operaciones</h3><p>Piensa en la puesta en marcha y el soporte.</p><p class="needs">Necesita: implantación, soporte, formación</p></article>
+    </div></div></div>
+  </div>
+</section>
+
+<section class="section" id="servicios" aria-labelledby="t-ser">
+  <div class="wrap">
+    <div class="shead"><span class="ref">03 · Catálogo</span><h2 class="cond" id="t-ser">Servicios</h2><p>Cada referencia se puede contratar por separado; el diagnóstico propone la combinación.</p></div>
+    <nav class="cat" aria-label="Servicios">
+      <a href="#contacto"><span class="code">SRV-SEO</span><h3>SEO B2B</h3><p>Visibilidad en búsquedas técnicas de bajo volumen y alto valor.</p><ul><li>Arquitectura</li><li>SEO técnico</li><li>Contenido de producto</li></ul><span class="arr" aria-hidden="true">→</span></a>
+      <a href="#contacto"><span class="code">SRV-GEO</span><h3>GEO e IA</h3><p>Presencia en respuestas de asistentes de IA; acciones verificadas y experimentales separadas.</p><ul><li>Auditoría de menciones</li><li>Entidad</li><li>Contenido citable</li></ul><span class="arr" aria-hidden="true">→</span></a>
+      <a href="#contacto"><span class="code">SRV-ADS</span><h3>Paid media</h3><p>Google Ads y LinkedIn Ads medidos por oportunidad.</p><ul><li>Búsqueda</li><li>LinkedIn</li><li>Conversiones offline</li></ul><span class="arr" aria-hidden="true">→</span></a>
+      <a href="#contacto"><span class="code">SRV-ABM</span><h3>ABM</h3><p>Programas para cuentas concretas y su comité de compra.</p><ul><li>Selección de cuentas</li><li>Mensajes por rol</li></ul><span class="arr" aria-hidden="true">→</span></a>
+      <a href="#contacto"><span class="code">SRV-MA</span><h3>Automatización y CRM</h3><p>Scoring, nurturing y avisos a ventas.</p><ul><li>Scoring</li><li>Nurturing</li><li>Cuadro de mando</li></ul><span class="arr" aria-hidden="true">→</span></a>
+      <a href="#contacto"><span class="code">SRV-IN</span><h3>Inbound</h3><p>Guías, comparativas y casos para una decisión larga.</p><ul><li>Guías</li><li>Comparativas</li><li>Newsletter</li></ul><span class="arr" aria-hidden="true">→</span></a>
+    </nav>
+  </div>
+</section>
+
+<section class="section ruled" id="proceso" aria-labelledby="t-pro">
+  <div class="gl" aria-hidden="true"><div class="wrap grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+  <div class="wrap">
+    <div class="shead"><span class="ref">04 · Proceso</span><h2 class="cond" id="t-pro">Cuatro estaciones, doce semanas</h2><p>Cada estación tiene una entrada y una salida verificable. Plazos orientativos.</p></div>
+    <figure class="proc" aria-label="Diagrama del proceso en cuatro estaciones">
+      <svg viewBox="0 0 1200 300" role="img" aria-label="Proceso: diagnóstico, arquitectura, activación y optimización, con entradas y salidas">
+        <path d="M30 120 H1170" stroke="#111" stroke-width="4"/>
+        <path class="flowline" d="M30 120 H1170" stroke="#FFC629" stroke-width="2"/>
+        <g font-size="13">
+          <g transform="translate(60 0)"><rect x="0" y="70" width="220" height="100" fill="#111"/><text x="16" y="100" fill="#FFC629" class="m" font-size="11">EST. 1 · SEM. 1–2</text><text x="16" y="132" fill="#F1F0EC" font-size="26" font-weight="800" style="font-stretch:68%">DIAGNÓSTICO</text><text x="16" y="156" fill="#A9ABAE" font-size="12">Auditoría completa</text>
+            <text x="0" y="204" class="m" font-size="11" fill="#5E6266">ENTRADA</text><text x="0" y="222" fill="#111">Web, CRM, campañas</text><text x="0" y="252" class="m" font-size="11" fill="#5E6266">SALIDA</text><text x="0" y="270" fill="#111" font-weight="700">Informe priorizado</text></g>
+          <g transform="translate(340 0)"><rect x="0" y="70" width="220" height="100" fill="#FAFAF8" stroke="#111" stroke-width="2"/><text x="16" y="100" fill="#5E6266" class="m" font-size="11">EST. 2 · SEM. 3–4</text><text x="16" y="132" fill="#111" font-size="26" font-weight="800" style="font-stretch:68%">ARQUITECTURA</text><text x="16" y="156" fill="#5E6266" font-size="12">Cuentas, roles, scoring</text>
+            <text x="0" y="204" class="m" font-size="11" fill="#5E6266">ENTRADA</text><text x="0" y="222" fill="#111">Informe aprobado</text><text x="0" y="252" class="m" font-size="11" fill="#5E6266">SALIDA</text><text x="0" y="270" fill="#111" font-weight="700">Plan de captación</text></g>
+          <g transform="translate(620 0)"><rect x="0" y="70" width="220" height="100" fill="#FAFAF8" stroke="#111" stroke-width="2"/><text x="16" y="100" fill="#5E6266" class="m" font-size="11">EST. 3 · SEM. 5–10</text><text x="16" y="132" fill="#111" font-size="26" font-weight="800" style="font-stretch:68%">ACTIVACIÓN</text><text x="16" y="156" fill="#5E6266" font-size="12">Contenido, campañas, flujos</text>
+            <text x="0" y="204" class="m" font-size="11" fill="#5E6266">ENTRADA</text><text x="0" y="222" fill="#111">Plan y prioridades</text><text x="0" y="252" class="m" font-size="11" fill="#5E6266">SALIDA</text><text x="0" y="270" fill="#111" font-weight="700">Canales en marcha</text></g>
+          <g transform="translate(900 0)"><rect x="0" y="70" width="220" height="100" fill="#FFC629" stroke="#111" stroke-width="2"/><text x="16" y="100" fill="#111" class="m" font-size="11">EST. 4 · DESDE SEM. 11</text><text x="16" y="132" fill="#111" font-size="26" font-weight="800" style="font-stretch:68%">OPTIMIZACIÓN</text><text x="16" y="156" fill="#111" font-size="12">Revisión quincenal con ventas</text>
+            <text x="0" y="204" class="m" font-size="11" fill="#5E6266">ENTRADA</text><text x="0" y="222" fill="#111">Datos de oportunidades</text><text x="0" y="252" class="m" font-size="11" fill="#5E6266">SALIDA</text><text x="0" y="270" fill="#111" font-weight="700">Inversión reasignada</text></g>
+        </g>
+        <path d="M1110 40 C 1180 40, 1180 10, 700 10 C 300 10, 200 40, 170 66" fill="none" stroke="#111" stroke-dasharray="3 5"/>
+        <text x="640" y="30" text-anchor="middle" class="m" font-size="11" fill="#5E6266">RETORNO: LO QUE CIERRA VENTAS REORIENTA EL PLAN</text>
+      </svg>
+    </figure>
+    <ol class="procl">
+      <li><span class="n">1</span><div><h3>Diagnóstico</h3><p>Auditoría de web, SEO, IA, campañas y CRM.</p><small>Semanas 1–2 · Salida: informe priorizado</small></div></li>
+      <li><span class="n">2</span><div><h3>Arquitectura</h3><p>Cuentas, roles del comité y criterios de scoring.</p><small>Semanas 3–4 · Salida: plan de captación</small></div></li>
+      <li><span class="n">3</span><div><h3>Activación</h3><p>Contenido, campañas y automatizaciones por prioridad.</p><small>Semanas 5–10 · Salida: canales en marcha</small></div></li>
+      <li><span class="n">4</span><div><h3>Optimización</h3><p>Revisión quincenal con ventas y reasignación de inversión.</p><small>Desde la semana 11 · Salida: inversión reasignada</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section" id="sectores" style="background:var(--white)" aria-labelledby="t-sec">
+  <div class="wrap">
+    <div class="shead"><span class="ref">05 · Sectores</span><h2 class="cond" id="t-sec">Canal prioritario por sector</h2><p>Punto de partida habitual; el diagnóstico lo confirma para cada empresa.</p></div>
+    <p class="swipe" aria-hidden="true">Desliza la tabla horizontalmente →</p>
+    <div class="mtx" tabindex="0" role="region" aria-label="Matriz de sectores y canales"><table>
+      <thead><tr><th scope="col" style="text-align:left">Sector</th><th scope="col" style="text-align:left">Reto habitual</th><th scope="col">SEO</th><th scope="col">GEO</th><th scope="col">ADS</th><th scope="col">ABM</th><th scope="col">MA</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Industria</th><td class="r">Ciclos largos y búsquedas muy técnicas</td><td><span class="k p" role="img" aria-label="Canal principal"></span></td><td><span class="k" role="img" aria-label="Canal de apoyo"></span></td><td></td><td><span class="k p" role="img" aria-label="Canal principal"></span></td><td><span class="k" role="img" aria-label="Canal de apoyo"></span></td></tr>
+        <tr><th scope="row">Tecnología</th><td class="r">Demos cualificadas y competencia global</td><td><span class="k" role="img" aria-label="Canal de apoyo"></span></td><td><span class="k p" role="img" aria-label="Canal principal"></span></td><td><span class="k p" role="img" aria-label="Canal principal"></span></td><td></td><td><span class="k" role="img" aria-label="Canal de apoyo"></span></td></tr>
+        <tr><th scope="row">Salud</th><td class="r">Comunicación regulada y prescriptores</td><td><span class="k p" role="img" aria-label="Canal principal"></span></td><td><span class="k" role="img" aria-label="Canal de apoyo"></span></td><td></td><td></td><td><span class="k p" role="img" aria-label="Canal principal"></span></td></tr>
+        <tr><th scope="row">Distribución</th><td class="r">Diferenciarse de fabricantes y marketplaces</td><td><span class="k p" role="img" aria-label="Canal principal"></span></td><td></td><td><span class="k p" role="img" aria-label="Canal principal"></span></td><td></td><td><span class="k" role="img" aria-label="Canal de apoyo"></span></td></tr>
+        <tr><th scope="row">Logística</th><td class="r">Cuentas recurrentes de alto valor</td><td><span class="k" role="img" aria-label="Canal de apoyo"></span></td><td></td><td></td><td><span class="k p" role="img" aria-label="Canal principal"></span></td><td><span class="k p" role="img" aria-label="Canal principal"></span></td></tr>
+        <tr><th scope="row">Formación</th><td class="r">Captar alumnos y empresas a la vez</td><td><span class="k p" role="img" aria-label="Canal principal"></span></td><td><span class="k" role="img" aria-label="Canal de apoyo"></span></td><td><span class="k p" role="img" aria-label="Canal principal"></span></td><td></td><td><span class="k" role="img" aria-label="Canal de apoyo"></span></td></tr>
+      </tbody></table></div>
+    <div class="mlegend"><span><i class="p"></i>Canal principal</span><span><i></i>Canal de apoyo</span><span>Orientativo, no es un dato de resultados</span></div>
+  </div>
+</section>
+
+<section class="section" id="casos" aria-labelledby="t-cas">
+  <div class="wrap"><div class="caso"><h2 class="cond" id="t-cas">Casos verificados</h2><p>Publicaremos resultados con periodo, fuente y aprobación de cada cliente. Espacio reservado hasta su validación.</p><a class="btn btn--o" href="https://www.roiting.com/casos-de-exito/">Casos en roiting.com</a></div></div>
+</section>
+
+<section class="section cta" id="contacto" aria-labelledby="t-cta">
+  <div class="wrap grid cta__g">
+    <div class="cta__t"><span class="ref">07 · Orden de trabajo</span><h2 class="cond" id="t-cta">Pida un <span class="y">diagnóstico</span></h2><p class="lead">Revisamos su web, su visibilidad en buscadores e IA, sus campañas y su CRM. En dos semanas recibe un informe priorizado y una sesión de trabajo de 45 minutos.</p></div>
+    <form class="ot" id="ot" novalidate>
+      <div class="ot__h"><span>Orden de trabajo · diagnóstico</span><span>Demo</span></div>
+      <div class="ot__g">
+        <div class="cell"><label for="o1">Nombre</label><input id="o1" autocomplete="name"></div>
+        <div class="cell"><label for="o2">Empresa</label><input id="o2" autocomplete="organization"></div>
+        <div class="cell"><label for="o3">Email</label><input id="o3" type="email" autocomplete="email"></div>
+        <div class="cell"><label for="o4">Sector</label><select id="o4"><option>Industria</option><option>Tecnología</option><option>Salud</option><option>Distribución</option><option>Logística</option><option>Formación</option><option>Otro</option></select></div>
+        <div class="cell full"><label for="o5">Producto o servicio principal</label><textarea id="o5"></textarea></div>
+      </div>
+      <div class="ot__f"><p>Formulario de demostración: no envía ni guarda datos.</p><button class="btn btn--y" type="submit">Enviar orden</button></div>
+      <p class="okm" id="otok" role="status" hidden>Prototipo: no se ha enviado ningún dato.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <p class="ftr__big cond" aria-hidden="true">Roiting</p>
+    <div class="grid ftr__g">
+      <div class="g1"><p class="lead">Marketing B2B para empresas que venden a otras empresas. Valencia, España.</p></div>
+      <div class="g2"><h2>Servicios</h2><ul><li><a href="#servicios">SEO B2B</a></li><li><a href="#servicios">GEO e IA</a></li><li><a href="#servicios">Paid media</a></li><li><a href="#servicios">ABM</a></li><li><a href="#servicios">Automatización</a></li></ul></div>
+      <div class="g3"><h2>Empresa</h2><ul><li><a href="#proceso">Proceso</a></li><li><a href="#sectores">Sectores</a></li><li><a href="#casos">Casos</a></li><li><a href="#contacto">Contacto</a></li></ul></div>
+      <div class="g4"><h2>Legal</h2><ul><li><a href="#top">Aviso legal</a></li><li><a href="#top">Privacidad</a></li><li><a href="#top">Cookies</a></li><li><a href="../index.html">Índice de propuestas</a></li></ul></div>
+    </div>
+    <div class="ftr__caj"><div><span>Documento</span>Home · prototipo C</div><div><span>Estado</span>No publicar</div><div><span>Tipografía</span>Archivo · JetBrains Mono</div><div><span>©</span>2026 Roiting</div></div>
+  </div>
+</footer>
+<span class="demo-flag">Prototipo C</span>
+<script>
+const mn=document.getElementById('mn'),mp=document.getElementById('mp');
+function m(o){mp.hidden=!o;mn.setAttribute('aria-expanded',o);mn.lastChild.textContent=o?'Cerrar':'Menú';document.body.style.overflow=o?'hidden':''}
+mn.addEventListener('click',()=>m(mp.hidden));mp.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>m(false)));
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!mp.hidden){m(false);mn.focus()}});
+document.getElementById('ot').addEventListener('submit',e=>{e.preventDefault();document.getElementById('otok').hidden=false});
+</script>
+</body>
+</html>

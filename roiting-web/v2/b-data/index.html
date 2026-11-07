@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roiting · Data premium</title>
+<meta name="description" content="Prototipo B. Home de Roiting con dirección tecnológica de producto y datos.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* DIRECCIÓN B · DATA / PREMIUM TECH
+   Concepto: el «sistema operativo» de la demanda. Secciones oscuras verde petróleo alternan con papel.
+   Los visuales son piezas de producto que muestran decisiones: señal → enriquecimiento → puntuación → acción. */
+:root{
+  --deep:#0B2929; --ink:#123C3B; --ink-2:#18494A; --ink-3:#21595A;
+  --paper:#F7F3ED; --surface:#FFFFFF; --sand:#EDE5D8;
+  --on-deep:#F2EFE8; --on-deep-2:#A9C0BC; --muted:#586D6B;
+  --line-d:rgba(242,239,232,.12); --line-l:rgba(18,60,59,.14);
+  --accent:#E8643F;      /* terracota: acción y dato clave (validado sobre #0B2929) */
+  --accent-ink:#B2431F;  /* terracota para texto sobre papel */
+  --teal:#20A890;        /* segunda serie */
+  --f-sans:"IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --t-cap:.78rem; --t-sm:.9375rem; --t-md:clamp(1rem,.96rem + .2vw,1.125rem); --t-lg:clamp(1.125rem,1.04rem + .45vw,1.4rem);
+  --t-xl:clamp(1.5rem,1.25rem + 1.1vw,2.25rem); --t-2xl:clamp(2rem,1.5rem + 2.4vw,3.6rem); --t-hero:clamp(2.5rem,1.6rem + 3.4vw,4.6rem);
+  --s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;--s9:96px;
+  --section:clamp(72px,9vw,136px);
+  --max:1240px; --gut:max(20px,4vw); --gap:clamp(16px,2vw,24px);
+  --r:10px; --r-lg:18px; --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--deep);color:var(--on-deep);font:400 var(--t-md)/1.6 var(--f-sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit}
+svg{display:block;max-width:100%}
+h1,h2,h3{font-weight:500;letter-spacing:-.025em;text-wrap:balance}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:16px;top:-80px;background:var(--accent);color:#1B0A04;padding:12px 16px;z-index:99}
+.skip:focus{top:16px}
+.wrap{max-width:calc(var(--max) + 2*var(--gut));margin:0 auto;padding-inline:var(--gut)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+.grid>*{min-width:0}
+.mono{font-family:var(--f-mono)}
+.tag{font:500 var(--t-cap)/1 var(--f-mono);letter-spacing:.04em;color:var(--on-deep-2);display:inline-flex;align-items:center;gap:10px}
+.tag::before{content:"";width:8px;height:8px;background:var(--accent);border-radius:2px}
+.paper{background:var(--paper);color:var(--ink)}
+.paper .tag{color:var(--muted)}
+.section{padding-block:var(--section)}
+.head{row-gap:var(--s4);margin-bottom:clamp(36px,5vw,64px);align-items:end}
+.head h2{font-size:var(--t-2xl);line-height:1.04;font-weight:400;margin-top:var(--s4)}
+.head h2 b{font-weight:600}
+.head p{font-size:var(--t-sm);color:var(--on-deep-2)}
+.paper .head p{color:var(--muted)}
+.h-l{grid-column:1/8}.h-r{grid-column:9/13}
+@media (max-width:1023px){.h-l,.h-r{grid-column:1/-1}}
+.demo{font:400 11.5px/1.3 var(--f-mono);color:var(--on-deep-2);letter-spacing:.02em}
+.paper .demo{color:var(--muted)}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;font:500 var(--t-sm)/1 var(--f-sans);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s var(--ease),color .2s,border-color .2s,transform .2s var(--ease)}
+.btn--acc{background:var(--accent);color:#1B0A04}
+.btn--acc:hover{background:#F27A57}
+.btn--ghost{border-color:var(--line-d);color:var(--on-deep);background:rgba(242,239,232,.04)}
+.btn--ghost:hover{border-color:var(--on-deep-2);background:rgba(242,239,232,.08)}
+.btn--dark{background:var(--ink);color:var(--paper)}
+.btn--dark:hover{background:var(--deep)}
+.btn:active{transform:translateY(1px)}
+.btn svg{width:16px;height:16px}
+
+/* Cabecera */
+.hdr{position:sticky;top:0;z-index:40;background:rgba(11,41,41,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line-d)}
+.hdr__bar{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:19px;letter-spacing:-.02em;text-decoration:none}
+.logo svg{width:26px;height:26px}
+.nav{display:flex;gap:2px;font-size:var(--t-sm)}
+.nav a{text-decoration:none;padding:9px 14px;border-radius:999px;color:var(--on-deep-2);transition:color .2s,background .2s}
+.nav a:hover{color:var(--on-deep);background:rgba(242,239,232,.07)}
+.hdr__r{display:flex;gap:8px;align-items:center}
+.menu-btn{display:none;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line-d);background:transparent;color:var(--on-deep);font:500 var(--t-sm) var(--f-sans);cursor:pointer}
+.sheet{position:fixed;inset:68px 0 0;z-index:39;background:var(--deep);padding:24px var(--gut) 32px;overflow:auto;display:flex;flex-direction:column;gap:24px}
+.sheet nav{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sheet nav a{display:flex;flex-direction:column;gap:4px;padding:16px;border:1px solid var(--line-d);border-radius:var(--r);text-decoration:none;font-size:18px;font-weight:500}
+.sheet nav a span{font:400 12px var(--f-mono);color:var(--on-deep-2)}
+@media (max-width:1023px){.nav,.hdr__r .btn--ghost{display:none}.menu-btn{display:inline-flex;align-items:center}}
+@media (max-width:479px){.hdr__r .btn--acc{display:none}.sheet nav{grid-template-columns:1fr}}
+
+/* Hero */
+.hero{padding-top:clamp(48px,7vw,104px);padding-bottom:clamp(56px,7vw,104px);position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(900px 500px at 85% 20%,rgba(32,168,144,.14),transparent 60%);pointer-events:none}
+.hero__grid{position:relative;align-items:center;row-gap:var(--s7)}
+.hero__txt{grid-column:1/6}
+.hero h1{font-size:var(--t-hero);line-height:1;font-weight:300;letter-spacing:-.04em;margin-top:var(--s5)}
+.hero h1 b{font-weight:600;color:var(--accent)}
+.hero p.lead{font-size:var(--t-lg);color:var(--on-deep-2);margin-top:var(--s5);max-width:44ch;line-height:1.5}
+.hero__ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--s6)}
+.hero__facts{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:8px 28px;margin-top:var(--s7);padding-top:var(--s5);border-top:1px solid var(--line-d)}
+.hero__facts dt{font:400 11.5px var(--f-mono);color:var(--on-deep-2);text-transform:uppercase;letter-spacing:.06em}
+.hero__facts dd{font-size:var(--t-sm);font-weight:500;margin-top:2px}
+.hero__app{grid-column:7/13}
+@media (max-width:1023px){.hero__txt,.hero__app{grid-column:1/-1}}
+@media (max-width:599px){.hero__facts{gap:8px 20px}}
+
+/* App de demanda */
+.app{background:var(--ink);border:1px solid var(--line-d);border-radius:var(--r-lg);box-shadow:0 40px 80px -40px rgba(0,0,0,.7);overflow:hidden}
+.app__bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line-d);font:400 12px var(--f-mono);color:var(--on-deep-2)}
+.app__bar b{color:var(--on-deep);font-weight:500}
+.live{display:inline-flex;align-items:center;gap:6px}
+.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 3px rgba(32,168,144,.25)}
+.app__body{display:grid;grid-template-columns:1.15fr 1fr}
+.app__col{padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.app__col+.app__col{border-left:1px solid var(--line-d)}
+.app h3{font:500 12.5px var(--f-mono);color:var(--on-deep-2);letter-spacing:.02em;display:flex;justify-content:space-between}
+.sig{display:grid;gap:8px}
+.sig li{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:10px 12px;border-radius:var(--r);background:var(--ink-2);font-size:13.5px}
+.sig li small{grid-column:1/-1;font:400 11.5px var(--f-mono);color:var(--on-deep-2)}
+.sig .sc{font:500 12px var(--f-mono);padding:2px 8px;border-radius:999px;background:rgba(242,239,232,.08)}
+.sig .sc.hi{background:var(--accent);color:#1B0A04}
+.sig .meter{grid-column:1/-1;height:4px;border-radius:2px;background:rgba(242,239,232,.1);overflow:hidden}
+.sig .meter i{display:block;height:100%;width:var(--v);background:var(--teal)}
+.sig li.hot .meter i{background:var(--accent)}
+.chart{background:var(--ink-2);border-radius:var(--r);padding:12px}
+.chart text{font-family:var(--f-mono)}
+.nba{border:1px dashed rgba(232,100,63,.6);border-radius:var(--r);padding:12px;font-size:13.5px}
+.nba b{display:block;font:500 11.5px var(--f-mono);color:var(--accent);margin-bottom:4px;letter-spacing:.04em}
+.app__foot{padding:10px 16px;border-top:1px solid var(--line-d);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:599px){.app__body{grid-template-columns:1fr}.app__col+.app__col{border-left:0;border-top:1px solid var(--line-d)}}
+
+/* Pipeline de datos: un registro que se transforma */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);position:relative}
+.flow::before{content:"";position:absolute;left:46px;right:calc(25% - 46px + var(--gap)/4);top:22px;height:2px;background:repeating-linear-gradient(90deg,var(--ink) 0 8px,transparent 8px 14px);opacity:.35}
+.stage{position:relative;display:flex;flex-direction:column;gap:14px}
+.stage .dot{width:46px;height:46px;border-radius:50%;background:var(--paper);border:2px solid var(--ink);display:grid;place-items:center;font:500 13px var(--f-mono);position:relative;z-index:1}
+.stage:last-child .dot{background:var(--accent);border-color:var(--accent);color:#1B0A04}
+.stage h3{font-size:var(--t-lg);font-weight:600}
+.stage p{font-size:var(--t-sm);color:var(--muted)}
+.rec{margin-top:auto;background:var(--surface);border:1px solid var(--line-l);border-radius:var(--r);padding:12px;font:400 12.5px/1.6 var(--f-mono);color:var(--ink);box-shadow:0 12px 24px -18px rgba(18,60,59,.4)}
+.rec .k{color:var(--muted)}
+.rec .new{background:rgba(32,168,144,.12);border-radius:3px;padding:0 3px}
+.rec .acc{color:var(--accent-ink);font-weight:500}
+@media (max-width:1023px){.flow{grid-template-columns:1fr 1fr;row-gap:var(--s7)}.flow::before{display:none}}
+@media (max-width:599px){.flow{grid-template-columns:1fr}}
+
+/* Matriz encaje × intención */
+.matrix{row-gap:var(--s6);align-items:center}
+.matrix__chart{grid-column:1/8}
+.matrix__txt{grid-column:9/13;display:grid;gap:var(--s5)}
+.quad{display:grid;grid-template-columns:96px 1fr;gap:4px 14px;padding-bottom:var(--s4);border-bottom:1px solid var(--line-d)}
+.quad b{font:500 12px var(--f-mono);padding:3px 8px;border-radius:999px;border:1px solid var(--line-d);align-self:start;justify-self:start}
+.quad.p b{background:var(--accent);color:#1B0A04;border-color:var(--accent)}
+.quad h3{font-size:var(--t-md);font-weight:600}
+.quad p{grid-column:2;font-size:var(--t-sm);color:var(--on-deep-2)}
+.mx text{font-family:var(--f-mono)}
+.mx .pt{transition:r .2s}
+.mx .pt:hover{r:9}
+@media (max-width:1023px){.matrix__chart,.matrix__txt{grid-column:1/-1}}
+
+/* Configurador de módulos */
+.conf{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--gap);align-items:start}
+.mods{display:grid;gap:8px}
+.mod{position:relative}
+.mod input{position:absolute;opacity:0;pointer-events:none}
+.mod label{display:grid;grid-template-columns:28px 1fr auto;gap:14px;align-items:start;padding:18px;border:1px solid var(--line-l);border-radius:var(--r);background:var(--surface);cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.mod label:hover{border-color:rgba(18,60,59,.35)}
+.mod .box{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--ink);display:grid;place-items:center;margin-top:2px}
+.mod .box::after{content:"";width:10px;height:6px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px);opacity:0}
+.mod input:checked+label{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.mod input:checked+label .box{background:var(--ink)}
+.mod input:checked+label .box::after{opacity:1}
+.mod input:focus-visible+label{outline:2px solid var(--accent);outline-offset:2px}
+.mod strong{font-size:var(--t-md);font-weight:600;display:block}
+.mod span.d{font-size:var(--t-sm);color:var(--muted);display:block;margin-top:2px}
+.mod .code{font:500 11.5px var(--f-mono);color:var(--muted)}
+.stack{position:sticky;top:96px;background:var(--ink);color:var(--on-deep);border-radius:var(--r-lg);padding:24px;display:flex;flex-direction:column;gap:14px}
+.stack h3{font-size:var(--t-lg);font-weight:500}
+.layers{display:flex;flex-direction:column;gap:6px}
+.layer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border-radius:8px;background:var(--ink-2);border:1px solid var(--line-d);font-size:var(--t-sm);transition:opacity .2s,transform .2s var(--ease)}
+.layer.off{opacity:.28}
+.layer span{font:400 11.5px var(--f-mono);color:var(--on-deep-2)}
+.layer.base{background:var(--accent);color:#1B0A04;border-color:var(--accent)}
+.layer.base span{color:#3A1708}
+.stack .sum{font-size:var(--t-sm);color:var(--on-deep-2);border-top:1px solid var(--line-d);padding-top:14px}
+.stack .sum b{color:var(--on-deep)}
+@media (max-width:1023px){.conf{grid-template-columns:1fr}.stack{position:static}}
+
+/* Registro de cambios (método) */
+.log{border-left:1px solid var(--line-d);margin-left:8px}
+.entry{display:grid;grid-template-columns:200px minmax(0,1fr) minmax(0,1fr);gap:var(--gap);padding:0 0 var(--s7) var(--s6);position:relative}
+.entry::before{content:"";position:absolute;left:-7px;top:6px;width:13px;height:13px;border-radius:50%;background:var(--deep);border:2px solid var(--on-deep-2)}
+.entry.now::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 6px rgba(232,100,63,.18)}
+.entry:last-child{padding-bottom:0}
+.entry .v{font:500 13px var(--f-mono);color:var(--on-deep-2)}
+.entry .v b{display:block;color:var(--on-deep);font-size:15px;margin-top:4px}
+.entry h3{font-size:var(--t-xl);font-weight:400;line-height:1.1}
+.entry ul{display:grid;gap:6px;font-size:var(--t-sm);color:var(--on-deep-2)}
+.entry ul li{display:flex;gap:10px}
+.entry ul li::before{content:"+";font-family:var(--f-mono);color:var(--teal)}
+@media (max-width:1023px){.entry{grid-template-columns:1fr 1.4fr}.entry ul{grid-column:2}}
+@media (max-width:599px){.entry{grid-template-columns:1fr;gap:10px;padding-left:var(--s5)}.entry ul{grid-column:1}}
+
+/* Cuadro de mando: qué verá */
+.tiles{display:grid;grid-template-columns:2fr 1fr 1fr;gap:var(--gap)}
+.tile{background:var(--surface);border:1px solid var(--line-l);border-radius:var(--r-lg);padding:22px;display:flex;flex-direction:column;gap:12px}
+.tile h3{font-size:var(--t-md);font-weight:600}
+.tile p{font-size:var(--t-sm);color:var(--muted)}
+.tile svg text{font-family:var(--f-mono)}
+.tile.big{grid-row:span 2}
+.tile p.kpi{font:500 var(--t-xl)/1 var(--f-sans);letter-spacing:-.02em;color:var(--ink);margin-top:auto}
+.tile .kpi small{font:400 12px var(--f-mono);color:var(--muted);margin-left:6px}
+@media (max-width:1023px){.tiles{grid-template-columns:1fr 1fr}.tile.big{grid-column:1/-1;grid-row:auto}}
+@media (max-width:599px){.tiles{grid-template-columns:1fr}}
+
+/* Casos */
+.cases{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--gap);align-items:center;border:1px solid var(--line-d);border-radius:var(--r-lg);padding:clamp(24px,3vw,40px);background:linear-gradient(135deg,rgba(32,168,144,.08),transparent 60%)}
+.cases>*{min-width:0}
+.cases h2{grid-column:1/7;font-size:var(--t-xl);font-weight:400;line-height:1.15}
+.cases p{grid-column:7/11;font-size:var(--t-sm);color:var(--on-deep-2)}
+.cases a{grid-column:11/13;justify-self:end}
+@media (max-width:1023px){.cases h2,.cases p,.cases a{grid-column:1/-1;justify-self:start}}
+
+/* CTA */
+.cta{row-gap:var(--s7);align-items:start}
+.cta__txt{grid-column:1/6}.cta__form{grid-column:7/13}
+.cta h2{font-size:var(--t-2xl);font-weight:300;line-height:1.04;margin-top:var(--s4)}
+.cta h2 b{font-weight:600;color:var(--accent)}
+.cta p{color:var(--on-deep-2);margin-top:var(--s5);max-width:42ch}
+.form{background:var(--paper);color:var(--ink);border-radius:var(--r-lg);padding:clamp(20px,2.6vw,36px);display:grid;gap:18px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label,.seg legend{font-size:13px;font-weight:600}
+.inp{font:inherit;font-size:var(--t-sm);min-height:48px;padding:12px 14px;border-radius:8px;border:1px solid rgba(18,60,59,.3);background:var(--surface);color:var(--ink);width:100%;transition:border-color .2s,box-shadow .2s}
+.inp:hover{border-color:var(--ink)}
+.inp:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 4px rgba(232,100,63,.25)}
+.seg{border:0;padding:0;margin:0}
+.seg legend{margin-bottom:8px;padding:0}
+.seg div{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(18,60,59,.3);border-radius:8px;overflow:hidden}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{display:grid;place-items:center;min-height:46px;font-size:13.5px;cursor:pointer;text-align:center;padding:4px 6px;transition:background .2s}
+.seg label+input+label,.seg input+label~label{border-left:1px solid rgba(18,60,59,.2)}
+.seg input:checked+label{background:var(--ink);color:var(--paper)}
+.seg input:focus-visible+label{outline:2px solid var(--accent);outline-offset:-2px}
+.form__f{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.form__f p{font-size:12.5px;color:var(--muted);max-width:30ch}
+.ok{font-size:var(--t-sm);color:#13705F}
+@media (max-width:1023px){.cta__txt,.cta__form{grid-column:1/-1}}
+@media (max-width:479px){.fgrid{grid-template-columns:1fr}}
+
+/* Footer */
+.ftr{border-top:1px solid var(--line-d);padding-block:var(--s8) var(--s6)}
+.ftr__grid{row-gap:var(--s6)}
+.ftr h2{font:500 11.5px var(--f-mono);color:var(--on-deep-2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+.ftr ul{display:grid;gap:8px;font-size:var(--t-sm)}
+.ftr a{text-decoration:none;color:var(--on-deep)}
+.ftr a:hover{color:var(--accent)}
+.f1{grid-column:1/5}.f2{grid-column:6/8}.f3{grid-column:8/10}.f4{grid-column:10/13}
+.f1 p{font-size:var(--t-xl);font-weight:300;line-height:1.2;letter-spacing:-.02em;max-width:18ch}
+.f1 p b{font-weight:600;color:var(--accent)}
+@media (max-width:1023px){.f1{grid-column:1/-1}.f2{grid-column:1/5}.f3{grid-column:5/9}.f4{grid-column:9/13}}
+@media (max-width:599px){.f2{grid-column:1/7}.f3{grid-column:7/13}.f4{grid-column:1/-1}}
+.ftr__l{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:var(--s7);padding-top:var(--s4);border-top:1px solid var(--line-d);font-size:12.5px;color:var(--on-deep-2)}
+.ftr__l ul{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px}
+@media (min-width:1024px){.demo-flag{display:block}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+.demo-flag{display:none;position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:30;font:500 11px var(--f-mono);background:var(--accent);color:#1B0A04;padding:8px 12px;border-radius:999px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="hdr">
+  <div class="wrap hdr__bar">
+    <a class="logo" href="#top" aria-label="Roiting, inicio"><svg viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" rx="7" fill="#E8643F"/><path d="M8 19V7h5.5a3.6 3.6 0 0 1 0 7.2H10.5l5 4.8" fill="none" stroke="#1B0A04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>roiting</a>
+    <nav class="nav" aria-label="Principal"><a href="#sistema">Sistema</a><a href="#modulos">Servicios</a><a href="#prioridad">Prioridad de cuentas</a><a href="#metodo">Método</a><a href="#casos">Casos</a></nav>
+    <div class="hdr__r"><a class="btn btn--ghost" href="#contacto">Contacto</a><a class="btn btn--acc" href="#contacto">Diagnóstico de demanda</a><button class="menu-btn" id="mb" aria-expanded="false" aria-controls="sheet">Menú</button></div>
+  </div>
+</header>
+<div class="sheet" id="sheet" hidden>
+  <nav aria-label="Menú móvil"><a href="#sistema">Sistema<span>Señal → acción</span></a><a href="#modulos">Servicios<span>6 módulos</span></a><a href="#prioridad">Prioridad<span>Encaje × intención</span></a><a href="#metodo">Método<span>90 días</span></a><a href="#casos">Casos<span>Validados</span></a><a href="#contacto">Contacto<span>Diagnóstico</span></a></nav>
+  <a class="btn btn--acc" href="#contacto">Solicitar diagnóstico de demanda</a>
+</div>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap grid hero__grid">
+    <div class="hero__txt">
+      <span class="tag">Agencia de marketing B2B · Valencia</span>
+      <h1>Vea su demanda B2B <b>antes</b> de que llegue a ventas.</h1>
+      <p class="lead">Conectamos SEO, visibilidad en IA, paid media y automatización con su CRM. Cada señal de interés se convierte en una cuenta priorizada y en una acción para el equipo comercial.</p>
+      <div class="hero__ctas"><a class="btn btn--acc" href="#contacto">Solicitar diagnóstico <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a><a class="btn btn--ghost" href="#sistema">Ver cómo funciona</a></div>
+      <dl class="hero__facts"><div><dt>Enfoque</dt><dd>Solo B2B</dd></div><div><dt>Métrica</dt><dd>Oportunidades</dd></div><div><dt>Integración</dt><dd>Su CRM actual</dd></div></dl>
+    </div>
+    <figure class="hero__app app" aria-label="Visualización conceptual de un panel de demanda con datos de demostración">
+      <div class="app__bar"><span><b>Demanda</b> · semana 14</span><span class="live">señales activas</span></div>
+      <div class="app__body">
+        <div class="app__col">
+          <h3>Cuentas con intención <span>score</span></h3>
+          <ul class="sig">
+            <li class="hot">Fabricante de componentes<span class="sc hi">86</span><small>Industria · visitó precios ×3 · descargó ficha</small><span class="meter"><i style="--v:86%"></i></span></li>
+            <li>Distribuidor sanitario<span class="sc">64</span><small>Salud · leyó 4 artículos · LinkedIn Ads</small><span class="meter"><i style="--v:64%"></i></span></li>
+            <li>Operador logístico<span class="sc">41</span><small>Logística · llegó desde respuesta de IA</small><span class="meter"><i style="--v:41%"></i></span></li>
+          </ul>
+        </div>
+        <div class="app__col">
+          <h3>Oportunidades / semana</h3>
+          <div class="chart">
+            <svg viewBox="0 0 260 130" role="img" aria-label="Línea con datos de demostración: oportunidades por semana en ascenso">
+              <g stroke="rgba(242,239,232,.1)"><line x1="24" y1="20" x2="256" y2="20"/><line x1="24" y1="60" x2="256" y2="60"/><line x1="24" y1="100" x2="256" y2="100"/></g>
+              <g font-size="9" fill="#A9C0BC" text-anchor="end"><text x="18" y="23">12</text><text x="18" y="63">6</text><text x="18" y="103">0</text></g>
+              <path d="M24 100 L24 87 L58 80 L92 83 L126 67 L160 60 L194 47 L228 40 L256 27 L256 100Z" fill="rgba(232,100,63,.16)"/>
+              <path d="M24 87 L58 80 L92 83 L126 67 L160 60 L194 47 L228 40 L256 27" fill="none" stroke="#E8643F" stroke-width="2" stroke-linejoin="round"/>
+              <circle cx="256" cy="27" r="4" fill="#E8643F" stroke="#123C3B" stroke-width="2"/>
+              <g font-size="9" fill="#A9C0BC"><text x="24" y="120">S7</text><text x="236" y="120">S14</text></g>
+            </svg>
+          </div>
+          <div class="nba"><b>SIGUIENTE ACCIÓN</b>Asignar «Fabricante de componentes» al comercial de zona y enviar caso de su sector.</div>
+        </div>
+      </div>
+      <div class="app__foot"><span class="demo">Visualización conceptual · datos de demostración</span><span class="demo">Empresas ficticias</span></div>
+    </figure>
+  </div>
+</section>
+
+<!-- SISTEMA: un registro que se transforma -->
+<section class="section paper" id="sistema" aria-labelledby="t-sis">
+  <div class="wrap">
+    <div class="grid head"><div class="h-l"><span class="tag">El sistema</span><h2 id="t-sis">De una visita anónima a una <b>conversación comercial</b>, en cuatro pasos.</h2></div><div class="h-r"><p>Así se transforma un mismo registro a medida que atraviesa el sistema. Ejemplo con datos de demostración.</p></div></div>
+    <ol class="flow">
+      <li class="stage"><span class="dot">01</span><h3>Captar señales</h3><p>SEO, motores de IA, campañas y cuentas ABM generan visitas e interacciones.</p>
+        <div class="rec" aria-label="Registro de ejemplo, paso 1"><span class="k">evento:</span> visita /precios<br><span class="k">origen:</span> búsqueda orgánica<br><span class="k">empresa:</span> —</div></li>
+      <li class="stage"><span class="dot">02</span><h3>Enriquecer</h3><p>Identificamos empresa, sector y tamaño, y lo unimos al historial del CRM.</p>
+        <div class="rec" aria-label="Registro de ejemplo, paso 2"><span class="k">evento:</span> visita /precios<br><span class="k">empresa:</span> <span class="new">Fabricante · 120 empl.</span><br><span class="k">sector:</span> <span class="new">industria</span></div></li>
+      <li class="stage"><span class="dot">03</span><h3>Puntuar</h3><p>Encaje con su cliente ideal más intención de compra, con criterios acordados con ventas.</p>
+        <div class="rec" aria-label="Registro de ejemplo, paso 3"><span class="k">encaje:</span> <span class="new">alto</span><br><span class="k">intención:</span> <span class="new">alta</span><br><span class="k">score:</span> <span class="acc">86 / 100</span></div></li>
+      <li class="stage"><span class="dot">04</span><h3>Activar</h3><p>El comercial recibe la cuenta con contexto; si no está lista, entra en nurturing.</p>
+        <div class="rec" aria-label="Registro de ejemplo, paso 4"><span class="k">estado:</span> <span class="acc">SQL</span><br><span class="k">tarea:</span> llamar en 24 h<br><span class="k">contenido:</span> caso del sector</div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- PRIORIDAD: matriz -->
+<section class="section" id="prioridad" aria-labelledby="t-pri">
+  <div class="wrap">
+    <div class="grid head"><div class="h-l"><span class="tag">Prioridad de cuentas</span><h2 id="t-pri">No todas las cuentas merecen la misma <b>atención</b>.</h2></div><div class="h-r"><p>Cruzamos encaje e intención para decidir dónde invierte tiempo ventas y dónde trabaja la automatización.</p></div></div>
+    <div class="grid matrix">
+      <figure class="matrix__chart">
+        <svg class="mx" id="mx" viewBox="0 0 640 440" role="img" aria-label="Gráfico de dispersión con datos de demostración: cuentas según encaje e intención, divididas en cuatro cuadrantes"></svg>
+        <figcaption class="demo" style="margin-top:10px">Visualización conceptual · 40 cuentas ficticias</figcaption>
+      </figure>
+      <div class="matrix__txt">
+        <div class="quad p"><b>Priorizar</b><h3>Encaje alto · intención alta</h3><p>Pasan a ventas con contexto en menos de 24 horas.</p></div>
+        <div class="quad"><b>Nutrir</b><h3>Encaje alto · intención baja</h3><p>Campañas ABM y contenido por rol hasta que muestren interés.</p></div>
+        <div class="quad"><b>Educar</b><h3>Encaje bajo · intención alta</h3><p>Contenido y automatización; revisión periódica del perfil.</p></div>
+        <div class="quad"><b>Descartar</b><h3>Encaje bajo · intención baja</h3><p>Fuera de la inversión activa.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULOS -->
+<section class="section paper" id="modulos" aria-labelledby="t-mod">
+  <div class="wrap">
+    <div class="grid head"><div class="h-l"><span class="tag">Servicios</span><h2 id="t-mod">Seis módulos. Usted elige con cuáles <b>empezar</b>.</h2></div><div class="h-r"><p>Seleccione módulos para ver cómo se apilan sobre la base de medición. El diagnóstico decide el orden recomendado.</p></div></div>
+    <div class="conf">
+      <div class="mods" role="group" aria-label="Módulos de servicio">
+        <div class="mod"><input type="checkbox" id="m1" data-l="l1" checked><label for="m1"><span class="box"></span><span><strong>SEO B2B</strong><span class="d">Búsquedas de alto valor en nichos técnicos, arquitectura y contenido de producto.</span></span><span class="code">SEO</span></label></div>
+        <div class="mod"><input type="checkbox" id="m2" data-l="l2" checked><label for="m2"><span class="box"></span><span><strong>GEO y visibilidad en IA</strong><span class="d">Menciones en respuestas generativas; acciones verificadas y experimentales separadas.</span></span><span class="code">GEO</span></label></div>
+        <div class="mod"><input type="checkbox" id="m3" data-l="l3"><label for="m3"><span class="box"></span><span><strong>Paid media</strong><span class="d">Google Ads y LinkedIn Ads con conversiones importadas del CRM.</span></span><span class="code">ADS</span></label></div>
+        <div class="mod"><input type="checkbox" id="m4" data-l="l4"><label for="m4"><span class="box"></span><span><strong>ABM</strong><span class="d">Cuentas objetivo y mensajes para cada rol del comité de compra.</span></span><span class="code">ABM</span></label></div>
+        <div class="mod"><input type="checkbox" id="m5" data-l="l5" checked><label for="m5"><span class="box"></span><span><strong>Automatización y CRM</strong><span class="d">Scoring, nurturing y avisos a ventas.</span></span><span class="code">MA</span></label></div>
+        <div class="mod"><input type="checkbox" id="m6" data-l="l6"><label for="m6"><span class="box"></span><span><strong>Inbound y contenido</strong><span class="d">Guías, comparativas y casos para cada etapa de la compra.</span></span><span class="code">IN</span></label></div>
+      </div>
+      <aside class="stack" aria-live="polite">
+        <h3>Su sistema</h3>
+        <div class="layers">
+          <div class="layer" id="l6">Inbound y contenido <span>IN</span></div>
+          <div class="layer" id="l4">ABM <span>ABM</span></div>
+          <div class="layer" id="l3">Paid media <span>ADS</span></div>
+          <div class="layer" id="l2">GEO y visibilidad en IA <span>GEO</span></div>
+          <div class="layer" id="l1">SEO B2B <span>SEO</span></div>
+          <div class="layer" id="l5">Automatización y CRM <span>MA</span></div>
+          <div class="layer base">Medición hasta la oportunidad <span>base</span></div>
+        </div>
+        <p class="sum" id="sum"></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- MÉTODO -->
+<section class="section" id="metodo" aria-labelledby="t-met">
+  <div class="wrap">
+    <div class="grid head"><div class="h-l"><span class="tag">Método</span><h2 id="t-met">Noventa días, publicados como un <b>registro de versiones</b>.</h2></div><div class="h-r"><p>Cada entrega tiene fecha y contenido. Calendario orientativo que se ajusta tras el diagnóstico.</p></div></div>
+    <ol class="log">
+      <li class="entry now"><p class="v">v0.1 <b>Semanas 1–2</b></p><h3>Diagnóstico</h3><ul><li>Auditoría SEO y de visibilidad en IA</li><li>Revisión de campañas y CRM</li><li>Informe priorizado</li></ul></li>
+      <li class="entry"><p class="v">v0.5 <b>Semanas 3–4</b></p><h3>Arquitectura</h3><ul><li>Perfil de cliente ideal y cuentas</li><li>Criterios de scoring con ventas</li><li>Plan de contenidos por etapa</li></ul></li>
+      <li class="entry"><p class="v">v1.0 <b>Semanas 5–10</b></p><h3>Activación</h3><ul><li>Canales en marcha por prioridad</li><li>Secuencias de nurturing</li><li>Cuadro de mando operativo</li></ul></li>
+      <li class="entry"><p class="v">v1.x <b>Desde la semana 11</b></p><h3>Optimización continua</h3><ul><li>Revisión quincenal con ventas</li><li>Reasignación de inversión</li><li>Pruebas documentadas</li></ul></li>
+    </ol>
+  </div>
+</section>
+
+<!-- CUADRO DE MANDO -->
+<section class="section paper" aria-labelledby="t-cm">
+  <div class="wrap">
+    <div class="grid head"><div class="h-l"><span class="tag">Beneficios</span><h2 id="t-cm">Lo que verá cada <b>lunes</b> en su cuadro de mando.</h2></div><div class="h-r"><p>Pocas métricas, todas conectadas con ventas. Ejemplos con datos de demostración.</p></div></div>
+    <div class="tiles">
+      <article class="tile big"><h3>Pipeline atribuido por canal</h3><p>Qué canal origina cada oportunidad y cuánto pesa en el total.</p>
+        <svg viewBox="0 0 420 220" role="img" aria-label="Barras horizontales con datos de demostración: oportunidades por canal">
+          <g font-size="12" fill="#123C3B">
+            <text x="0" y="30">SEO B2B</text><rect x="120" y="16" width="250" height="20" rx="4" fill="#123C3B"/><text x="376" y="31" font-family="IBM Plex Mono">18</text>
+            <text x="0" y="70">ABM</text><rect x="120" y="56" width="194" height="20" rx="4" fill="#123C3B"/><text x="320" y="71" font-family="IBM Plex Mono">14</text>
+            <text x="0" y="110">Paid media</text><rect x="120" y="96" width="166" height="20" rx="4" fill="#123C3B"/><text x="292" y="111" font-family="IBM Plex Mono">12</text>
+            <text x="0" y="150">Referencias</text><rect x="120" y="136" width="139" height="20" rx="4" fill="#123C3B"/><text x="265" y="151" font-family="IBM Plex Mono">10</text>
+            <text x="0" y="190">Motores de IA</text><rect x="120" y="176" width="83" height="20" rx="4" fill="#E8643F"/><text x="209" y="191" font-family="IBM Plex Mono">6</text>
+          </g>
+        </svg>
+        <span class="demo">Datos de demostración · oportunidades del trimestre</span></article>
+      <article class="tile"><h3>Velocidad del pipeline</h3><p>Días desde el primer contacto hasta la oportunidad. Menos es mejor.</p>
+        <svg viewBox="0 0 200 60" aria-hidden="true"><path d="M0 18 L33 22 L66 20 L100 30 L133 34 L166 40 L200 46" fill="none" stroke="#20A890" stroke-width="2"/><circle cx="200" cy="46" r="3.5" fill="#20A890"/></svg><span class="demo">Tendencia de demostración</span></article>
+      <article class="tile"><h3>Menciones en IA</h3><p>Respuestas de motores de IA que citan su marca, sobre un set de preguntas fijo.</p>
+        <svg viewBox="0 0 200 60" aria-hidden="true"><g fill="#123C3B"><rect x="0" y="40" width="22" height="20" rx="3"/><rect x="30" y="34" width="22" height="26" rx="3"/><rect x="60" y="36" width="22" height="24" rx="3"/><rect x="90" y="26" width="22" height="34" rx="3"/><rect x="120" y="22" width="22" height="38" rx="3"/><rect x="150" y="14" width="22" height="46" rx="3"/></g><rect x="178" y="8" width="22" height="52" rx="3" fill="#E8643F"/></svg><span class="demo">Tendencia de demostración</span></article>
+      <article class="tile"><h3>De MQL a SQL</h3><p>Leads que ventas acepta tras la cualificación.</p><p class="kpi">34 %<small>demo</small></p></article>
+      <article class="tile"><h3>Coste por oportunidad</h3><p>Inversión total del canal dividida entre oportunidades generadas.</p><p class="kpi">— €<small>tras el diagnóstico</small></p></article>
+    </div>
+  </div>
+</section>
+
+<!-- CASOS -->
+<section class="section" id="casos" aria-labelledby="t-cas" style="padding-bottom:0">
+  <div class="wrap"><div class="cases"><h2 id="t-cas">Casos de éxito con datos validados por cada cliente.</h2><p>Mostraremos periodo, fuente y método de cada cifra. Esta sección se completará con casos verificados.</p><a class="btn btn--ghost" href="https://www.roiting.com/casos-de-exito/">Casos en roiting.com</a></div></div>
+</section>
+
+<!-- CTA -->
+<section class="section" id="contacto" aria-labelledby="t-cta">
+  <div class="wrap grid cta">
+    <div class="cta__txt"><span class="tag">Diagnóstico de demanda</span><h2 id="t-cta">Descubra qué cuentas ya le están <b>buscando</b>.</h2><p>Analizamos su web, su visibilidad en buscadores e IA, sus campañas y su CRM. Recibe un informe priorizado y una sesión de 45 minutos con el equipo.</p></div>
+    <form class="cta__form form" id="fb" novalidate>
+      <div class="fgrid"><div class="fld"><label for="b1">Nombre</label><input class="inp" id="b1" autocomplete="name"></div><div class="fld"><label for="b2">Empresa</label><input class="inp" id="b2" autocomplete="organization"></div></div>
+      <div class="fld"><label for="b3">Email corporativo</label><input class="inp" id="b3" type="email" autocomplete="email" placeholder="nombre@empresa.com"></div>
+      <fieldset class="seg"><legend>Ciclo de venta habitual</legend><div><input type="radio" name="ciclo" id="c1"><label for="c1">Menos de 3 meses</label><input type="radio" name="ciclo" id="c2" checked><label for="c2">3 a 9 meses</label><input type="radio" name="ciclo" id="c3"><label for="c3">Más de 9 meses</label></div></fieldset>
+      <div class="fld"><label for="b4">Web</label><input class="inp" id="b4" type="url" placeholder="https://"></div>
+      <div class="form__f"><p>Formulario de demostración: no envía ni guarda datos.</p><button class="btn btn--dark" type="submit">Solicitar diagnóstico</button></div>
+      <p class="ok" id="fbok" role="status" hidden>Prototipo: no se ha enviado ningún dato.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="ftr">
+  <div class="wrap grid ftr__grid">
+    <div class="f1"><p>Marketing B2B medido en <b>oportunidades</b>.</p></div>
+    <div class="f2"><h2>Servicios</h2><ul><li><a href="#modulos">SEO B2B</a></li><li><a href="#modulos">GEO e IA</a></li><li><a href="#modulos">Paid media</a></li><li><a href="#modulos">ABM</a></li><li><a href="#modulos">Automatización</a></li></ul></div>
+    <div class="f3"><h2>Roiting</h2><ul><li><a href="#sistema">Sistema</a></li><li><a href="#metodo">Método</a></li><li><a href="#casos">Casos</a></li><li><a href="#contacto">Contacto</a></li></ul></div>
+    <div class="f4"><h2>Estudio</h2><ul><li>Valencia, España</li><li><a href="https://www.roiting.com/">roiting.com</a></li></ul></div>
+  </div>
+  <div class="wrap"><div class="ftr__l"><span>© 2026 Roiting · Prototipo B, no publicar · <a href="../index.html">Índice de propuestas</a></span><ul><li><a href="#top">Aviso legal</a></li><li><a href="#top">Privacidad</a></li><li><a href="#top">Cookies</a></li></ul></div></div>
+</footer>
+<span class="demo-flag">Prototipo B</span>
+
+<script>
+// Matriz encaje × intención: 40 cuentas ficticias, posiciones fijas. Se redibuja al ancho real para mantener el texto legible.
+(function(){
+  const svg=document.getElementById('mx'),ns='http://www.w3.org/2000/svg';
+  // [encaje, intención] en 0..1 (datos de demostración)
+  const P=[[.82,.86],[.9,.74],[.66,.9],[.74,.64],[.58,.72],[.93,.6],[.7,.78],[.86,.95],
+           [.2,.8],[.32,.66],[.12,.6],[.4,.88],[.28,.9],[.44,.58],[.08,.74],
+           [.62,.3],[.78,.42],[.88,.2],[.56,.12],[.7,.18],[.94,.36],[.6,.44],[.8,.08],[.52,.34],
+           [.18,.3],[.3,.14],[.1,.42],[.4,.24],[.24,.46],[.36,.06],[.06,.18],[.46,.4],[.14,.1],[.42,.12],[.3,.36],[.2,.2],[.48,.2],[.04,.34],[.34,.44],[.26,.04]];
+  function draw(){
+    const cw=svg.parentElement.clientWidth||640,narrow=cw<560,W0=narrow?Math.max(cw,320):640,H0=narrow?Math.round(W0*.9):440;
+    svg.setAttribute('viewBox',`0 0 ${W0} ${H0}`);svg.innerHTML='';
+    const L=narrow?30:56,T=8,W=W0-L-8,H=H0-T-(narrow?44:56),fs=12;
+    const el=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e};
+    el('rect',{x:L+W/2,y:T,width:W/2,height:H/2,fill:'#123C3B'});
+    el('line',{x1:L+W/2,y1:T,x2:L+W/2,y2:T+H,stroke:'rgba(242,239,232,.25)','stroke-dasharray':'4 6'});
+    el('line',{x1:L,y1:T+H/2,x2:L+W,y2:T+H/2,stroke:'rgba(242,239,232,.25)','stroke-dasharray':'4 6'});
+    el('line',{x1:L,y1:T+H,x2:L+W,y2:T+H,stroke:'rgba(242,239,232,.4)'});el('line',{x1:L,y1:T,x2:L,y2:T+H,stroke:'rgba(242,239,232,.4)'});
+    const lab=(x,y,t,c,anchor)=>el('text',{x,y,'text-anchor':anchor,'font-size':fs,fill:c,'letter-spacing':'1','font-weight':500},t);
+    lab(L+W-8,T+18,'PRIORIZAR','#E8643F','end');lab(L+8,T+18,'EDUCAR','#A9C0BC','start');
+    lab(L+W-8,T+H-8,'NUTRIR','#A9C0BC','end');lab(L+8,T+H-8,'DESCARTAR','#A9C0BC','start');
+    el('text',{x:L+W/2,y:T+H+(narrow?30:36),'text-anchor':'middle','font-size':fs,fill:'#A9C0BC'},'Encaje con el cliente ideal →');
+    el('text',{x:narrow?12:18,y:T+H/2,'text-anchor':'middle','font-size':fs,fill:'#A9C0BC',transform:`rotate(-90 ${narrow?12:18} ${T+H/2})`},'Intención de compra →');
+    const pad=narrow?14:22,top=narrow?30:34,bot=narrow?24:28;
+    P.forEach((p,i)=>{const pri=p[0]>.5&&p[1]>.5;const c=el('circle',{class:'pt',cx:L+pad+p[0]*(W-2*pad),cy:T+H-bot-p[1]*(H-top-bot),r:pri?(narrow?6:7):(narrow?4.5:5.5),fill:pri?'#E8643F':'#20A890','fill-opacity':pri?1:.8,stroke:'#0B2929','stroke-width':2});
+      const t=document.createElementNS(ns,'title');t.textContent=`Cuenta ficticia ${i+1}: encaje ${Math.round(p[0]*100)}, intención ${Math.round(p[1]*100)}`;c.appendChild(t)});
+  }
+  draw();let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(draw,150)});
+})();
+// Configurador
+(function(){
+  const boxes=[...document.querySelectorAll('.mod input')],sum=document.getElementById('sum');
+  function upd(){let n=0;boxes.forEach(b=>{document.getElementById(b.dataset.l).classList.toggle('off',!b.checked);if(b.checked)n++});
+    sum.innerHTML=n?`<b>${n} ${n===1?'módulo':'módulos'}</b> sobre una base de medición común. Todo se reporta en oportunidades.`:'Seleccione al menos un módulo.';}
+  boxes.forEach(b=>b.addEventListener('change',upd));upd();
+})();
+// Menú
+const mb=document.getElementById('mb'),sh=document.getElementById('sheet');
+mb.addEventListener('click',()=>{const o=sh.hidden;sh.hidden=!o;mb.setAttribute('aria-expanded',o);mb.textContent=o?'Cerrar':'Menú'});
+sh.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{sh.hidden=true;mb.setAttribute('aria-expanded','false');mb.textContent='Menú'}));
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden){sh.hidden=true;mb.setAttribute('aria-expanded','false');mb.textContent='Menú';mb.focus()}});
+document.getElementById('fb').addEventListener('submit',e=>{e.preventDefault();document.getElementById('fbok').hidden=false});
+</script>
+</body>
+</html>

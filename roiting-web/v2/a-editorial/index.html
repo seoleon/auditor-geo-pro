@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roiting · Editorial ejecutivo</title>
+<meta name="description" content="Prototipo A. Home de Roiting con dirección editorial ejecutiva.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* DIRECCIÓN A · EDITORIAL EJECUTIVO
+   Concepto: un informe estratégico impreso. Columna de notas al margen (3 col) + cuerpo (9 col).
+   Cada visual es una «Figura» numerada con pie y fuente, como en una publicación de consultoría. */
+:root{
+  --ivory:#F5F1E8; --ivory-2:#ECE5D7; --paper:#FBF9F4;
+  --ink:#17181C; --ink-2:#3B3D44; --muted:#5D5F66;
+  --rule:rgba(23,24,28,.16); --rule-2:rgba(23,24,28,.38);
+  --coral:#D04A2E;      /* acento: gráficos, cifras grandes, CTA hover */
+  --coral-ink:#A3361D;  /* acento para texto pequeño (AA) */
+  --blue:#1F6FA0;       /* segunda serie en figuras (validada con coral) */
+  --stone:#C9C0AF;      /* serie neutra */
+  --night:#17181C; --on-night:#F1ECE2; --on-night-2:#B9B4AA;
+
+  --f-serif:"Newsreader", "Iowan Old Style", Georgia, serif;
+  --f-sans:"Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --t-cap:.8125rem; --t-sm:.9375rem; --t-md:clamp(1.0625rem,1rem + .2vw,1.1875rem);
+  --t-lg:clamp(1.25rem,1.1rem + .6vw,1.625rem); --t-xl:clamp(1.75rem,1.4rem + 1.4vw,2.75rem);
+  --t-2xl:clamp(2.25rem,1.6rem + 2.8vw,4.25rem); --t-hero:clamp(3rem,1.6rem + 6vw,7.75rem);
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;--s9:96px;--s10:128px;
+  --section:clamp(72px,9vw,144px);
+  --max:1240px; --gut:max(20px,4vw); --gap:clamp(16px,2vw,28px);
+  --ease:cubic-bezier(.22,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ivory);color:var(--ink);font:400 var(--t-md)/1.6 var(--f-sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure,blockquote{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit}
+img,svg{display:block;max-width:100%}
+h1,h2,h3{font-family:var(--f-serif);font-weight:400;letter-spacing:-.02em;text-wrap:balance}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+.skip{position:absolute;left:16px;top:-80px;background:var(--ink);color:var(--ivory);padding:12px 16px;z-index:99}
+.skip:focus{top:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wrap{max-width:calc(var(--max) + 2*var(--gut));margin:0 auto;padding-inline:var(--gut)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+.grid>*{min-width:0}
+.margin{grid-column:1/4}.body{grid-column:4/13}.body-n{grid-column:4/11}
+.label{font:600 var(--t-cap)/1.3 var(--f-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.label b{color:var(--coral-ink);font-weight:600}
+.lead{font-size:var(--t-lg);line-height:1.45;color:var(--ink-2);max-width:40ch;font-family:var(--f-serif)}
+.note{font-size:var(--t-sm);color:var(--muted);line-height:1.5}
+.note strong{color:var(--ink);font-weight:600}
+@media (max-width:1023px){.margin{grid-column:1/-1}.body,.body-n{grid-column:1/-1}}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;gap:12px;min-height:50px;padding:0 26px;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);font:600 var(--t-sm)/1 var(--f-sans);text-decoration:none;cursor:pointer;transition:background .25s var(--ease),border-color .25s,color .25s}
+.btn::after{content:"→";transition:transform .25s var(--ease)}
+.btn:hover{background:var(--coral);border-color:var(--coral)}
+.btn:hover::after{transform:translateX(4px)}
+.btn--line{background:transparent;color:var(--ink);border-color:var(--rule-2)}
+.btn--line:hover{background:var(--ink);color:var(--ivory);border-color:var(--ink)}
+.btn--light{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
+.tlink{font-weight:600;font-size:var(--t-sm);text-decoration:none;border-bottom:1px solid var(--coral);padding-bottom:2px;transition:color .2s}
+.tlink:hover{color:var(--coral-ink)}
+
+/* ------- Cabecera ------- */
+.mast{border-bottom:1px solid var(--ink);background:var(--ivory);position:sticky;top:0;z-index:40}
+.mast__top{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px solid var(--rule);font-size:var(--t-cap);color:var(--muted)}
+.mast__bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:var(--s6);height:72px}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.brand b{font:500 30px/1 var(--f-serif);letter-spacing:-.03em}
+.brand small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.nav{display:flex;justify-content:center;gap:4px}
+.nav a{font-size:var(--t-sm);font-weight:500;text-decoration:none;padding:10px 14px;position:relative}
+.nav a::after{content:"";position:absolute;left:14px;right:14px;bottom:6px;height:1px;background:var(--coral);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
+.nav a:hover::after,.nav a:focus-visible::after{transform:scaleX(1)}
+.burger{display:none;align-items:center;gap:10px;background:none;border:1px solid var(--rule-2);min-height:44px;padding:0 14px;font:600 var(--t-sm) var(--f-sans);cursor:pointer;color:var(--ink)}
+.burger i{display:block;width:16px;height:1.5px;background:currentColor;box-shadow:0 5px 0 currentColor,0 -5px 0 currentColor}
+.drawer{position:fixed;inset:0;z-index:60;background:var(--ivory);display:flex;flex-direction:column;padding:20px var(--gut) 32px;overflow:auto}
+.drawer__head{display:flex;justify-content:space-between;align-items:center;height:56px;border-bottom:1px solid var(--ink)}
+.drawer ol{counter-reset:d;margin-top:16px}
+.drawer li{border-bottom:1px solid var(--rule)}
+.drawer li a{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;font:400 32px/1.1 var(--f-serif);text-decoration:none;letter-spacing:-.02em}
+.drawer li a span{font:500 12px var(--f-sans);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.drawer .btn{margin-top:28px;align-self:flex-start}
+@media (max-width:1023px){.nav,.mast__bar .btn{display:none}.burger{display:inline-flex}.mast__bar{grid-template-columns:1fr auto}}
+@media (max-width:599px){.mast__top span:last-child{display:none}.brand small{display:none}}
+
+/* ------- Hero ------- */
+.hero{padding-top:clamp(40px,6vw,88px);padding-bottom:var(--s8)}
+.hero__kicker{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline;padding-bottom:var(--s5);border-bottom:1px solid var(--rule)}
+.hero h1{font-size:var(--t-hero);line-height:.92;letter-spacing:-.045em;font-weight:300;margin-top:var(--s6)}
+.hero h1 em{font-style:italic;color:var(--coral)}
+.hero__cols{margin-top:var(--s7);align-items:start;row-gap:var(--s7)}
+.hero__intro{grid-column:1/5;display:flex;flex-direction:column;gap:var(--s5)}
+.hero__intro p.dek{font-size:var(--t-md);color:var(--ink-2);line-height:1.6}
+.hero__ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hero__fig{grid-column:6/13}
+@media (max-width:1023px){.hero__intro,.hero__fig{grid-column:1/-1}.hero__intro{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}.hero__intro .hero__ctas{grid-column:2}}
+@media (max-width:599px){.hero__intro{display:flex}}
+
+/* Figura editorial */
+.fig{border-top:2px solid var(--ink);padding-top:var(--s4)}
+.fig__head{display:flex;justify-content:space-between;gap:16px;align-items:baseline;flex-wrap:wrap}
+.fig__head h2,.fig__head h3{font-size:var(--t-lg);line-height:1.2}
+.fig__num{font:600 var(--t-cap) var(--f-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--coral-ink)}
+.fig__src{margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.fig svg text{font-family:var(--f-sans)}
+.fig svg .serif{font-family:var(--f-serif)}
+
+/* Embudo editorial (Figura 1) */
+.funnel{margin-top:var(--s5);display:grid;gap:14px}
+.fr{display:grid;grid-template-columns:150px 1fr 64px;gap:16px;align-items:center}
+.fr dt{font-size:var(--t-sm);font-weight:600}
+.fr dt small{display:block;font-weight:400;color:var(--muted);font-size:12.5px}
+.fr .bar{height:30px;background:var(--ivory-2);position:relative}
+.fr .bar i{position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--ink);transform-origin:left;animation:grow .9s var(--ease) both;animation-delay:var(--d,0s)}
+.fr.hot .bar i{background:var(--coral)}
+.fr dd{font:500 var(--t-lg)/1 var(--f-serif);text-align:right;font-variant-numeric:tabular-nums}
+.fr .loss{grid-column:2/4;font-size:12.5px;color:var(--coral-ink);margin-top:-8px;display:flex;gap:8px;align-items:center}
+.fr .loss::before{content:"";width:18px;height:1px;background:var(--coral)}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (max-width:599px){.fr{grid-template-columns:96px 1fr 48px;gap:10px}.fr dt small{display:none}}
+
+/* ------- Tesis ------- */
+.demand .grid,.demand.grid{row-gap:var(--s6)}
+.thesis .grid{row-gap:var(--s5)}
+.thesis .body p.big{font:300 var(--t-xl)/1.25 var(--f-serif);letter-spacing:-.015em;max-width:30ch}
+.thesis .body p.big em{color:var(--coral);font-style:italic}
+.symptoms{margin-top:var(--s8);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);border-top:1px solid var(--ink)}
+.symptoms li{padding-top:var(--s5);display:flex;flex-direction:column;gap:var(--s3)}
+.symptoms h3{font-size:var(--t-lg);line-height:1.2}
+.symptoms p{font-size:var(--t-sm);color:var(--ink-2)}
+@media (max-width:767px){.symptoms{grid-template-columns:1fr}.symptoms li{padding-bottom:var(--s5);border-bottom:1px solid var(--rule)}}
+
+/* ------- Mapa de demanda (Figura 2) ------- */
+.demand{background:var(--paper);border-block:1px solid var(--rule)}
+.sankey-wrap{overflow-x:auto;margin-top:var(--s5)}
+.sankey{width:100%;height:auto}
+.sankey .lk{transition:opacity .2s}
+.sankey:hover .lk{opacity:.35}
+.sankey .lk:hover{opacity:1}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--ink-2);margin-top:var(--s4)}
+.legend span{display:inline-flex;gap:8px;align-items:center}
+.legend i{width:14px;height:10px;display:inline-block}
+.readings{display:grid;gap:var(--s5);margin-top:var(--s5)}
+.readings p{font-size:var(--t-sm);color:var(--ink-2);padding-left:16px;border-left:2px solid var(--coral)}
+
+/* ------- Servicios: índice ------- */
+.toc{border-top:2px solid var(--ink)}
+.toc a{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.4fr) minmax(0,1fr) 40px;gap:var(--gap);padding:var(--s5) 0;border-bottom:1px solid var(--rule);text-decoration:none;align-items:baseline;transition:background .25s,padding .25s var(--ease)}
+.toc a:hover{background:var(--paper);padding-inline:var(--s4)}
+.toc h3{font-size:clamp(1.5rem,1.1rem + 1.2vw,2.5rem);line-height:1}
+.toc a:hover h3{font-style:italic;color:var(--coral)}
+.toc p{font-size:var(--t-sm);color:var(--ink-2)}
+.toc ul{font-size:13px;color:var(--muted);display:grid;gap:2px}
+.toc ul li::before{content:"— "}
+.toc .go{font-size:20px;justify-self:end;transition:transform .25s var(--ease)}
+.toc a:hover .go{transform:translateX(4px)}
+@media (max-width:1023px){.toc a{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) 32px;row-gap:10px}.toc ul{grid-column:2}.toc .go{grid-row:1;grid-column:3}}
+@media (max-width:767px){.toc a{grid-template-columns:1fr 32px;row-gap:8px}.toc p,.toc ul{grid-column:1/-1;grid-row:auto}.toc .go{grid-row:1;grid-column:2}}
+.geo{margin-top:var(--s8);background:var(--night);color:var(--on-night);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--gap);padding:clamp(28px,4vw,64px)}
+.geo>*{min-width:0}
+.geo .label{color:var(--on-night-2)}
+.geo h3{font-size:var(--t-2xl);line-height:1;margin-top:var(--s4)}
+.geo h3 em{color:#F08A6E}
+.geo p{color:var(--on-night-2);margin-top:var(--s4);max-width:46ch}
+.geo .tlink{color:var(--on-night);display:inline-block;margin-top:var(--s5)}
+.geo__txt{grid-column:1/6}.geo__fig{grid-column:7/13}
+.answer{border:1px solid rgba(241,236,226,.2);padding:var(--s5);font-size:var(--t-sm)}
+.answer .q{font-family:var(--f-serif);font-style:italic;font-size:var(--t-lg);color:var(--on-night)}
+.answer .a{margin-top:var(--s4);color:var(--on-night-2);line-height:1.6}
+.answer mark{background:none;color:var(--on-night);border-bottom:2px solid #F08A6E}
+.answer ol{margin-top:var(--s4);display:grid;gap:6px;font-size:12.5px;color:var(--on-night-2);counter-reset:c}
+.answer ol li{counter-increment:c;display:flex;gap:10px}
+.answer ol li::before{content:"[" counter(c) "]";color:#F08A6E}
+.answer .demo{margin-top:var(--s4);font-size:12px;color:var(--on-night-2);border-top:1px solid rgba(241,236,226,.15);padding-top:10px}
+@media (max-width:1023px){.geo__txt,.geo__fig{grid-column:1/-1}}
+
+/* ------- Método ------- */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink);counter-reset:s}
+.step{padding:var(--s5) var(--s5) 0 0;display:flex;flex-direction:column;gap:var(--s3);position:relative}
+.step+.step{padding-left:var(--s5);border-left:1px solid var(--rule)}
+.step .n{font:300 64px/1 var(--f-serif);color:var(--coral)}
+.step h3{font-size:var(--t-lg);line-height:1.2}
+.step p{font-size:var(--t-sm);color:var(--ink-2)}
+.step .out{margin-top:auto;padding-top:var(--s4);font-size:12.5px;color:var(--muted);border-top:1px dashed var(--rule-2)}
+.step .out strong{color:var(--ink);font-weight:600}
+.weeks{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;margin-top:var(--s6)}
+.weeks span{height:6px;background:var(--ivory-2)}
+.weeks span.p1{background:var(--ink)}.weeks span.p2{background:var(--ink-2)}.weeks span.p3{background:var(--coral)}.weeks span.p4{background:var(--stone)}
+.weeks-l{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px}
+@media (max-width:1023px){.steps{grid-template-columns:1fr 1fr}.step:nth-child(3){padding-left:0;border-left:0}.step{padding-bottom:var(--s6)}}
+@media (max-width:599px){.steps{grid-template-columns:1fr}.step,.step+.step{padding:var(--s5) 0;border-left:0;border-bottom:1px solid var(--rule)}}
+
+/* ------- Para quién / beneficios ------- */
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+.role{display:flex;flex-direction:column;gap:var(--s4)}
+.role .label{padding-bottom:var(--s3);border-bottom:1px solid var(--ink)}
+.role blockquote{font:400 var(--t-lg)/1.3 var(--f-serif);letter-spacing:-.01em}
+.role ul{display:grid;gap:8px;font-size:var(--t-sm);color:var(--ink-2)}
+.role li{display:flex;gap:10px}
+.role li::before{content:"";flex:none;width:6px;height:6px;margin-top:9px;background:var(--coral)}
+@media (max-width:767px){.roles{grid-template-columns:1fr;row-gap:var(--s7)}}
+
+/* ------- Casos ------- */
+.proof{border:1px solid var(--rule-2);padding:clamp(24px,3vw,40px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--gap);align-items:center}
+.proof>*{min-width:0}
+.proof h2{font-size:var(--t-xl);line-height:1.1;grid-column:1/7}
+.proof p{grid-column:7/11;font-size:var(--t-sm);color:var(--ink-2)}
+.proof .tlink{grid-column:11/13;justify-self:end}
+@media (max-width:1023px){.proof h2,.proof p,.proof .tlink{grid-column:1/-1;justify-self:start}}
+
+/* ------- CTA memo ------- */
+.cta{background:var(--night);color:var(--on-night)}
+.cta .label{color:var(--on-night-2)}
+.cta h2{font-size:var(--t-2xl);line-height:1;margin-top:var(--s4)}
+.cta h2 em{color:#F08A6E}
+.cta .lead{color:var(--on-night-2);margin-top:var(--s5)}
+.cta__grid{row-gap:var(--s7);align-items:start}
+.cta__txt{grid-column:1/6}.cta__form{grid-column:7/13}
+@media (max-width:1023px){.cta__txt,.cta__form{grid-column:1/-1}}
+.memo{background:var(--paper);color:var(--ink);padding:clamp(24px,3vw,44px);box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.memo__h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:var(--s3);margin-bottom:var(--s4)}
+.memo__h b{font:400 var(--t-lg) var(--f-serif)}
+.memo__h span{font-size:12px;color:var(--muted)}
+.mrow{display:grid;grid-template-columns:110px 1fr;align-items:center;border-bottom:1px solid var(--rule);min-height:56px}
+.mrow label{font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mrow input,.mrow select,.mrow textarea{font:inherit;font-size:var(--t-md);border:0;background:transparent;color:var(--ink);padding:14px 0;width:100%;min-height:52px}
+.mrow textarea{min-height:96px;resize:vertical;font-family:var(--f-serif);font-size:var(--t-lg)}
+.mrow:focus-within{border-bottom-color:var(--coral);box-shadow:0 1px 0 var(--coral)}
+.mrow input:focus,.mrow select:focus,.mrow textarea:focus{outline:none}
+.mrow.tall{align-items:start}.mrow.tall label{padding-top:18px}
+.memo__f{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:var(--s5)}
+.memo__f p{font-size:12.5px;color:var(--muted);max-width:32ch}
+.ok{margin-top:var(--s4);font-size:var(--t-sm);color:#2F6B45}
+@media (max-width:599px){.mrow{grid-template-columns:1fr;padding-top:10px}.mrow input,.mrow select{padding-top:4px}.mrow.tall label{padding-top:0}}
+
+/* ------- Footer colofón ------- */
+.ftr{padding-block:var(--s8) var(--s6)}
+.ftr__big{font:300 clamp(3.5rem,1rem + 11vw,11rem)/.9 var(--f-serif);letter-spacing:-.05em;border-bottom:2px solid var(--ink);padding-bottom:var(--s5)}
+.ftr__big em{color:var(--coral)}
+.ftr__cols{margin-top:var(--s6);row-gap:var(--s6)}
+.ftr__cols h2{font:600 var(--t-cap) var(--f-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:var(--s3)}
+.ftr__cols ul{display:grid;gap:8px;font-size:var(--t-sm)}
+.ftr__cols a{text-decoration:none}.ftr__cols a:hover{color:var(--coral-ink);text-decoration:underline}
+.fc1{grid-column:1/5}.fc2{grid-column:5/7}.fc3{grid-column:7/9}.fc4{grid-column:9/13}
+@media (max-width:1023px){.fc1{grid-column:1/-1}.fc2{grid-column:1/5}.fc3{grid-column:5/9}.fc4{grid-column:9/13}}
+@media (max-width:599px){.fc2{grid-column:1/7}.fc3{grid-column:7/13}.fc4{grid-column:1/-1}}
+.ftr__legal{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:var(--s7);padding-top:var(--s4);border-top:1px solid var(--rule);font-size:12.5px;color:var(--muted)}
+.ftr__legal ul{display:flex;gap:20px;flex-wrap:wrap}
+
+.section{padding-block:var(--section)}
+.sec-head{margin-bottom:clamp(36px,5vw,72px);row-gap:var(--s4)}
+.sec-head h2{font-size:var(--t-2xl);line-height:1.02;letter-spacing:-.035em}
+.sec-head h2 em{font-style:italic;color:var(--coral)}
+@media (min-width:1024px){.demo-flag{display:block}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+.demo-flag{display:none;position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:30;font:600 11px var(--f-sans);letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--ivory);padding:8px 12px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="mast__top"><span>Agencia de marketing B2B · Valencia</span><span>Diagnóstico de captación sin coste para empresas B2B</span></div>
+    <div class="mast__bar">
+      <a class="brand" href="#top" aria-label="Roiting, inicio"><b>Roiting</b><small>ROI Hacking</small></a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#servicios">Servicios</a><a href="#metodo">Método</a><a href="#demanda">Mapa de demanda</a><a href="#para-quien">Para quién</a><a href="#casos">Casos</a><a href="#contacto">Contacto</a>
+      </nav>
+      <a class="btn" href="#contacto">Solicitar diagnóstico</a>
+      <button class="burger" id="openMenu" aria-expanded="false" aria-controls="drawer"><i></i>Menú</button>
+    </div>
+  </div>
+</header>
+<div class="drawer" id="drawer" hidden>
+  <div class="drawer__head"><span class="brand"><b>Roiting</b></span><button class="burger" style="display:inline-flex" id="closeMenu">Cerrar</button></div>
+  <ol>
+    <li><a href="#servicios">Servicios <span>Índice</span></a></li>
+    <li><a href="#metodo">Método <span>4 fases</span></a></li>
+    <li><a href="#demanda">Mapa de demanda <span>Figura 2</span></a></li>
+    <li><a href="#para-quien">Para quién <span>Roles</span></a></li>
+    <li><a href="#casos">Casos <span>Validados</span></a></li>
+    <li><a href="#contacto">Contacto <span>Diagnóstico</span></a></li>
+  </ol>
+  <a class="btn" href="#contacto">Solicitar diagnóstico</a>
+</div>
+
+<main id="main">
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero__kicker"><span class="label"><b>Marketing B2B</b></span><span class="note">SEO · Visibilidad en IA · Paid media · ABM · Automatización y CRM</span></div>
+    <h1>La demanda B2B <em>se diseña.</em></h1>
+    <div class="grid hero__cols">
+      <div class="hero__intro">
+        <p class="dek">Roiting conecta SEO, visibilidad en motores de IA, paid media y automatización con su CRM para que marketing y ventas trabajen sobre las mismas oportunidades. Para empresas con ciclos de venta largos y comités de compra.</p>
+        <div class="hero__ctas"><a class="btn" href="#contacto">Solicitar diagnóstico</a><a class="btn btn--line" href="#metodo">Ver el método</a></div>
+      </div>
+      <figure class="fig hero__fig" aria-labelledby="f1t">
+        <div class="fig__head"><span class="fig__num">Figura 1</span><h2 id="f1t" style="font-size:var(--t-lg)">Dónde se pierde la demanda en un embudo B2B típico</h2></div>
+        <dl class="funnel">
+          <div class="fr"><dt>Visitas cualificadas<small>empresas del perfil objetivo</small></dt><span class="bar" aria-hidden="true"><i style="--w:100%"></i></span><dd>1.000</dd></div>
+          <div class="fr"><dt>Contactos<small>formulario, descarga, demo</small></dt><span class="bar" aria-hidden="true"><i style="--w:24%;--d:.1s"></i></span><dd>240</dd><span class="loss">Sin contenido para cada etapa de compra</span></div>
+          <div class="fr"><dt>MQL<small>encaje + intención</small></dt><span class="bar" aria-hidden="true"><i style="--w:9%;--d:.2s"></i></span><dd>90</dd><span class="loss">Sin scoring compartido con ventas</span></div>
+          <div class="fr hot"><dt>Oportunidades<small>aceptadas por ventas</small></dt><span class="bar" aria-hidden="true"><i style="--w:3%;--d:.3s"></i></span><dd>28</dd></div>
+        </dl>
+        <figcaption class="fig__src"><span>Lectura: por cada 1.000 visitas del perfil objetivo, menos de 30 llegan a oportunidad.</span><span><strong>Datos ilustrativos</strong> · no corresponden a un cliente</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- TESIS -->
+<section class="section thesis" aria-labelledby="t-tesis" style="padding-top:var(--s7)">
+  <div class="wrap grid">
+    <div class="margin"><p class="label">El problema</p><p class="note" style="margin-top:12px">Lo que vemos al empezar a trabajar con empresas industriales, tecnológicas y de servicios profesionales.</p></div>
+    <div class="body">
+      <h2 class="sr" id="t-tesis">El problema</h2>
+      <p class="big">Las empresas B2B no suelen tener un problema de tráfico. Tienen un problema de <em>continuidad</em>: el interés llega, pero nadie lo convierte en una conversación comercial.</p>
+      <ul class="symptoms">
+        <li><span class="label">Síntoma</span><h3>Canales que no se hablan</h3><p>SEO, campañas y redes se gestionan por separado y cada uno reporta su propia métrica.</p></li>
+        <li><span class="label">Síntoma</span><h3>Leads sin contexto</h3><p>Ventas recibe nombres y emails, pero no sabe qué buscó la empresa ni en qué fase de compra está.</p></li>
+        <li><span class="label">Síntoma</span><h3>Invisibles en la IA</h3><p>Los compradores ya preguntan a ChatGPT, Gemini o Perplexity, y la marca no aparece en las respuestas.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MAPA DE DEMANDA -->
+<section class="section demand" id="demanda" aria-labelledby="t-dem">
+  <div class="wrap grid">
+    <div class="margin">
+      <p class="label">Cómo lo medimos</p>
+      <div class="readings">
+        <p>Cada canal se evalúa por las oportunidades que genera, no por sus visitas.</p>
+        <p>Lo que queda en «nurturing» no se pierde: entra en secuencias por cargo y sector.</p>
+        <p>La anchura de cada flujo es proporcional a su volumen.</p>
+      </div>
+    </div>
+    <figure class="fig body" aria-labelledby="t-dem">
+      <div class="fig__head"><span class="fig__num">Figura 2</span><h2 id="t-dem">Mapa de demanda: de qué canal llega cada oportunidad</h2></div>
+      <div class="sankey-wrap"><svg class="sankey" id="sankeyA" viewBox="0 0 900 460" role="img" aria-label="Diagrama de flujo con datos ilustrativos: contactos de cinco canales repartidos entre oportunidad, nurturing y descartado"></svg></div>
+      <div class="legend" aria-hidden="true"><span><i style="background:var(--coral)"></i>Oportunidad</span><span><i style="background:var(--blue)"></i>En nurturing</span><span><i style="background:var(--stone)"></i>Descartado</span></div>
+      <figcaption class="fig__src"><span>Contactos de un trimestre por canal de origen y resultado.</span><span><strong>Datos ilustrativos</strong> · visualización conceptual</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="section" id="servicios" aria-labelledby="t-serv">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <div class="margin"><p class="label">Servicios</p></div>
+      <div class="body-n"><h2 id="t-serv">Seis disciplinas, <em>un solo</em> objetivo comercial.</h2></div>
+    </div>
+    <nav class="toc" aria-label="Servicios">
+      <a href="#contacto"><h3>SEO B2B</h3><p>Visibilidad en las búsquedas que su comprador hace meses antes de pedir presupuesto.</p><ul><li>Investigación por etapa de compra</li><li>SEO técnico y arquitectura</li><li>Contenido de producto y aplicación</li></ul><span class="go" aria-hidden="true">→</span></a>
+      <a href="#contacto"><h3>GEO e IA</h3><p>Presencia de la marca en las respuestas de motores de IA generativa.</p><ul><li>Auditoría de menciones</li><li>Entidad y datos estructurados</li><li>Contenido citable</li></ul><span class="go" aria-hidden="true">→</span></a>
+      <a href="#contacto"><h3>Paid media</h3><p>Google Ads y LinkedIn Ads optimizados por oportunidad, no por clic.</p><ul><li>Búsqueda de alta intención</li><li>Segmentación por cargo y empresa</li><li>Conversiones importadas del CRM</li></ul><span class="go" aria-hidden="true">→</span></a>
+      <a href="#contacto"><h3>ABM</h3><p>Campañas para cuentas concretas y todo su comité de compra.</p><ul><li>Selección de cuentas</li><li>Mensajes por rol</li><li>Coordinación con ventas</li></ul><span class="go" aria-hidden="true">→</span></a>
+      <a href="#contacto"><h3>Inbound</h3><p>Contenido experto que acompaña al comprador en una decisión larga.</p><ul><li>Guías y comparativas</li><li>Casos y fichas técnicas</li><li>Newsletter B2B</li></ul><span class="go" aria-hidden="true">→</span></a>
+      <a href="#contacto"><h3>Automatización y CRM</h3><p>Scoring, nurturing y cuadros de mando que ventas sí utiliza.</p><ul><li>Lead scoring acordado</li><li>Secuencias por etapa</li><li>Atribución a oportunidad</li></ul><span class="go" aria-hidden="true">→</span></a>
+    </nav>
+
+    <article class="geo" aria-labelledby="t-geo">
+      <div class="geo__txt">
+        <p class="label">Disciplina nueva</p>
+        <h3 id="t-geo">Cuando su cliente pregunta a una IA, <em>¿le nombra?</em></h3>
+        <p>Medimos en qué respuestas aparece su marca, qué fuentes cita el motor y qué contenido falta para que le tenga en cuenta. Separamos siempre las acciones con efecto comprobado de las experimentales.</p>
+        <a class="tlink" href="#contacto">Auditoría de visibilidad en IA →</a>
+      </div>
+      <figure class="geo__fig answer" aria-label="Simulación de una respuesta de un asistente de IA">
+        <p class="q">«¿Qué proveedores de moldes técnicos trabajan con automoción en España?»</p>
+        <p class="a">Entre las empresas que publican información técnica detallada sobre moldes para automoción figuran <mark>Su empresa</mark> [1], un fabricante del norte [2] y un grupo internacional con planta en Cataluña [3]…</p>
+        <ol><li>suempresa.com/moldes-automocion</li><li>directorio sectorial</li><li>web corporativa del grupo</li></ol>
+        <p class="demo">Simulación conceptual · no es una respuesta real de ningún motor</p>
+      </figure>
+    </article>
+  </div>
+</section>
+
+<!-- MÉTODO -->
+<section class="section" id="metodo" style="background:var(--paper);border-top:1px solid var(--rule)" aria-labelledby="t-met">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <div class="margin"><p class="label">Método</p></div>
+      <div class="body-n"><h2 id="t-met">Doce semanas para tener un sistema <em>que se pueda medir.</em></h2></div>
+    </div>
+    <ol class="steps">
+      <li class="step"><span class="n">1</span><h3>Diagnóstico</h3><p>Auditamos web, SEO, presencia en IA, campañas y CRM, y localizamos dónde se pierde demanda.</p><p class="out"><strong>Entregable:</strong> informe priorizado</p></li>
+      <li class="step"><span class="n">2</span><h3>Arquitectura</h3><p>Definimos cuentas objetivo, mensajes por rol, criterios de scoring y la integración entre canales.</p><p class="out"><strong>Entregable:</strong> plan de captación</p></li>
+      <li class="step"><span class="n">3</span><h3>Activación</h3><p>Lanzamos contenido, campañas y automatizaciones en el orden que marca el diagnóstico.</p><p class="out"><strong>Entregable:</strong> canales en marcha</p></li>
+      <li class="step"><span class="n">4</span><h3>Optimización</h3><p>Revisamos con ventas cada dos semanas y movemos la inversión hacia lo que genera oportunidades.</p><p class="out"><strong>Entregable:</strong> cuadro de mando</p></li>
+    </ol>
+    <div class="weeks" aria-hidden="true"><span class="p1"></span><span class="p1"></span><span class="p2"></span><span class="p2"></span><span class="p3"></span><span class="p3"></span><span class="p3"></span><span class="p3"></span><span class="p4"></span><span class="p4"></span><span class="p4"></span><span class="p4"></span></div>
+    <div class="weeks-l"><span>Semana 1</span><span>Calendario orientativo; se ajusta tras el diagnóstico</span><span>Semana 12</span></div>
+  </div>
+</section>
+
+<!-- PARA QUIÉN -->
+<section class="section" id="para-quien" aria-labelledby="t-roles">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <div class="margin"><p class="label">Para quién</p></div>
+      <div class="body-n"><h2 id="t-roles">Lo que cambia para cada <em>persona</em> del comité.</h2></div>
+    </div>
+    <div class="roles">
+      <article class="role"><h3 class="label">Dirección general</h3><blockquote>Ver la inversión en marketing en términos de oportunidades y pipeline.</blockquote><ul><li>Un cuadro de mando con pocas métricas</li><li>Decisiones de inversión por canal</li></ul></article>
+      <article class="role"><h3 class="label">Marketing</h3><blockquote>Dejar de defender visitas y empezar a defender resultados comerciales.</blockquote><ul><li>Atribución hasta la oportunidad</li><li>Un plan de contenidos por etapa</li></ul></article>
+      <article class="role"><h3 class="label">Ventas</h3><blockquote>Recibir contactos con contexto: qué buscaron, qué leyeron y cuándo llamar.</blockquote><ul><li>Avisos cuando un lead está listo</li><li>Criterios de calidad acordados</li></ul></article>
+    </div>
+  </div>
+</section>
+
+<!-- CASOS -->
+<section class="section" id="casos" style="padding-top:0" aria-labelledby="t-casos">
+  <div class="wrap">
+    <div class="proof">
+      <h2 id="t-casos">Casos de éxito, con datos validados por cada cliente.</h2>
+      <p>Publicamos resultados solo con la aprobación del cliente y con el periodo y la fuente de cada cifra. Esta sección se completará con casos verificados.</p>
+      <a class="tlink" href="https://www.roiting.com/casos-de-exito/">Casos en roiting.com →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta" id="contacto" aria-labelledby="t-cta">
+  <div class="wrap grid cta__grid">
+    <div class="cta__txt">
+      <p class="label">Diagnóstico de captación</p>
+      <h2 id="t-cta">Empiece por saber <em>dónde</em> se pierde su demanda.</h2>
+      <p class="lead">En dos semanas recibe un informe priorizado de SEO, visibilidad en IA, campañas y CRM, y lo revisamos juntos en una sesión de 45 minutos.</p>
+    </div>
+    <form class="cta__form memo" id="memo" novalidate>
+      <div class="memo__h"><b>Solicitud de diagnóstico</b><span>Formulario de demostración</span></div>
+      <div class="mrow"><label for="m-n">Nombre</label><input id="m-n" name="nombre" autocomplete="name" placeholder="Nombre y apellidos"></div>
+      <div class="mrow"><label for="m-c">Empresa</label><input id="m-c" name="empresa" autocomplete="organization" placeholder="Razón social o marca"></div>
+      <div class="mrow"><label for="m-e">Email</label><input id="m-e" name="email" type="email" autocomplete="email" placeholder="nombre@empresa.com"></div>
+      <div class="mrow"><label for="m-o">Objetivo</label><select id="m-o" name="objetivo"><option>Más oportunidades cualificadas</option><option>Visibilidad en IA</option><option>Cuentas objetivo (ABM)</option><option>Medir el retorno</option></select></div>
+      <div class="mrow tall"><label for="m-t">Contexto</label><textarea id="m-t" name="contexto" placeholder="Sector, mercado y ciclo de venta"></textarea></div>
+      <div class="memo__f"><p>Formulario ilustrativo: no envía ni guarda datos.</p><button class="btn" type="submit">Enviar solicitud</button></div>
+      <p class="ok" id="memoOk" role="status" hidden>Prototipo: no se ha enviado ningún dato.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <p class="ftr__big" aria-hidden="true">Roiting<em>.</em></p>
+    <div class="grid ftr__cols">
+      <div class="fc1"><p class="lead" style="font-size:var(--t-lg)">Marketing B2B conectado con ventas. Valencia, España.</p></div>
+      <div class="fc2"><h2>Servicios</h2><ul><li><a href="#servicios">SEO B2B</a></li><li><a href="#servicios">GEO e IA</a></li><li><a href="#servicios">Paid media</a></li><li><a href="#servicios">ABM</a></li><li><a href="#servicios">Automatización</a></li></ul></div>
+      <div class="fc3"><h2>Roiting</h2><ul><li><a href="#metodo">Método</a></li><li><a href="#casos">Casos</a></li><li><a href="#para-quien">Para quién</a></li><li><a href="#contacto">Contacto</a></li></ul></div>
+      <div class="fc4"><h2>Colofón</h2><p class="note">Prototipo de diseño A · Editorial ejecutivo. Tipografías Newsreader y Hanken Grotesk (licencia OFL). Logotipo provisional. Gráficos con datos ilustrativos.</p></div>
+    </div>
+    <div class="ftr__legal"><span>© 2026 Roiting · Prototipo, no publicar · <a href="../index.html">Índice de propuestas</a></span><ul><li><a href="#top">Aviso legal</a></li><li><a href="#top">Privacidad</a></li><li><a href="#top">Cookies</a></li></ul></div>
+  </div>
+</footer>
+<span class="demo-flag">Prototipo A</span>
+
+<script>
+// Sankey mínimo, a escala: altura de nodos y cintas proporcional al volumen.
+function sankey(svg,flows,opt){
+  svg.innerHTML='';svg.setAttribute('viewBox',`0 0 ${opt.w} ${opt.h+2*opt.m}`);
+  const W=opt.w,H=opt.h,nw=opt.nodeW,pad=opt.pad,lx=opt.lx,rx=W-opt.rx-nw;
+  const L=[...new Set(flows.map(f=>f[0]))],R=opt.right;
+  const tot=flows.reduce((s,f)=>s+f[2],0);
+  const k=(H-pad*(Math.max(L.length,R.length)-1))/tot;
+  const sum=(n,i)=>flows.filter(f=>f[i]===n).reduce((s,f)=>s+f[2],0);
+  const pos=(arr,i)=>{let y=0;const p={};arr.forEach(n=>{const h=sum(n,i)*k;p[n]={y,h,off:0};y+=h+pad});const used=y-pad,shift=(H-used)/2+opt.m;arr.forEach(n=>p[n].y+=shift);return p};
+  const pl=pos(L,0),pr=pos(R,1);const ns='http://www.w3.org/2000/svg';
+  const el=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const x in a)e.setAttribute(x,a[x]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e};
+  flows.forEach(f=>{const h=f[2]*k,a=pl[f[0]],b=pr[f[1]];const y0=a.y+a.off+h/2,y1=b.y+b.off+h/2;a.off+=h;b.off+=h;
+    const x0=lx+nw,x1=rx,mx=(x0+x1)/2;
+    const p=el('path',{class:'lk',d:`M${x0},${y0}C${mx},${y0} ${mx},${y1} ${x1},${y1}`,fill:'none',stroke:opt.color[f[1]],'stroke-width':Math.max(h-2,1),'stroke-opacity':opt.op});
+    const t=document.createElementNS(ns,'title');t.textContent=`${f[0]} → ${f[1]}: ${f[2]} contactos (dato ilustrativo)`;p.appendChild(t);});
+  L.forEach(n=>{const p=pl[n];el('rect',{x:lx,y:p.y,width:nw,height:p.h,fill:opt.node});el('text',{x:lx-10,y:p.y+p.h/2+5,'text-anchor':'end','font-size':opt.fs,fill:opt.text,'font-weight':600},n);el('text',{x:lx-10,y:p.y+p.h/2+22,'text-anchor':'end','font-size':opt.fs-3,fill:opt.muted},sum(n,0)+' contactos')});
+  R.forEach(n=>{const p=pr[n];el('rect',{x:rx,y:p.y,width:nw,height:p.h,fill:opt.color[n]});el('text',{x:rx+nw+10,y:p.y+p.h/2+5,'font-size':opt.fs,fill:opt.text,'font-weight':600},n);el('text',{x:rx+nw+10,y:p.y+p.h/2+22,'font-size':opt.fs-3,fill:opt.muted},sum(n,1)+' · '+Math.round(sum(n,1)/tot*100)+'%')});
+}
+const flowsA=[['Búsqueda orgánica','Oportunidad',18],['Búsqueda orgánica','En nurturing',40],['Búsqueda orgánica','Descartado',22],['Motores de IA','Oportunidad',6],['Motores de IA','En nurturing',10],['Motores de IA','Descartado',4],['Paid media','Oportunidad',12],['Paid media','En nurturing',20],['Paid media','Descartado',38],['Cuentas ABM','Oportunidad',14],['Cuentas ABM','En nurturing',8],['Cuentas ABM','Descartado',3],['Referencias','Oportunidad',10],['Referencias','En nurturing',6],['Referencias','Descartado',4]];
+const svgA=document.getElementById('sankeyA');
+function drawA(){const cw=svgA.parentElement.clientWidth||900;const narrow=cw<600;const w=narrow?Math.max(cw,320):900;
+ sankey(svgA,flowsA,{w,h:narrow?380:420,m:20,nodeW:narrow?8:10,pad:narrow?16:14,lx:narrow?138:170,rx:narrow?100:150,right:['Oportunidad','En nurturing','Descartado'],color:{'Oportunidad':'#D04A2E','En nurturing':'#1F6FA0','Descartado':'#C9C0AF'},op:.55,node:'#17181C',text:'#17181C',muted:'#5D5F66',fs:narrow?12.5:15});}
+drawA();let rzA;addEventListener('resize',()=>{clearTimeout(rzA);rzA=setTimeout(drawA,150)});
+
+// Menú
+const dr=document.getElementById('drawer'),ob=document.getElementById('openMenu'),cb=document.getElementById('closeMenu');
+function menu(o){dr.hidden=!o;ob.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':'';(o?cb:ob).focus()}
+ob.addEventListener('click',()=>menu(true));cb.addEventListener('click',()=>menu(false));
+dr.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu(false)));
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!dr.hidden)menu(false)});
+document.getElementById('memo').addEventListener('submit',e=>{e.preventDefault();document.getElementById('memoOk').hidden=false});
+</script>
+</body>
+</html>
