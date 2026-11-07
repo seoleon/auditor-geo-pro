@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roiting · Propuesta B «Revenue OS»</title>
+<meta name="description" content="Mockup de alta fidelidad. Propuesta B para la home de Roiting, agencia de marketing B2B.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   SISTEMA DE DISEÑO · PROPUESTA B «REVENUE OS»
+   ========================================================= */
+:root{
+  --bg:#07090F; --bg-2:#0B0E16; --panel:#111622; --panel-2:#161C2B; --raise:#1C2335;
+  --line:rgba(233,237,245,.08); --line-2:rgba(233,237,245,.16);
+  --text:#E9EDF5; --text-2:#BAC2D2; --muted:#8B94A7;
+  --lime:#C8F560;   /* acento principal: CTA y dato clave */
+  --lime-ink:#0C1200;
+  --cyan:#6AD8FF;   /* serie de datos 2 */
+  --violet:#A496FF; /* serie de datos 3 */
+  --warn:#FFB86B;
+  --light:#F4F6FA; --light-2:#E7EBF2; --ink:#0B0E16; --ink-muted:#4A5263;
+
+  --f-sans:"Geist", "Inter", system-ui, sans-serif;
+  --f-mono:"Geist Mono", ui-monospace, monospace;
+  --t-xs:clamp(.75rem,.73rem + .1vw,.8125rem);
+  --t-sm:clamp(.875rem,.85rem + .12vw,.9375rem);
+  --t-md:clamp(1rem,.96rem + .2vw,1.125rem);
+  --t-lg:clamp(1.125rem,1.04rem + .4vw,1.375rem);
+  --t-xl:clamp(1.375rem,1.2rem + .8vw,2rem);
+  --t-2xl:clamp(1.875rem,1.5rem + 1.8vw,3.125rem);
+  --t-3xl:clamp(2.375rem,1.7rem + 3vw,4.5rem);
+  --t-4xl:clamp(2.75rem,1.6rem + 5.2vw,6.5rem);
+
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:24px; --s-6:32px; --s-7:48px; --s-8:64px; --s-9:96px; --s-10:128px;
+  --section:clamp(80px,9vw,144px);
+  --container:1312px; --gutter:clamp(20px,4.4vw,64px); --gap:clamp(16px,1.7vw,24px);
+  --r-sm:8px; --r-md:14px; --r-lg:22px; --r-xl:28px;
+  --ease:cubic-bezier(.2,.7,.2,1); --dur:.3s;
+  --glow:0 0 0 1px var(--line), 0 30px 80px -30px rgba(0,0,0,.8);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--f-sans);font-size:var(--t-md);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3,h4,p,ul,ol,figure,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:6px}
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:16px;top:-60px;background:var(--lime);color:var(--lime-ink);padding:12px 16px;z-index:100;border-radius:8px}
+.skip:focus{top:16px}
+
+/* Retícula 12/8/4 */
+.wrap{width:100%;max-width:calc(var(--container) + 2*var(--gutter));margin-inline:auto;padding-inline:var(--gutter)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+.grid>*{min-width:0}
+.c-12{grid-column:var(--cs,auto)/span 12}.c-8{grid-column:var(--cs,auto)/span 8}.c-7{grid-column:var(--cs,auto)/span 7}.c-6{grid-column:var(--cs,auto)/span 6}.c-5{grid-column:var(--cs,auto)/span 5}.c-4{grid-column:var(--cs,auto)/span 4}.c-3{grid-column:var(--cs,auto)/span 3}.c-2{grid-column:var(--cs,auto)/span 2}
+.s-6{--cs:6}.s-7{--cs:7}.s-8{--cs:8}.s-9{--cs:9}.s-10{--cs:10}.s-11{--cs:11}
+@media (max-width:1080px){.grid{grid-template-columns:repeat(8,minmax(0,1fr))}.grid>*{--cs:auto}.c-12,.c-8,.c-7,.c-6{grid-column:span 8}.c-5,.c-4,.c-3{grid-column:span 4}.c-2{grid-column:span 2}}
+@media (max-width:720px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.c-12,.c-8,.c-7,.c-6,.c-5,.c-4,.c-3{grid-column:span 4}.c-2{grid-column:span 2}}
+
+/* Tipografía */
+.kicker{font-family:var(--f-mono);font-size:var(--t-xs);letter-spacing:.04em;color:var(--muted);display:inline-flex;gap:10px;align-items:center}
+.kicker i{width:6px;height:6px;border-radius:2px;background:var(--lime);display:inline-block}
+.h-display{font-size:var(--t-4xl);line-height:.98;letter-spacing:-.045em;font-weight:600}
+.h-1{font-size:var(--t-3xl);line-height:1.02;letter-spacing:-.04em;font-weight:600}
+.h-2{font-size:var(--t-2xl);line-height:1.06;letter-spacing:-.035em;font-weight:600}
+.h-3{font-size:var(--t-xl);line-height:1.15;letter-spacing:-.025em;font-weight:600}
+.h-4{font-size:var(--t-lg);line-height:1.3;letter-spacing:-.015em;font-weight:600}
+.grad{background:linear-gradient(92deg,var(--text) 0%,var(--text) 40%,var(--lime) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.dim{color:var(--muted)}
+.lead{font-size:var(--t-lg);line-height:1.5;color:var(--text-2);max-width:58ch}
+.small{font-size:var(--t-sm);color:var(--muted)}
+.mono{font-family:var(--f-mono);font-size:var(--t-xs)}
+.note{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:12px;font:600 var(--t-sm)/1 var(--f-sans);text-decoration:none;cursor:pointer;border:1px solid transparent;transition:background var(--dur) var(--ease),border-color var(--dur),box-shadow var(--dur),transform var(--dur) var(--ease)}
+.btn svg{width:16px;height:16px;transition:transform var(--dur) var(--ease)}
+.btn:hover svg{transform:translateX(3px)}
+.btn:active{transform:translateY(1px)}
+.btn--primary{background:var(--lime);color:var(--lime-ink);box-shadow:0 0 0 0 rgba(200,245,96,.0)}
+.btn--primary:hover{box-shadow:0 0 0 6px rgba(200,245,96,.16);background:#D6FA82}
+.btn--ghost{background:rgba(233,237,245,.04);border-color:var(--line-2);color:var(--text)}
+.btn--ghost:hover{background:rgba(233,237,245,.09);border-color:rgba(233,237,245,.3)}
+.btn--dark{background:var(--ink);color:var(--light)}
+.btn--dark:hover{background:#000}
+.arrow-link{font-weight:500;font-size:var(--t-sm);text-decoration:none;display:inline-flex;gap:8px;align-items:center;color:var(--text);transition:color var(--dur),gap var(--dur)}
+.arrow-link:hover{color:var(--lime);gap:12px}
+
+/* ---------- Cabecera ---------- */
+.announce{background:var(--bg-2);border-bottom:1px solid var(--line);font-size:13px;text-align:center;padding:10px var(--gutter);color:var(--text-2)}
+.announce a{color:var(--lime);text-decoration:none;font-weight:500;margin-left:8px}
+.hdr{position:sticky;top:12px;z-index:50;margin-top:12px}
+.hdr__bar{display:flex;align-items:center;justify-content:space-between;gap:var(--s-5);height:64px;padding:0 10px 0 20px;border-radius:16px;background:rgba(17,22,34,.72);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border:1px solid var(--line-2)}
+.logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:20px;letter-spacing:-.04em;text-decoration:none}
+.logo svg{width:28px;height:28px}
+.nav{display:flex;gap:2px}
+.nav a,.nav button{background:none;border:0;cursor:pointer;text-decoration:none;font-size:var(--t-sm);font-weight:500;color:var(--text-2);padding:9px 14px;border-radius:10px;transition:color var(--dur),background var(--dur)}
+.nav a:hover,.nav button:hover{color:var(--text);background:rgba(233,237,245,.06)}
+.has-drop{position:relative}
+.drop{position:absolute;top:calc(100% + 14px);left:50%;translate:-50% 0;width:560px;background:var(--panel);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:4px;box-shadow:var(--glow);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity var(--dur),transform var(--dur) var(--ease),visibility var(--dur)}
+.has-drop:hover .drop,.has-drop:focus-within .drop{opacity:1;visibility:visible;transform:none}
+.drop a{display:flex;gap:12px;padding:12px;border-radius:12px;text-decoration:none}
+.drop a:hover{background:var(--raise)}
+.drop .ic{flex:none;width:34px;height:34px;border-radius:9px;background:var(--raise);border:1px solid var(--line-2);display:grid;place-items:center;font-family:var(--f-mono);font-size:11px;color:var(--lime)}
+.drop strong{display:block;font-size:14px;color:var(--text)}
+.drop span span{display:block;font-size:12.5px;color:var(--muted);line-height:1.4;margin-top:2px}
+.hdr__cta{display:flex;gap:8px;align-items:center}
+.hdr__cta .btn{min-height:44px}
+.burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line-2);background:rgba(233,237,245,.04);cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px}
+.burger i{display:block;width:18px;height:1.5px;background:var(--text);transition:transform var(--dur) var(--ease),opacity var(--dur)}
+.menu-open .burger i:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.menu-open .burger i:nth-child(2){opacity:0}
+.menu-open .burger i:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mnav{position:fixed;inset:0;z-index:45;background:var(--bg);padding:160px var(--gutter) 40px;display:flex;flex-direction:column;gap:var(--s-6);overflow:auto;opacity:0;visibility:hidden;transition:opacity var(--dur),visibility var(--dur)}
+.menu-open .mnav{opacity:1;visibility:visible}
+.mnav a.big{display:block;font-size:30px;font-weight:600;letter-spacing:-.03em;padding:10px 0;text-decoration:none;border-bottom:1px solid var(--line)}
+.mnav .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mnav .grid2 a{font-size:14px;padding:12px;border:1px solid var(--line-2);border-radius:12px;text-decoration:none;color:var(--text-2)}
+@media (max-width:1080px){.nav,.hdr__cta .btn--ghost{display:none}.burger{display:inline-flex}}
+@media (max-width:480px){.hdr__cta .btn--primary{display:none}.announce{font-size:12px}.pill{font-size:12px;white-space:nowrap}.hero__actions .btn{width:100%}.form__nav .btn--primary{flex:1}}
+@media (max-width:560px){.orbit{display:none}.console__note{position:static;display:block;margin:0 14px 14px;text-align:center}}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;padding-top:clamp(56px,8vw,120px);text-align:center;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:-120px 0 auto 0;height:900px;z-index:-1;background:
+  radial-gradient(600px 320px at 50% 30%,rgba(200,245,96,.13),transparent 70%),
+  radial-gradient(500px 300px at 80% 60%,rgba(106,216,255,.08),transparent 70%);}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/64px 64px,
+  linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/64px 64px;
+  -webkit-mask:radial-gradient(ellipse 70% 55% at 50% 30%,#000 30%,transparent 75%);mask:radial-gradient(ellipse 70% 55% at 50% 30%,#000 30%,transparent 75%)}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border-radius:999px;border:1px solid var(--line-2);background:rgba(17,22,34,.6);font-size:13px;color:var(--text-2);text-decoration:none}
+.pill b{font-family:var(--f-mono);font-weight:500;font-size:11px;background:var(--lime);color:var(--lime-ink);padding:4px 8px;border-radius:999px}
+.hero h1{margin:var(--s-5) auto 0;max-width:14ch}
+.hero .lead{margin:var(--s-5) auto 0;text-align:center}
+.hero__actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:var(--s-6)}
+.hero__trust{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 24px;margin-top:var(--s-6);font-size:13px;color:var(--muted)}
+.hero__trust span{display:inline-flex;gap:8px;align-items:center}
+.hero__trust svg{width:14px;color:var(--lime)}
+
+/* Consola */
+.console{margin-top:clamp(48px,6vw,80px);text-align:left;border-radius:var(--r-xl);background:linear-gradient(180deg,var(--panel),var(--bg-2));border:1px solid var(--line-2);box-shadow:var(--glow),0 -1px 0 rgba(200,245,96,.25) inset;overflow:hidden;position:relative}
+.console__bar{display:flex;align-items:center;gap:16px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.console__bar .dots{display:flex;gap:6px}.console__bar .dots i{width:10px;height:10px;border-radius:50%;background:var(--raise)}
+.console__bar .url{flex:1;max-width:420px;margin:0 auto;text-align:center;font-family:var(--f-mono);font-size:12px;color:var(--muted);background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:6px 12px}
+.console__body{display:grid;grid-template-columns:200px 1fr 300px;min-height:480px}
+.side{border-right:1px solid var(--line);padding:16px 12px;display:flex;flex-direction:column;gap:2px;font-size:13px}
+.side a{display:flex;gap:10px;align-items:center;padding:9px 10px;border-radius:8px;color:var(--text-2);text-decoration:none}
+.side a.on{background:var(--raise);color:var(--text)}
+.side a i{width:14px;height:14px;border-radius:4px;border:1.5px solid currentColor;opacity:.7}
+.side .grp{font-family:var(--f-mono);font-size:10.5px;color:var(--muted);padding:14px 10px 6px;letter-spacing:.06em;text-transform:uppercase}
+.main{padding:20px;display:grid;gap:16px;align-content:start}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi .v{font-size:26px;font-weight:600;letter-spacing:-.03em;margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi .d{font-family:var(--f-mono);font-size:11px;color:var(--lime)}
+.chart{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:16px}
+.chart__head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:13px}
+.legend{display:flex;gap:14px;font-size:11.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:8px;height:8px;border-radius:2px}
+.chart svg .area{animation:rise 1.4s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.rail{border-left:1px solid var(--line);padding:20px;display:grid;gap:14px;align-content:start}
+.rail h4{font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.feed{display:grid;gap:8px}
+.feed li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px}
+.feed .av{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:11px;font-weight:600;background:var(--raise)}
+.feed small{display:block;color:var(--muted);font-size:11px}
+.feed .sc{font-family:var(--f-mono);font-size:11px;padding:3px 7px;border-radius:6px;background:rgba(200,245,96,.12);color:var(--lime)}
+.feed .sc.c{background:rgba(106,216,255,.12);color:var(--cyan)}
+.aivis{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:12.5px}
+.aivis ul{display:grid;gap:9px;margin-top:10px}
+.aivis li{display:grid;grid-template-columns:76px 1fr 34px;gap:10px;align-items:center;color:var(--text-2)}
+.aivis .b{height:6px;border-radius:3px;background:var(--raise);position:relative;overflow:hidden}
+.aivis .b i{position:absolute;inset:0 auto 0 0;width:var(--w);background:linear-gradient(90deg,var(--violet),var(--cyan));border-radius:3px}
+.aivis b{font-family:var(--f-mono);font-weight:500;font-size:11px;text-align:right}
+.console__note{position:absolute;right:16px;bottom:12px;font-family:var(--f-mono);font-size:10.5px;color:var(--muted);background:var(--bg);padding:4px 8px;border-radius:6px;border:1px solid var(--line)}
+@media (max-width:1180px){.console__body{grid-template-columns:1fr 280px}.side{display:none}}
+@media (max-width:860px){.console__body{grid-template-columns:1fr}.rail{border-left:0;border-top:1px solid var(--line)}.kpis{grid-template-columns:repeat(2,1fr)}.console__bar .url{display:none}}
+@media (max-width:720px){.rail .aivis{display:none}.main{padding:14px}.rail{padding:14px}.legend{display:none}}
+
+/* ---------- Secciones ---------- */
+.section{padding-block:var(--section)}
+.head{row-gap:var(--s-5);margin-bottom:clamp(40px,5vw,72px);align-items:end}
+.head .h-1{margin-top:var(--s-4)}
+.light{background:var(--light);color:var(--ink)}
+.light .small,.light .note,.light .kicker{color:var(--ink-muted)}
+.light .lead{color:#2B3242}
+.light .arrow-link{color:var(--ink)}
+.light .arrow-link:hover{color:#4C6B00}
+
+/* Motor (diagrama orbital) */
+.engine{row-gap:var(--s-7);align-items:center}
+.orbit{position:relative;aspect-ratio:1;max-width:620px;width:100%;margin-inline:auto}
+.orbit svg{width:100%;height:auto;overflow:visible}
+.orbit .spin{transform-origin:300px 300px;animation:spin 60s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orbit text{font-family:var(--f-sans)}
+.layers{display:grid;gap:12px;margin-top:var(--s-6)}
+.layer{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:16px;border-radius:var(--r-md);border:1px solid var(--line);background:var(--bg-2);transition:border-color var(--dur),background var(--dur)}
+.layer:hover{border-color:var(--line-2);background:var(--panel)}
+.layer .n{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;border:1px solid var(--line-2)}
+.layer:nth-child(1) .n{color:var(--cyan)}.layer:nth-child(2) .n{color:var(--violet)}.layer:nth-child(3) .n{color:var(--lime)}
+.layer h3{font-size:var(--t-md);font-weight:600}
+.layer p{font-size:var(--t-sm);color:var(--muted);margin-top:2px}
+
+/* Servicios con pestañas */
+.tabs{display:grid;grid-template-columns:340px 1fr;gap:var(--gap);align-items:stretch}
+.tablist{display:flex;flex-direction:column;gap:6px}
+.tab{all:unset;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:18px 18px;border-radius:var(--r-md);border:1px solid transparent;transition:background var(--dur),border-color var(--dur)}
+.tab:hover{background:rgba(11,14,22,.04)}
+.tab[aria-selected=true]{background:#fff;border-color:rgba(11,14,22,.1);box-shadow:0 12px 30px -16px rgba(11,14,22,.25)}
+.tab:focus-visible{outline:2px solid #4C6B00;outline-offset:2px}
+.tab .i{font-family:var(--f-mono);font-size:11px;color:var(--ink-muted)}
+.tab strong{font-size:var(--t-md);font-weight:600;letter-spacing:-.01em}
+.tab small{display:block;font-size:13px;color:var(--ink-muted);font-weight:400;margin-top:2px}
+.tab .chev{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--light-2);opacity:0;transition:opacity var(--dur)}
+.tab[aria-selected=true] .chev{opacity:1;background:var(--lime);color:var(--lime-ink)}
+.tabpanel{background:var(--ink);color:var(--text);border-radius:var(--r-xl);padding:clamp(24px,3vw,44px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3vw,44px);align-items:center;min-height:460px}
+.tabpanel[hidden]{display:none}
+.tabpanel .h-2{font-size:var(--t-xl)}
+.tabpanel ul.pts{display:grid;gap:10px;margin-top:var(--s-5)}
+.tabpanel ul.pts li{display:flex;gap:10px;font-size:var(--t-sm);color:var(--text-2)}
+.tabpanel ul.pts li::before{content:"";flex:none;width:16px;height:16px;margin-top:3px;border-radius:5px;background:rgba(200,245,96,.14);box-shadow:inset 0 0 0 1.5px var(--lime)}
+.tabpanel .arrow-link{margin-top:var(--s-6);color:var(--lime)}
+.tabpanel .arrow-link:hover{color:#fff}
+.light .tabpanel .note{color:var(--muted)}
+.light .tabpanel .kicker{color:var(--muted)}
+.mock{background:var(--panel);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:18px;font-size:13px}
+.mock .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.mock .row:last-child{border-bottom:0}
+.pos{font-family:var(--f-mono);font-size:12px;padding:3px 8px;border-radius:6px;background:var(--raise)}
+.pos.up{background:rgba(200,245,96,.12);color:var(--lime)}
+.chat{display:grid;gap:10px}
+.bubble{padding:12px 14px;border-radius:14px;max-width:88%;line-height:1.45}
+.bubble.q{background:var(--raise);justify-self:end;border-bottom-right-radius:4px}
+.bubble.a{background:var(--bg-2);border:1px solid var(--line-2);border-bottom-left-radius:4px}
+.bubble.a mark{background:rgba(200,245,96,.16);color:var(--lime);padding:0 4px;border-radius:4px}
+.cites{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.cites span{font-family:var(--f-mono);font-size:10.5px;padding:3px 8px;border-radius:999px;border:1px solid var(--line-2);color:var(--muted)}
+.cites span.me{border-color:var(--lime);color:var(--lime)}
+.bars{display:flex;align-items:flex-end;gap:8px;height:140px;padding-top:10px}
+.bars div{flex:1;display:flex;flex-direction:column;gap:3px;justify-content:flex-end;height:100%}
+.bars i{display:block;border-radius:4px}
+.flowmini{display:grid;gap:8px}
+.flowmini div{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:var(--bg-2);border:1px solid var(--line)}
+.flowmini b{font-family:var(--f-mono);font-size:10.5px;font-weight:500;padding:2px 6px;border-radius:5px;background:var(--raise);color:var(--cyan)}
+.flowmini div.hit{border-color:var(--lime)}
+.flowmini div.hit b{color:var(--lime)}
+.acc{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.acc div{border-radius:10px;padding:12px;background:var(--bg-2);border:1px solid var(--line);font-size:12px}
+.acc div b{display:block;font-size:13px;margin-bottom:8px}
+.acc .ppl{display:flex;gap:4px}
+.acc .ppl i{width:18px;height:18px;border-radius:50%;background:var(--raise);border:1px solid var(--line-2)}
+.acc .ppl i.on{background:var(--lime);border-color:var(--lime)}
+@media (max-width:1080px){.tabs{grid-template-columns:1fr}.tablist{flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;-webkit-overflow-scrolling:touch}.tab{flex:none;scroll-snap-align:start;grid-template-columns:auto auto;padding:12px 16px}.tab small,.tab .chev{display:none}.tabpanel{grid-template-columns:1fr;min-height:0}}
+
+/* Plan 90 días (Gantt) */
+.gantt{border:1px solid var(--line-2);border-radius:var(--r-xl);overflow:hidden;background:var(--bg-2)}
+.gantt__scale,.gantt__row{display:grid;grid-template-columns:260px repeat(12,1fr)}
+.gantt__scale{border-bottom:1px solid var(--line);font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.gantt__scale span{padding:12px 8px;border-left:1px solid var(--line)}
+.gantt__scale span:first-child{border-left:0;padding-left:20px}
+.gantt__row{border-bottom:1px solid var(--line);position:relative;min-height:84px;align-items:center;background-image:repeating-linear-gradient(90deg,transparent 0,transparent calc(100% - 1px),var(--line) calc(100% - 1px));}
+.gantt__row:last-child{border-bottom:0}
+.gantt__label{padding:16px 20px;grid-column:1}
+.gantt__label h3{font-size:var(--t-md);font-weight:600}
+.gantt__label p{font-size:13px;color:var(--muted);margin-top:2px;line-height:1.4}
+.gantt__label .n{font-family:var(--f-mono);font-size:11px;color:var(--lime)}
+.bar{height:36px;border-radius:10px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:12.5px;font-weight:500;white-space:nowrap;overflow:hidden}
+.bar.b1{background:rgba(106,216,255,.14);color:var(--cyan);box-shadow:inset 0 0 0 1px rgba(106,216,255,.4)}
+.bar.b2{background:rgba(164,150,255,.14);color:var(--violet);box-shadow:inset 0 0 0 1px rgba(164,150,255,.4)}
+.bar.b3{background:rgba(200,245,96,.14);color:var(--lime);box-shadow:inset 0 0 0 1px rgba(200,245,96,.45)}
+.bar.b4{background:var(--lime);color:var(--lime-ink)}
+.gantt__foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:14px 20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+@media (max-width:860px){
+  .gantt__scale{display:none}
+  .gantt__row{grid-template-columns:1fr;background:none;padding-bottom:16px}
+  .gantt__row .bar{grid-column:1!important;margin:0 20px}
+}
+
+/* Sectores */
+.sect{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap)}
+.tile{position:relative;border-radius:var(--r-lg);border:1px solid rgba(11,14,22,.1);background:#fff;padding:24px;display:flex;flex-direction:column;gap:14px;min-height:220px;text-decoration:none;overflow:hidden;transition:transform var(--dur) var(--ease),box-shadow var(--dur),border-color var(--dur)}
+.tile:hover{transform:translateY(-3px);box-shadow:0 20px 40px -24px rgba(11,14,22,.35);border-color:rgba(11,14,22,.2)}
+.tile .h-3{margin-top:auto}
+.tile dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px}
+.tile dt{color:var(--ink-muted);font-family:var(--f-mono);font-size:11px;padding-top:2px}
+.tile dd{color:var(--ink)}
+.tile .ix{font-family:var(--f-mono);font-size:11px;color:var(--ink-muted);display:flex;justify-content:space-between}
+.tile--feat{background:var(--ink);color:var(--text);border-color:transparent}
+.tile--feat dt,.tile--feat .ix{color:var(--muted)}.light .tile--feat .small{color:var(--text-2)}.tile--feat dd{color:var(--text)}
+.tile--lime{background:var(--lime);border-color:transparent}
+.tile--lime dt,.tile--lime .ix{color:#3D4D10}
+.sect .t1{grid-column:span 5;grid-row:span 2}.sect .t2{grid-column:span 4}.sect .t3{grid-column:span 3}.sect .t4{grid-column:span 3}.sect .t5{grid-column:span 4}.sect .t6{grid-column:span 6}.sect .t7{grid-column:span 6}
+.cycle{display:flex;gap:4px;margin-top:4px}.cycle i{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.12)}.cycle i.on{background:var(--lime)}
+@media (max-width:1080px){.sect{grid-template-columns:repeat(2,1fr)}.sect>*{grid-column:span 1!important;grid-row:auto!important}.sect .t1{grid-column:span 2!important}}
+@media (max-width:560px){.sect{grid-template-columns:1fr}.sect>*{grid-column:span 1!important}.tile{min-height:0}}
+
+/* Casos */
+.casefile{border:1px solid var(--line-2);border-radius:var(--r-xl);overflow:hidden;display:grid;grid-template-columns:1fr 1fr;background:var(--bg-2)}
+.casefile__l{padding:clamp(24px,3.4vw,52px);display:flex;flex-direction:column;gap:20px;border-right:1px solid var(--line)}
+.casefile__r{display:grid;grid-template-rows:1fr 1fr}
+.big{padding:clamp(24px,3.4vw,52px);display:flex;flex-direction:column;justify-content:flex-end;gap:8px;position:relative;overflow:hidden}
+.big+.big{border-top:1px solid var(--line)}
+.big b{font-size:clamp(3.5rem,2.4rem + 4.6vw,7.5rem);line-height:.9;letter-spacing:-.06em;font-weight:600;font-variant-numeric:tabular-nums}
+.big:first-child b{color:var(--lime)}
+.big span{color:var(--text-2);font-size:var(--t-sm)}
+.big svg{position:absolute;right:0;bottom:0;width:70%;opacity:.35}
+.src{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:11px;color:var(--warn);border:1px dashed rgba(255,184,107,.5);border-radius:8px;padding:6px 10px;align-self:flex-start}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:auto;padding-top:20px;border-top:1px solid var(--line)}
+.meta dt{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.meta dd{font-size:14px;margin-top:2px}
+.rowcases{margin-top:var(--gap);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+.rc{border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;display:flex;flex-direction:column;gap:10px;background:var(--bg-2);text-decoration:none;transition:border-color var(--dur)}
+.rc:hover{border-color:var(--line-2)}
+.rc .h-4{margin-top:6px}
+@media (max-width:1080px){.casefile{grid-template-columns:1fr}.casefile__l{border-right:0;border-bottom:1px solid var(--line)}.rowcases{grid-template-columns:1fr}}
+
+/* Diferenciación */
+.princ{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(11,14,22,.14)}
+.pr{padding:32px 32px 32px 0;display:flex;flex-direction:column;gap:14px}
+.pr+.pr{padding-left:32px;border-left:1px solid rgba(11,14,22,.14)}
+.pr .n{font-family:var(--f-mono);font-size:12px;color:var(--ink-muted)}
+.pr .from{font-size:13px;color:var(--ink-muted);text-decoration:line-through;text-decoration-color:rgba(11,14,22,.35)}
+.pr h3{font-size:var(--t-xl);letter-spacing:-.025em;line-height:1.1}
+.pr p{font-size:var(--t-sm);color:#2B3242}
+.not{margin-top:var(--s-7);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.not span{font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid rgba(11,14,22,.14);color:#2B3242}
+.not strong{font-size:13px;margin-right:6px}
+@media (max-width:860px){.princ{grid-template-columns:1fr}.pr,.pr+.pr{padding:24px 0;border-left:0;border-bottom:1px solid rgba(11,14,22,.14)}}
+
+/* CTA multi-paso */
+.cta{border-radius:var(--r-xl);border:1px solid var(--line-2);background:radial-gradient(800px 400px at 0% 100%,rgba(200,245,96,.12),transparent 60%),var(--panel);padding:clamp(24px,4.6vw,72px);row-gap:var(--s-7);align-items:start}
+.steps-ind{display:flex;gap:8px;align-items:center;font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-bottom:20px}
+.steps-ind i{flex:1;height:4px;border-radius:2px;background:var(--raise)}
+.steps-ind i.on{background:var(--lime)}
+.form{background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:clamp(20px,2.6vw,32px)}
+.fs{border:0;padding:0;margin:0;display:grid;gap:16px}
+.fs[hidden]{display:none}
+.fs legend{font-size:var(--t-lg);font-weight:600;letter-spacing:-.02em;margin-bottom:16px;padding:0}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt span{display:flex;flex-direction:column;gap:2px;padding:14px;border-radius:12px;border:1px solid var(--line-2);cursor:pointer;font-size:14px;font-weight:500;transition:border-color var(--dur),background var(--dur);min-height:64px}
+.opt span small{font-weight:400;color:var(--muted);font-size:12px}
+.opt span:hover{border-color:rgba(233,237,245,.3)}
+.opt input:checked+span{border-color:var(--lime);background:rgba(200,245,96,.07)}
+.opt input:focus-visible+span{outline:2px solid var(--lime);outline-offset:2px}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-size:13px;font-weight:500;color:var(--text-2)}
+.inp{font:inherit;font-size:var(--t-sm);min-height:48px;padding:12px 14px;border-radius:10px;border:1px solid var(--line-2);background:var(--bg);color:var(--text);transition:border-color var(--dur),box-shadow var(--dur);width:100%}
+.inp::placeholder{color:#6E7789}
+.inp:hover{border-color:rgba(233,237,245,.28)}
+.inp:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 4px rgba(200,245,96,.15)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form__nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px;flex-wrap:wrap}
+.ok{display:none;padding:12px 14px;border-radius:10px;background:rgba(200,245,96,.1);color:var(--lime);font-size:14px;margin-top:12px}
+.what{display:grid;gap:14px;margin-top:var(--s-6)}
+.what li{display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:start}
+.what .n{width:36px;height:36px;border-radius:10px;border:1px solid var(--line-2);display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;color:var(--lime)}
+.what strong{display:block;font-size:var(--t-sm)}
+.what span{font-size:13px;color:var(--muted)}
+@media (max-width:560px){.opts,.two{grid-template-columns:1fr}}
+
+/* Footer */
+.ftr{border-top:1px solid var(--line);padding-top:var(--s-9);padding-bottom:var(--s-6)}
+.ftr__top{row-gap:var(--s-7)}
+.ftr h2{font-family:var(--f-mono);font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px}
+.ftr ul{display:grid;gap:10px}
+.ftr ul a{text-decoration:none;font-size:var(--t-sm);color:var(--text-2);transition:color var(--dur)}
+.ftr ul a:hover{color:var(--lime)}
+.ftr__claim{font-size:var(--t-2xl);letter-spacing:-.04em;line-height:1.05;font-weight:600;max-width:16ch}
+.ftr__claim span{color:var(--muted)}
+.status{display:inline-flex;gap:8px;align-items:center;font-size:13px;color:var(--text-2);margin-top:20px}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(200,245,96,.15)}
+.ftr__bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;border-top:1px solid var(--line);margin-top:var(--s-8);padding-top:var(--s-5);font-size:13px;color:var(--muted)}
+.ftr__bottom ul{display:flex;gap:20px;flex-wrap:wrap}
+.ftr__bottom a{text-decoration:none}
+.ftr__bottom a:hover{color:var(--text)}
+
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+.mock-badge{position:fixed;left:16px;bottom:16px;z-index:60;font-family:var(--f-mono);font-size:11px;background:var(--lime);color:var(--lime-ink);padding:8px 12px;border-radius:999px;text-decoration:none}
+@media (max-width:720px){.mock-badge{display:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="announce">Nuevo servicio: auditoría de visibilidad de marca en motores de IA<a href="#contacto">Solicitarla →</a></div>
+
+<!-- ================= 1 · CABECERA ================= -->
+<header class="hdr">
+  <div class="wrap"><div class="hdr__bar">
+    <a class="logo" href="#top" aria-label="Roiting, inicio"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="#C8F560"/><path d="M8 20V8h6.5a4 4 0 0 1 0 8H11l6 4" fill="none" stroke="#0C1200" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>roiting</a>
+    <nav class="nav" aria-label="Principal">
+      <div class="has-drop"><button aria-expanded="false" aria-controls="drop">Servicios ▾</button>
+        <div class="drop" id="drop">
+          <a href="#servicios"><span class="ic">SEO</span><span><strong>SEO B2B</strong><span>Demanda orgánica en nichos técnicos</span></span></a>
+          <a href="#servicios"><span class="ic">GEO</span><span><strong>GEO y visibilidad en IA</strong><span>Presencia en respuestas generativas</span></span></a>
+          <a href="#servicios"><span class="ic">ADS</span><span><strong>Paid media B2B</strong><span>Google Ads y LinkedIn Ads</span></span></a>
+          <a href="#servicios"><span class="ic">ABM</span><span><strong>Account-Based Marketing</strong><span>Cuentas y comités de compra</span></span></a>
+          <a href="#servicios"><span class="ic">MA</span><span><strong>Automatización y CRM</strong><span>Scoring, nurturing, ventas</span></span></a>
+          <a href="#servicios"><span class="ic">IN</span><span><strong>Inbound marketing</strong><span>Contenido que genera oportunidades</span></span></a>
+        </div>
+      </div>
+      <a href="#motor">Cómo trabajamos</a>
+      <a href="#sectores">Sectores</a>
+      <a href="#casos">Casos</a>
+      <a href="#porque">Sobre Roiting</a>
+      <a href="#footer">Recursos</a>
+    </nav>
+    <div class="hdr__cta">
+      <a class="btn btn--ghost" href="#contacto">Contacto</a>
+      <a class="btn btn--primary" href="#contacto">Diagnóstico gratuito</a>
+      <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
+    </div>
+  </div></div>
+</header>
+<div class="mnav" id="mnav">
+  <div>
+    <a class="big" href="#servicios">Servicios</a><a class="big" href="#motor">Cómo trabajamos</a><a class="big" href="#sectores">Sectores</a><a class="big" href="#casos">Casos</a><a class="big" href="#porque">Sobre Roiting</a>
+  </div>
+  <div class="grid2"><a href="#servicios">SEO B2B</a><a href="#servicios">GEO e IA</a><a href="#servicios">Paid media</a><a href="#servicios">ABM</a><a href="#servicios">Automatización</a><a href="#servicios">Inbound</a></div>
+  <a class="btn btn--primary" href="#contacto">Solicitar diagnóstico gratuito</a>
+</div>
+
+<main id="main">
+<!-- ================= 2 · HERO ================= -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <a class="pill" href="#motor"><b>ROI HACKING</b>Agencia de marketing B2B en Valencia</a>
+    <h1 class="h-display">Convierta su marketing en un <span class="grad">motor de pipeline.</span></h1>
+    <p class="lead">SEO, visibilidad en IA, paid media, ABM y automatización conectados a su CRM. Un único sistema para generar oportunidades B2B que su equipo comercial pueda cerrar.</p>
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="#contacto">Solicitar diagnóstico <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
+      <a class="btn btn--ghost" href="#motor">Ver el sistema</a>
+    </div>
+    <div class="hero__trust">
+      <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>Especialistas solo en B2B</span>
+      <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>Ciclos de venta complejos</span>
+      <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>Medición hasta la oportunidad</span>
+    </div>
+
+    <figure class="console rv" aria-label="Interfaz ilustrativa de un panel de captación B2B con datos de ejemplo">
+      <div class="console__bar"><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><div class="url">panel · captación B2B · trimestre actual</div></div>
+      <div class="console__body">
+        <nav class="side" aria-hidden="true">
+          <span class="grp">Panel</span>
+          <a class="on" href="#top"><i></i>Pipeline</a><a href="#top"><i></i>Canales</a><a href="#top"><i></i>Cuentas ABM</a><a href="#top"><i></i>Visibilidad IA</a>
+          <span class="grp">Operación</span>
+          <a href="#top"><i></i>Automatizaciones</a><a href="#top"><i></i>Contenido</a><a href="#top"><i></i>Informes</a>
+        </nav>
+        <div class="main">
+          <div class="kpis">
+            <div class="kpi"><div class="l">Leads</div><div class="v">612</div><div class="d">▲ ejemplo</div></div>
+            <div class="kpi"><div class="l">MQL</div><div class="v">214</div><div class="d">▲ ejemplo</div></div>
+            <div class="kpi"><div class="l">SQL</div><div class="v">86</div><div class="d">▲ ejemplo</div></div>
+            <div class="kpi"><div class="l">Oportunidades</div><div class="v">31</div><div class="d">▲ ejemplo</div></div>
+          </div>
+          <div class="chart">
+            <div class="chart__head"><strong>Oportunidades por canal de origen</strong><div class="legend"><span><i style="background:var(--lime)"></i>SEO</span><span><i style="background:var(--cyan)"></i>Paid</span><span><i style="background:var(--violet)"></i>IA y ABM</span></div></div>
+            <svg viewBox="0 0 640 210" role="img" aria-label="Gráfico de áreas apiladas con datos de ejemplo">
+              <g stroke="rgba(233,237,245,.07)"><line x1="0" y1="40" x2="640" y2="40"/><line x1="0" y1="90" x2="640" y2="90"/><line x1="0" y1="140" x2="640" y2="140"/><line x1="0" y1="190" x2="640" y2="190"/></g>
+              <path class="area" d="M0 190 L0 160 C80 150 120 140 180 130 S300 100 360 92 S500 60 640 40 L640 190Z" fill="#2C2858"/>
+              <path class="area" d="M0 190 L0 172 C80 166 120 160 180 154 S300 136 360 128 S500 104 640 88 L640 190Z" fill="#1B4A5E" style="animation-delay:.15s"/>
+              <path class="area" d="M0 190 L0 182 C80 179 120 176 180 172 S300 162 360 156 S500 140 640 130 L640 190Z" fill="#9CC63F" style="animation-delay:.3s"/>
+              <path d="M0 160 C80 150 120 140 180 130 S300 100 360 92 S500 60 640 40" fill="none" stroke="#A496FF" stroke-width="1.5"/>
+              <circle cx="640" cy="40" r="4" fill="#A496FF"/>
+              <g font-family="Geist Mono, monospace" font-size="10" fill="#8B94A7"><text x="0" y="206">S1</text><text x="160" y="206">S4</text><text x="320" y="206">S7</text><text x="480" y="206">S10</text><text x="616" y="206">S13</text></g>
+            </svg>
+          </div>
+        </div>
+        <aside class="rail" aria-hidden="true">
+          <h4>Leads recientes <span class="note">en vivo</span></h4>
+          <ul class="feed">
+            <li><span class="av" style="color:var(--lime)">IN</span><span>Fabricante industrial<small>Descargó ficha técnica</small></span><span class="sc">SQL</span></li>
+            <li><span class="av" style="color:var(--cyan)">TE</span><span>Empresa tecnológica<small>Solicitó demo</small></span><span class="sc">SQL</span></li>
+            <li><span class="av" style="color:var(--violet)">DI</span><span>Distribuidor<small>Visitó precios ×3</small></span><span class="sc c">MQL</span></li>
+          </ul>
+          <div class="aivis">
+            <strong>Menciones en motores de IA</strong>
+            <ul>
+              <li>ChatGPT<span class="b"><i style="--w:72%"></i></span><b>72%</b></li>
+              <li>Gemini<span class="b"><i style="--w:54%"></i></span><b>54%</b></li>
+              <li>Perplexity<span class="b"><i style="--w:63%"></i></span><b>63%</b></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+      <span class="console__note">Interfaz ilustrativa · datos de ejemplo</span>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= 3 · MOTOR DE CAPTACIÓN ================= -->
+<section class="section" id="motor" aria-labelledby="t-motor">
+  <div class="wrap grid engine">
+    <div class="c-5">
+      <span class="kicker"><i></i>01 · El motor de captación</span>
+      <h2 class="h-1" id="t-motor" style="margin-top:16px">Cuatro canales. <span class="dim">Un solo pipeline.</span></h2>
+      <p class="lead" style="margin-top:20px">La mayoría de empresas B2B gestionan sus canales por separado. Nosotros los hacemos girar alrededor de la misma métrica: oportunidades comerciales.</p>
+      <ol class="layers">
+        <li class="layer"><span class="n">L1</span><div><h3>Atracción</h3><p>SEO, motores de IA, Google Ads, LinkedIn y cuentas ABM.</p></div></li>
+        <li class="layer"><span class="n">L2</span><div><h3>Conversión y cualificación</h3><p>Landings por intención, scoring por encaje e intención.</p></div></li>
+        <li class="layer"><span class="n">L3</span><div><h3>Pipeline en el CRM</h3><p>Ventas recibe contexto: origen, interacciones y prioridad.</p></div></li>
+      </ol>
+    </div>
+    <figure class="c-6 s-7 orbit rv" aria-labelledby="orbit-cap">
+      <figcaption id="orbit-cap" class="sr-only">Diagrama orbital: en el centro el pipeline; alrededor, la capa de conversión y cualificación; en el anillo exterior, los canales SEO, IA, paid media y ABM.</figcaption>
+      <svg viewBox="0 0 600 600" aria-hidden="true">
+        <defs><radialGradient id="core"><stop offset="0" stop-color="#C8F560" stop-opacity=".35"/><stop offset="1" stop-color="#C8F560" stop-opacity="0"/></radialGradient></defs>
+        <circle cx="300" cy="300" r="280" fill="none" stroke="rgba(233,237,245,.08)"/>
+        <circle cx="300" cy="300" r="200" fill="none" stroke="rgba(233,237,245,.12)" stroke-dasharray="3 7"/>
+        <circle cx="300" cy="300" r="120" fill="none" stroke="rgba(233,237,245,.16)"/>
+        <circle cx="300" cy="300" r="150" fill="url(#core)"/>
+        <g class="spin">
+          <circle cx="300" cy="20" r="5" fill="#6AD8FF"/><circle cx="580" cy="300" r="5" fill="#A496FF"/><circle cx="300" cy="580" r="5" fill="#C8F560"/><circle cx="20" cy="300" r="5" fill="#6AD8FF"/>
+        </g>
+        <!-- canales -->
+        <g font-size="15" font-weight="600" fill="#E9EDF5">
+          <g><rect x="230" y="52" width="140" height="48" rx="12" fill="#111622" stroke="rgba(106,216,255,.5)"/><text x="300" y="82" text-anchor="middle">SEO B2B</text></g>
+          <g><rect x="440" y="276" width="140" height="48" rx="12" fill="#111622" stroke="rgba(164,150,255,.5)"/><text x="510" y="306" text-anchor="middle">Motores de IA</text></g>
+          <g><rect x="230" y="500" width="140" height="48" rx="12" fill="#111622" stroke="rgba(200,245,96,.5)"/><text x="300" y="530" text-anchor="middle">ABM</text></g>
+          <g><rect x="20" y="276" width="140" height="48" rx="12" fill="#111622" stroke="rgba(106,216,255,.5)"/><text x="90" y="306" text-anchor="middle">Paid media</text></g>
+        </g>
+        <!-- flechas al centro -->
+        <g stroke="rgba(233,237,245,.35)" stroke-width="1.5" fill="none" stroke-dasharray="4 5">
+          <path d="M300 100 V 180"/><path d="M440 300 H 420"/><path d="M300 500 V 420"/><path d="M160 300 H 180"/>
+        </g>
+        <!-- capa media -->
+        <g font-family="Geist Mono, monospace" font-size="11" fill="#8B94A7">
+          <text x="300" y="196" text-anchor="middle">CONVERSIÓN</text>
+          <text x="300" y="414" text-anchor="middle">CUALIFICACIÓN</text>
+        </g>
+        <!-- núcleo -->
+        <circle cx="300" cy="300" r="86" fill="#C8F560"/>
+        <text x="300" y="296" text-anchor="middle" font-size="20" font-weight="700" fill="#0C1200">Pipeline</text>
+        <text x="300" y="318" text-anchor="middle" font-size="11" fill="#0C1200" font-family="Geist Mono, monospace">en su CRM</text>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= 4 · SERVICIOS (PESTAÑAS) ================= -->
+<section class="section light" id="servicios" aria-labelledby="t-serv">
+  <div class="wrap">
+    <div class="grid head">
+      <div class="c-7"><span class="kicker"><i></i>02 · Servicios</span><h2 class="h-1" id="t-serv">Los canales donde se decide una compra B2B.</h2></div>
+      <div class="c-4 s-9"><p class="small">Cada servicio puede contratarse de forma independiente, pero rinde más dentro del sistema. Seleccione uno para ver cómo trabaja.</p></div>
+    </div>
+    <div class="tabs">
+      <div class="tablist" role="tablist" aria-label="Servicios">
+        <button class="tab" role="tab" id="tab-1" aria-controls="p-1" aria-selected="true"><span class="i">01</span><span><strong>SEO B2B</strong><small>Búsquedas de alto valor</small></span><span class="chev" aria-hidden="true">→</span></button>
+        <button class="tab" role="tab" id="tab-2" aria-controls="p-2" aria-selected="false" tabindex="-1"><span class="i">02</span><span><strong>GEO · IA</strong><small>Respuestas generativas</small></span><span class="chev" aria-hidden="true">→</span></button>
+        <button class="tab" role="tab" id="tab-3" aria-controls="p-3" aria-selected="false" tabindex="-1"><span class="i">03</span><span><strong>Paid media</strong><small>Google y LinkedIn Ads</small></span><span class="chev" aria-hidden="true">→</span></button>
+        <button class="tab" role="tab" id="tab-4" aria-controls="p-4" aria-selected="false" tabindex="-1"><span class="i">04</span><span><strong>ABM</strong><small>Cuentas objetivo</small></span><span class="chev" aria-hidden="true">→</span></button>
+        <button class="tab" role="tab" id="tab-5" aria-controls="p-5" aria-selected="false" tabindex="-1"><span class="i">05</span><span><strong>Automatización</strong><small>Scoring, nurturing y CRM</small></span><span class="chev" aria-hidden="true">→</span></button>
+      </div>
+      <div>
+        <div class="tabpanel" role="tabpanel" id="p-1" aria-labelledby="tab-1">
+          <div><h3 class="h-2">Visibilidad en las búsquedas que hace su comprador antes de contactar.</h3>
+            <ul class="pts"><li>Investigación de palabras clave por etapa de compra</li><li>SEO técnico, arquitectura y rendimiento</li><li>Contenido de producto, aplicación y comparativas</li></ul>
+            <a class="arrow-link" href="#contacto">Ver servicio de SEO B2B →</a></div>
+          <div class="mock" aria-hidden="true">
+            <div class="note" style="margin-bottom:8px">Posiciones · ejemplo ilustrativo</div>
+            <div class="row"><span>válvulas industriales a medida</span><span class="pos up">#2 ▲6</span></div>
+            <div class="row"><span>software gestión de flotas B2B</span><span class="pos up">#4 ▲9</span></div>
+            <div class="row"><span>proveedor envases técnicos</span><span class="pos up">#1 ▲3</span></div>
+            <div class="row"><span>distribuidor material sanitario</span><span class="pos">#11</span></div>
+          </div>
+        </div>
+        <div class="tabpanel" role="tabpanel" id="p-2" aria-labelledby="tab-2" hidden>
+          <div><h3 class="h-2">Que ChatGPT, Gemini y Perplexity mencionen a su empresa.</h3>
+            <ul class="pts"><li>Auditoría de presencia en respuestas de IA</li><li>Optimización de entidad y datos estructurados</li><li>Contenido citable y fuentes de autoridad</li></ul>
+            <a class="arrow-link" href="#contacto">Ver servicio de GEO →</a></div>
+          <div class="mock chat" aria-hidden="true">
+            <div class="bubble q">¿Qué agencia me recomiendas para captar leads B2B en el sector industrial?</div>
+            <div class="bubble a">Para empresas industriales con ciclos de venta largos, una opción especializada es <mark>Roiting</mark>, que combina SEO, automatización…<div class="cites"><span class="me">roiting.com</span><span>fuente 2</span><span>fuente 3</span></div></div>
+            <div class="note">Simulación ilustrativa</div>
+          </div>
+        </div>
+        <div class="tabpanel" role="tabpanel" id="p-3" aria-labelledby="tab-3" hidden>
+          <div><h3 class="h-2">Campañas que se optimizan por oportunidad, no por clic.</h3>
+            <ul class="pts"><li>Google Ads para búsquedas de alta intención</li><li>LinkedIn Ads por cargo, sector y empresa</li><li>Conversiones offline importadas desde el CRM</li></ul>
+            <a class="arrow-link" href="#contacto">Ver paid media B2B →</a></div>
+          <div class="mock" aria-hidden="true">
+            <div class="note">Inversión vs. oportunidades · esquema</div>
+            <div class="bars">
+              <div><i style="height:30%;background:var(--raise)"></i><i style="height:12%;background:var(--cyan)"></i></div>
+              <div><i style="height:34%;background:var(--raise)"></i><i style="height:16%;background:var(--cyan)"></i></div>
+              <div><i style="height:30%;background:var(--raise)"></i><i style="height:24%;background:var(--cyan)"></i></div>
+              <div><i style="height:28%;background:var(--raise)"></i><i style="height:34%;background:var(--lime)"></i></div>
+              <div><i style="height:26%;background:var(--raise)"></i><i style="height:44%;background:var(--lime)"></i></div>
+              <div><i style="height:26%;background:var(--raise)"></i><i style="height:52%;background:var(--lime)"></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="tabpanel" role="tabpanel" id="p-4" aria-labelledby="tab-4" hidden>
+          <div><h3 class="h-2">Account-Based Marketing para llegar a todo el comité de compra.</h3>
+            <ul class="pts"><li>Selección y priorización de cuentas objetivo</li><li>Mensajes por rol: dirección, técnica y compras</li><li>Orquestación entre marketing y ventas</li></ul>
+            <a class="arrow-link" href="#contacto">Ver estrategia ABM →</a></div>
+          <div class="mock" aria-hidden="true">
+            <div class="note" style="margin-bottom:10px">Cobertura del comité · ejemplo</div>
+            <div class="acc">
+              <div><b>Cuenta A</b><span class="ppl"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div>
+              <div><b>Cuenta B</b><span class="ppl"><i class="on"></i><i></i><i></i><i></i></span></div>
+              <div><b>Cuenta C</b><span class="ppl"><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="tabpanel" role="tabpanel" id="p-5" aria-labelledby="tab-5" hidden>
+          <div><h3 class="h-2">Automatización y CRM para que ningún lead se enfríe.</h3>
+            <ul class="pts"><li>Lead scoring acordado con ventas</li><li>Secuencias de nurturing por etapa</li><li>Integración y cuadros de mando en el CRM</li></ul>
+            <a class="arrow-link" href="#contacto">Ver automatización →</a></div>
+          <div class="mock flowmini" aria-hidden="true">
+            <div><b>TRIGGER</b>Descarga de ficha técnica</div>
+            <div><b>+20</b>Visita página de precios</div>
+            <div><b>IF ≥ 60</b>Pasa a SQL</div>
+            <div class="hit"><b>ACCIÓN</b>Tarea al comercial + aviso</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5 · SISTEMA ROITING (PLAN 90 DÍAS) ================= -->
+<section class="section" aria-labelledby="t-plan">
+  <div class="wrap">
+    <div class="grid head">
+      <div class="c-7"><span class="kicker"><i></i>03 · Sistema Roiting</span><h2 class="h-1" id="t-plan">Un plan con fechas, no una promesa.</h2></div>
+      <div class="c-4 s-9"><p class="small">Ejemplo de hoja de ruta de 12 semanas. Cada proyecto se adapta tras el diagnóstico.</p></div>
+    </div>
+    <div class="gantt rv" role="table" aria-label="Hoja de ruta orientativa de 12 semanas">
+      <div class="gantt__scale" role="row" aria-hidden="true"><span>Fase</span><span>S1</span><span>S2</span><span>S3</span><span>S4</span><span>S5</span><span>S6</span><span>S7</span><span>S8</span><span>S9</span><span>S10</span><span>S11</span><span>S12</span></div>
+      <div class="gantt__row" role="row"><div class="gantt__label" role="rowheader"><span class="n">01</span><h3>Diagnóstico</h3><p>Auditoría SEO, GEO, campañas y CRM</p></div><div class="bar b1" style="grid-column:2/4" role="cell">Semanas 1–2</div></div>
+      <div class="gantt__row" role="row"><div class="gantt__label" role="rowheader"><span class="n">02</span><h3>Arquitectura</h3><p>ICP, cuentas, mensajes y scoring</p></div><div class="bar b2" style="grid-column:3/6" role="cell">Semanas 2–4</div></div>
+      <div class="gantt__row" role="row"><div class="gantt__label" role="rowheader"><span class="n">03</span><h3>Activación</h3><p>Contenido, campañas y automatizaciones</p></div><div class="bar b3" style="grid-column:5/12" role="cell">Semanas 4–10 · lanzamiento por canales</div></div>
+      <div class="gantt__row" role="row"><div class="gantt__label" role="rowheader"><span class="n">04</span><h3>Optimización</h3><p>Medición por oportunidad y reasignación</p></div><div class="bar b4" style="grid-column:8/14" role="cell">Semana 7 en adelante · ciclo continuo</div></div>
+      <div class="gantt__foot"><span>Hoja de ruta orientativa</span><span>Revisión conjunta con ventas cada 2 semanas</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6 · SECTORES ================= -->
+<section class="section light" id="sectores" aria-labelledby="t-sect">
+  <div class="wrap">
+    <div class="grid head">
+      <div class="c-7"><span class="kicker"><i></i>04 · Sectores</span><h2 class="h-1" id="t-sect">Especialización sectorial, no plantillas.</h2></div>
+      <div class="c-4 s-9"><p class="small">Cada sector compra de una forma distinta. Por eso el canal prioritario y el mensaje cambian.</p></div>
+    </div>
+    <div class="sect">
+      <a class="tile tile--feat t1 rv" href="#contacto">
+        <span class="ix"><span>01</span><span>Sector principal</span></span>
+        <h3 class="h-2" style="margin-top:auto">Industria y fabricantes</h3>
+        <p class="small" style="max-width:40ch">Productos técnicos, compradores que investigan durante meses y comités de compra con perfiles de ingeniería, compras y dirección.</p>
+        <dl><dt>Reto</dt><dd>Ciclos largos y búsquedas muy específicas</dd><dt>Canal</dt><dd>SEO técnico + ABM + automatización</dd></dl>
+        <div><span class="note">Longitud típica del ciclo</span><div class="cycle" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+      </a>
+      <a class="tile t2 rv" href="#contacto"><span class="ix"><span>02</span><span>→</span></span><h3 class="h-3">Tecnología y SaaS</h3><dl><dt>Reto</dt><dd>Demos cualificadas</dd><dt>Canal</dt><dd>SEO + paid + GEO</dd></dl></a>
+      <a class="tile tile--lime t3 rv" href="#contacto"><span class="ix"><span>03</span><span>→</span></span><h3 class="h-3">Salud</h3><dl><dt>Reto</dt><dd>Comunicación regulada</dd></dl></a>
+      <a class="tile t4 rv" href="#contacto"><span class="ix"><span>04</span><span>→</span></span><h3 class="h-3">Logística</h3><dl><dt>Reto</dt><dd>Cuentas recurrentes</dd></dl></a>
+      <a class="tile t5 rv" href="#contacto"><span class="ix"><span>05</span><span>→</span></span><h3 class="h-3">Distribución</h3><dl><dt>Reto</dt><dd>Diferenciación frente a fabricantes y marketplaces</dd></dl></a>
+      <a class="tile t6 rv" href="#contacto"><span class="ix"><span>06</span><span>→</span></span><h3 class="h-3">Formación</h3><dl><dt>Reto</dt><dd>Captar alumnos y empresas con decisiones largas</dd></dl></a>
+      <a class="tile t7 rv" href="#contacto"><span class="ix"><span>07</span><span>→</span></span><h3 class="h-3">Marketplaces</h3><dl><dt>Reto</dt><dd>Atraer oferta y demanda a la vez</dd></dl></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 7 · CASOS ================= -->
+<section class="section" id="casos" aria-labelledby="t-casos">
+  <div class="wrap">
+    <div class="grid head">
+      <div class="c-7"><span class="kicker"><i></i>05 · Casos de éxito</span><h2 class="h-1" id="t-casos">Resultados medidos en leads, <span class="dim">no en impresiones.</span></h2></div>
+      <div class="c-4 s-9"><p class="small">Datos publicados en roiting.com. Antes de publicar esta web, deben validarse con cada cliente.</p></div>
+    </div>
+    <article class="casefile rv">
+      <div class="casefile__l">
+        <span class="note">CASO · INDUSTRIA</span>
+        <h3 class="h-2">tk accelis Plastics Ibérica</h3>
+        <p class="lead">Generación de leads industriales a partir de tráfico orgánico cualificado. Resultado destacado por el departamento de marketing del cliente en la web de Roiting.</p>
+        <span class="src">⚠ Fuente: roiting.com · pendiente de verificación</span>
+        <dl class="meta"><div><dt>Sector</dt><dd>Industria · plásticos</dd></div><div><dt>Comparativa</dt><dd>Frente al año anterior</dd></div></dl>
+        <a class="btn btn--ghost" href="#contacto" style="align-self:flex-start">Leer el caso completo</a>
+      </div>
+      <div class="casefile__r">
+        <div class="big"><svg viewBox="0 0 300 120" aria-hidden="true"><path d="M0 110 C60 105 100 90 150 70 S240 20 300 6" fill="none" stroke="#C8F560" stroke-width="2"/></svg><b>+1243</b><span>nuevos leads frente al año anterior</span></div>
+        <div class="big"><b>+100%</b><span>de tráfico cualificado</span></div>
+      </div>
+    </article>
+    <div class="rowcases">
+      <a class="rc rv" href="#contacto"><span class="note">CASO · CAMPAÑA</span><h3 class="h-4">Simufy</h3><p class="small">Black Friday 2023: análisis de mercado con PPC, social y SEO coordinados.</p><span class="note">Fuente: roiting.com/casos-de-exito</span></a>
+      <a class="rc rv" href="#contacto"><span class="note">CASO · FORMACIÓN</span><h3 class="h-4">Academia del Transportista</h3><p class="small">Caso publicado por Roiting. Cifras pendientes de validar.</p><span class="note">Fuente: roiting.com/casos-de-exito</span></a>
+      <a class="rc rv" href="#contacto" style="justify-content:space-between"><span class="note">BIBLIOTECA</span><h3 class="h-3">Todos los casos →</h3></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 8 · DIFERENCIACIÓN ================= -->
+<section class="section light" id="porque" aria-labelledby="t-por">
+  <div class="wrap">
+    <div class="grid head">
+      <div class="c-8"><span class="kicker"><i></i>06 · Por qué Roiting</span><h2 class="h-1" id="t-por">ROI Hacking: cada euro tiene que acercar una venta.</h2></div>
+    </div>
+    <div class="princ">
+      <div class="pr rv"><span class="n">01</span><span class="from">Más tráfico</span><h3>Más oportunidades cualificadas</h3><p>Medimos el éxito en pipeline atribuido, no en visitas, impresiones o clics.</p></div>
+      <div class="pr rv"><span class="n">02</span><span class="from">Canales aislados</span><h3>Un sistema conectado al CRM</h3><p>SEO, IA, paid, ABM y automatización comparten datos y objetivos.</p></div>
+      <div class="pr rv"><span class="n">03</span><span class="from">Agencia generalista</span><h3>Especialistas en B2B</h3><p>Ciclos de venta complejos, comités de compra y sectores técnicos.</p></div>
+    </div>
+    <div class="not"><strong>Lo que no hacemos:</strong><span>Informes de vanidad</span><span>Campañas sin conexión con ventas</span><span>Contenido genérico</span><span>Permanencias sin objetivos</span></div>
+  </div>
+</section>
+
+<!-- ================= 9 · CTA ================= -->
+<section class="section" id="contacto" aria-labelledby="t-cta">
+  <div class="wrap">
+    <div class="cta grid">
+      <div class="c-5">
+        <span class="kicker"><i></i>Diagnóstico gratuito</span>
+        <h2 class="h-1" id="t-cta" style="margin-top:16px">Descubra dónde está perdiendo <span class="grad">oportunidades.</span></h2>
+        <ol class="what">
+          <li><span class="n">01</span><div><strong>Auditoría de captación</strong><span>SEO, presencia en IA, campañas y medición.</span></div></li>
+          <li><span class="n">02</span><div><strong>Plan priorizado</strong><span>Qué hacer primero y qué impacto esperar.</span></div></li>
+          <li><span class="n">03</span><div><strong>Sesión con un especialista</strong><span>45 minutos para resolver dudas.</span></div></li>
+        </ol>
+      </div>
+      <form class="form c-6 s-7" id="mform" novalidate>
+        <div class="steps-ind" aria-hidden="true"><span id="stepTxt">Paso 1 de 2</span><i class="on"></i><i id="bar2"></i></div>
+        <fieldset class="fs" id="fs1">
+          <legend>¿Cuál es su principal objetivo?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="obj" checked><span>Más leads cualificados<small>Captación y conversión</small></span></label>
+            <label class="opt"><input type="radio" name="obj"><span>Visibilidad en IA<small>ChatGPT, Gemini, Perplexity</small></span></label>
+            <label class="opt"><input type="radio" name="obj"><span>Cuentas objetivo<small>ABM y comités de compra</small></span></label>
+            <label class="opt"><input type="radio" name="obj"><span>Medir el ROI<small>CRM, atribución y automatización</small></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="fs" id="fs2" hidden>
+          <legend>¿Dónde le enviamos el diagnóstico?</legend>
+          <div class="two"><div class="fld"><label for="b-n">Nombre</label><input class="inp" id="b-n" autocomplete="name"></div><div class="fld"><label for="b-c">Empresa</label><input class="inp" id="b-c" autocomplete="organization"></div></div>
+          <div class="fld"><label for="b-e">Email corporativo</label><input class="inp" id="b-e" type="email" autocomplete="email" placeholder="nombre@empresa.com"></div>
+          <div class="fld"><label for="b-w">Web</label><input class="inp" id="b-w" type="url" placeholder="https://"></div>
+        </fieldset>
+        <div class="form__nav">
+          <button type="button" class="btn btn--ghost" id="back" hidden>← Atrás</button>
+          <span class="note" id="hint">Sin compromiso · respuesta en 1 día laborable</span>
+          <button type="button" class="btn btn--primary" id="next">Continuar <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+        </div>
+        <p class="ok" id="ok" role="status">Prototipo: el formulario no envía datos.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ================= 10 · FOOTER ================= -->
+<footer class="ftr" id="footer">
+  <div class="wrap">
+    <div class="grid ftr__top">
+      <div class="c-5">
+        <p class="ftr__claim">Marketing B2B medido en <span>pipeline.</span></p>
+        <span class="status"><i></i>Valencia, España</span>
+      </div>
+      <div class="c-2 s-7"><h2>Servicios</h2><ul><li><a href="#servicios">SEO B2B</a></li><li><a href="#servicios">GEO e IA</a></li><li><a href="#servicios">Paid media</a></li><li><a href="#servicios">ABM</a></li><li><a href="#servicios">Automatización</a></li></ul></div>
+      <div class="c-2 s-9"><h2>Sectores</h2><ul><li><a href="#sectores">Industria</a></li><li><a href="#sectores">Tecnología</a></li><li><a href="#sectores">Salud</a></li><li><a href="#sectores">Logística</a></li><li><a href="#sectores">Formación</a></li></ul></div>
+      <div class="c-2 s-11"><h2>Roiting</h2><ul><li><a href="#porque">Sobre nosotros</a></li><li><a href="#casos">Casos</a></li><li><a href="#footer">Blog</a></li><li><a href="#contacto">Contacto</a></li></ul></div>
+    </div>
+    <div class="ftr__bottom">
+      <span>© 2026 Roiting · Prototipo de diseño · <a href="../index.html" style="text-decoration:underline">Índice de propuestas</a></span>
+      <ul><li><a href="#footer">Aviso legal</a></li><li><a href="#footer">Privacidad</a></li><li><a href="#footer">Cookies</a></li><li><a href="#footer">LinkedIn</a></li><li><a href="#footer">X</a></li></ul>
+    </div>
+  </div>
+</footer>
+<a class="mock-badge" href="../index.html">Propuesta B · índice</a>
+
+<script>
+(function(){
+  var b=document.getElementById('burger');
+  b.addEventListener('click',function(){var o=document.body.classList.toggle('menu-open');b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú')});
+  document.querySelectorAll('.mnav a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false')})});
+  var db=document.querySelector('.has-drop>button');db.addEventListener('click',function(){db.setAttribute('aria-expanded',db.getAttribute('aria-expanded')!=='true')});
+  // Pestañas accesibles
+  var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+  function sel(t){tabs.forEach(function(x){var on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on});}
+  tabs.forEach(function(t,i){t.addEventListener('click',function(){sel(t)});t.addEventListener('keydown',function(e){var k=e.key,n=null;if(k==='ArrowRight'||k==='ArrowDown')n=tabs[(i+1)%tabs.length];if(k==='ArrowLeft'||k==='ArrowUp')n=tabs[(i-1+tabs.length)%tabs.length];if(n){e.preventDefault();sel(n);n.focus()}})});
+  // Formulario en dos pasos
+  var step=1,f1=document.getElementById('fs1'),f2=document.getElementById('fs2'),nx=document.getElementById('next'),bk=document.getElementById('back');
+  function go(s){step=s;f1.hidden=s!==1;f2.hidden=s!==2;bk.hidden=s!==2;document.getElementById('bar2').classList.toggle('on',s===2);document.getElementById('stepTxt').textContent='Paso '+s+' de 2';nx.firstChild.textContent=s===2?'Solicitar diagnóstico ':'Continuar ';document.getElementById('hint').hidden=s===2}
+  nx.addEventListener('click',function(){if(step===1){go(2);document.getElementById('b-n').focus()}else{document.getElementById('ok').style.display='block'}});
+  bk.addEventListener('click',function(){go(1)});
+  var io='IntersectionObserver' in window?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'}):null;
+  document.querySelectorAll('.rv').forEach(function(el){io?io.observe(el):el.classList.add('in')});
+})();
+</script>
+</body>
+</html>

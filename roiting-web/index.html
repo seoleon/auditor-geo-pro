@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roiting · Dirección visual</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Geist:wght@400;600&family=Geist+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F5F1;--card:#fff;--ink:#14161A;--ink-2:#3A3E46;--muted:#5F636B;--line:rgba(20,22,26,.12);--a:#E8501C;--b:#C8F560;--b-ink:#0C1200;--night:#0B0E16;
+--f:"Inter Tight",system-ui,sans-serif;--m:"JetBrains Mono",ui-monospace,monospace;--gut:clamp(20px,4.4vw,64px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0F1115;--card:#171A20;--ink:#ECEDEF;--ink-2:#C5C8CF;--muted:#9BA0A9;--line:rgba(236,237,239,.12)}}
+:root[data-theme=dark]{--bg:#0F1115;--card:#171A20;--ink:#ECEDEF;--ink-2:#C5C8CF;--muted:#9BA0A9;--line:rgba(236,237,239,.12)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}img{max-width:100%;display:block}h1,h2,h3,p{margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gut)}
+header.top{padding:56px 0 40px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--m);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(2.4rem,1.6rem + 3.4vw,4.4rem);line-height:1;letter-spacing:-.035em;margin-top:14px;font-weight:600}
+h1 em{font-family:"Instrument Serif",serif;font-weight:400}
+h2{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.4rem);letter-spacing:-.03em;line-height:1.1;font-weight:600}
+h3{font-size:1.125rem;letter-spacing:-.01em;font-weight:600}
+.lead{font-size:1.15rem;color:var(--ink-2);max-width:68ch;margin-top:18px}
+section{padding:64px 0;border-bottom:1px solid var(--line)}
+.sh{display:grid;grid-template-columns:200px 1fr;gap:24px;margin-bottom:32px}
+.sh .n{font-family:var(--m);font-size:12px;color:var(--muted);padding-top:10px}
+@media (max-width:720px){.sh{grid-template-columns:1fr;gap:6px}}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:860px){.g2,.g3{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+.card p,.card li{font-size:15px;color:var(--ink-2)}
+.card ul{padding-left:18px;margin:10px 0 0}
+.card li{margin:4px 0}
+.alert{border-left:3px solid var(--a);background:var(--card);padding:16px 20px;border-radius:0 12px 12px 0;font-size:15px;color:var(--ink-2)}
+.alert strong{color:var(--ink)}
+.tag{align-self:flex-start;display:inline-block;font-family:var(--m);font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.prop{border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column}
+.prop__img{aspect-ratio:16/10;overflow:hidden;background:#000}
+.prop__img img{width:100%;height:100%;object-fit:cover;object-position:top}
+.prop__body{padding:24px;display:flex;flex-direction:column;gap:12px;flex:1}
+.prop h3{font-size:1.5rem;letter-spacing:-.02em}
+.prop .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:8px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:600;font-size:14px}
+.btn.o{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn:hover{opacity:.85}
+.sw{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.sw span{display:flex;flex-direction:column;gap:4px;font-family:var(--m);font-size:10.5px;color:var(--muted);width:76px}
+.sw i{height:44px;border-radius:10px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--m);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:500}
+td:first-child{font-weight:600;white-space:nowrap}
+.tbl{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:16px}
+.phones{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.phone{border-radius:28px;border:1px solid var(--line);overflow:hidden;background:#000;max-width:390px;margin:0 auto;width:100%}
+.phone iframe{display:block;width:390px;height:780px;border:0;max-width:100%}
+@media (max-width:860px){.phones{grid-template-columns:1fr}}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.check li{display:flex;gap:10px;font-size:15px;color:var(--ink-2)}
+.check li::before{content:"✓";color:#2F7D5B;font-weight:700}
+.check li.x::before{content:"—";color:var(--a)}
+.src{font-size:13px;color:var(--muted)}
+.src a{word-break:break-all}
+footer{padding:40px 0 64px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <p class="eyebrow">Roiting · Web B2B · Entregable 1 · Fases 1, 2 y 3</p>
+  <h1>Dos direcciones visuales <em>para elegir</em></h1>
+  <p class="lead">Investigación de marca, sistema de diseño y dos prototipos navegables de la home, en escritorio (1440 px) y móvil (390 px). No he tocado WordPress. Elija una dirección antes de pasar a Elementor.</p>
+</div></header>
+
+<main>
+<!-- PROPUESTAS -->
+<section id="propuestas"><div class="wrap">
+  <div class="sh"><span class="n">FASE 3</span><div><h2>Prototipos de alta fidelidad</h2><p class="lead">Las dos home incluyen los diez bloques pedidos y comparten la retícula, pero difieren en tono, composición y recursos gráficos.</p></div></div>
+  <div class="g2">
+    <article class="prop">
+      <div class="prop__img"><img src="capturas/propuesta-a-escritorio-1440-hero.jpg" alt="Primer pantallazo de la propuesta A en escritorio" loading="lazy"></div>
+      <div class="prop__body">
+        <span class="tag">Propuesta A</span>
+        <h3>«Editorial técnico»</h3>
+        <p>Papel cálido, tinta y un único acento naranja señal. Tipografía grotesca condensada combinada con una serif cursiva editorial para enfatizar conceptos («<em>pipeline</em>», «<em>decide</em>»). Composiciones asimétricas, filetes finos, numeración de sección y diagramas tipo plano técnico.</p>
+        <p><strong>Transmite:</strong> criterio, oficio y seniority. Se diferencia de la estética oscura habitual del sector tecnológico.</p>
+        <div class="actions"><a class="btn" href="propuesta-a/index.html">Abrir prototipo</a><a class="btn o" href="capturas/propuesta-a-escritorio-1440.jpg">Captura completa 1440</a><a class="btn o" href="capturas/propuesta-a-movil-390.jpg">Captura móvil 390</a></div>
+      </div>
+    </article>
+    <article class="prop">
+      <div class="prop__img"><img src="capturas/propuesta-b-escritorio-1440-hero.jpg" alt="Primer pantallazo de la propuesta B en escritorio" loading="lazy"></div>
+      <div class="prop__body">
+        <span class="tag">Propuesta B</span>
+        <h3>«Revenue OS»</h3>
+        <p>Estética de producto SaaS: fondo nocturno, acento lima eléctrico y series de datos en cian y violeta. El hero es una consola completa; los servicios se exploran con pestañas; el método es un diagrama de Gantt de 12 semanas y el CTA, un formulario de dos pasos.</p>
+        <p><strong>Transmite:</strong> tecnología, datos y control. Encaja con la promesa de «ROI Hacking» y con el público tecnológico.</p>
+        <div class="actions"><a class="btn" href="propuesta-b/index.html">Abrir prototipo</a><a class="btn o" href="capturas/propuesta-b-escritorio-1440.jpg">Captura completa 1440</a><a class="btn o" href="capturas/propuesta-b-movil-390.jpg">Captura móvil 390</a></div>
+      </div>
+    </article>
+  </div>
+
+  <h3 style="margin:40px 0 16px">Vista móvil en vivo (390 px)</h3>
+  <div class="phones">
+    <div><p class="src" style="text-align:center;margin-bottom:8px">Propuesta A</p><div class="phone"><iframe src="propuesta-a/index.html" title="Propuesta A en móvil" loading="lazy"></iframe></div></div>
+    <div><p class="src" style="text-align:center;margin-bottom:8px">Propuesta B</p><div class="phone"><iframe src="propuesta-b/index.html" title="Propuesta B en móvil" loading="lazy"></iframe></div></div>
+  </div>
+
+  <div class="tbl" style="margin-top:40px"><table>
+    <thead><tr><th>Bloque</th><th>Propuesta A · Editorial técnico</th><th>Propuesta B · Revenue OS</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Cabecera</td><td>Translúcida y fija, megamenú con tarjeta de diagnóstico; menú móvil a pantalla completa numerado</td><td>Cápsula flotante con barra de anuncio; desplegable con códigos de servicio; menú móvil con accesos rápidos</td></tr>
+      <tr><td>2 · Hero</td><td>Titular asimétrico 7/5 + panel de embudo, tarjeta de lead y respuesta de IA superpuestas</td><td>Titular centrado sobre retícula luminosa + consola completa de captación</td></tr>
+      <tr><td>3 · Sistema de captación</td><td>Diagrama de flujo SVG animado (fuentes → captación → cualificación → CRM → ventas) con bucle de aprendizaje; versión vertical en móvil</td><td>Diagrama orbital: canales alrededor de un núcleo «Pipeline», con tres capas explicadas</td></tr>
+      <tr><td>4 · Servicios</td><td>Composición en mosaico con cinco tarjetas distintas: SERP, respuesta de IA, gráfico, cuentas ABM y flujo de automatización</td><td>Pestañas accesibles; cada servicio con su propia maqueta (posiciones, chat de IA, barras, comité ABM, workflow)</td></tr>
+      <tr><td>5 · Sistema Roiting</td><td>Método en 4 pasos con titular fijo y numeración serif</td><td>Hoja de ruta de 12 semanas en formato Gantt</td></tr>
+      <tr><td>6 · Sectores</td><td>Índice tipográfico a ancho completo con hover editorial</td><td>Mosaico de 7 sectores con reto y canal prioritario</td></tr>
+      <tr><td>7 · Casos</td><td>Caso destacado con cifras sobre bloque naranja + casos secundarios</td><td>«Ficha de caso» con cifras a gran tamaño + fila de casos</td></tr>
+      <tr><td>8 · Diferenciación</td><td>Manifiesto serif + tabla comparativa con agencia generalista</td><td>Tres principios «antes → ahora» + «lo que no hacemos»</td></tr>
+      <tr><td>9 · CTA</td><td>Bloque oscuro con formulario completo y chips de objetivo</td><td>Formulario de dos pasos con barra de progreso</td></tr>
+      <tr><td>10 · Footer</td><td>Newsletter, tres columnas y logotipo a gran escala</td><td>Claim, tres columnas y enlaces legales</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<!-- FASE 1 -->
+<section id="investigacion"><div class="wrap">
+  <div class="sh"><span class="n">FASE 1</span><div><h2>Investigación y dirección de arte</h2></div></div>
+
+  <div class="alert"><strong>Limitación de la investigación:</strong> desde este entorno no se puede abrir roiting.com ni lab.seoleon.net, porque la red los bloquea. El análisis de marca procede de resultados de búsqueda indexados de roiting.com y de directorios externos, no de una lectura completa de la web. Por el mismo motivo <strong>no he podido inspeccionar la landing que generamos antes</strong>; los problemas que se citan abajo son los que usted describió, no un análisis propio.</div>
+
+  <div class="g3" style="margin-top:24px">
+    <div class="card"><h3>Propuesta de valor</h3><ul><li>Agencia de marketing <strong>B2B</strong> con sede en Valencia</li><li>Lema de marca: <strong>«ROI Hacking»</strong></li><li>Marketing digital convertido en captación B2B medible y conectada con ventas</li></ul></div>
+    <div class="card"><h3>Servicios</h3><ul><li>SEO B2B</li><li>GEO / búsqueda en IA</li><li>Paid media (SEM)</li><li>Inbound marketing y ABM</li><li>Automatización de marketing y CRM</li></ul></div>
+    <div class="card"><h3>Público y sectores</h3><ul><li>Empresas industriales, fabricantes y tecnológicas con ciclos de venta complejos</li><li>Páginas sectoriales: industria, salud, distribución, marketplaces, formación, logística y tecnología</li></ul></div>
+  </div>
+  <div class="g2" style="margin-top:20px">
+    <div class="card"><h3>Casos citados públicamente (pendientes de verificación)</h3><ul>
+      <li><strong>tk accelis Plastics Ibérica</strong>: +1243 leads frente al año anterior y +100% de tráfico cualificado (home de roiting.com, según resultados de búsqueda).</li>
+      <li><strong>Simufy</strong>: Black Friday 2023 con PPC, social y SEO coordinados.</li>
+      <li>También aparecen <strong>Academia del Transportista</strong>, Verdissimo y Farmacia Olmos. Estos dos últimos no se usan en la home porque son B2C.</li></ul>
+      <p style="margin-top:10px">Los mockups señalan estas cifras como «pendiente de verificación». No he añadido ninguna cifra, testimonio ni cliente que no aparezca en estas fuentes.</p></div>
+    <div class="card"><h3>Identidad: lo que falta</h3><ul>
+      <li>No he podido extraer el logotipo, los colores ni las tipografías oficiales.</li>
+      <li>El monograma «R» y el wordmark de los mockups son <strong>marcadores provisionales</strong>, que se sustituirán por el logotipo oficial.</li>
+      <li>Si el manual de marca define colores, se cambia el valor del token de acento y el resto del sistema se mantiene igual.</li></ul></div>
+  </div>
+
+  <div class="g2" style="margin-top:20px">
+    <div class="card"><h3>Patrones de referencia (B2B y SaaS de alto nivel)</h3><ul>
+      <li>Hero con interfaz del producto o del servicio en lugar de fotografía de banco de imágenes.</li>
+      <li>Diagramas que explican el sistema y aportan información en lugar de iconos decorativos.</li>
+      <li>Tipografía grande y bien espaciada, un único acento y mucho blanco.</li>
+      <li>Ritmo alterno entre secciones claras y oscuras para marcar capítulos.</li>
+      <li>Prueba social con datos concretos y fuente, no con logos sueltos.</li></ul>
+      <p class="src" style="margin-top:10px">Son patrones del sector. No he capturado ni copiado ninguna web de referencia en esta sesión.</p></div>
+    <div class="card"><h3>Problemas de la landing anterior que hay que evitar</h3><ul>
+      <li>Diseño «demasiado sencillo», con aspecto de plantilla genérica (según su descripción).</li>
+      <li>Rejillas de tarjetas idénticas y bloques largos de texto (los descartó en el brief).</li>
+      <li>Sin recursos visuales propios que expliquen el servicio.</li></ul>
+      <p class="src" style="margin-top:10px">En la fase 6 compararé la página real con el mockup cuando lab.seoleon.net sea accesible.</p></div>
+  </div>
+
+  <p class="src" style="margin-top:24px">Fuentes: <a href="https://www.roiting.com/">roiting.com</a> · <a href="https://www.roiting.com/casos-de-exito/">roiting.com/casos-de-exito</a> · <a href="https://www.roiting.com/marketing-industrial/">marketing-industrial</a> · <a href="https://www.roiting.com/blog/seo-b2b/">blog/seo-b2b</a> · <a href="https://theorg.com/org/roiting-agencia-marketing-b2b">theorg.com</a> · <a href="https://agencies.co/agency/roiting-agencia-de-marketing-b2b/">agencies.co</a> · <a href="https://x.com/roiting">x.com/roiting</a> (consultadas a través de resultados de búsqueda)</p>
+</div></section>
+
+<!-- FASE 2 -->
+<section id="sistema"><div class="wrap">
+  <div class="sh"><span class="n">FASE 2</span><div><h2>Sistema de diseño</h2><p class="lead">Las dos propuestas usan la misma estructura de tokens y cambian sus valores. Todos los colores, tamaños y márgenes salen de variables CSS en <code>:root</code> y nada se improvisa por sección. Esa estructura se traslada después a variables y clases globales de Elementor Atomic V4.</p></div></div>
+
+  <div class="g2">
+    <div class="card"><h3>Paleta A · Editorial técnico</h3>
+      <div class="sw"><span><i style="background:#F3F0E8"></i>paper<br>#F3F0E8</span><span><i style="background:#E9E4D8"></i>paper-2<br>#E9E4D8</span><span><i style="background:#0F1115"></i>ink<br>#0F1115</span><span><i style="background:#585B62"></i>muted<br>#585B62</span><span><i style="background:#E8501C"></i>signal<br>#E8501C</span><span><i style="background:#B13A10"></i>signal-ink<br>#B13A10</span><span><i style="background:#111318"></i>night<br>#111318</span></div>
+      <p style="margin-top:12px">El naranja señal se reserva para gráficos y texto grande. Para texto pequeño se usa <code>signal-ink</code>, que cumple AA sobre papel.</p></div>
+    <div class="card"><h3>Paleta B · Revenue OS</h3>
+      <div class="sw"><span><i style="background:#07090F"></i>bg<br>#07090F</span><span><i style="background:#111622"></i>panel<br>#111622</span><span><i style="background:#E9EDF5"></i>text<br>#E9EDF5</span><span><i style="background:#8B94A7"></i>muted<br>#8B94A7</span><span><i style="background:#C8F560"></i>lime<br>#C8F560</span><span><i style="background:#6AD8FF"></i>cyan<br>#6AD8FF</span><span><i style="background:#A496FF"></i>violet<br>#A496FF</span></div>
+      <p style="margin-top:12px">El lima marca la acción y el dato clave. El cian y el violeta solo se usan como series de datos y nunca en texto corrido.</p></div>
+  </div>
+
+  <div class="tbl" style="margin-top:20px"><table>
+    <thead><tr><th>Elemento</th><th>Regla común</th><th>A</th><th>B</th></tr></thead>
+    <tbody>
+      <tr><td>Tipografía</td><td>Display + cuerpo + mono para datos y etiquetas (Google Fonts)</td><td>Inter Tight 400–700 · Instrument Serif cursiva para énfasis · JetBrains Mono</td><td>Geist 400–700 · Geist Mono</td></tr>
+      <tr><td>Escala fluida</td><td>8 pasos con <code>clamp()</code> entre 390 y 1440 px: xs 12–13 · sm 14–15 · md 16–18 · lg 18–22 · xl 24–34 · 2xl 32–52 · 3xl 40–76 · 4xl 48–112 px</td><td>Interletrado −3,5 % en display</td><td>Interletrado −4,5 % en display</td></tr>
+      <tr><td>Espaciado</td><td>Base 4: 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128. Sección: <code>clamp(80px, 9vw, 144–152px)</code></td><td colspan="2">Idéntico</td></tr>
+      <tr><td>Retícula</td><td>12 columnas en escritorio, 8 en tablet (≤1080) y 4 en móvil (≤720). Contenedor de 1312 px, margen lateral de 20–64 px, separación de 16–24 px. Clases <code>.c-N</code> (ancho) y <code>.s-N</code> (inicio)</td><td colspan="2">Idéntica</td></tr>
+      <tr><td>Botones</td><td>Altura mínima de 48 px (44 en cabecera), estados hover, focus y active; flecha que se desplaza 3 px</td><td>Píldora; hover a naranja</td><td>Radio de 12 px; hover con halo lima</td></tr>
+      <tr><td>Cabecera</td><td>Fija; megamenú en escritorio; hamburguesa por debajo de 1080 px con aria-expanded</td><td>Barra translúcida a ancho completo</td><td>Cápsula flotante + barra de anuncio</td></tr>
+      <tr><td>Tarjetas</td><td>Cada tarjeta contiene un recurso informativo (maqueta, gráfico o diagrama), nunca un icono decorativo</td><td>Variantes clara, oscura y señal</td><td>Paneles, mosaicos y pestañas</td></tr>
+      <tr><td>Formularios</td><td>Campos de 48 px con etiqueta visible, autocomplete, foco con halo de 4 px y estado de error</td><td>Formulario completo con chips</td><td>Dos pasos con progreso</td></tr>
+      <tr><td>Imagen</td><td>Sin fotografías de relleno. Ilustraciones en SVG y HTML, etiquetadas como «datos de ejemplo»</td><td>Planos técnicos</td><td>Consola y dashboard</td></tr>
+      <tr><td>Movimiento</td><td>Revelado al hacer scroll con IntersectionObserver, transiciones de 0,3–0,35 s y animaciones solo con transform y opacity. Todo se desactiva con <code>prefers-reduced-motion</code></td><td>Cinta de canales, barras y trazos de flujo</td><td>Áreas del gráfico y órbita</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<!-- VALIDACIÓN -->
+<section id="validacion"><div class="wrap">
+  <div class="sh"><span class="n">FASE 5 (adelantada)</span><div><h2>Validación realizada</h2><p class="lead">He validado los prototipos con Playwright y Chromium, con capturas a 1440 × 900 y 390 × 844, y he revisado cada sección visualmente.</p></div></div>
+  <div class="g2">
+    <div class="card"><h3>Comprobado</h3><ul class="check">
+      <li>Sin desbordamiento horizontal a 1440 ni a 390 px (detección automática de elementos que se salen del viewport)</li>
+      <li>Sin errores de JavaScript en consola</li>
+      <li>Menú móvil: se abre, se cierra al navegar y actualiza aria-expanded</li>
+      <li>Megamenú de escritorio al pasar el ratón (para teclado usa :focus-within, aún sin probar a mano)</li>
+      <li>Pestañas de servicios con clic y con flechas del teclado (patrón ARIA tabs)</li>
+      <li>Formulario de dos pasos: avance, retroceso y foco al primer campo</li>
+      <li>Jerarquía H1 → H2 → H3, landmarks, enlace para saltar al contenido, textos alternativos y descripciones de los diagramas para lectores de pantalla</li>
+    </ul></div>
+    <div class="card"><h3>Defectos detectados y corregidos</h3><ul class="check">
+      <li>Las columnas con desplazamiento se estrechaban a 1 columna (texto en vertical). Corregido el sistema de offsets de la retícula</li>
+      <li>Conflicto de clases: el revelado al hacer scroll aplicaba estilos de campo de formulario a un diagrama (B)</li>
+      <li>Enlaces invisibles dentro del panel oscuro de pestañas (B)</li>
+      <li>Botón «Atrás» visible en el paso 1, porque el atributo hidden no se respetaba</li>
+      <li>Tarjeta flotante que tapaba el pie del panel del hero en móvil (A)</li>
+      <li>Contraste insuficiente en la numeración del método (A) y en un párrafo sobre fondo oscuro (B)</li>
+      <li>Logotipo gigante del pie recortado y con letras solapadas (A)</li>
+      <li>Diagrama orbital ilegible a 390 px: se oculta en móvil porque las tres capas ya explican lo mismo (B)</li>
+    </ul></div>
+  </div>
+  <div class="card" style="margin-top:20px"><h3>Pendiente antes de construir</h3><ul class="check">
+    <li class="x">Logotipo, colores y tipografías oficiales de Roiting</li>
+    <li class="x">Validar con Roiting cada cifra y caso citado, y obtener autorización para usar el nombre de cada cliente</li>
+    <li class="x">Textos definitivos: los de los mockups son una propuesta de copy, no contenido aprobado</li>
+    <li class="x">Contraste AA con una herramienta de medición. Hecho a ojo en las capturas; queda pendiente medirlo</li>
+    <li class="x">Acceso a lab.seoleon.net desde este entorno (hoy lo bloquea la red) para la fase 6</li>
+  </ul></div>
+</div></section>
+</main>
+
+<footer><div class="wrap">Prototipo de diseño para revisión interna. No publicar. Las cifras de los dashboards son datos de ejemplo.</div></footer>
+</body>
+</html>
