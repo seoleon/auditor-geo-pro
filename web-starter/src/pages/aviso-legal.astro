@@ -1,13 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import { negocio } from '../lib/sitio';
-const d = negocio.direccion;
 ---
 <Base titulo={`Aviso legal | ${negocio.nombre}`} descripcion={`Aviso legal de ${negocio.nombre}.`} noindex>
   <section class="seccion"><div class="contenedor">
     <h1>Aviso legal</h1>
-    <p><strong>PLANTILLA: la agencia debe completarla con los datos reales del titular y revisarla antes de publicar.</strong></p>
-    <p>Titular: {negocio.nombre} · NIF: [COMPLETAR] · Domicilio: {d.calle}, {d.cp} {d.ciudad} · Email: {negocio.email} · Teléfono: {negocio.telefonoVisible}.</p>
+    <p><strong>PLANTILLA: completar y revisar con un profesional antes de publicar.</strong></p>
+    <p>Titular del sitio: {negocio.titular} · Email: {negocio.email} · Teléfono: {negocio.telefonoVisible}.</p>
+    <h2>Naturaleza del servicio</h2>
+    <p>{negocio.queSomos} El titular no es parte del contrato de obra entre el usuario y el reformista ni responde de su ejecución.</p>
     <p>[COMPLETAR: condiciones de uso, propiedad intelectual, responsabilidad y legislación aplicable.]</p>
   </div></section>
 </Base>

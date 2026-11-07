@@ -1,5 +1,5 @@
 ---
-import { negocio, servicios, url, telHref } from '../lib/sitio';
+import { negocio, servicios, url } from '../lib/sitio';
 ---
 <header class="cabecera">
   <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -8,11 +8,11 @@ import { negocio, servicios, url, telHref } from '../lib/sitio';
     <nav aria-label="Principal">
       <ul>
         {servicios.map((s) => <li><a href={url.servicio(s)}>{s.nombreCorto}</a></li>)}
-        <li><a href={url.zonas}>Zonas</a></li>
-        <li><a href={url.contacto}>Contacto</a></li>
+        <li><a href={url.guias}>Guías</a></li>
+        <li><a href={url.comoFunciona}>Cómo funciona</a></li>
       </ul>
     </nav>
-    <a class="boton boton--primario cabecera__tel" href={telHref}>Llamar · {negocio.telefonoVisible}</a>
+    <a class="boton boton--primario cabecera__cta" href={url.presupuesto}>Pedir presupuesto</a>
   </div>
 </header>
 <style>
@@ -23,7 +23,7 @@ import { negocio, servicios, url, telHref } from '../lib/sitio';
   nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; }
   nav a { color: var(--c-texto); text-decoration: none; font-size: .95rem; }
   nav a:hover { color: var(--c-primario); text-decoration: underline; }
-  .cabecera__tel { padding: 9px 16px; font-size: .95rem; }
+  .cabecera__cta { padding: 9px 16px; font-size: .95rem; }
   .saltar { position: absolute; left: -9999px; }
   .saltar:focus { left: 16px; top: 8px; background: var(--c-blanco); padding: 8px; z-index: 10; }
   @media (max-width: 760px) { nav { order: 3; flex-basis: 100%; } nav ul { gap: 4px 14px; } }

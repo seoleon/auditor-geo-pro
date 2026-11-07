@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Proceso from '../components/Proceso.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import { negocio, textos, url, schemaFaq } from '../lib/sitio';
+const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Cómo funciona', ruta: url.comoFunciona }];
+const faq = [
+  { p: '¿Hacéis vosotros la obra?', r: 'No. Somos un servicio de intermediación. La obra la presupuesta y la hace el reformista, y contratas directamente con él.' },
+  { p: '¿Quién paga este servicio?', r: 'Para ti es gratis. Los reformistas colaboradores pagan por recibir solicitudes de su zona.' },
+  { p: '¿A quién pasáis mis datos?', r: 'Solo a reformistas colaboradores que trabajan en tu zona y solo para que te contacten por tu solicitud. Lo detallamos en la política de privacidad.' },
+  { p: '¿Estoy obligado a contratar?', r: 'No. Pedir presupuesto no te compromete a nada.' },
+  { p: '¿Respondéis por la obra?', r: 'El contrato de obra es entre tú y el reformista, que es quien responde de ella. Pide siempre presupuesto por escrito, plazos y garantía.' },
+];
+---
+<Base titulo={`Cómo funciona | ${negocio.nombre}`} descripcion={`Cómo funciona ${negocio.nombre}: servicio gratuito que pone en contacto a particulares con reformistas de ${negocio.ciudad}. No ejecutamos obras.`} migas={migas} schemas={[schemaFaq(faq)]}>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>Cómo funciona</h1>
+      <p class="lead">{negocio.queSomos}</p>
+    </div>
+  </section>
+  <Proceso titulo="Los pasos" />
+  <Faq faq={faq} />
+  <Cta titulo={textos.ctaTitulo} />
+</Base>

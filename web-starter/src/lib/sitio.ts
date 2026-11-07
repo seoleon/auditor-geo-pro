@@ -15,6 +15,9 @@ export const url = {
   landing: (s: Servicio, z: Zona) => `/${s.slug}/${z.slug}/`,
   zonas: '/zonas/',
   contacto: '/contacto/',
+  presupuesto: '/presupuesto/',
+  guias: '/guias/',
+  comoFunciona: '/como-funciona/',
 };
 
 export const servicioPorSlug = (slug: string) => {
@@ -38,44 +41,32 @@ export const listaNatural = (items: string[]) =>
 
 const idNegocio = absoluta('/#negocio');
 
+// Modelo portal: la web es un intermediario. Se declara como Organization (sin dirección
+// física ni LocalBusiness) y aparece como "broker" de los servicios, no como quien los presta.
 export function schemaNegocio() {
-  const d = negocio.direccion;
   return {
     '@context': 'https://schema.org',
-    '@type': negocio.tipoSchema,
+    '@type': 'Organization',
     '@id': idNegocio,
     name: negocio.nombre,
     description: negocio.descripcion,
     url: absoluta('/'),
-    telephone: negocio.telefono,
     email: negocio.email,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: d.calle,
-      postalCode: d.cp,
-      addressLocality: d.ciudad,
-      addressRegion: d.provincia,
-      addressCountry: d.pais,
-    },
-    geo: { '@type': 'GeoCoordinates', latitude: negocio.geo.lat, longitude: negocio.geo.lng },
-    openingHoursSpecification: negocio.horario.map((h) => ({
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: h.dias,
-      opens: h.abre,
-      closes: h.cierra,
-    })),
     areaServed: zonas.map((z) => ({ '@type': 'City', name: z.nombre })),
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Servicios',
-      itemListElement: servicios.map((s) => ({
-        '@type': 'Offer',
-        itemOffered: { '@type': 'Service', name: s.nombre, url: absoluta(url.servicio(s)) },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      telephone: negocio.telefono,
+      areaServed: 'ES',
+      availableLanguage: 'es',
+      hoursAvailable: negocio.horario.map((h) => ({
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: h.dias,
+        opens: h.abre,
+        closes: h.cierra,
       })),
     },
-    ...(negocio.fichaGoogle || negocio.redes.length
-      ? { sameAs: [negocio.fichaGoogle, ...negocio.redes].filter(Boolean) }
-      : {}),
+    ...(negocio.redes.length ? { sameAs: negocio.redes } : {}),
   };
 }
 
@@ -86,11 +77,26 @@ export function schemaServicio(s: Servicio, z?: Zona) {
     name: z ? `${s.nombre} en ${z.nombre}` : s.nombre,
     serviceType: s.nombre,
     description: s.resumen,
-    provider: { '@id': idNegocio },
+    broker: { '@id': idNegocio },
     areaServed: z
       ? { '@type': 'City', name: z.nombre }
       : zonas.map((x) => ({ '@type': 'City', name: x.nombre })),
     url: absoluta(z ? url.landing(s, z) : url.servicio(s)),
+  };
+}
+
+export function schemaArticulo(a: { titulo: string; descripcion: string; ruta: string; publicado: string; actualizado: string }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: a.titulo,
+    description: a.descripcion,
+    url: absoluta(a.ruta),
+    datePublished: a.publicado,
+    dateModified: a.actualizado,
+    inLanguage: 'es-ES',
+    author: { '@id': idNegocio },
+    publisher: { '@id': idNegocio },
   };
 }
 

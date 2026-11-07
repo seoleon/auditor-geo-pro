@@ -1,16 +1,15 @@
 ---
-import { negocio, textos, telHref, whatsappHref } from '../lib/sitio';
-interface Props { titulo: string; subtitulo: string; mensajeWhatsapp: string; }
-const { titulo, subtitulo, mensajeWhatsapp } = Astro.props;
-const wa = whatsappHref(mensajeWhatsapp);
+import { negocio, textos, url, telHref } from '../lib/sitio';
+interface Props { titulo: string; subtitulo: string; }
+const { titulo, subtitulo } = Astro.props;
 ---
 <section class="hero">
   <div class="contenedor">
     <h1>{titulo}</h1>
     <p class="hero__sub">{subtitulo}</p>
     <div class="botones">
-      <a class="boton boton--primario" href={telHref}>Llamar al {negocio.telefonoVisible}</a>
-      {wa && <a class="boton boton--secundario" href={wa} rel="nofollow">Pedir presupuesto por WhatsApp</a>}
+      <a class="boton boton--primario" href={url.presupuesto}>Pedir presupuesto gratis</a>
+      <a class="boton boton--secundario" href={telHref}>Llamar al {negocio.telefonoVisible}</a>
     </div>
     <ul class="hero__datos">
       {textos.sellosHero.map((t) => <li>{t}</li>)}

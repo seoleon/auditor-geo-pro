@@ -6,22 +6,25 @@ import Proceso from '../components/Proceso.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
 import { negocio, textos, servicios, zonas, serviciosConLanding, url, listaNatural, schemaFaq } from '../lib/sitio';
+import { guias } from '../lib/guias';
 
 const principal = serviciosConLanding[0] ?? servicios[0];
-const ciudad = negocio.direccion.ciudad;
+const ciudad = negocio.ciudad;
 const faq = [
-  { p: `¿En qué zonas de ${ciudad} trabajáis?`, r: `Trabajamos en ${listaNatural(zonas.map((z) => z.nombre))}.` },
-  ...servicios.flatMap((s) => s.faq.slice(0, 1)),
+  { p: '¿Qué sois exactamente?', r: negocio.queSomos },
+  { p: '¿Cuánto cuesta pedir presupuesto?', r: 'Nada. Pedir presupuesto es gratis y no te obliga a contratar.' },
+  { p: `¿En qué zonas de ${ciudad} hay reformistas?`, r: `En ${listaNatural(zonas.map((z) => z.nombre))}.` },
+  ...servicios.slice(0, 2).map((s) => s.faq[0]),
 ];
-const titulo = `${principal.nombreCorto} en ${ciudad} | ${negocio.nombre}`;
-const descripcion = `${negocio.descripcion} Llama al ${negocio.telefonoVisible}.`.slice(0, 160);
 ---
-<Base titulo={titulo} descripcion={descripcion} schemas={[schemaFaq(faq)]}>
-  <Hero titulo={`${principal.nombre} en ${ciudad}`} subtitulo={negocio.eslogan} mensajeWhatsapp={textos.mensajeWhatsapp} />
+<Base titulo={`${principal.nombreCorto} en ${ciudad}: presupuestos gratis | ${negocio.nombreCorto}`} descripcion={negocio.descripcion.slice(0, 160)} schemas={[schemaFaq(faq)]}>
+  <Hero titulo={`${principal.nombreCorto} en ${ciudad}: pide presupuesto gratis`} subtitulo={negocio.eslogan} />
 
-  <section class="seccion">
+  <Proceso titulo="Cómo funciona" />
+
+  <section class="seccion seccion--blanca">
     <div class="contenedor">
-      <h2>Nuestros servicios</h2>
+      <h2>¿Qué reforma necesitas?</h2>
       <div class="rejilla">
         {servicios.map((s) => (
           <article class="tarjeta">
@@ -33,13 +36,24 @@ const descripcion = `${negocio.descripcion} Llama al ${negocio.telefonoVisible}.
     </div>
   </section>
 
-  <Diferenciales />
-  <Proceso />
-
   <section class="seccion">
     <div class="contenedor">
-      <h2>Dónde trabajamos</h2>
-      <p class="lead">{negocio.nombre} trabaja en {ciudad} y en los municipios de alrededor.</p>
+      <h2>Guías antes de reformar</h2>
+      <div class="rejilla">
+        {guias.map((g) => (
+          <article class="tarjeta">
+            <h3><a href={g.ruta}>{g.titulo}</a></h3>
+            <p>{g.descripcion}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion seccion--blanca">
+    <div class="contenedor">
+      <h2>Zonas</h2>
+      <p class="lead">Reformistas en {ciudad} capital y en los municipios de alrededor.</p>
       <div class="rejilla">
         {zonas.map((z) => (
           <article class="tarjeta">
@@ -51,6 +65,7 @@ const descripcion = `${negocio.descripcion} Llama al ${negocio.telefonoVisible}.
     </div>
   </section>
 
+  <Diferenciales titulo="Por qué pedir presupuesto aquí" />
   <Faq faq={faq} />
-  <Cta titulo={textos.ctaTitulo} mensajeWhatsapp={textos.mensajeWhatsapp} />
+  <Cta titulo={textos.ctaTitulo} />
 </Base>

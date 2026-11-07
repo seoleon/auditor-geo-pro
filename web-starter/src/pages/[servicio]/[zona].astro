@@ -5,6 +5,7 @@ import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
 import Faq from '../../components/Faq.astro';
 import Cta from '../../components/Cta.astro';
+import { guias } from '../../lib/guias';
 import { negocio, servicios, zonas, serviciosConLanding, url, listaNatural, schemaServicio, schemaFaq, type Servicio, type Zona } from '../../lib/sitio';
 
 export function getStaticPaths() {
@@ -24,8 +25,8 @@ const otrosServicios = servicios.filter((x) => x.slug !== s.slug && !otrosAqui.i
 const faq = [
   ...z.faq,
   {
-    p: `¿Trabajáis en ${listaNatural(z.lugares.slice(0, 3))}?`,
-    r: `Sí. En ${z.nombre} trabajamos en ${listaNatural(z.lugares)}. ${z.notaLogistica}`,
+    p: `¿Puedo pedir presupuesto en ${listaNatural(z.lugares.slice(0, 3))}?`,
+    r: `Sí. Pasamos solicitudes de ${listaNatural(z.lugares)} a reformistas que trabajan en ${z.nombre}.`,
   },
   ...s.faq.slice(0, 2),
 ];
@@ -37,19 +38,20 @@ const migas = [
 ---
 <Base
   titulo={`${s.nombreCorto} en ${z.nombre} | ${negocio.nombreCorto}`}
-  descripcion={`${s.nombre} en ${z.nombre} (${listaNatural(z.lugares.slice(0, 2))}). Visita, medición y presupuesto cerrado. Llama al ${negocio.telefonoVisible}.`.slice(0, 160)}
+  descripcion={`${s.nombre} en ${z.nombre} (${listaNatural(z.lugares.slice(0, 2))}): consejos para la zona y presupuesto gratis de reformistas locales.`.slice(0, 160)}
   migas={migas}
   schemas={[schemaServicio(s, z), schemaFaq(faq)]}
 >
-  <Hero titulo={enZona} subtitulo={`${s.resumen} Damos servicio en ${listaNatural(z.lugares)}.`} mensajeWhatsapp={mensaje} />
+  <Hero titulo={enZona} subtitulo={`${s.resumen} Presupuesto gratis en ${listaNatural(z.lugares)}.`} />
 
   <section class="seccion">
     <div class="contenedor">
       <h2>{s.nombreCorto} en {z.nombreCorto}: lo que solemos encontrar</h2>
       <p class="lead">{z.texto}</p>
-      <p>{z.notaLogistica}</p>
-      <h3>Un trabajo típico en {z.nombreCorto}</h3>
-      <p>{z.trabajoTipico}</p>
+      <h3>Consejo para {z.nombreCorto}</h3>
+      <p>{z.consejo}</p>
+      <h3>Una obra habitual en la zona</h3>
+      <p>{z.obraTipica}</p>
       <p>Qué incluye, materiales y plazos en la página de <a href={url.servicio(s)}>{s.nombre.toLowerCase()}</a>.</p>
     </div>
   </section>
@@ -67,6 +69,8 @@ const migas = [
       {otrosServicios.length > 0 && (
         <><h2>Más servicios</h2><ul>{otrosServicios.map((o) => <li><a href={url.servicio(o)}>{o.nombre}</a></li>)}</ul></>
       )}
+      <h2>Antes de pedir presupuesto</h2>
+      <ul>{guias.map((g) => <li><a href={g.ruta}>{g.titulo}</a></li>)}</ul>
       <h2>{s.nombreCorto} en otras zonas</h2>
       <ul>{vecinas.map((v) => <li><a href={url.landing(s, v)}>{s.nombreCorto} en {v.nombre}</a></li>)}</ul>
     </div>

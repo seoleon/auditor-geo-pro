@@ -1,0 +1,53 @@
+---
+import Base from './Base.astro';
+import Cta from '../components/Cta.astro';
+import { url, schemaArticulo, schemaFaq, textos } from '../lib/sitio';
+
+const { frontmatter } = Astro.props;
+const { titulo, tituloSeo, descripcion, publicado, actualizado, fuentes = [], faq = [] } = frontmatter;
+const ruta = Astro.url.pathname;
+const migas = [
+  { nombre: 'Inicio', ruta: url.inicio },
+  { nombre: 'Guías', ruta: url.guias },
+  { nombre: titulo, ruta },
+];
+const fecha = (iso: string) => new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base
+  titulo={tituloSeo ?? titulo}
+  descripcion={descripcion}
+  migas={migas}
+  schemas={[schemaArticulo({ titulo, descripcion, ruta, publicado, actualizado }), ...(faq.length ? [schemaFaq(faq)] : [])]}
+>
+  <article class="seccion">
+    <div class="contenedor guia">
+      <h1>{titulo}</h1>
+      <p class="guia__fecha">Actualizado el <time datetime={actualizado}>{fecha(actualizado)}</time></p>
+      <slot />
+      {faq.length > 0 && (
+        <section>
+          <h2>Preguntas frecuentes</h2>
+          {faq.map((f: { p: string; r: string }) => <details><summary>{f.p}</summary><p>{f.r}</p></details>)}
+        </section>
+      )}
+      {fuentes.length > 0 && (
+        <section class="guia__fuentes">
+          <h2>Fuentes</h2>
+          <ul>{fuentes.map((f: { nombre: string; url: string }) => <li><a href={f.url} rel="nofollow noopener" target="_blank">{f.nombre}</a></li>)}</ul>
+        </section>
+      )}
+    </div>
+  </article>
+  <Cta titulo={textos.ctaTitulo} />
+</Base>
+<style>
+  .guia { max-width: 760px; }
+  .guia__fecha { color: var(--c-suave); font-size: .95rem; }
+  .guia :global(table) { width: 100%; border-collapse: collapse; margin: 0 0 1.2em; background: var(--c-blanco); font-size: .97rem; }
+  .guia :global(th), .guia :global(td) { border: 1px solid var(--c-borde); padding: 8px 10px; text-align: left; vertical-align: top; }
+  .guia :global(blockquote) { margin: 0 0 1em; padding: 12px 16px; border-left: 4px solid var(--c-acento); background: var(--c-blanco); }
+  details { border: 1px solid var(--c-borde); border-radius: var(--radio); padding: 12px 16px; background: var(--c-blanco); margin-bottom: 8px; }
+  summary { font-weight: 700; cursor: pointer; }
+  .guia__fuentes { font-size: .95rem; }
+  .guia__fuentes ul { padding-left: 18px; }
+</style>

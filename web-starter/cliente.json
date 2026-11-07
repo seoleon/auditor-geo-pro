@@ -1,52 +1,23 @@
 {
   "demo": true,
+  "modelo": "portal",
   "negocio": {
-    "nombre": "Reformas Ejemplo León",
-    "nombreCorto": "Reformas Ejemplo",
-    "eslogan": "Reformamos tu baño en León, con presupuesto cerrado y un solo interlocutor",
-    "descripcion": "Empresa de reformas de baños en León y su alfoz. Reformas integrales, cambio de bañera por plato de ducha, baños adaptados y reforma de aseos, con presupuesto cerrado por escrito.",
-    "tipoSchema": "GeneralContractor",
-    "dominio": "https://www.ejemplo-reformas-leon.es",
+    "nombre": "Presupuestos Baño León",
+    "nombreCorto": "Baño León",
+    "eslogan": "Cuéntanos tu reforma y te ponemos en contacto con reformistas de León para que te den presupuesto. Gratis y sin compromiso.",
+    "descripcion": "Servicio gratuito de presupuestos de reforma de baño en León y alrededores: describes la obra y reformistas de la zona te contactan para visitarte y presupuestar.",
+    "queSomos": "Somos un servicio de intermediación: no ejecutamos obras. Pasamos tu solicitud a reformistas de León con los que colaboramos, que son quienes te visitan, presupuestan y, si los eliges, hacen la reforma.",
+    "dominio": "https://www.ejemplo-portal-banos-leon.es",
+    "ciudad": "León",
+    "provincia": "León",
     "telefono": "+34987000000",
     "telefonoVisible": "987 000 000",
     "whatsapp": "34600000000",
-    "email": "hola@ejemplo-reformas-leon.es",
-    "direccion": {
-      "calle": "Calle Ejemplo, 1",
-      "cp": "24001",
-      "ciudad": "León",
-      "provincia": "León",
-      "pais": "ES"
-    },
-    "geo": {
-      "lat": 42.5987,
-      "lng": -5.5671
-    },
+    "email": "hola@ejemplo-portal-banos-leon.es",
+    "titular": "[COMPLETAR: razón social y NIF de la agencia titular]",
     "horario": [
-      {
-        "dias": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday"
-        ],
-        "abre": "08:00",
-        "cierra": "19:00",
-        "texto": "Lunes a viernes, 8:00–19:00"
-      },
-      {
-        "dias": [
-          "Saturday"
-        ],
-        "abre": "09:00",
-        "cierra": "13:00",
-        "texto": "Sábados, 9:00–13:00"
-      }
+      { "dias": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "abre": "09:00", "cierra": "19:00", "texto": "Atención de lunes a viernes, 9:00–19:00" }
     ],
-    "anosExperiencia": 15,
-    "garantiaAnos": 2,
-    "fichaGoogle": "",
     "redes": [],
     "formularioAction": ""
   },
@@ -57,50 +28,22 @@
     "tipografia": "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
   },
   "textos": {
-    "sellosHero": [
-      "15 años reformando baños",
-      "Presupuesto cerrado por escrito",
-      "2 años de garantía en mano de obra"
-    ],
-    "ctaTexto": "Te visitamos, medimos y te enviamos un presupuesto cerrado sin compromiso.",
-    "ctaTitulo": "¿Hablamos de tu baño?",
-    "mensajeWhatsapp": "Hola, quiero pedir presupuesto para una reforma de baño"
+    "sellosHero": ["Reformistas de León y alrededores", "Gratis y sin compromiso", "Tú decides con quién haces la obra"],
+    "ctaTitulo": "¿Quieres presupuesto para tu baño?",
+    "ctaTexto": "Rellena el formulario en un minuto y un reformista de tu zona te llamará para concertar la visita.",
+    "mensajeWhatsapp": "Hola, quiero presupuesto para reformar mi baño en León"
   },
   "diferenciales": [
-    {
-      "titulo": "Presupuesto cerrado",
-      "texto": "Visitamos el baño, medimos y te damos un precio por escrito que no cambia a mitad de obra."
-    },
-    {
-      "titulo": "Un solo interlocutor",
-      "texto": "Fontanería, electricidad, alicatado y carpintería coordinados por la misma persona de principio a fin."
-    },
-    {
-      "titulo": "Plazos por escrito",
-      "texto": "Fecha de inicio y de fin en el presupuesto. Si cambia algo, te lo decimos antes, no después."
-    },
-    {
-      "titulo": "Obra limpia",
-      "texto": "Protegemos zonas comunes y suelos, y retiramos escombros a punto limpio autorizado."
-    }
+    { "titulo": "Gratis para ti", "texto": "Pedir presupuesto no cuesta nada ni te compromete a contratar." },
+    { "titulo": "Reformistas de la zona", "texto": "Tu solicitud llega a profesionales que trabajan en León capital y en los municipios de alrededor." },
+    { "titulo": "Presupuesto tras visita", "texto": "Un buen presupuesto de baño se hace viendo el baño. Pide siempre que te lo den por escrito y por partidas." },
+    { "titulo": "Información clara", "texto": "Guías de precios, permisos y ayudas para que llegues a la visita sabiendo qué preguntar." }
   ],
   "proceso": [
-    {
-      "titulo": "Visita y medición",
-      "texto": "Vamos a tu casa, vemos instalaciones, medimos y hablamos de lo que quieres."
-    },
-    {
-      "titulo": "Presupuesto cerrado",
-      "texto": "Te enviamos un presupuesto detallado por partidas con materiales y plazos."
-    },
-    {
-      "titulo": "Elección de materiales",
-      "texto": "Te ayudamos a elegir plato, mampara, revestimientos, mueble y grifería."
-    },
-    {
-      "titulo": "Obra y entrega",
-      "texto": "Ejecutamos la reforma, limpiamos y revisamos contigo el resultado antes de cerrar."
-    }
+    { "titulo": "Cuéntanos tu obra", "texto": "Tipo de reforma, zona y lo que quieres cambiar. Un minuto." },
+    { "titulo": "Te contacta un reformista", "texto": "Pasamos tu solicitud a un reformista de tu zona, que te llama para concertar la visita." },
+    { "titulo": "Visita y presupuesto", "texto": "Ve el baño, mide y te da un presupuesto por escrito." },
+    { "titulo": "Tú decides", "texto": "Si te convence, contratas directamente con él. Si no, no pasa nada." }
   ],
   "servicios": [
     {
@@ -108,31 +51,22 @@
       "nombre": "Reforma integral de baño",
       "nombreCorto": "Reforma de baños",
       "keyword": "reforma de baños",
-      "resumen": "Renovamos el baño completo: instalaciones, revestimientos, sanitarios, mueble e iluminación.",
-      "intro": "Una reforma integral de baño cambia todo lo que no se ve y todo lo que se ve: tuberías, desagües, puntos de luz, impermeabilización, alicatado, suelo, sanitarios y mobiliario. Es la opción adecuada cuando las instalaciones tienen muchos años o cuando quieres redistribuir el espacio.",
+      "resumen": "Renovación completa del baño: instalaciones, revestimientos, sanitarios, mueble e iluminación.",
+      "intro": "Una reforma integral de baño cambia todo lo que no se ve y todo lo que se ve: tuberías, desagües, puntos de luz, impermeabilización, alicatado, suelo, sanitarios y mobiliario. Es la opción adecuada cuando las instalaciones tienen muchos años o cuando se quiere redistribuir el espacio.",
       "incluye": [
-        "Demolición y retirada de escombros a punto limpio",
+        "Demolición y retirada de escombros",
         "Renovación de fontanería y desagües",
-        "Revisión y adecuación de la instalación eléctrica del baño",
+        "Revisión de la instalación eléctrica del baño",
         "Impermeabilización de la zona de ducha",
-        "Alicatado y solado con el material que elijas",
-        "Instalación de sanitarios, mueble, mampara y grifería",
+        "Alicatado y solado",
+        "Sanitarios, mueble, mampara y grifería",
         "Iluminación y ventilación"
       ],
-      "duracion": "Entre 1 y 3 semanas según el tamaño y los materiales (dato orientativo: REVISAR con el cliente)",
+      "duracion": "Habitualmente entre una y tres semanas, según tamaño y materiales. Pide que el plazo figure por escrito en el presupuesto.",
       "faq": [
-        {
-          "p": "¿Cuánto tarda una reforma integral de baño?",
-          "r": "Depende del tamaño y de los materiales, pero lo habitual es entre una y tres semanas. En el presupuesto te damos fecha de inicio y de fin por escrito."
-        },
-        {
-          "p": "¿Necesito licencia de obra para reformar el baño?",
-          "r": "En la mayoría de los casos basta con una comunicación previa o declaración responsable en el ayuntamiento, pero depende del municipio y del alcance de la obra. Te lo confirmamos en la visita y podemos gestionarlo."
-        },
-        {
-          "p": "¿Puedo seguir usando la casa durante la obra?",
-          "r": "Sí. Si es tu único baño, te avisamos de los días en que no podrás usarlo para que te organices."
-        }
+        { "p": "¿Cuánto cuesta una reforma integral de baño?", "r": "Depende del tamaño, del estado de las instalaciones y de los materiales. En la guía de precios explicamos las partidas y los rangos que publican las fuentes del sector. El precio real te lo da el reformista tras la visita." },
+        { "p": "¿Necesito permiso del ayuntamiento para reformar el baño?", "r": "Normalmente hay que comunicarlo al ayuntamiento, pero el trámite (licencia de obra menor o declaración responsable) depende del municipio y del alcance de la obra. Lo explicamos en la guía de permisos." },
+        { "p": "¿Puedo seguir viviendo en casa durante la obra?", "r": "Sí. Si es tu único baño, pide al reformista que te diga qué días no podrás usarlo." }
       ]
     },
     {
@@ -140,30 +74,21 @@
       "nombre": "Cambio de bañera por plato de ducha",
       "nombreCorto": "Bañera por ducha",
       "keyword": "cambio de bañera por plato de ducha",
-      "resumen": "Quitamos la bañera e instalamos un plato de ducha extraplano con mampara, sin reformar todo el baño.",
-      "intro": "Cambiar la bañera por un plato de ducha es la reforma más pedida: gana espacio, elimina el escalón de entrada y reduce el riesgo de caídas. Retiramos la bañera, adaptamos el desagüe, impermeabilizamos y colocamos plato, mampara y grifería, rematando el alicatado de la zona.",
+      "resumen": "Sustituir la bañera por un plato de ducha extraplano con mampara, sin reformar todo el baño.",
+      "intro": "Cambiar la bañera por un plato de ducha es una de las reformas más pedidas: gana espacio, elimina el escalón de entrada y reduce el riesgo de caídas. Consiste en retirar la bañera, adaptar el desagüe, impermeabilizar y colocar plato, mampara y grifería, rematando el alicatado de la zona.",
       "incluye": [
         "Retirada de la bañera y de los azulejos afectados",
         "Adaptación del desagüe y nivelado",
         "Impermeabilización bajo el plato",
-        "Plato de ducha extraplano antideslizante a medida",
-        "Mampara y grifería termostática",
-        "Remate de alicatado en la zona de la ducha"
+        "Plato de ducha extraplano antideslizante",
+        "Mampara y grifería",
+        "Remate del alicatado de la zona"
       ],
-      "duracion": "Normalmente 1 o 2 días (dato orientativo: REVISAR con el cliente)",
+      "duracion": "En los casos sencillos, uno o dos días. Si hay que mover tuberías o cambiar mucho alicatado, más.",
       "faq": [
-        {
-          "p": "¿Hay que cambiar todos los azulejos?",
-          "r": "No. Solo se repone la zona que ocupaba la bañera. Si no encontramos el mismo azulejo, proponemos un panel o un revestimiento que combine."
-        },
-        {
-          "p": "¿Qué plato de ducha es mejor?",
-          "r": "Para la mayoría de los casos recomendamos un plato extraplano de resina con acabado antideslizante, cortado a medida del hueco."
-        },
-        {
-          "p": "¿Puedo pedir ayudas para este cambio?",
-          "r": "Si la obra mejora la accesibilidad pueden existir ayudas autonómicas o municipales según la convocatoria de cada año. Te orientamos en la visita."
-        }
+        { "p": "¿Hay que cambiar todos los azulejos?", "r": "No necesariamente. Normalmente solo se repone la zona que ocupaba la bañera. Si no se encuentra el mismo azulejo, se suele usar un panel o revestimiento que combine." },
+        { "p": "¿Qué plato de ducha conviene?", "r": "En la mayoría de los casos, un plato extraplano de resina con acabado antideslizante, cortado a medida del hueco. Pregunta al reformista por la clase de antideslizamiento." },
+        { "p": "¿Hay ayudas para cambiar la bañera por una ducha?", "r": "En Castilla y León se han anunciado ayudas para este cambio dirigidas a personas mayores, pero su puesta en marcha depende de la convocatoria. Lo explicamos en la guía de ayudas." }
       ]
     },
     {
@@ -171,30 +96,21 @@
       "nombre": "Baño adaptado para mayores y movilidad reducida",
       "nombreCorto": "Baño adaptado",
       "keyword": "baño adaptado",
-      "resumen": "Ducha a ras de suelo, barras de apoyo, asiento abatible y espacio para girar con silla de ruedas.",
-      "intro": "Un baño adaptado permite ducharse y usar el aseo con seguridad y autonomía. Diseñamos la reforma según la persona que lo va a usar: ducha sin barreras, suelo antideslizante, barras y asideros, inodoro a la altura adecuada, lavabo accesible y espacio de giro.",
+      "resumen": "Ducha a ras de suelo, barras de apoyo, asiento abatible y espacio para moverse con seguridad.",
+      "intro": "Un baño adaptado permite ducharse y usar el aseo con seguridad y autonomía. La reforma se diseña según la persona que lo va a usar: ducha sin barreras, suelo antideslizante, barras y asideros, inodoro a la altura adecuada, lavabo accesible y espacio de giro.",
       "incluye": [
-        "Ducha a ras de suelo con pendiente y sumidero lineal",
+        "Ducha a ras de suelo con sumidero lineal",
         "Suelo antideslizante",
         "Barras de apoyo y asiento de ducha abatible",
         "Inodoro y lavabo a altura accesible",
-        "Puerta corredera o con mayor ancho de paso si el espacio lo permite",
-        "Grifería termostática para evitar quemaduras"
+        "Puerta corredera o más ancha si el espacio lo permite",
+        "Grifería termostática"
       ],
-      "duracion": "Entre 1 y 2 semanas según el punto de partida (dato orientativo: REVISAR con el cliente)",
+      "duracion": "Entre una y dos semanas según el punto de partida.",
       "faq": [
-        {
-          "p": "¿Se puede adaptar un baño pequeño?",
-          "r": "En casi todos los casos se puede mejorar mucho la seguridad aunque no haya espacio para un giro completo de silla de ruedas. Lo valoramos en la visita."
-        },
-        {
-          "p": "¿Hay ayudas para adaptar el baño?",
-          "r": "Suelen existir líneas de ayuda para accesibilidad y personas mayores o con discapacidad, que cambian cada año. Te indicamos cuáles están abiertas y qué documentación pedir."
-        },
-        {
-          "p": "¿Tenéis en cuenta las recomendaciones del terapeuta?",
-          "r": "Sí. Si la persona tiene un informe de un terapeuta ocupacional o de su médico, diseñamos la reforma siguiendo esas indicaciones."
-        }
+        { "p": "¿Se puede adaptar un baño pequeño?", "r": "Casi siempre se puede mejorar mucho la seguridad aunque no haya espacio para un giro completo de silla de ruedas." },
+        { "p": "¿Hay ayudas para adaptar el baño?", "r": "Existen líneas de ayuda para accesibilidad de viviendas y para autonomía personal que se convocan periódicamente. Consulta la guía de ayudas y el BOCYL antes de empezar la obra: muchas no admiten obras ya iniciadas." },
+        { "p": "¿Conviene contar con un terapeuta ocupacional?", "r": "Si la persona tiene necesidades concretas, un informe de un terapeuta ocupacional ayuda a que la reforma sirva de verdad. Enséñaselo al reformista en la visita." }
       ]
     },
     {
@@ -202,8 +118,8 @@
       "nombre": "Reforma de aseos",
       "nombreCorto": "Reforma de aseos",
       "keyword": "reforma de aseo",
-      "resumen": "Renovamos aseos pequeños y de cortesía aprovechando cada centímetro.",
-      "intro": "En un aseo pequeño cada decisión cuenta: un inodoro compacto o suspendido, un lavabo de poco fondo, una puerta corredera o una buena iluminación lo cambian todo. Reformamos aseos completos o solo lo que necesites renovar.",
+      "resumen": "Renovación de aseos pequeños y de cortesía aprovechando cada centímetro.",
+      "intro": "En un aseo pequeño cada decisión cuenta: un inodoro compacto o suspendido, un lavabo de poco fondo, una puerta corredera o una buena iluminación lo cambian todo. Se puede reformar el aseo completo o solo lo que haga falta.",
       "incluye": [
         "Inodoro compacto o suspendido",
         "Lavabo o mueble de poco fondo",
@@ -211,148 +127,83 @@
         "Iluminación y espejo",
         "Ventilación mecánica si no hay ventana"
       ],
-      "duracion": "Entre 3 y 7 días (dato orientativo: REVISAR con el cliente)",
+      "duracion": "Normalmente menos de una semana.",
       "faq": [
-        {
-          "p": "¿Merece la pena poner un inodoro suspendido en un aseo?",
-          "r": "Ocupa visualmente menos, facilita la limpieza y permite ganar unos centímetros, aunque necesita un bastidor empotrado. Te decimos si tu tabique lo permite."
-        },
-        {
-          "p": "¿Se puede añadir una ducha a un aseo?",
-          "r": "Si hay espacio y desagüe suficiente, sí. Lo comprobamos en la visita."
-        }
+        { "p": "¿Merece la pena un inodoro suspendido en un aseo?", "r": "Ocupa visualmente menos y facilita la limpieza, pero necesita un bastidor empotrado. El reformista te dirá si tu tabique lo permite." },
+        { "p": "¿Se puede añadir una ducha a un aseo?", "r": "Si hay espacio y un desagüe adecuado, sí. Es algo que hay que comprobar en la visita." }
       ]
     }
   ],
   "landings": {
-    "servicios": [
-      "reforma-de-banos",
-      "cambio-banera-por-plato-de-ducha"
-    ],
-    "nota": "Servicios que tienen una página por zona. Añade aquí más slugs solo si puedes escribir contenido distinto para cada zona."
+    "servicios": ["reforma-de-banos", "cambio-banera-por-plato-de-ducha"],
+    "nota": "Servicios que tienen una página por zona. Añade más solo si puedes escribir contenido distinto para cada zona."
   },
   "zonas": [
     {
       "slug": "leon",
       "nombre": "León capital",
       "nombreCorto": "León",
-      "tipo": "municipio",
-      "lugares": [
-        "Centro",
-        "Eras de Renueva",
-        "El Ejido",
-        "La Chantría",
-        "El Crucero",
-        "Armunia",
-        "Puente Castro",
-        "San Mamés",
-        "La Palomera"
-      ],
-      "texto": "Trabajamos en todos los barrios de León. En el centro y en los barrios con edificios de varias décadas solemos encontrar bajantes y tuberías antiguas que conviene renovar aprovechando la reforma, mientras que en zonas de construcción más reciente como Eras de Renueva la obra suele centrarse en acabados y en cambiar la bañera por ducha.",
-      "notaLogistica": "En el centro coordinamos con la comunidad de vecinos el horario de obra y el uso del ascensor para subir material y bajar escombros.",
-      "revisar": true,
-      "trabajoTipico": "Piso de los años 70 en El Crucero: bañera de obra, azulejo original y tuberías de hierro galvanizado. Se sustituyó toda la fontanería, se colocó plato de ducha de 140 cm y mueble suspendido.",
+      "lugares": ["Centro", "Eras de Renueva", "El Ejido", "La Chantría", "El Crucero", "Armunia", "Puente Castro", "San Mamés", "La Palomera"],
+      "texto": "En León capital conviven pisos de varias décadas en el centro y en barrios como El Crucero o San Mamés con edificios más recientes en zonas como Eras de Renueva. En los primeros es frecuente encontrar tuberías antiguas que conviene renovar aprovechando la reforma; en los segundos, la obra suele limitarse a acabados o al cambio de bañera por ducha.",
+      "consejo": "En edificios con comunidad, avisa al administrador antes de empezar: horarios de obra, uso del ascensor y protección de zonas comunes.",
+      "obraTipica": "Piso de los años 70 con bañera de obra, azulejo original y tuberías de hierro galvanizado: se suele presupuestar renovación completa de fontanería, plato de ducha y mueble nuevo.",
       "faq": [
-        {
-          "p": "¿Os encargáis de los permisos con el Ayuntamiento de León?",
-          "r": "Sí. Preparamos la documentación que pida el Ayuntamiento para una obra menor de baño y te decimos qué tienes que firmar tú."
-        },
-        {
-          "p": "¿Qué pasa con la bajante comunitaria si está en mal estado?",
-          "r": "Si al abrir vemos que la bajante del edificio está dañada, paramos, te lo enseñamos con fotos y lo comunicamos al administrador de la comunidad antes de seguir."
-        }
-      ]
+        { "p": "¿Qué trámite pide el Ayuntamiento de León para reformar un baño?", "r": "Depende del alcance de la obra. Consulta la sede electrónica del Ayuntamiento de León o pregunta al reformista, que suele conocer el trámite. Lo resumimos en la guía de permisos." },
+        { "p": "¿Y si la bajante de la comunidad está mal?", "r": "Si al abrir aparece la bajante comunitaria dañada, la reparación de esa parte suele corresponder a la comunidad. Pide al reformista fotos y comunícalo al administrador antes de seguir." }
+      ],
+      "revisar": true
     },
     {
       "slug": "san-andres-del-rabanedo",
       "nombre": "San Andrés del Rabanedo",
       "nombreCorto": "San Andrés",
-      "tipo": "municipio",
-      "lugares": [
-        "Trobajo del Camino",
-        "Pinilla",
-        "Villabalter",
-        "Ferral del Bernesga",
-        "San Andrés"
-      ],
-      "texto": "En San Andrés del Rabanedo reformamos baños en pisos de Trobajo del Camino y Pinilla y en viviendas unifamiliares de Villabalter y Ferral. En los pisos, la reforma más pedida es el cambio de bañera por plato de ducha; en las casas, la reforma integral con redistribución.",
-      "notaLogistica": "Al estar pegado a León, la visita para medir y presupuestar suele poder hacerse en la misma semana.",
-      "revisar": true,
-      "trabajoTipico": "Tercer piso sin ascensor en Trobajo del Camino: cambio de bañera por plato de ducha en un día, subiendo el material a mano y protegiendo la escalera comunitaria.",
+      "lugares": ["Trobajo del Camino", "Pinilla", "Villabalter", "Ferral del Bernesga", "San Andrés"],
+      "texto": "San Andrés del Rabanedo combina bloques de pisos en Trobajo del Camino y Pinilla con viviendas unifamiliares en Villabalter o Ferral del Bernesga. En los pisos, la reforma más pedida suele ser el cambio de bañera por plato de ducha; en las casas, la reforma integral con redistribución.",
+      "consejo": "En pisos sin ascensor, pregunta si el presupuesto incluye la subida de material y la bajada de escombros a mano: es un coste real que a veces no aparece.",
+      "obraTipica": "Tercer piso sin ascensor en Trobajo del Camino: cambio de bañera por plato de ducha en uno o dos días, protegiendo la escalera comunitaria.",
       "faq": [
-        {
-          "p": "¿Hacéis obras en pisos sin ascensor en Trobajo o Pinilla?",
-          "r": "Sí. Lo tenemos en cuenta en el presupuesto y planificamos la subida de material y la bajada de escombros para molestar lo mínimo a los vecinos."
-        }
-      ]
+        { "p": "¿Hay reformistas que trabajen en Trobajo del Camino y Pinilla?", "r": "Sí. San Andrés está pegado a León y los reformistas de la capital trabajan habitualmente allí." }
+      ],
+      "revisar": true
     },
     {
       "slug": "villaquilambre",
       "nombre": "Villaquilambre",
       "nombreCorto": "Villaquilambre",
-      "tipo": "municipio",
-      "lugares": [
-        "Navatejera",
-        "Villaobispo de las Regueras",
-        "Villaquilambre",
-        "Villarrodrigo de las Regueras",
-        "Robledo de Torío"
-      ],
-      "texto": "En Villaquilambre abundan las viviendas unifamiliares y adosados de Navatejera y Villaobispo, con baños en planta alta y aseos en planta baja. Es habitual reformar los dos a la vez para unificar acabados y aprovechar un único desplazamiento de material.",
-      "notaLogistica": "En adosados revisamos también el estado de la bajante común y de la ventilación antes de cerrar el presupuesto.",
-      "revisar": true,
-      "trabajoTipico": "Adosado en Navatejera con baño en planta alta y aseo en planta baja: se reformaron los dos con el mismo revestimiento y se instaló extractor en el aseo, que no tenía ventana.",
+      "lugares": ["Navatejera", "Villaobispo de las Regueras", "Villaquilambre", "Villarrodrigo de las Regueras", "Robledo de Torío"],
+      "texto": "En Villaquilambre abundan los adosados y unifamiliares de Navatejera y Villaobispo, con baño en planta alta y aseo en planta baja. Es habitual reformar los dos a la vez para unificar acabados y ahorrar en desplazamientos y días de obra.",
+      "consejo": "En adosados, pide que revisen también la bajante y la ventilación del aseo de planta baja, que a menudo no tiene ventana.",
+      "obraTipica": "Adosado en Navatejera: reforma del baño de arriba y del aseo de abajo con el mismo revestimiento e instalación de extractor en el aseo.",
       "faq": [
-        {
-          "p": "¿Podéis reformar el baño y el aseo de un adosado a la vez?",
-          "r": "Sí, y suele salir mejor de precio: un solo desplazamiento de material, acabados iguales y menos días de obra en total."
-        }
-      ]
+        { "p": "¿Sale más barato reformar baño y aseo a la vez?", "r": "Suele salir mejor por unidad: un solo desplazamiento de material, acabados iguales y menos días de obra en total. Pide presupuesto de las dos cosas juntas y por separado para comparar." }
+      ],
+      "revisar": true
     },
     {
       "slug": "valverde-de-la-virgen",
       "nombre": "Valverde de la Virgen",
       "nombreCorto": "Valverde de la Virgen",
-      "tipo": "municipio",
-      "lugares": [
-        "La Virgen del Camino",
-        "Valverde de la Virgen",
-        "Fresno del Camino",
-        "Oncina de la Valdoncina",
-        "Robledo de la Valdoncina"
-      ],
-      "texto": "Damos servicio en La Virgen del Camino y en los pueblos de Valverde de la Virgen. En casas de pueblo con baños antiguos solemos recomendar renovar fontanería y desagües y adaptar la ducha para personas mayores, una de las reformas más pedidas en la zona.",
-      "notaLogistica": "Para viviendas fuera del casco urbano organizamos la entrega de materiales en un único viaje para no alargar la obra.",
-      "revisar": true,
-      "trabajoTipico": "Casa en La Virgen del Camino con baño antiguo y bañera alta: se convirtió en ducha a ras de suelo con barra de apoyo y asiento abatible para una persona mayor.",
+      "lugares": ["La Virgen del Camino", "Valverde de la Virgen", "Fresno del Camino", "Oncina de la Valdoncina", "Robledo de la Valdoncina"],
+      "texto": "En La Virgen del Camino y en los pueblos de Valverde de la Virgen hay muchas casas con baños antiguos y bañeras altas. Con frecuencia la reforma incluye renovar fontanería y adaptar la ducha para personas mayores.",
+      "consejo": "Si la reforma es para una persona mayor, mira antes de empezar si hay ayudas abiertas: muchas no se pueden pedir con la obra ya hecha.",
+      "obraTipica": "Casa en La Virgen del Camino con bañera alta: conversión a ducha a ras de suelo con barra de apoyo y asiento abatible.",
       "faq": [
-        {
-          "p": "¿Os desplazáis a los pueblos de Valverde de la Virgen?",
-          "r": "Sí, damos servicio en todo el municipio, incluidos Fresno del Camino, Oncina y Robledo de la Valdoncina, sin coste de desplazamiento para la visita."
-        }
-      ]
+        { "p": "¿Llegan reformistas a los pueblos de Valverde de la Virgen?", "r": "Sí. Fresno del Camino, Oncina o Robledo están a pocos kilómetros de León. Pregunta si el desplazamiento para la visita tiene coste." }
+      ],
+      "revisar": true
     },
     {
       "slug": "sariegos",
       "nombre": "Sariegos",
       "nombreCorto": "Sariegos",
-      "tipo": "municipio",
-      "lugares": [
-        "Carbajal de la Legua",
-        "Azadinos",
-        "Pobladura del Bernesga",
-        "Sariegos"
-      ],
-      "texto": "En Sariegos, sobre todo en las urbanizaciones de Carbajal de la Legua y Azadinos, la mayoría de los encargos son baños de viviendas unifamiliares que se quieren actualizar: plato de ducha a ras de suelo, mueble suspendido y revestimientos de gran formato.",
-      "notaLogistica": "En urbanizaciones con normas internas te ayudamos a cumplir horarios y condiciones de acceso de vehículos de obra.",
-      "revisar": true,
-      "trabajoTipico": "Unifamiliar en Carbajal de la Legua: baño principal con plato de ducha de obra a ras de suelo, sumidero lineal, mueble suspendido y porcelánico de gran formato.",
+      "lugares": ["Carbajal de la Legua", "Azadinos", "Pobladura del Bernesga", "Sariegos"],
+      "texto": "En Sariegos, sobre todo en las urbanizaciones de Carbajal de la Legua y Azadinos, predominan las viviendas unifamiliares. Las reformas suelen ser de actualización: plato de ducha a ras de suelo, mueble suspendido y revestimientos de gran formato.",
+      "consejo": "El porcelánico de gran formato necesita paredes y suelos bien nivelados. Pregunta si el presupuesto incluye regularizarlos.",
+      "obraTipica": "Unifamiliar en Carbajal de la Legua: ducha de obra a ras de suelo con sumidero lineal, mueble suspendido y porcelánico de gran formato.",
       "faq": [
-        {
-          "p": "¿Trabajáis con porcelánico de gran formato?",
-          "r": "Sí. Las piezas grandes necesitan una pared y un suelo bien nivelados; lo comprobamos en la visita y lo incluimos en el presupuesto si hay que regularizar."
-        }
-      ]
+        { "p": "¿Hay normas de urbanización que afecten a la obra?", "r": "Algunas urbanizaciones tienen normas de horario y acceso de vehículos. Consúltalas antes y díselas al reformista." }
+      ],
+      "revisar": true
     }
   ]
 }

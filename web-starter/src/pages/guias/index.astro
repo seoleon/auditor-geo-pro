@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import Cta from '../../components/Cta.astro';
+import { negocio, url, textos } from '../../lib/sitio';
+import { guias } from '../../lib/guias';
+const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Guías', ruta: url.guias }];
+---
+<Base titulo={`Guías para reformar el baño en ${negocio.ciudad} | ${negocio.nombreCorto}`} descripcion={`Precios, permisos y ayudas para reformar el baño en ${negocio.ciudad}: guías con fuentes para preparar tu reforma.`} migas={migas}>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>Guías para reformar el baño en {negocio.ciudad}</h1>
+      <p class="lead">Lo que conviene saber antes de pedir presupuesto: cuánto cuesta, qué permisos hacen falta y qué ayudas hay.</p>
+      <div class="rejilla">
+        {guias.map((g) => <article class="tarjeta"><h2><a href={g.ruta}>{g.titulo}</a></h2><p>{g.descripcion}</p></article>)}
+      </div>
+    </div>
+  </section>
+  <Cta titulo={textos.ctaTitulo} />
+</Base>

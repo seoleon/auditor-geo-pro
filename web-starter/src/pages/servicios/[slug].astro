@@ -1,18 +1,17 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
-import Diferenciales from '../../components/Diferenciales.astro';
 import Proceso from '../../components/Proceso.astro';
 import Faq from '../../components/Faq.astro';
 import Cta from '../../components/Cta.astro';
-import { negocio, textos, servicios, zonas, url, tieneLanding, schemaServicio, schemaFaq, type Servicio } from '../../lib/sitio';
+import { negocio, servicios, zonas, url, tieneLanding, schemaServicio, schemaFaq, type Servicio } from '../../lib/sitio';
 
 export function getStaticPaths() {
   return servicios.map((s) => ({ params: { slug: s.slug }, props: { s } }));
 }
 
 const { s } = Astro.props as { s: Servicio };
-const ciudad = negocio.direccion.ciudad;
+const ciudad = negocio.ciudad;
 const otros = servicios.filter((x) => x.slug !== s.slug);
 const migas = [
   { nombre: 'Inicio', ruta: url.inicio },
@@ -21,11 +20,11 @@ const migas = [
 ---
 <Base
   titulo={`${s.nombreCorto} en ${ciudad} | ${negocio.nombreCorto}`}
-  descripcion={`${s.resumen} Presupuesto cerrado en ${ciudad} y alrededores.`.slice(0, 160)}
+  descripcion={`${s.nombre} en ${ciudad}: qué incluye, plazos y presupuesto gratis de reformistas de la zona.`.slice(0, 160)}
   migas={migas}
   schemas={[schemaServicio(s), schemaFaq(s.faq)]}
 >
-  <Hero titulo={`${s.nombre} en ${ciudad}`} subtitulo={s.resumen} mensajeWhatsapp={`Hola, quiero presupuesto para: ${s.nombre.toLowerCase()}`} />
+  <Hero titulo={`${s.nombre} en ${ciudad}`} subtitulo={`${s.resumen} Pide presupuesto gratis a reformistas de ${ciudad}.`} />
 
   <section class="seccion">
     <div class="contenedor">
@@ -48,9 +47,8 @@ const migas = [
     </section>
   )}
 
-  <Proceso />
+  <Proceso titulo="Cómo pedir presupuesto" />
   <Faq faq={s.faq} />
-  <Diferenciales />
 
   <section class="seccion">
     <div class="contenedor">

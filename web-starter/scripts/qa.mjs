@@ -80,6 +80,10 @@ for (const { ruta, html } of paginas) {
     try {
       const j = JSON.parse(bloque);
       if (!j['@context'] || !j['@type']) err(ruta, 'JSON-LD sin @context o @type');
+      const txt = JSON.stringify(j);
+      if (/"aggregateRating"|"@type":"Review"/.test(txt)) err(ruta, 'schema con valoraciones/reseñas: solo se permiten si son reales y verificables (quítalo o documenta su origen)');
+      if (cliente.modelo === 'portal' && /"@type":"(LocalBusiness|GeneralContractor|HomeAndConstructionBusiness|Plumber)"/.test(txt))
+        err(ruta, 'modelo portal declarando un negocio local: un intermediario no debe usar LocalBusiness');
     } catch (e) {
       err(ruta, `JSON-LD no válido: ${e.message}`);
     }

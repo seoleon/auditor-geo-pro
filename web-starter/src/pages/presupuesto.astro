@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import { negocio, servicios, zonas, url, telHref, esDemo } from '../lib/sitio';
+const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Pedir presupuesto', ruta: url.presupuesto }];
+const action = negocio.formularioAction;
+---
+<Base titulo={`Pedir presupuesto de reforma de baño en ${negocio.ciudad} | ${negocio.nombreCorto}`} descripcion={`Formulario para pedir presupuesto gratis de reforma de baño en ${negocio.ciudad} y alrededores. Un reformista de tu zona te llamará.`} migas={migas}>
+  <section class="seccion">
+    <div class="contenedor form-envoltura">
+      <h1>Pide presupuesto gratis</h1>
+      <p class="lead">Cuéntanos tu obra. Pasaremos tu solicitud a un reformista de tu zona, que te llamará para concertar la visita. Si prefieres, llama al <a href={telHref}>{negocio.telefonoVisible}</a>.</p>
+      {!action && (
+        <p class="aviso">{esDemo ? 'Demo: el formulario no envía datos.' : 'Falta configurar el envío del formulario.'} Configura <code>negocio.formularioAction</code> en cliente.json (por ejemplo, un endpoint de Formspree, Web3Forms o tu CRM).</p>
+      )}
+      <form class="tarjeta" method="post" action={action || undefined}>
+        <label>Tipo de obra
+          <select name="obra" required>
+            <option value="">Elige una opción</option>
+            {servicios.map((s) => <option value={s.slug}>{s.nombre}</option>)}
+            <option value="otra">Otra / no lo sé</option>
+          </select>
+        </label>
+        <label>Zona
+          <select name="zona" required>
+            <option value="">Elige tu zona</option>
+            {zonas.map((z) => <option value={z.slug}>{z.nombre}</option>)}
+            <option value="otra">Otra zona de la provincia</option>
+          </select>
+        </label>
+        <label>¿Cuándo quieres hacer la obra?
+          <select name="plazo">
+            <option>Lo antes posible</option>
+            <option>En 1–3 meses</option>
+            <option>Más adelante / solo me informo</option>
+          </select>
+        </label>
+        <label>Cuéntanos qué quieres hacer <span class="opcional">(opcional)</span>
+          <textarea name="descripcion" rows="4" placeholder="Por ejemplo: quitar la bañera y poner plato de ducha, baño de 5 m², piso con ascensor."></textarea>
+        </label>
+        <label>Nombre <input name="nombre" required autocomplete="name" /></label>
+        <label>Teléfono <input name="telefono" type="tel" required autocomplete="tel" inputmode="tel" /></label>
+        <label>Email <span class="opcional">(opcional)</span> <input name="email" type="email" autocomplete="email" /></label>
+        <label class="check">
+          <input type="checkbox" name="consentimiento" required />
+          <span>Acepto que {negocio.nombre} comunique mis datos a reformistas colaboradores de mi zona para que me contacten y me den presupuesto, según la <a href="/privacidad/">política de privacidad</a>.</span>
+        </label>
+        <button class="boton boton--primario" type="submit" disabled={!action}>Enviar solicitud</button>
+        <p class="nota">{negocio.queSomos}</p>
+      </form>
+    </div>
+  </section>
+</Base>
+<style>
+  .form-envoltura { max-width: 720px; }
+  form { display: grid; gap: 14px; }
+  label { display: grid; gap: 4px; font-weight: 600; }
+  label.check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: .95rem; }
+  label.check input { margin-top: 5px; }
+  input, textarea, select { font: inherit; padding: 10px; border: 1px solid var(--c-borde); border-radius: 8px; background: #fff; width: 100%; }
+  label.check input { width: auto; }
+  button { cursor: pointer; font: inherit; justify-self: start; }
+  button[disabled] { opacity: .6; cursor: not-allowed; }
+  .opcional { font-weight: 400; color: var(--c-suave); }
+  .aviso { background: #fff3cd; color: #5c4400; padding: 10px 14px; border-radius: 8px; }
+  .nota { font-size: .9rem; color: var(--c-suave); margin: 0; }
+</style>
