@@ -1,5 +1,5 @@
 // Lista de guías (src/pages/guias/*.md) para enlazarlas desde otras páginas.
-type Front = { titulo: string; descripcion: string; actualizado: string; orden?: number };
+type Front = { titulo: string; descripcion: string; actualizado: string; orden?: number; foto?: string };
 const modulos = import.meta.glob<{ frontmatter: Front; url: string }>('../pages/guias/*.md', { eager: true });
 
 export const guias = Object.values(modulos)

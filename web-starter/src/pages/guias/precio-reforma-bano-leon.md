@@ -6,6 +6,7 @@ descripcion: "Cuánto cuesta reformar un baño o cambiar la bañera por ducha en
 publicado: "2026-11-07"
 actualizado: "2026-11-07"
 orden: 1
+foto: banoReformado
 fuentes:
   - nombre: "Cuantomecuesta · Precio reforma de baño (abril 2026)"
     url: "https://cuantomecuesta.com/es/reforma-bano/"

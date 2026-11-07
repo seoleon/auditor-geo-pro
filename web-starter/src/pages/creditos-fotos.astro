@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { negocio, url } from '../lib/sitio';
+import { todasLasFotos } from '../lib/fotos';
+const fotos = todasLasFotos();
+const migas = [{ nombre: 'Inicio', ruta: url.inicio }, { nombre: 'Créditos de fotos', ruta: '/creditos-fotos/' }];
+---
+<Base titulo={`Créditos de las fotos | ${negocio.nombreCorto}`} descripcion="Autoría y licencia de las fotografías usadas en esta web." migas={migas} noindex>
+  <section class="seccion"><div class="contenedor">
+    <h1>Créditos de las fotos</h1>
+    <p>Las fotografías son ilustrativas y se usan bajo licencias libres. No muestran obras realizadas por los reformistas colaboradores.</p>
+    <ul>
+      {fotos.map((f) => (
+        <li><em>{f.alt}</em>. Autor: <a href={f.fuenteUrl} rel="nofollow noopener">{f.autor}</a>. Licencia: <a href={f.licenciaUrl} rel="nofollow noopener license">{f.licencia}</a>{f.modificada ? '. Recortada y redimensionada para la web' : ''}.</li>
+      ))}
+    </ul>
+  </div></section>
+</Base>

@@ -85,13 +85,15 @@ export function schemaServicio(s: Servicio, z?: Zona) {
   };
 }
 
-export function schemaArticulo(a: { titulo: string; descripcion: string; ruta: string; publicado: string; actualizado: string }) {
+export function schemaArticulo(a: { titulo: string; descripcion: string; ruta: string; publicado: string; actualizado: string; imagen?: string }) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: a.titulo,
     description: a.descripcion,
     url: absoluta(a.ruta),
+    ...(a.imagen ? { image: a.imagen } : {}),
+    mainEntityOfPage: absoluta(a.ruta),
     datePublished: a.publicado,
     dateModified: a.actualizado,
     inLanguage: 'es-ES',

@@ -55,12 +55,12 @@ for (const { ruta, html } of paginas) {
   const titles = todos(html, /<title>([\s\S]*?)<\/title>/g);
   if (titles.length !== 1) err(ruta, `${titles.length} etiquetas <title>`);
   const title = titles[0] ?? '';
-  if (title.length > 65) aviso(ruta, `title largo (${title.length} caracteres): «${title}»`);
+  if (title.length > 60) aviso(ruta, `title largo (${title.length} caracteres): «${title}»`);
 
   const descs = todos(html, /<meta name="description" content="([^"]*)"/g);
   if (descs.length !== 1) err(ruta, `${descs.length} meta description`);
   const desc = descs[0] ?? '';
-  if (!noindex && (desc.length < 50 || desc.length > 160)) aviso(ruta, `meta description de ${desc.length} caracteres`);
+  if (!noindex && (desc.length < 110 || desc.length > 160)) aviso(ruta, `meta description de ${desc.length} caracteres`);
 
   if (!es404) {
     for (const [campo, valor] of [['title', title], ['description', desc]]) {
@@ -97,7 +97,18 @@ for (const { ruta, html } of paginas) {
   }
 
   for (const img of html.match(/<img\b[^>]*>/g) ?? []) {
-    if (!/\balt="/.test(img)) err(ruta, `imagen sin alt: ${img.slice(0, 80)}`);
+    if (!/\balt="[^"]+"/.test(img)) err(ruta, `imagen sin alt descriptivo: ${img.slice(0, 80)}`);
+    if (!/\bwidth="\d+"/.test(img) || !/\bheight="\d+"/.test(img)) err(ruta, `imagen sin width/height (provoca CLS): ${img.slice(0, 80)}`);
+  }
+  if (!noindex) {
+    const imgs = html.match(/<img\b[^>]*>/g) ?? [];
+    if (!imgs.length) aviso(ruta, 'página indexable sin ninguna imagen');
+    if (imgs.length && !/loading="eager"/.test(imgs[0]) && !/fetchpriority="high"/.test(imgs[0])) aviso(ruta, 'la primera imagen debería cargarse con prioridad (LCP)');
+    if (!/<meta property="og:image"/.test(html)) err(ruta, 'sin og:image');
+    const h2 = (html.match(/<h2[\s>]/g) ?? []).length;
+    if (h2 < 2) aviso(ruta, `solo ${h2} H2: estructura pobre`);
+    const palabras = (html.match(/<main[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? '').replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
+    if (palabras < 300) aviso(ruta, `contenido corto (${palabras} palabras)`);
   }
 
   if (noindex && !cliente.demo && !/aviso-legal|privacidad|404/.test(ruta)) aviso(ruta, 'tiene noindex');

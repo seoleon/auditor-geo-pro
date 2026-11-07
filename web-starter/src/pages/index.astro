@@ -5,6 +5,7 @@ import Diferenciales from '../components/Diferenciales.astro';
 import Proceso from '../components/Proceso.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
+import Foto from '../components/Foto.astro';
 import { negocio, textos, servicios, zonas, serviciosConLanding, url, listaNatural, schemaFaq } from '../lib/sitio';
 import { guias } from '../lib/guias';
 
@@ -18,7 +19,7 @@ const faq = [
 ];
 ---
 <Base titulo={`${principal.nombreCorto} en ${ciudad}: presupuestos gratis | ${negocio.nombreCorto}`} descripcion={negocio.descripcion.slice(0, 160)} schemas={[schemaFaq(faq)]}>
-  <Hero titulo={`${principal.nombreCorto} en ${ciudad}: pide presupuesto gratis`} subtitulo={negocio.eslogan} />
+  <Hero titulo={`${principal.nombreCorto} en ${ciudad}: pide presupuesto gratis`} subtitulo={negocio.eslogan} foto="portada" />
 
   <Proceso titulo="Cómo funciona" />
 
@@ -27,7 +28,8 @@ const faq = [
       <h2>¿Qué reforma necesitas?</h2>
       <div class="rejilla">
         {servicios.map((s) => (
-          <article class="tarjeta">
+          <article class="tarjeta tarjeta--foto">
+            <Foto clave={s.foto} credito={false} sizes="(max-width: 760px) 100vw, 280px" />
             <h3><a href={url.servicio(s)}>{s.nombre}</a></h3>
             <p>{s.resumen}</p>
           </article>

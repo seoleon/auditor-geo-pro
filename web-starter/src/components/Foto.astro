@@ -1,0 +1,37 @@
+---
+import { Picture } from 'astro:assets';
+import { foto } from '../lib/fotos';
+
+interface Props {
+  clave: string;
+  sizes?: string;
+  prioridad?: boolean; // true solo para la imagen principal visible al cargar (LCP)
+  credito?: boolean;
+  class?: string;
+}
+const { clave, sizes = '(max-width: 760px) 100vw, 720px', prioridad = false, credito = true, class: clase } = Astro.props;
+const f = foto(clave);
+---
+<figure class:list={['foto', clase]}>
+  <Picture
+    src={f.src}
+    alt={f.alt}
+    formats={['avif', 'webp']}
+    widths={[480, 800, 1200, 1600].filter((w) => w <= f.src.width)}
+    sizes={sizes}
+    loading={prioridad ? 'eager' : 'lazy'}
+    fetchpriority={prioridad ? 'high' : 'auto'}
+    decoding={prioridad ? 'sync' : 'async'}
+  />
+  {credito && (
+    <figcaption>
+      Foto: <a href={f.fuenteUrl} rel="nofollow noopener" target="_blank">{f.autor}</a>, <a href={f.licenciaUrl} rel="nofollow noopener license" target="_blank">{f.licencia}</a>{f.modificada ? ' (recortada)' : ''}
+    </figcaption>
+  )}
+</figure>
+<style>
+  .foto { margin: 0 0 1.4em; }
+  .foto :global(img) { display: block; width: 100%; height: auto; border-radius: var(--radio); object-fit: cover; }
+  figcaption { font-size: .8rem; color: var(--c-suave); margin-top: 6px; }
+  figcaption a { color: inherit; }
+</style>

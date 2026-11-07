@@ -2,7 +2,9 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Migas from '../components/Migas.astro';
+import { getImage } from 'astro:assets';
 import { negocio, marca, esDemo, absoluta, schemaNegocio, schemaMigas, type Miga } from '../lib/sitio';
+import { foto } from '../lib/fotos';
 
 interface Props {
   titulo: string;
@@ -10,10 +12,15 @@ interface Props {
   migas?: Miga[];
   schemas?: object[];
   noindex?: boolean;
+  imagen?: string; // clave de src/data/fotos.json para Open Graph
+  tipoOg?: 'website' | 'article';
 }
 
-const { titulo, descripcion, migas = [], schemas = [], noindex = false } = Astro.props;
+const { titulo, descripcion, migas = [], schemas = [], noindex = false, imagen = 'portada', tipoOg = 'website' } = Astro.props;
 const canonica = absoluta(Astro.url.pathname);
+const f = foto(imagen);
+const og = await getImage({ src: f.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const ogUrl = absoluta(og.src);
 const todos = [schemaNegocio(), ...(migas.length > 1 ? [schemaMigas(migas)] : []), ...schemas];
 // Una web de demostración nunca debe indexarse.
 const robots = esDemo || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';
@@ -27,12 +34,20 @@ const robots = esDemo || noindex ? 'noindex, nofollow' : 'index, follow, max-ima
     <meta name="description" content={descripcion} />
     <link rel="canonical" href={canonica} />
     <meta name="robots" content={robots} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={tipoOg} />
     <meta property="og:locale" content="es_ES" />
     <meta property="og:site_name" content={negocio.nombre} />
     <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descripcion} />
     <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={f.alt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={descripcion} />
+    <meta name="twitter:image" content={ogUrl} />
     <meta name="theme-color" content={marca.colorPrimario} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -65,6 +80,8 @@ const robots = esDemo || noindex ? 'noindex, nofollow' : 'index, follow, max-ima
       .tarjeta { background: var(--c-blanco); border: 1px solid var(--c-borde); border-radius: var(--radio); padding: 22px; }
       .tarjeta h3 a { text-decoration: none; }
       .tarjeta h3 a::after { content: ' →'; }
+      .tarjeta--foto .foto { margin: -22px -22px 16px; }
+      .tarjeta--foto .foto img { border-radius: var(--radio) var(--radio) 0 0; aspect-ratio: 3 / 2; }
       .boton { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 999px; font-weight: 700; text-decoration: none; border: 2px solid transparent; }
       .boton--primario { background: var(--c-acento); color: #1b1206; }
       .boton--secundario { border-color: currentColor; color: inherit; }

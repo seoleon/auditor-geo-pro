@@ -5,6 +5,7 @@ import Proceso from '../../components/Proceso.astro';
 import Faq from '../../components/Faq.astro';
 import Cta from '../../components/Cta.astro';
 import { negocio, servicios, zonas, url, tieneLanding, schemaServicio, schemaFaq, type Servicio } from '../../lib/sitio';
+import { guias } from '../../lib/guias';
 
 export function getStaticPaths() {
   return servicios.map((s) => ({ params: { slug: s.slug }, props: { s } }));
@@ -13,6 +14,7 @@ export function getStaticPaths() {
 const { s } = Astro.props as { s: Servicio };
 const ciudad = negocio.ciudad;
 const otros = servicios.filter((x) => x.slug !== s.slug);
+const guiasServicio = s.guias.map((slug) => guias.find((g) => g.ruta === `/guias/${slug}/`)).filter((g) => g !== undefined);
 const migas = [
   { nombre: 'Inicio', ruta: url.inicio },
   { nombre: s.nombre, ruta: url.servicio(s) },
@@ -20,39 +22,55 @@ const migas = [
 ---
 <Base
   titulo={`${s.nombreCorto} en ${ciudad} | ${negocio.nombreCorto}`}
-  descripcion={`${s.nombre} en ${ciudad}: qué incluye, plazos y presupuesto gratis de reformistas de la zona.`.slice(0, 160)}
+  descripcion={`${s.nombre} en ${ciudad}: qué incluye, cuándo conviene, plazos y presupuesto gratis de reformistas de la zona.`.slice(0, 160)}
   migas={migas}
+  imagen={s.foto}
   schemas={[schemaServicio(s), schemaFaq(s.faq)]}
 >
-  <Hero titulo={`${s.nombre} en ${ciudad}`} subtitulo={`${s.resumen} Pide presupuesto gratis a reformistas de ${ciudad}.`} />
+  <Hero titulo={`${s.nombre} en ${ciudad}`} subtitulo={`${s.resumen} Pide presupuesto gratis a reformistas de ${ciudad}.`} foto={s.foto} />
 
   <section class="seccion">
-    <div class="contenedor">
-      <h2>En qué consiste</h2>
-      <p class="lead">{s.intro}</p>
-      <h3>Qué incluye</h3>
-      <ul class="lista-check">{s.incluye.map((i) => <li>{i}</li>)}</ul>
-      <p><strong>Duración orientativa:</strong> {s.duracion}</p>
+    <div class="contenedor columnas">
+      <div>
+        <h2>Qué es y qué incluye</h2>
+        <p class="lead">{s.intro}</p>
+        <ul class="lista-check">{s.incluye.map((i) => <li>{i}</li>)}</ul>
+        <p><strong>Duración orientativa:</strong> {s.duracion}</p>
+      </div>
+      <div>
+        <h2>Cuándo conviene</h2>
+        <ul class="lista-check">{s.cuandoConviene.map((i) => <li>{i}</li>)}</ul>
+        <h2>Consejos antes de empezar</h2>
+        <ul>{s.consejos.map((i) => <li>{i}</li>)}</ul>
+      </div>
     </div>
   </section>
 
   {tieneLanding(s) && (
     <section class="seccion seccion--blanca">
       <div class="contenedor">
-        <h2>{s.nombreCorto} por zonas</h2>
+        <h2>{s.nombreCorto} por zonas de {ciudad}</h2>
         <div class="rejilla">
-          {zonas.map((z) => <article class="tarjeta"><h3><a href={url.landing(s, z)}>{s.nombreCorto} en {z.nombre}</a></h3></article>)}
+          {zonas.map((z) => <article class="tarjeta"><h3><a href={url.landing(s, z)}>{s.nombreCorto} en {z.nombre}</a></h3><p>{z.lugares.slice(0, 3).join(', ')}…</p></article>)}
         </div>
       </div>
     </section>
   )}
 
   <Proceso titulo="Cómo pedir presupuesto" />
-  <Faq faq={s.faq} />
+  <Faq faq={s.faq} titulo={`Preguntas frecuentes sobre ${s.nombreCorto.toLowerCase()}`} />
 
   <section class="seccion">
     <div class="contenedor">
-      <h2>Otros servicios</h2>
+      {guiasServicio.length > 0 && (
+        <>
+          <h2>Guías relacionadas</h2>
+          <div class="rejilla">
+            {guiasServicio.map((g) => <article class="tarjeta"><h3><a href={g.ruta}>{g.titulo}</a></h3><p>{g.descripcion}</p></article>)}
+          </div>
+        </>
+      )}
+      <h2 class="separado">Otros servicios</h2>
       <div class="rejilla">
         {otros.map((o) => <article class="tarjeta"><h3><a href={url.servicio(o)}>{o.nombre}</a></h3><p>{o.resumen}</p></article>)}
       </div>
@@ -61,3 +79,8 @@ const migas = [
 
   <Cta titulo={`Pide presupuesto: ${s.nombre.toLowerCase()}`} mensajeWhatsapp={`Hola, quiero presupuesto para: ${s.nombre.toLowerCase()}`} />
 </Base>
+<style>
+  .columnas { display: grid; gap: 32px; }
+  @media (min-width: 900px) { .columnas { grid-template-columns: 1fr 1fr; } }
+  .separado { margin-top: 1.6em; }
+</style>

@@ -40,9 +40,10 @@ const migas = [
   titulo={`${s.nombreCorto} en ${z.nombre} | ${negocio.nombreCorto}`}
   descripcion={`${s.nombre} en ${z.nombre} (${listaNatural(z.lugares.slice(0, 2))}): consejos para la zona y presupuesto gratis de reformistas locales.`.slice(0, 160)}
   migas={migas}
+  imagen={s.foto}
   schemas={[schemaServicio(s, z), schemaFaq(faq)]}
 >
-  <Hero titulo={enZona} subtitulo={`${s.resumen} Presupuesto gratis en ${listaNatural(z.lugares)}.`} />
+  <Hero titulo={enZona} subtitulo={`${s.resumen} Presupuesto gratis en ${listaNatural(z.lugares)}.`} foto={s.foto} />
 
   <section class="seccion">
     <div class="contenedor">

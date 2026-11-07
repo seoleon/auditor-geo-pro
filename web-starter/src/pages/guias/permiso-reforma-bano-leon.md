@@ -6,6 +6,7 @@ descripcion: "Qué trámite municipal necesitas para reformar el baño en León,
 publicado: "2026-11-07"
 actualizado: "2026-11-07"
 orden: 3
+foto: obra
 fuentes:
   - nombre: "Certicalia · ¿Se necesita permiso de obra para reformar el baño?"
     url: "https://www.certicalia.com/blog/se-necesita-permiso-de-obra-para-reformar-el-bano"

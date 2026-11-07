@@ -6,6 +6,7 @@ descripcion: "Qué ayudas existen en Castilla y León para cambiar la bañera po
 publicado: "2026-11-07"
 actualizado: "2026-11-07"
 orden: 2
+foto: accesible
 fuentes:
   - nombre: "Diario de León · Mañueco anuncia ayudas para cambiar bañeras por platos de ducha (febrero 2026)"
     url: "https://www.diariodeleon.es/castilla-y-leon/260206/2074753/manueco-anuncia-ayudas-cambiar-baneras-platos-ducha-mejoraran-seguridad-autonomia-20-000-personas-mayores.html"
